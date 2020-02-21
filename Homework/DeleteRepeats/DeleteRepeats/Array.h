@@ -11,7 +11,6 @@
 #pragma once
 
 #include <initializer_list>
-#include <iostream>
 
 template <typename T>
 class Array
@@ -69,6 +68,7 @@ public:
 		
 		Container = new T[Capacity];
 		
+		//initialize walkers
 		T* containerWalker = Container;
 		T* otherContainerWalker = other.Container;
 
@@ -104,6 +104,7 @@ public:
 			throw std::out_of_range("Error: Accessing out of range index at index: " + std::to_string(index));
 		}
 
+		//initialize walker
 		T* containerWalker = Container + index;
 
 		return *containerWalker;
@@ -122,6 +123,7 @@ public:
 			Resize();
 		}
 
+		//initialize walkers
 		T* containerWalker = Container + Size;
 		*containerWalker = value;
 
@@ -141,6 +143,7 @@ public:
 
 		Container = new T[Capacity];
 
+		//initialize walkers
 		T* containerWalker = Container;
 		T* otherContainerWalker = other.Container;
 
@@ -166,6 +169,7 @@ private:
 		//create a temp array to hold original elements
 		T* temp = new T[Capacity];
 
+		//initialize walkers
 		T* tempWalker = temp;
 		T* containerWalker = Container;
 
