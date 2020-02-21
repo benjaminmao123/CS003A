@@ -38,7 +38,7 @@ Array<T> deleteRepeats(Array<T> arr);
 
 int main()
 {
-	Array<char> arr = { 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h' };
+	Array<char> arr = { 'a', 'a', 'a', 'a' };
 	std::cout << "Array before deleting duplicates: " << arr << std::endl;
 	
 	Array<char> result = deleteRepeats(arr);
