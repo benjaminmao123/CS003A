@@ -11,7 +11,7 @@
 #pragma once
 
 #include <initializer_list>
-#include <string>
+#include <iostream>
 
 template <typename T>
 class Array
@@ -68,10 +68,16 @@ public:
 		Capacity = other.Capacity;
 		
 		Container = new T[Capacity];
+		
+		T* containerWalker = Container;
+		T* otherContainerWalker = other.Container;
 
+		//perform deep copy
 		for (int i = 0; i < Size; ++i)
 		{
-			*(Container + i) = *(other.Container + i);
+			*containerWalker = *otherContainerWalker;
+			++containerWalker;
+			++otherContainerWalker;
 		}
 	}
 
@@ -98,7 +104,9 @@ public:
 			throw std::out_of_range("Error: Accessing out of range index at index: " + std::to_string(index));
 		}
 
-		return *(Container + index);
+		T* containerWalker = Container + index;
+
+		return *containerWalker;
 	}
 
 	/*
@@ -114,7 +122,8 @@ public:
 			Resize();
 		}
 
-		*(Container + Size) = value;
+		T* containerWalker = Container + Size;
+		*containerWalker = value;
 
 		++Size;
 	}
@@ -132,9 +141,15 @@ public:
 
 		Container = new T[Capacity];
 
+		T* containerWalker = Container;
+		T* otherContainerWalker = other.Container;
+
+		//perform deep copy
 		for (int i = 0; i < Size; ++i)
 		{
-			*(Container + i) = *(other.Container + i);
+			*containerWalker = *otherContainerWalker;
+			++containerWalker;
+			++otherContainerWalker;
 		}
 	}
 
@@ -148,23 +163,37 @@ private:
 	*/
 	void Resize()
 	{
+		//create a temp array to hold original elements
 		T* temp = new T[Capacity];
 
+		T* tempWalker = temp;
+		T* containerWalker = Container;
+
+		//copy elements over to a temp array
 		for (int i = 0; i < Size; ++i)
 		{
-			*(temp + i) = *(Container + i);
+			*tempWalker = *containerWalker;
+			++tempWalker;
+			++containerWalker;
 		}
 
 		Capacity *= 2;
 
+		//allocate new memory for container
 		Container = new T[Capacity];
+
+		tempWalker = temp;
+		containerWalker = Container;
 
 		//copy objects over to new container
 		for (int i = 0; i < Size; ++i)
 		{
-			*(Container + i) = *(temp + i);
+			*containerWalker = *tempWalker;
+			++containerWalker;
+			++tempWalker;
 		}
 
+		//cleanup
 		delete[] temp;
 	}
 

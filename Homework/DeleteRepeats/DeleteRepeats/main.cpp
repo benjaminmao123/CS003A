@@ -4,13 +4,11 @@
  * Purpose: To delete duplicate elements in an array to practice
  *          dynamic memory allocation.
  *              
- * Notes: None.
+ * Notes: This assumes uppercase is different from lowercase.
  *
  */
 
 #include <iostream>
-#include <algorithm>
-#include <iterator>
 #include <set>
 #include <string>
 
