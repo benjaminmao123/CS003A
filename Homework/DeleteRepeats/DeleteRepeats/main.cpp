@@ -1,3 +1,13 @@
+/*
+ * Author: Benjamin Mao
+ * Project: Delete Repeats
+ * Purpose: To delete duplicate elements in an array to practice
+ *          dynamic memory allocation.
+ *              
+ * Notes: None.
+ *
+ */
+
 #include <iostream>
 #include <algorithm>
 #include <iterator>
@@ -6,10 +16,16 @@
 
 #include "Array.h"
 
-using namespace std;
+/*
+	Overloading of ostream operator to print contents Array class.
 
+	@param ostream& os: ostream object to modify
+	@param const Array<T>& arr: class to display contents of
+	@return ostream&: returns a reference to the original ostream object 
+		to allow for chaining
+*/
 template <typename T>
-ostream& operator<<(ostream& os, const Array<T>& arr)
+std::ostream& operator<<(std::ostream& os, const Array<T>& arr)
 {
 	for (int i = 0; i < arr.Size; ++i)
 	{
@@ -20,46 +36,45 @@ ostream& operator<<(ostream& os, const Array<T>& arr)
 }
 
 template <typename T>
-class Array;
-
-template <typename T>
 Array<T> deleteRepeats(Array<T> arr);
 
 int main()
 {
 	Array<char> arr = { 'a', 'a', 'b', 'c', 'd', 'c', 'b', 'e' };
-
+	std::cout << "Array before deleting duplicates: " << arr << std::endl;
+	
 	Array<char> result = deleteRepeats(arr);
-
-	cout << result;
+	std::cout << "New array after deleting duplicates: " << result << std::endl;
 
 	return 0;
 }
 
+/*
+	Deletes duplicate elements in an array in order.
+
+	@param Array<T> arr: takes an Array object
+	@return Array<T>: returns an Array object with duplicates
+		removed in order
+*/
 template <typename T>
 Array<T> deleteRepeats(Array<T> arr)
 {	
-	set<T> duplicateElements;
+	//create a set to store unique elements
+	std::set<T> uniqueElements;
 
-	for (int i = 0; i < arr.Size; ++i)
-	{
-		duplicateElements.insert(arr.At(i));
-	}
+	Array<T> uniqueArr;
 
-	Array<T> uniqueArr(duplicateElements.size());
-
-	duplicateElements.clear();
-
+	//iterate through original array
 	for (int i = 0, j = 0; i < arr.Size; ++i)
 	{
-		if (duplicateElements.find(arr.At(i)) == duplicateElements.end())
+		//if element does not exist in set
+		if (uniqueElements.find(arr.At(i)) == uniqueElements.end())
 		{
-			duplicateElements.insert(arr.At(i));
+			//add to set
+			uniqueElements.insert(arr.At(i));
+			
+			//append to new array
 			uniqueArr.Append(arr.At(i));
-		}
-		else
-		{
-			duplicateElements.insert(arr.At(i));
 		}
 	}
 
