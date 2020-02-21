@@ -24,6 +24,11 @@ public:
 		Container = new T[capacity];
 	}
 
+	~Array()
+	{
+		delete [] Container;
+	}
+
 	T At(const int& index) const
 	{
 		if (index >= Size || index < 0)
