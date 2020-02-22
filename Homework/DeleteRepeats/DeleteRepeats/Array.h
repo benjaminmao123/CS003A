@@ -28,7 +28,7 @@ public:
 	/*
 		Overloaded constructor to initialize array with elements.
 
-		@param std::initializer_list<T> il: Initializer_list object to 
+		@param <std::initializer_list<T> il>: Initializer_list object to 
 			take in elements to add to array.
 	*/
 	Array(std::initializer_list<T> il)
@@ -46,7 +46,7 @@ public:
 		Overloaded constructor to create an Array object with a 
 		defined capacity.
 
-		@param const unsigned int& capacity: Used to initialize 
+		@param <const unsigned int& capacity>: Used to initialize 
 			array capacity.
 	*/
 	Array(const unsigned int& capacity)
@@ -58,7 +58,7 @@ public:
 	/*
 		Copy constructor.
 
-		@param const Array& rhs: Other instance of Array to
+		@param <const Array& rhs>: Other instance of Array to
 			be copied from.
 	*/
 	Array(const Array& rhs)
@@ -82,7 +82,7 @@ public:
 	/*
 		Move Constructor.
 
-		@param Array&& rhs: Rvalue reference.
+		@param <Array&& rhs>: Rvalue reference.
 	*/
 	Array(Array&& rhs)
 	{
@@ -103,7 +103,7 @@ public:
 	/*
 		Accessor to retrieve size of array.
 
-		@return unsigned int: Return size of array.
+		@return <unsigned int>: Return size of array.
 	*/
 	unsigned int Length() const
 	{
@@ -113,7 +113,7 @@ public:
 	/*
 		Accessor to retrieve capacity of array.
 
-		@return unsigned int: Return capacity of array.
+		@return <unsigned int>: Return capacity of array.
 	*/
 	unsigned int Cap() const
 	{
@@ -123,9 +123,10 @@ public:
 	/*
 		Returns the element at specified index.
 
-		@param const int& index: Indicates which index to iterate
+		@param <const int& index>: Indicates which index to iterate
 			to.
-		@return T: Return element at index, throws out of range error
+
+		@return <T>: Return element at index, throws out of range error
 			if invalid index is given.
 	*/
 	T At(const int& index) const
@@ -146,7 +147,7 @@ public:
 	/*
 		Appends a value to the back of the array.
 
-		@param const T& value: Element to append to array.
+		@param <const T& value>: Element to append to array.
 	*/
 	void Append(const T& value)
 	{
@@ -177,7 +178,7 @@ public:
 	/*
 		Remove element at specified index.
 
-		@param const int& index: Index of element to be
+		@param <const int& index>: Index of element to be
 			removed.
 	*/
 	void Remove(const int& index)
@@ -205,8 +206,10 @@ public:
 	/*
 		Overloaded assignment operator.
 		
-		@param const Array& rhs: Other instance of Array object
+		@param <const Array& rhs>: Other instance of Array object
 			to perform deep copy from.
+
+		@return <Array&>: Array reference to allow for chaining.
 	*/
 	Array& operator=(const Array& rhs)
 	{
@@ -229,7 +232,9 @@ public:
 	/*
 		Overloaded move assignment operator.
 
-		@param Array&& rhs: Rvalue reference.
+		@param <Array&& rhs>: Rvalue reference.
+
+		@return <Array&>: Array reference to allow for chaining.
 	*/
 	Array& operator=(Array&& rhs)
 	{
@@ -242,8 +247,10 @@ public:
 	/*
 		Overloaded subscript operator.
 
-		@param const int& index: Specifies the index of the element
+		@param <const int& index>: Specifies the index of the element
 			to return.
+
+		@return <T&>: T reference to allow for assignment.
 	*/
 	T& operator[](const int& index)
 	{
