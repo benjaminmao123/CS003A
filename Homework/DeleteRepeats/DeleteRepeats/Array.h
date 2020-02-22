@@ -11,6 +11,13 @@
 #pragma once
 
 #include <initializer_list>
+#include <iostream>
+
+template <typename T>
+class Array;
+
+template <typename T>
+std::ostream& operator<<(std::ostream& os, const Array<T>& arr);
 
 template <typename T>
 class Array
@@ -20,9 +27,9 @@ public:
 		Default constructor to initialize size and capacity.
 	*/
 	Array()
-		: Size(0), Capacity(1)
+		: size(0), capacity(1)
 	{
-		Container = new T[Capacity];
+		container = new T[capacity];
 	}
 
 	/*
@@ -32,9 +39,9 @@ public:
 			take in elements to add to array.
 	*/
 	Array(std::initializer_list<T> il)
-		: Size(0), Capacity(1)
+		: size(0), capacity(1)
 	{
-		Container = new T[Capacity];
+		container = new T[capacity];
 
 		for (const auto& i : il)
 		{
@@ -50,9 +57,9 @@ public:
 			array capacity.
 	*/
 	Array(const unsigned int& capacity)
-		: Size(0), Capacity(capacity)
+		: size(0), capacity(capacity)
 	{
-		Container = new T[capacity];
+		container = new T[capacity];
 	}
 
 	/*
@@ -63,17 +70,17 @@ public:
 	*/
 	Array(const Array& rhs)
 	{
-		Size = rhs.Size;
-		Capacity = rhs.Capacity;
+		size = rhs.size;
+		capacity = rhs.capacity;
 		
-		Container = new T[Capacity];
+		container = new T[capacity];
 		
 		//initialize walkers
-		T* containerWalker = Container;
-		T* otherContainerWalker = rhs.Container;
+		T* containerWalker = container;
+		T* otherContainerWalker = rhs.container;
 
 		//copy elements from rhs array
-		for (int i = 0; i < Size; ++i)
+		for (unsigned int i = 0; i < size; ++i)
 		{
 			*containerWalker++ = *otherContainerWalker++;
 		}
@@ -86,10 +93,10 @@ public:
 	*/
 	Array(Array&& rhs)
 	{
-		Size = rhs.Size;
-		Capacity = rhs.Capacity;
-		Container = rhs.Container;
-		rhs.Container = nullptr;
+		size = rhs.size;
+		capacity = rhs.capacity;
+		container = rhs.container;
+		rhs.container = nullptr;
 	}
 
 	/*
@@ -97,7 +104,7 @@ public:
 	*/
 	~Array()
 	{
-		delete[] Container;
+		delete[] container;
 	}
 
 	/*
@@ -105,9 +112,9 @@ public:
 
 		@return <unsigned int>: Return size of array.
 	*/
-	unsigned int Length() const
+	unsigned int Size() const
 	{
-		return Size;
+		return size;
 	}
 
 	/*
@@ -115,9 +122,9 @@ public:
 
 		@return <unsigned int>: Return capacity of array.
 	*/
-	unsigned int Cap() const
+	unsigned int Capacity() const
 	{
-		return Capacity;
+		return capacity;
 	}
 
 	/*
@@ -129,9 +136,9 @@ public:
 		@return <T>: Return element at index, throws out of range error
 			if invalid index is given.
 	*/
-	T At(const int& index) const
+	T At(const unsigned int& index) const
 	{
-		if (index >= Size || index < 0)
+		if (index >= size)
 		{
 			throw std::out_of_range(
 				"Error: Accessing out of range index at index: " 
@@ -139,7 +146,7 @@ public:
 		}
 
 		//initialize walker
-		T* containerWalker = Container + index;
+		T* containerWalker = container + index;
 
 		return *containerWalker;
 	}
@@ -152,16 +159,16 @@ public:
 	void Append(const T& value)
 	{
 		//condition for resizing
-		if (Size >= Capacity)
+		if (size >= capacity)
 		{
 			Grow();
 		}
 
 		//initialize walkers
-		T* containerWalker = Container + Size;
+		T* containerWalker = container + size;
 		*containerWalker = value;
 
-		++Size;
+		++size;
 	}
 
 	/*
@@ -169,9 +176,9 @@ public:
 	*/
 	void RemoveBack()
 	{
-		if (Size >= 1)
+		if (size >= 1)
 		{
-			--Size;
+			--size;
 		}
 	}
 
@@ -184,19 +191,20 @@ public:
 	void Remove(const int& index)
 	{
 		//bounds checking
-		if (index >= Size || index < 0)
+		if (index >= size || index < 0)
 		{
 			throw std::out_of_range(
 				"Error: Accessing out of range index at index: "
 				+ std::to_string(index));
 		}
 
-		T* containerWalker = Container + index;
+		T* currcontainerWalker = container + index;
+		T* nextContainerWalker = container + index + 1;
 
 		//shift elements left
-		for (int i = index; i < Size - 1; ++i)
+		for (int i = index; i < size - 1; ++i)
 		{
-			*containerWalker++ = *(containerWalker + 1);
+			*currcontainerWalker++ = *nextContainerWalker++;
 		}
 
 		//remove last element
@@ -213,17 +221,17 @@ public:
 	*/
 	Array& operator=(const Array& rhs)
 	{
-		Size = rhs.Size;
-		Capacity = rhs.Capacity;
+		size = rhs.size;
+		capacity = rhs.capacity;
 
-		Container = new T[Capacity];
+		container = new T[capacity];
 
 		//initialize walkers
-		T* containerWalker = Container;
-		T* otherContainerWalker = rhs.Container;
+		T* containerWalker = container;
+		T* otherContainerWalker = rhs.container;
 
 		//copy elements from rhs array
-		for (int i = 0; i < Size; ++i)
+		for (int i = 0; i < size; ++i)
 		{
 			*containerWalker++ = *otherContainerWalker++;
 		}
@@ -238,10 +246,10 @@ public:
 	*/
 	Array& operator=(Array&& rhs)
 	{
-		Size = rhs.Size;
-		Capacity = rhs.Capacity;
-		Container = rhs.Container;
-		rhs.Container = nullptr;
+		size = rhs.size;
+		capacity = rhs.capacity;
+		container = rhs.container;
+		rhs.container = nullptr;
 	}
 
 	/*
@@ -254,10 +262,12 @@ public:
 	*/
 	T& operator[](const int& index)
 	{
-		T* containerWalker = Container + index;
+		T* containerWalker = container + index;
 
 		return *containerWalker;
 	}
+
+	friend std::ostream& operator<< <T>(std::ostream& os, const Array<T>& arr);
 
 private:
 	/*
@@ -268,28 +278,28 @@ private:
 	void Grow()
 	{
 		//create a temp array to hold original elements
-		T* temp = new T[Capacity];
+		T* temp = new T[capacity];
 
 		//initialize walkers
 		T* tempWalker = temp;
-		T* containerWalker = Container;
+		T* containerWalker = container;
 
 		//copy elements over to a temp array
-		for (int i = 0; i < Size; ++i)
+		for (unsigned int i = 0; i < size; ++i)
 		{
 			*tempWalker++ = *containerWalker++;
 		}
 
-		Capacity *= 2;
+		capacity *= 2;
 
 		//allocate new memory for container
-		Container = new T[Capacity];
+		container = new T[capacity];
 
 		tempWalker = temp;
-		containerWalker = Container;
+		containerWalker = container;
 
 		//copy objects over to new container
-		for (int i = 0; i < Size; ++i)
+		for (unsigned int i = 0; i < size; ++i)
 		{
 			*containerWalker++ = *tempWalker++;
 		}
@@ -298,7 +308,18 @@ private:
 		delete[] temp;
 	}
 
-	T* Container;
-	unsigned int Capacity;
-	unsigned int Size;
+	T* container;
+	unsigned int capacity;
+	unsigned int size;
 };
+
+template <typename T>
+inline std::ostream& operator<<(std::ostream& os, const Array<T>& arr)
+{
+	for (unsigned int i = 0; i < arr.Size(); ++i)
+	{
+		os << arr.At(i) << " ";
+	}
+
+	return os;
+}

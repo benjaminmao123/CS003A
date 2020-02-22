@@ -24,17 +24,6 @@
 		to allow for chaining.
 */
 template <typename T>
-std::ostream& operator<<(std::ostream& os, const Array<T>& arr)
-{
-	for (int i = 0; i < arr.Length(); ++i)
-	{
-		os << arr.At(i) << " ";
-	}
-
-	return os;
-}
-
-template <typename T>
 Array<T> deleteRepeats(Array<T> arr);
 
 int main()
@@ -65,7 +54,7 @@ Array<T> deleteRepeats(Array<T> arr)
 	Array<T> uniqueArr;
 
 	//iterate through original array
-	for (int i = 0, j = 0; i < arr.Length(); ++i)
+	for (unsigned int i = 0, j = 0; i < arr.Size(); ++i)
 	{
 		//if element does not exist in set
 		if (uniqueElements.find(arr.At(i)) == uniqueElements.end())
