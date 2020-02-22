@@ -28,8 +28,8 @@ public:
 	/*
 		Overloaded constructor to initialize array with elements.
 
-		@param std::initializer_list<T> il: initializer_list object to 
-			take in elements to add to array
+		@param std::initializer_list<T> il: Initializer_list object to 
+			take in elements to add to array.
 	*/
 	Array(std::initializer_list<T> il)
 		: Size(0), Capacity(1)
@@ -46,8 +46,8 @@ public:
 		Overloaded constructor to create an Array object with a 
 		defined capacity
 
-		@param const unsigned int& capacity: used to initialize 
-			array capacity
+		@param const unsigned int& capacity: Used to initialize 
+			array capacity.
 	*/
 	Array(const unsigned int& capacity)
 		: Size(0), Capacity(capacity)
@@ -58,8 +58,8 @@ public:
 	/*
 		Overloaded copy constructor
 
-		@param const Array& other: other instance of Array to
-			be copied from
+		@param const Array& other: Other instance of Array to
+			be copied from.
 	*/
 	Array(const Array& other)
 	{
@@ -72,12 +72,10 @@ public:
 		T* containerWalker = Container;
 		T* otherContainerWalker = other.Container;
 
-		//perform deep copy
+		//copy elements from other array
 		for (int i = 0; i < Size; ++i)
 		{
-			*containerWalker = *otherContainerWalker;
-			++containerWalker;
-			++otherContainerWalker;
+			*containerWalker++ = *otherContainerWalker++;
 		}
 	}
 
@@ -92,16 +90,18 @@ public:
 	/*
 		Returns the element at specified index.
 
-		@param const int& index: indicates which index to iterate
-			to
-		@return T: return element at index, throws out of range error
-			if invalid index is given
+		@param const int& index: Indicates which index to iterate
+			to.
+		@return T: Return element at index, throws out of range error
+			if invalid index is given.
 	*/
 	T At(const int& index) const
 	{
 		if (index >= Size || index < 0)
 		{
-			throw std::out_of_range("Error: Accessing out of range index at index: " + std::to_string(index));
+			throw std::out_of_range(
+				"Error: Accessing out of range index at index: " 
+				+ std::to_string(index));
 		}
 
 		//initialize walker
@@ -113,7 +113,7 @@ public:
 	/*
 		Appends a value to the back of the array.
 
-		@param const T& value: element to append to array
+		@param const T& value: Element to append to array.
 	*/
 	void Append(const T& value)
 	{
@@ -133,8 +133,8 @@ public:
 	/*
 		Overloaded copy assignment operator.
 		
-		@param const Array& other: other instance of Array object
-			to perform deep copy from
+		@param const Array& other: Other instance of Array object
+			to perform deep copy from.
 	*/
 	Array& operator=(const Array& other)
 	{
@@ -147,12 +147,10 @@ public:
 		T* containerWalker = Container;
 		T* otherContainerWalker = other.Container;
 
-		//perform deep copy
+		//copy elements from other array
 		for (int i = 0; i < Size; ++i)
 		{
-			*containerWalker = *otherContainerWalker;
-			++containerWalker;
-			++otherContainerWalker;
+			*containerWalker++ = *otherContainerWalker++;
 		}
 	}
 
@@ -176,9 +174,7 @@ private:
 		//copy elements over to a temp array
 		for (int i = 0; i < Size; ++i)
 		{
-			*tempWalker = *containerWalker;
-			++tempWalker;
-			++containerWalker;
+			*tempWalker++ = *containerWalker++;
 		}
 
 		Capacity *= 2;
@@ -192,9 +188,7 @@ private:
 		//copy objects over to new container
 		for (int i = 0; i < Size; ++i)
 		{
-			*containerWalker = *tempWalker;
-			++containerWalker;
-			++tempWalker;
+			*containerWalker++ = *tempWalker++;
 		}
 
 		//cleanup

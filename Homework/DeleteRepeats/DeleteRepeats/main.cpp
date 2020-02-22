@@ -15,12 +15,12 @@
 #include "Array.h"
 
 /*
-	Overloading of ostream operator to print contents Array class.
+	Overloading of ostream operator to print contents of Array class.
 
-	@param ostream& os: ostream object to modify
-	@param const Array<T>& arr: class to display contents of
-	@return ostream&: returns a reference to the original ostream object 
-		to allow for chaining
+	@param ostream& os: Ostream object to modify
+	@param const Array<T>& arr: Class to display contents of.
+	@return ostream&: Returns a reference to the original ostream object 
+		to allow for chaining.
 */
 template <typename T>
 std::ostream& operator<<(std::ostream& os, const Array<T>& arr)
@@ -50,9 +50,9 @@ int main()
 /*
 	Deletes duplicate elements in an array in order.
 
-	@param Array<T> arr: takes an Array object
-	@return Array<T>: returns an Array object with duplicates
-		removed in order
+	@param Array<T> arr: Takes an Array object
+	@return Array<T>: Returns an Array object with duplicates
+		removed in order.
 */
 template <typename T>
 Array<T> deleteRepeats(Array<T> arr)
