@@ -269,4 +269,6 @@ void test_string()
     list = remove_entry(list, 3, size, capacity);
     print_list(list, size);
     cout << endl;
+
+    delete[] list;
 }
