@@ -25,7 +25,7 @@
 template <typename T>
 std::ostream& operator<<(std::ostream& os, const Array<T>& arr)
 {
-	for (int i = 0; i < arr.Size; ++i)
+	for (int i = 0; i < arr.Length(); ++i)
 	{
 		os << arr.At(i) << " ";
 	}
@@ -38,7 +38,7 @@ Array<T> deleteRepeats(Array<T> arr);
 
 int main()
 {
-	Array<char> arr = { 'a', 'a', 'a', 'a' };
+	Array<char> arr = { 'a', 'a', 'a', 'd' };
 	std::cout << "Array before deleting duplicates: " << arr << std::endl;
 	
 	Array<char> result = deleteRepeats(arr);
@@ -63,7 +63,7 @@ Array<T> deleteRepeats(Array<T> arr)
 	Array<T> uniqueArr;
 
 	//iterate through original array
-	for (int i = 0, j = 0; i < arr.Size; ++i)
+	for (int i = 0, j = 0; i < arr.Length(); ++i)
 	{
 		//if element does not exist in set
 		if (uniqueElements.find(arr.At(i)) == uniqueElements.end())

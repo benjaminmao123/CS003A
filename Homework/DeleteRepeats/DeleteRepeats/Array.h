@@ -101,6 +101,26 @@ public:
 	}
 
 	/*
+		Accessor to retrieve size of array.
+
+		@return unsigned int: Return size of array.
+	*/
+	unsigned int Length() const
+	{
+		return Size;
+	}
+
+	/*
+		Accessor to retrieve capacity of array.
+
+		@return unsigned int: Return capacity of array.
+	*/
+	unsigned int Cap() const
+	{
+		return Capacity;
+	}
+
+	/*
 		Returns the element at specified index.
 
 		@param const int& index: Indicates which index to iterate
@@ -219,7 +239,18 @@ public:
 		rhs.Container = nullptr;
 	}
 
-	unsigned int Size;
+	/*
+		Overloaded subscript operator.
+
+		@param const int& index: Specifies the index of the element
+			to return.
+	*/
+	T& operator[](const int& index)
+	{
+		T* containerWalker = Container + index;
+
+		return *containerWalker;
+	}
 
 private:
 	/*
@@ -262,4 +293,5 @@ private:
 
 	T* Container;
 	unsigned int Capacity;
+	unsigned int Size;
 };
