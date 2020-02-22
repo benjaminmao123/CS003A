@@ -17,7 +17,7 @@ template <typename T>
 class Array;
 
 template <typename T>
-std::ostream& operator<<(std::ostream& os, const Array<T>& arr);
+std::ostream &operator<<(std::ostream &os, const Array<T> &arr);
 
 template <typename T>
 class Array
@@ -43,7 +43,7 @@ public:
 	{
 		container = new T[capacity];
 
-		for (const auto& i : il)
+		for (const auto &i : il)
 		{
 			Append(i);
 		}
@@ -53,10 +53,10 @@ public:
 		Overloaded constructor to create an Array object with a 
 		defined capacity.
 
-		@param <const unsigned int& capacity>: Used to initialize 
+		@param <const unsigned int &capacity>: Used to initialize 
 			array capacity.
 	*/
-	Array(const unsigned int& capacity)
+	Array(const unsigned int &capacity)
 		: size(0), capacity(capacity)
 	{
 		container = new T[capacity];
@@ -65,10 +65,10 @@ public:
 	/*
 		Copy constructor.
 
-		@param <const Array& rhs>: Other instance of Array to
+		@param <const Array &rhs>: Other instance of Array to
 			be copied from.
 	*/
-	Array(const Array& rhs)
+	Array(const Array &rhs)
 	{
 		size = rhs.size;
 		capacity = rhs.capacity;
@@ -76,8 +76,8 @@ public:
 		container = new T[capacity];
 		
 		//initialize walkers
-		T* containerWalker = container;
-		T* otherContainerWalker = rhs.container;
+		T *containerWalker = container;
+		T *otherContainerWalker = rhs.container;
 
 		//copy elements from rhs array
 		for (unsigned int i = 0; i < size; ++i)
@@ -89,9 +89,9 @@ public:
 	/*
 		Move Constructor.
 
-		@param <Array&& rhs>: Rvalue reference.
+		@param <Array &&rhs>: Rvalue reference.
 	*/
-	Array(Array&& rhs)
+	Array(Array &&rhs)
 	{
 		size = rhs.size;
 		capacity = rhs.capacity;
@@ -130,13 +130,13 @@ public:
 	/*
 		Returns the element at specified index.
 
-		@param <const int& index>: Indicates which index to iterate
+		@param <const int &index>: Indicates which index to iterate
 			to.
 
 		@return <T>: Return element at index, throws out of range error
 			if invalid index is given.
 	*/
-	T At(const unsigned int& index) const
+	T At(const unsigned int &index) const
 	{
 		if (index >= size)
 		{
@@ -146,7 +146,7 @@ public:
 		}
 
 		//initialize walker
-		T* containerWalker = container + index;
+		T *containerWalker = container + index;
 
 		return *containerWalker;
 	}
@@ -154,9 +154,9 @@ public:
 	/*
 		Appends a value to the back of the array.
 
-		@param <const T& value>: Element to append to array.
+		@param <const T &value>: Element to append to array.
 	*/
-	void Append(const T& value)
+	void Append(const T &value)
 	{
 		//condition for resizing
 		if (size >= capacity)
@@ -165,7 +165,7 @@ public:
 		}
 
 		//initialize walkers
-		T* containerWalker = container + size;
+		T *containerWalker = container + size;
 		*containerWalker = value;
 
 		++size;
@@ -185,10 +185,10 @@ public:
 	/*
 		Remove element at specified index.
 
-		@param <const int& index>: Index of element to be
+		@param <const int &index>: Index of element to be
 			removed.
 	*/
-	void Remove(const int& index)
+	void Remove(const int &index)
 	{
 		//bounds checking
 		if (index >= size || index < 0)
@@ -198,8 +198,8 @@ public:
 				+ std::to_string(index));
 		}
 
-		T* currcontainerWalker = container + index;
-		T* nextContainerWalker = container + index + 1;
+		T *currcontainerWalker = container + index;
+		T *nextContainerWalker = container + index + 1;
 
 		//shift elements left
 		for (int i = index; i < size - 1; ++i)
@@ -214,12 +214,12 @@ public:
 	/*
 		Overloaded assignment operator.
 		
-		@param <const Array& rhs>: Other instance of Array object
+		@param <const Array &rhs>: Other instance of Array object
 			to perform deep copy from.
 
-		@return <Array&>: Array reference to allow for chaining.
+		@return <Array &>: Array reference to allow for chaining.
 	*/
-	Array& operator=(const Array& rhs)
+	Array &operator=(const Array &rhs)
 	{
 		size = rhs.size;
 		capacity = rhs.capacity;
@@ -227,8 +227,8 @@ public:
 		container = new T[capacity];
 
 		//initialize walkers
-		T* containerWalker = container;
-		T* otherContainerWalker = rhs.container;
+		T *containerWalker = container;
+		T *otherContainerWalker = rhs.container;
 
 		//copy elements from rhs array
 		for (int i = 0; i < size; ++i)
@@ -240,11 +240,11 @@ public:
 	/*
 		Overloaded move assignment operator.
 
-		@param <Array&& rhs>: Rvalue reference.
+		@param <Array &&rhs>: Rvalue reference.
 
-		@return <Array&>: Array reference to allow for chaining.
+		@return <Array &>: Array reference to allow for chaining.
 	*/
-	Array& operator=(Array&& rhs)
+	Array &operator=(Array &&rhs)
 	{
 		size = rhs.size;
 		capacity = rhs.capacity;
@@ -255,19 +255,17 @@ public:
 	/*
 		Overloaded subscript operator.
 
-		@param <const int& index>: Specifies the index of the element
+		@param <const int &index>: Specifies the index of the element
 			to return.
 
-		@return <T&>: T reference to allow for assignment.
+		@return <T &>: T reference to allow for assignment.
 	*/
-	T& operator[](const int& index)
+	T &operator[](const int &index)
 	{
-		T* containerWalker = container + index;
+		T *containerWalker = container + index;
 
 		return *containerWalker;
 	}
-
-	friend std::ostream& operator<< <T>(std::ostream& os, const Array<T>& arr);
 
 private:
 	/*
@@ -278,11 +276,11 @@ private:
 	void Grow()
 	{
 		//create a temp array to hold original elements
-		T* temp = new T[capacity];
+		T *temp = new T[capacity];
 
 		//initialize walkers
-		T* tempWalker = temp;
-		T* containerWalker = container;
+		T *tempWalker = temp;
+		T *containerWalker = container;
 
 		//copy elements over to a temp array
 		for (unsigned int i = 0; i < size; ++i)
@@ -308,13 +306,34 @@ private:
 		delete[] temp;
 	}
 
-	T* container;
+	/*
+		Copies elements from source array to destination array.
+
+		@param <T *&source>: Source array to copy from.
+		@param <T *&destination>: Destination array to copy to.
+		@param <const int &size>: Size of the source array.
+	*/
+	void Copy(T *&source, T *&destination, const int& size)
+	{
+
+	}
+
+	T *container;
 	unsigned int capacity;
 	unsigned int size;
 };
 
+/*
+	Overloading of ostream operator to print contents of Array class.
+
+	@param <ostream& os>: Ostream object to modify
+	@param <const Array<T> &arr>: Class to display contents of.
+
+	@return <ostream&>: Returns a reference to the original ostream object
+		to allow for chaining.
+*/
 template <typename T>
-inline std::ostream& operator<<(std::ostream& os, const Array<T>& arr)
+std::ostream& operator<<<T>(std::ostream& os, const Array<T>& arr)
 {
 	for (unsigned int i = 0; i < arr.Size(); ++i)
 	{
