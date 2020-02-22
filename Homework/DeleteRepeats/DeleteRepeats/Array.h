@@ -44,7 +44,7 @@ public:
 
 	/*
 		Overloaded constructor to create an Array object with a 
-		defined capacity
+		defined capacity.
 
 		@param const unsigned int& capacity: Used to initialize 
 			array capacity.
@@ -56,23 +56,23 @@ public:
 	}
 
 	/*
-		Overloaded copy constructor
+		Copy constructor.
 
-		@param const Array& other: Other instance of Array to
+		@param const Array& rhs: Other instance of Array to
 			be copied from.
 	*/
-	Array(const Array& other)
+	Array(const Array& rhs)
 	{
-		Size = other.Size;
-		Capacity = other.Capacity;
+		Size = rhs.Size;
+		Capacity = rhs.Capacity;
 		
 		Container = new T[Capacity];
 		
 		//initialize walkers
 		T* containerWalker = Container;
-		T* otherContainerWalker = other.Container;
+		T* otherContainerWalker = rhs.Container;
 
-		//copy elements from other array
+		//copy elements from rhs array
 		for (int i = 0; i < Size; ++i)
 		{
 			*containerWalker++ = *otherContainerWalker++;
@@ -80,7 +80,20 @@ public:
 	}
 
 	/*
-		Destructor to clean up dynamically allocated memory
+		Move Constructor.
+
+		@param Array&& rhs: Rvalue reference.
+	*/
+	Array(Array&& rhs)
+	{
+		Size = rhs.Size;
+		Capacity = rhs.Capacity;
+		Container = rhs.Container;
+		rhs.Container = nullptr;
+	}
+
+	/*
+		Destructor to clean up dynamically allocated memory.
 	*/
 	~Array()
 	{
@@ -120,7 +133,7 @@ public:
 		//condition for resizing
 		if (Size >= Capacity)
 		{
-			Resize();
+			Grow();
 		}
 
 		//initialize walkers
@@ -131,27 +144,79 @@ public:
 	}
 
 	/*
-		Overloaded copy assignment operator.
+		Removes the last element in the array.
+	*/
+	void RemoveBack()
+	{
+		if (Size >= 1)
+		{
+			--Size;
+		}
+	}
+
+	/*
+		Remove element at specified index.
+
+		@param const int& index: Index of element to be
+			removed.
+	*/
+	void Remove(const int& index)
+	{
+		//bounds checking
+		if (index >= Size || index < 0)
+		{
+			throw std::out_of_range(
+				"Error: Accessing out of range index at index: "
+				+ std::to_string(index));
+		}
+
+		T* containerWalker = Container + index;
+
+		//shift elements left
+		for (int i = index; i < Size - 1; ++i)
+		{
+			*containerWalker++ = *(containerWalker + 1);
+		}
+
+		//remove last element
+		RemoveBack();
+	}
+
+	/*
+		Overloaded assignment operator.
 		
-		@param const Array& other: Other instance of Array object
+		@param const Array& rhs: Other instance of Array object
 			to perform deep copy from.
 	*/
-	Array& operator=(const Array& other)
+	Array& operator=(const Array& rhs)
 	{
-		Size = other.Size;
-		Capacity = other.Capacity;
+		Size = rhs.Size;
+		Capacity = rhs.Capacity;
 
 		Container = new T[Capacity];
 
 		//initialize walkers
 		T* containerWalker = Container;
-		T* otherContainerWalker = other.Container;
+		T* otherContainerWalker = rhs.Container;
 
-		//copy elements from other array
+		//copy elements from rhs array
 		for (int i = 0; i < Size; ++i)
 		{
 			*containerWalker++ = *otherContainerWalker++;
 		}
+	}
+
+	/*
+		Overloaded move assignment operator.
+
+		@param Array&& rhs: Rvalue reference.
+	*/
+	Array& operator=(Array&& rhs)
+	{
+		Size = rhs.Size;
+		Capacity = rhs.Capacity;
+		Container = rhs.Container;
+		rhs.Container = nullptr;
 	}
 
 	unsigned int Size;
@@ -162,7 +227,7 @@ private:
 		memory for the array.
 		When the array is grown, the elements are copied over.
 	*/
-	void Resize()
+	void Grow()
 	{
 		//create a temp array to hold original elements
 		T* temp = new T[Capacity];
