@@ -32,7 +32,7 @@ public:
 		@param <std::initializer_list<T> il>: Initializer_list object to 
 			take in elements to add to array.
 	*/
-	Array(std::initializer_list<T> il)
+	Array(const std::initializer_list<T> &il)
 		: size(0), capacity(1)
 	{
 		container = new T[capacity];
@@ -250,7 +250,7 @@ public:
 		@return <ostream&>: Returns a reference to the original ostream object
 			to allow for chaining.
 	*/
-	friend std::ostream & operator<<(std::ostream& os, const Array& arr)
+	friend std::ostream & operator<<(std::ostream &os, const Array &arr)
 	{
 		for (unsigned int i = 0; i < arr.Size(); ++i)
 		{
