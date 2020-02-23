@@ -147,7 +147,6 @@ namespace bm
 				Grow();
 			}
 
-			//initialize walkers
 			T* element = container + size;
 			*element = value;
 
