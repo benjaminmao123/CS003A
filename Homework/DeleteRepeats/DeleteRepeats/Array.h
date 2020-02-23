@@ -29,8 +29,8 @@ public:
 	/*
 		Overloaded constructor to initialize array with elements.
 
-		@param <std::initializer_list<T> il>: Initializer_list object to 
-			take in elements to add to array.
+		@param <const std::initializer_list<T> &il>: Initializer_list object 
+			to take in elements to add to array.
 	*/
 	Array(const std::initializer_list<T> &il)
 		: size(0), capacity(1)
