@@ -167,6 +167,11 @@ public:
 		{
 			--size;
 		}
+
+		if (size <= capacity / 4)
+		{
+			Shrink();
+		}
 	}
 
 	/*
@@ -275,6 +280,31 @@ private:
 		Copy(container, temp, size);
 
 		capacity *= 2;
+
+		//allocate new memory for container
+		container = new T[capacity];
+
+		//copy elements back to container
+		Copy(temp, container, size);
+
+		//cleanup
+		delete[] temp;
+	}
+
+	/*
+		Decreases the capacity by 2 and allocates less
+		memory for the array.
+		When the array is shrunk, the elements are copied over.
+	*/
+	void Shrink()
+	{
+		//create a temp array to hold original elements
+		T *temp = new T[capacity];
+
+		//copy original elements to temp array
+		Copy(container, temp, size);
+
+		capacity /= 2;
 
 		//allocate new memory for container
 		container = new T[capacity];
