@@ -39,12 +39,12 @@ int main()
     @param <int &size>: Size of the array.
     @param <int &capacity>: Capacity of the array.
 
-    @return <T*>: New array with appended element.
+    @return <T *>: New array with appended element.
 */
 template<typename T>
 T * add_entry(T *list, const T &new_entry, int &size, int &capacity)
 {
-    T* newList = list;
+    T *newList = list;
 
     if (size >= capacity)
     {
@@ -57,7 +57,7 @@ T * add_entry(T *list, const T &new_entry, int &size, int &capacity)
         copy_list(newList, list, size);
 
         //append the element
-        T* newListWalker = newList + size++;
+        T *newListWalker = newList + size++;
         *newListWalker = new_entry;
 
         return newList;
@@ -65,7 +65,7 @@ T * add_entry(T *list, const T &new_entry, int &size, int &capacity)
     else
     {
         //append the element
-        T* listWalker = list + size++;
+        T *listWalker = list + size++;
         *listWalker = new_entry;
 
         return list;
@@ -80,14 +80,14 @@ T * add_entry(T *list, const T &new_entry, int &size, int &capacity)
     @param <int &size>: Size of the original array.
     @param <int &capacity>: Capacity of the array.
 
-    @return <T*>: A new array without the deleted element.
+    @return <T *>: A new array without the deleted element.
 */
 template<typename T>
 T * remove_entry(T *list, const T &delete_me, int &size, int &capacity)
 {
     //find the element to delete
-    T* deleteEntry = search_entry(list, delete_me, size);
-    T* newList = list;
+    T *deleteEntry = search_entry(list, delete_me, size);
+    T *newList = list;
 
     //delete if the element exists
     if (deleteEntry)
@@ -100,7 +100,7 @@ T * remove_entry(T *list, const T &delete_me, int &size, int &capacity)
 
         //allocate memory for new list
         newList = allocate(newList, capacity);
-        T* newListWalker = newList;
+        T *newListWalker = newList;
 
         //copy elements from the old list to the new list
         for (int i = 0; i < size; ++i, ++list)
@@ -125,7 +125,7 @@ T * remove_entry(T *list, const T &delete_me, int &size, int &capacity)
     @param <int capacity>: Determines the amount of memory to 
         allocate.
     
-    @return <T*>: New array with a given capacity.
+    @return <T *>: New array with a given capacity.
 */
 template<typename T>
 T * allocate(T *list, int capacity)
@@ -161,7 +161,7 @@ void copy_list(T *dest, T *src, int many_to_copy)
     @param <T &find_me>: The value to search for.
     @param <int size>: Size of the array.
 
-    @return <T*>: If the element is found, return a pointer
+    @return <T *>: If the element is found, return a pointer
         to the first element found. Else, return nullptr.
 */
 template<typename T>
@@ -181,7 +181,7 @@ T * search_entry(T *list, const T &find_me, int size)
 /*
     Prints the contents of a given array.
 
-    @param <T* list>: The array to print.
+    @param <T *list>: The array to print.
     @param <int size>: Size of the array.
 */
 template<typename T>
