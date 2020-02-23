@@ -23,9 +23,9 @@ namespace bm
 			Default constructor to initialize size and capacity.
 		*/
 		Array()
-			: size(0), capacity(1)
+			: size(0), capacity(1), container(new T[capacity])
 		{
-			container = new T[capacity];
+			
 		}
 
 		/*
@@ -51,9 +51,9 @@ namespace bm
 				array capacity.
 		*/
 		Array(const unsigned int& capacity)
-			: size(0), capacity(capacity)
+			: size(0), capacity(capacity), container(new T[capacity])
 		{
-			container = new T[capacity];
+
 		}
 
 		/*
