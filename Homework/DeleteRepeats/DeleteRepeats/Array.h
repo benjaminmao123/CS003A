@@ -74,16 +74,9 @@ public:
 		capacity = rhs.capacity;
 		
 		container = new T[capacity];
-		
-		//initialize walkers
-		T *containerWalker = container;
-		T *otherContainerWalker = rhs.container;
 
 		//copy elements from rhs array
-		for (unsigned int i = 0; i < size; ++i)
-		{
-			*containerWalker++ = *otherContainerWalker++;
-		}
+		Copy(rhs.container, container, rhs.size);
 	}
 
 	/*
@@ -146,9 +139,9 @@ public:
 		}
 
 		//initialize walker
-		T *containerWalker = container + index;
+		T *element = container + index;
 
-		return *containerWalker;
+		return *element;
 	}
 
 	/*
@@ -165,8 +158,8 @@ public:
 		}
 
 		//initialize walkers
-		T *containerWalker = container + size;
-		*containerWalker = value;
+		T *element = container + size;
+		*element = value;
 
 		++size;
 	}
@@ -198,14 +191,8 @@ public:
 				+ std::to_string(index));
 		}
 
-		T *currcontainerWalker = container + index;
-		T *nextContainerWalker = container + index + 1;
-
 		//shift elements left
-		for (int i = index; i < size - 1; ++i)
-		{
-			*currcontainerWalker++ = *nextContainerWalker++;
-		}
+		ShiftLeft(index);
 
 		//remove last element
 		RemoveBack();
@@ -226,15 +213,8 @@ public:
 
 		container = new T[capacity];
 
-		//initialize walkers
-		T *containerWalker = container;
-		T *otherContainerWalker = rhs.container;
-
 		//copy elements from rhs array
-		for (int i = 0; i < size; ++i)
-		{
-			*containerWalker++ = *otherContainerWalker++;
-		}
+		Copy(rhs.container, container, rhs.size);
 	}
 
 	/*
@@ -262,9 +242,9 @@ public:
 	*/
 	T &operator[](const int &index)
 	{
-		T *containerWalker = container + index;
+		T *element = container + index;
 
-		return *containerWalker;
+		return *element;
 	}
 
 private:
@@ -278,29 +258,16 @@ private:
 		//create a temp array to hold original elements
 		T *temp = new T[capacity];
 
-		//initialize walkers
-		T *tempWalker = temp;
-		T *containerWalker = container;
-
-		//copy elements over to a temp array
-		for (unsigned int i = 0; i < size; ++i)
-		{
-			*tempWalker++ = *containerWalker++;
-		}
+		//copy original elements to temp array
+		Copy(container, temp, size);
 
 		capacity *= 2;
 
 		//allocate new memory for container
 		container = new T[capacity];
 
-		tempWalker = temp;
-		containerWalker = container;
-
-		//copy objects over to new container
-		for (unsigned int i = 0; i < size; ++i)
-		{
-			*containerWalker++ = *tempWalker++;
-		}
+		//copy elements back to container
+		Copy(temp, container, size);
 
 		//cleanup
 		delete[] temp;
@@ -313,9 +280,28 @@ private:
 		@param <T *&destination>: Destination array to copy to.
 		@param <const int &size>: Size of the source array.
 	*/
-	void Copy(T *&source, T *&destination, const int& size)
+	void Copy(T *source, T *destination, const int &size)
 	{
+		for (int i = 0; i < size; ++i)
+		{
+			*destination++ = *source++;
+		}
+	}
 
+	/*
+		Shifts elements from starting index to the end of array left.
+
+		@param <const int &startingIndex>: Index to start from.
+	*/
+	void ShiftLeft(const int& startingIndex)
+	{
+		T* curr = container + startingIndex;
+		T* next = container + startingIndex + 1;
+
+		for (int i = startingIndex; i < size - 1; ++i)
+		{
+			*curr++ = *next++;
+		}
 	}
 
 	T *container;
