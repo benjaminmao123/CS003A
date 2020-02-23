@@ -15,7 +15,7 @@
 #include "Array.h"
 
 template <typename T>
-bm::Array<T> deleteRepeats(bm::Array<T> &arr);
+bm::Array<T> deleteRepeats(bm::Array<T>& arr);
 
 int main()
 {
@@ -31,13 +31,13 @@ int main()
 /*
 	Deletes duplicate elements in an array in order.
 
-	@param <Array<T> &arr>: Takes an Array object
+	@param <Array<T>& arr>: Takes an Array object
 
 	@return <Array<T>>: Returns an Array object with duplicates
 		removed in order.
 */
 template <typename T>
-bm::Array<T> deleteRepeats(bm::Array<T> &arr)
+bm::Array<T> deleteRepeats(bm::Array<T>& arr)
 {	
 	//create a set to store unique elements
 	std::set<T> uniqueElements;
