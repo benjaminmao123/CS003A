@@ -11,13 +11,7 @@
 #pragma once
 
 #include <initializer_list>
-#include <iostream>
-
-//template <typename T>
-//class Array;
-//
-//template <typename T>
-//std::ostream &operator<<(std::ostream &os, const Array<T> &arr);
+#include <ostream>
 
 template <typename T>
 class Array
@@ -206,7 +200,7 @@ public:
 
 		@return <Array &>: Array reference to allow for chaining.
 	*/
-	Array &operator=(const Array &rhs)
+	Array & operator=(const Array &rhs)
 	{
 		size = rhs.size;
 		capacity = rhs.capacity;
@@ -224,7 +218,7 @@ public:
 
 		@return <Array &>: Array reference to allow for chaining.
 	*/
-	Array &operator=(Array &&rhs)
+	Array & operator=(Array &&rhs)
 	{
 		size = rhs.size;
 		capacity = rhs.capacity;
@@ -240,7 +234,7 @@ public:
 
 		@return <T &>: T reference to allow for assignment.
 	*/
-	T &operator[](const int &index)
+	T & operator[](const int &index)
 	{
 		T *element = container + index;
 
@@ -256,7 +250,7 @@ public:
 		@return <ostream&>: Returns a reference to the original ostream object
 			to allow for chaining.
 	*/
-	friend std::ostream &operator<<(std::ostream& os, const Array& arr)
+	friend std::ostream & operator<<(std::ostream& os, const Array& arr)
 	{
 		for (unsigned int i = 0; i < arr.Size(); ++i)
 		{
@@ -312,7 +306,7 @@ private:
 
 		@param <const int &startingIndex>: Index to start from.
 	*/
-	void ShiftLeft(const int& startingIndex)
+	void ShiftLeft(const int &startingIndex)
 	{
 		T* curr = container + startingIndex;
 		T* next = container + startingIndex + 1;
