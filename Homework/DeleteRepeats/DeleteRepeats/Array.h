@@ -33,10 +33,8 @@ public:
 			to take in elements to add to array.
 	*/
 	Array(const std::initializer_list<T> &il)
-		: size(0), capacity(1)
+		: size(0), capacity(1), container(new T[capacity])
 	{
-		container = new T[capacity];
-
 		for (const auto &i : il)
 		{
 			Append(i);
@@ -63,12 +61,9 @@ public:
 			be copied from.
 	*/
 	Array(const Array &rhs)
+		: size(rhs.size), capacity(rhs.capacity),
+		container(new T[capacity])
 	{
-		size = rhs.size;
-		capacity = rhs.capacity;
-		
-		container = new T[capacity];
-
 		//copy elements from rhs array
 		Copy(rhs.container, container, rhs.size);
 	}
@@ -79,10 +74,9 @@ public:
 		@param <Array &&rhs>: Rvalue reference.
 	*/
 	Array(Array &&rhs)
+		: size(rhs.size), capacity(rhs.capacity),
+		container(rhs.container)
 	{
-		size = rhs.size;
-		capacity = rhs.capacity;
-		container = rhs.container;
 		rhs.container = nullptr;
 	}
 

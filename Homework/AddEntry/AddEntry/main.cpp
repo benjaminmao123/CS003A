@@ -111,7 +111,7 @@ T * remove_entry(T *list, const T &delete_me, int &size, int &capacity)
                 *newListWalker++ = *list;
             }
         }
-
+        
         --size;
     }
 
