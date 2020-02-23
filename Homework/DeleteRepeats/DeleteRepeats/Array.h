@@ -13,11 +13,11 @@
 #include <initializer_list>
 #include <iostream>
 
-template <typename T>
-class Array;
-
-template <typename T>
-std::ostream &operator<<(std::ostream &os, const Array<T> &arr);
+//template <typename T>
+//class Array;
+//
+//template <typename T>
+//std::ostream &operator<<(std::ostream &os, const Array<T> &arr);
 
 template <typename T>
 class Array
@@ -247,6 +247,25 @@ public:
 		return *element;
 	}
 
+	/*
+		Overloading of ostream operator to print contents of Array class.
+
+		@param <ostream& os>: Ostream object to modify
+		@param <const Array<T> &arr>: Class to display contents of.
+
+		@return <ostream&>: Returns a reference to the original ostream object
+			to allow for chaining.
+	*/
+	friend std::ostream &operator<<(std::ostream& os, const Array& arr)
+	{
+		for (unsigned int i = 0; i < arr.Size(); ++i)
+		{
+			os << arr.At(i) << " ";
+		}
+
+		return os;
+	}
+
 private:
 	/*
 		Increases the capacity by 2 and allocates more
@@ -308,23 +327,3 @@ private:
 	unsigned int capacity;
 	unsigned int size;
 };
-
-/*
-	Overloading of ostream operator to print contents of Array class.
-
-	@param <ostream& os>: Ostream object to modify
-	@param <const Array<T> &arr>: Class to display contents of.
-
-	@return <ostream&>: Returns a reference to the original ostream object
-		to allow for chaining.
-*/
-template <typename T>
-std::ostream& operator<<<T>(std::ostream& os, const Array<T>& arr)
-{
-	for (unsigned int i = 0; i < arr.Size(); ++i)
-	{
-		os << arr.At(i) << " ";
-	}
-
-	return os;
-}
