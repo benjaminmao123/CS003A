@@ -3,7 +3,7 @@
  * Project: Delete Repeats
  * Purpose: Created to abstract away some array features like
 			appending and also to keep track of size for iteration.
- *              
+ *
  * Notes: None.
  *
  */
@@ -25,19 +25,19 @@ namespace bm
 		Array()
 			: size(0), capacity(1), container(new T[capacity])
 		{
-			
+
 		}
 
 		/*
 			Overloaded constructor to initialize array with elements.
 
-			@param <const initializer_list<T>& il>: Initializer_list object
+			@param <const initializer_list<T> &il>: Initializer_list object
 				to take in elements to add to array.
 		*/
-		Array(const std::initializer_list<T>& il)
+		Array(const std::initializer_list<T> &il)
 			: size(0), capacity(1), container(new T[capacity])
 		{
-			for (const auto& i : il)
+			for (const auto &i : il)
 			{
 				Append(i);
 			}
@@ -47,10 +47,10 @@ namespace bm
 			Overloaded constructor to create an Array object with a
 			defined capacity.
 
-			@param <const unsigned int& capacity>: Used to initialize
+			@param <const unsigned int &capacity>: Used to initialize
 				array capacity.
 		*/
-		Array(const unsigned int& capacity)
+		Array(const unsigned int &capacity)
 			: size(0), capacity(capacity), container(new T[capacity])
 		{
 
@@ -59,10 +59,10 @@ namespace bm
 		/*
 			Copy constructor.
 
-			@param <const Array& rhs>: Other instance of Array to
+			@param <const Array &rhs>: Other instance of Array to
 				be copied from.
 		*/
-		Array(const Array& rhs)
+		Array(const Array &rhs)
 			: size(rhs.size), capacity(rhs.capacity),
 			container(new T[capacity])
 		{
@@ -73,9 +73,9 @@ namespace bm
 		/*
 			Move Constructor.
 
-			@param <Array&& rhs>: Rvalue reference.
+			@param <Array &&rhs>: Rvalue reference.
 		*/
-		Array(Array&& rhs)
+		Array(Array &&rhs)
 			: size(rhs.size), capacity(rhs.capacity),
 			container(rhs.container)
 		{
@@ -113,13 +113,13 @@ namespace bm
 		/*
 			Returns the element at specified index.
 
-			@param <const int& index>: Indicates which index to iterate
+			@param <const int &index>: Indicates which index to iterate
 				to.
 
 			@return <T>: Return element at index, throws out of range error
 				if invalid index is given.
 		*/
-		T At(const unsigned int& index) const
+		T At(const unsigned int &index) const
 		{
 			if (index >= size)
 			{
@@ -129,7 +129,7 @@ namespace bm
 			}
 
 			//initialize walker
-			T* element = container + index;
+			T *element = container + index;
 
 			return *element;
 		}
@@ -137,9 +137,9 @@ namespace bm
 		/*
 			Appends a value to the back of the array.
 
-			@param <const T& value>: Element to append to array.
+			@param <const T &value>: Element to append to array.
 		*/
-		void Append(const T& value)
+		void Append(const T &value)
 		{
 			//condition for resizing
 			if (size >= capacity)
@@ -147,7 +147,7 @@ namespace bm
 				Grow();
 			}
 
-			T* element = container + size;
+			T *element = container + size;
 			*element = value;
 
 			++size;
@@ -172,10 +172,10 @@ namespace bm
 		/*
 			Remove element at specified index.
 
-			@param <const int& index>: Index of element to be
+			@param <const int &index>: Index of element to be
 				removed.
 		*/
-		void Remove(const int& index)
+		void Remove(const int &index)
 		{
 			//bounds checking
 			if (index >= size || index < 0)
@@ -195,12 +195,12 @@ namespace bm
 		/*
 			Overloaded assignment operator.
 
-			@param <const Array& rhs>: Other instance of Array object
+			@param <const Array &rhs>: Other instance of Array object
 				to perform deep copy from.
 
-			@return <Array&>: Array reference to allow for chaining.
+			@return <Array &>: Array reference to allow for chaining.
 		*/
-		Array& operator=(const Array& rhs)
+		Array &operator=(const Array &rhs)
 		{
 			size = rhs.size;
 			capacity = rhs.capacity;
@@ -214,11 +214,11 @@ namespace bm
 		/*
 			Overloaded move assignment operator.
 
-			@param <Array&& rhs>: Rvalue reference.
+			@param <Array &&rhs>: Rvalue reference.
 
-			@return <Array&>: Array reference to allow for chaining.
+			@return <Array &>: Array reference to allow for chaining.
 		*/
-		Array& operator=(Array&& rhs)
+		Array &operator=(Array &&rhs)
 		{
 			size = rhs.size;
 			capacity = rhs.capacity;
@@ -229,14 +229,14 @@ namespace bm
 		/*
 			Overloaded subscript operator.
 
-			@param <const int& index>: Specifies the index of the element
+			@param <const int &index>: Specifies the index of the element
 				to return.
 
-			@return <T&>: T reference to allow for assignment.
+			@return <T &>: T reference to allow for assignment.
 		*/
-		T& operator[](const int& index)
+		T &operator[](const int &index)
 		{
-			T* element = container + index;
+			T *element = container + index;
 
 			return *element;
 		}
@@ -244,13 +244,13 @@ namespace bm
 		/*
 			Overloading of ostream operator to print contents of Array class.
 
-			@param <ostream& os>: Ostream object to modify
-			@param <const Array& arr>: Class to display contents of.
+			@param <ostream &os>: Ostream object to modify
+			@param <const Array &arr>: Class to display contents of.
 
-			@return <ostream&>: Returns a reference to the original ostream object
+			@return <ostream &>: Returns a reference to the original ostream object
 				to allow for chaining.
 		*/
-		friend std::ostream& operator<<(std::ostream& os, const Array& arr)
+		friend std::ostream &operator<<(std::ostream &os, const Array &arr)
 		{
 			for (unsigned int i = 0; i < arr.Size(); ++i)
 			{
@@ -269,7 +269,7 @@ namespace bm
 		void Grow()
 		{
 			//create a temp array to hold original elements
-			T* temp = new T[capacity];
+			T *temp = new T[capacity];
 
 			//copy original elements to temp array
 			Copy(container, temp, size);
@@ -294,7 +294,7 @@ namespace bm
 		void Shrink()
 		{
 			//create a temp array to hold original elements
-			T* temp = new T[capacity];
+			T *temp = new T[capacity];
 
 			//copy original elements to temp array
 			Copy(container, temp, size);
@@ -314,11 +314,11 @@ namespace bm
 		/*
 			Copies elements from source array to destination array.
 
-			@param <T* source>: Source array to copy from.
-			@param <T* destination>: Destination array to copy to.
-			@param <const int& size>: Size of the source array.
+			@param <T *source>: Source array to copy from.
+			@param <T *destination>: Destination array to copy to.
+			@param <const int &size>: Size of the source array.
 		*/
-		void Copy(T* source, T* destination, const int& size)
+		void Copy(T *source, T *destination, const int &size)
 		{
 			for (int i = 0; i < size; ++i)
 			{
@@ -329,12 +329,12 @@ namespace bm
 		/*
 			Shifts elements from starting index to the end of array left.
 
-			@param <const int& startingIndex>: Index to start from.
+			@param <const int &startingIndex>: Index to start from.
 		*/
-		void ShiftLeft(const int& startingIndex)
+		void ShiftLeft(const int &startingIndex)
 		{
-			T* curr = container + startingIndex;
-			T* next = container + startingIndex + 1;
+			T *curr = container + startingIndex;
+			T *next = container + startingIndex + 1;
 
 			for (int i = startingIndex; i < size - 1; ++i)
 			{
@@ -342,7 +342,7 @@ namespace bm
 			}
 		}
 
-		T* container;
+		T *container;
 		unsigned int capacity;
 		unsigned int size;
 	};
