@@ -15,14 +15,14 @@
 #include "Array.h"
 
 template <typename T>
-Array<T> deleteRepeats(Array<T> &arr);
+bm::Array<T> deleteRepeats(bm::Array<T> &arr);
 
 int main()
 {
-	Array<char> arr = { 'a', 'a', 'a', 'd', 'a', 'a' };
+	bm::Array<char> arr = { 'a', 'a', 'a', 'd', 'a', 'a' };
 	std::cout << "Array before deleting duplicates: " << arr << std::endl;
 
-	Array<char> result = deleteRepeats(arr);
+	bm::Array<char> result = deleteRepeats(arr);
 	std::cout << "New array after deleting duplicates: " << result << std::endl;
 
 	return 0;
@@ -37,12 +37,12 @@ int main()
 		removed in order.
 */
 template <typename T>
-Array<T> deleteRepeats(Array<T> &arr)
+bm::Array<T> deleteRepeats(bm::Array<T> &arr)
 {	
 	//create a set to store unique elements
 	std::set<T> uniqueElements;
 
-	Array<T> uniqueArr;
+	bm::Array<T> uniqueArr;
 
 	//iterate through original array
 	for (unsigned int i = 0, j = 0; i < arr.Size(); ++i)
