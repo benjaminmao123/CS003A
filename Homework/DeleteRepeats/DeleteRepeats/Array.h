@@ -199,6 +199,12 @@ namespace bm
 			}
 		}
 
+		/*
+			Custom swap function that swaps current class variables with
+			other class.
+
+			@param <Array &other>: Other class to swap with.
+		*/
 		void Swap(Array &other)
 		{
 			std::swap(size, other.size);
@@ -216,7 +222,10 @@ namespace bm
 		*/
 		Array &operator=(const Array &rhs)
 		{
-			Array(rhs).Swap(*this);
+			if (this != &rhs)
+			{
+				Array(rhs).Swap(*this);
+			}
 
 			return *this;
 		}
@@ -230,7 +239,10 @@ namespace bm
 		*/
 		Array &operator=(Array &&rhs) noexcept
 		{
-			Swap(rhs);
+			if (this != &rhs)
+			{
+				Swap(rhs);
+			}
 
 			return *this;
 		}
