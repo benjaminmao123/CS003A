@@ -3,7 +3,7 @@
 class MCounter
 {
 public:
-    MCounter();
+    MCounter(const int &maxCount);
     int Add_1();
     int Add_10();
     int Add_100();
@@ -14,4 +14,5 @@ public:
 
 private:
     int count;
+    int maxCount;
 }; 
