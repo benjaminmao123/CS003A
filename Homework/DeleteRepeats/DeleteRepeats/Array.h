@@ -257,7 +257,7 @@ namespace bm
 		*/
 		T &operator[](const int &index)
 		{
-			T *element = static_cast<T *>(container) + index;
+			T *element = reinterpret_cast<T *>(container) + index;
 
 			return *element;
 		}
