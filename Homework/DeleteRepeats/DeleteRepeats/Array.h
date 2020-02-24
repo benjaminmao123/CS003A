@@ -20,7 +20,7 @@ namespace bm
 	{
 	public:
 		/*
-			Default constructor to initialize size and capacity.
+			Default constructor to member variables.
 		*/
 		Array()
 			: size(0), capacity(1)
