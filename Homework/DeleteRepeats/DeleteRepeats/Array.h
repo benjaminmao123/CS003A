@@ -12,6 +12,7 @@
 
 #include <initializer_list>
 #include <ostream>
+#include <algorithm>
 
 namespace bm
 {
@@ -23,9 +24,9 @@ namespace bm
 			Default constructor to member variables.
 		*/
 		Array()
-			: size(0), capacity(1)
+			: size(0), capacity(0), container(nullptr)
 		{
-			container = new char[sizeof(T) * capacity];
+
 		}
 
 		/*
@@ -35,10 +36,8 @@ namespace bm
 				to take in elements to add to array.
 		*/
 		Array(const std::initializer_list<T> &il)
-			: size(0), capacity(1)
+			: size(0), capacity(0), container(nullptr)
 		{
-			container = new char[sizeof(T) * capacity];
-
 			for (const auto &i : il)
 			{
 				Append(i);
@@ -69,7 +68,7 @@ namespace bm
 			container(new char[sizeof(T) * rhs.capacity])
 		{
 			//copy elements from rhs array
-			Copy(rhs.container, container, rhs.size);
+			Copy(rhs.container, container, sizeof(T) * rhs.size);
 		}
 
 		/*
@@ -81,6 +80,8 @@ namespace bm
 			: size(rhs.size), capacity(rhs.capacity),
 			container(rhs.container)
 		{
+			rhs.size = 0;
+			rhs.capacity = 0;
 			rhs.container = nullptr;
 		}
 
@@ -198,6 +199,13 @@ namespace bm
 			}
 		}
 
+		void Swap(Array &other)
+		{
+			std::swap(size, other.size);
+			std::swap(capacity, other.capacity);
+			std::swap(container, other.container);
+		}
+
 		/*
 			Overloaded assignment operator.
 
@@ -208,12 +216,9 @@ namespace bm
 		*/
 		Array &operator=(const Array &rhs)
 		{
-			size = rhs.size;
-			capacity = rhs.capacity;
-			container = new T[rhs.capacity];
+			Array(rhs).Swap(*this);
 
-			//copy elements from rhs array
-			Copy(rhs.container, container, rhs.size);
+			return *this;
 		}
 
 		/*
@@ -225,10 +230,9 @@ namespace bm
 		*/
 		Array &operator=(Array &&rhs) noexcept
 		{
-			size = rhs.size;
-			capacity = rhs.capacity;
-			container = rhs.container;
-			rhs.container = nullptr;
+			Swap(rhs);
+
+			return *this;
 		}
 
 		/*
@@ -273,13 +277,24 @@ namespace bm
 		*/
 		void Resize()
 		{
-			if (size <= capacity / 4)
+			if ((size <= capacity / 4) && capacity > 1)
 			{
 				capacity /= 2;
 			}
 			else if (size >= capacity)
 			{
-				capacity *= 2;
+				if (!capacity)
+				{
+					capacity = 1;
+				}
+				else
+				{
+					capacity *= 2;
+				}
+			}
+			else
+			{
+				return;
 			}
 
 			char *temp = new char[sizeof(T) * capacity];
@@ -299,7 +314,7 @@ namespace bm
 			@param <char *destination>: Destination array to copy to.
 			@param <const int &size>: Size of the source array.
 		*/
-		void Copy(char *source, char *destination, const int &size)
+		void Copy(const char *source, char *destination, const int &size)
 		{
 			for (int i = 0; i < size; ++i)
 			{
