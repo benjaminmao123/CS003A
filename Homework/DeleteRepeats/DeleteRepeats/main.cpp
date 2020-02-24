@@ -14,12 +14,14 @@
 
 #include "Array.h"
 
+using namespace std;
+
 template <typename T>
 bm::Array<T> deleteRepeats(bm::Array<T> &arr);
 
 int main()
 {
-	bm::Array<char> arr = { 'a', 'a', 'a', 'd', 'a', 'a' };
+	bm::Array<char> arr = { 'a', 'a', 'a', 'd', 'a', 'c' };
 	std::cout << "Array before deleting duplicates: " << arr << std::endl;
 
 	bm::Array<char> result = deleteRepeats(arr);

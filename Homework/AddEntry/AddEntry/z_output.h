@@ -3,43 +3,80 @@
 /*
 ***** ALL RESULTS ARE VERIFIED ******
 //---------------------------------------------------------------------
-// normal run:
+// initial allocation and add entry:
 //---------------------------------------------------------------------
-Array<char> arr = { 'a', 'a', 'c', 'd', 'e', 'f', 'e', 'c' };
-Array<char> result = deleteRepeats(arr);
+list = allocate(list, capacity);
+list = add_entry(list, 1, size, capacity);
+list = add_entry(list, 2, size, capacity);
+list = add_entry(list, 3, size, capacity);
 ------------ RESULTS --------------------
-Array before deleting duplicates: a a c d e f e c
-New array after deleting duplicates: a c d e f
+allocate: capacity: 3
+List: 1
+List: 1 2
+List: 1 2 3
 
 
 //---------------------------------------------------------------------
-// empty array:
+// allocation when size >= capacity:
 //---------------------------------------------------------------------
-Array<char> arr = { };
-Array<char> result = deleteRepeats(arr);
+list = add_entry(list, 1, size, capacity);
+list = add_entry(list, 2, size, capacity);
+list = add_entry(list, 3, size, capacity);
+list = add_entry(list, 4, size, capacity);
 ------------ RESULTS --------------------
-Array before deleting duplicates: 
-New array after deleting duplicates: 
+allocate: capacity: 3
+List: 1
+List: 1 2
+List: 1 2 3
+allocate: capacity: 6
+List: 1 2 3 4
 
 
 //---------------------------------------------------------------------
-// no duplicates:
+// remove entry middle:
 //---------------------------------------------------------------------
-Array<char> arr = { 'a', 'b', 'c', 'd' };
-Array<char> result = deleteRepeats(arr);
+list = remove_entry(list, 3, size, capacity);
 ------------ RESULTS --------------------
-Array before deleting duplicates: a b c d
-New array after deleting duplicates: a b c d
+List: 1 2 4
 
 
 //---------------------------------------------------------------------
-// entire array has duplicate:
+// remove entry front:
 //---------------------------------------------------------------------
-Array<char> arr = { 'a', 'a', 'a', 'a' };
-Array<char> result = deleteRepeats(arr);
+list = remove_entry(list, 1, size, capacity);
 ------------ RESULTS --------------------
-Array before deleting duplicates: a a a a
-New array after deleting duplicates: a
+List: 2 3 4
+
+
+//---------------------------------------------------------------------
+// remove entry back:
+//---------------------------------------------------------------------
+list = remove_entry(list, 4, size, capacity);
+------------ RESULTS --------------------
+List: 1 2 3
+
+
+//---------------------------------------------------------------------
+// remove entry element does not exist:
+//---------------------------------------------------------------------
+list = remove_entry(list, 5, size, capacity);
+------------ RESULTS --------------------
+List: 1 2 3 4
+
+
+//---------------------------------------------------------------------
+// allocation when size <= capacity / 4:
+//---------------------------------------------------------------------
+list = remove_entry(list, 4, size, capacity);
+list = remove_entry(list, 3, size, capacity);
+list = remove_entry(list, 2, size, capacity);
+list = remove_entry(list, 1, size, capacity);
+------------ RESULTS --------------------
+List: 1 2 3
+List: 1 2
+List: 1
+allocate: capacity: 3
+List: Empty
 
 
 */

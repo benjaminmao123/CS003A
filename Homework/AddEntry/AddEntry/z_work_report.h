@@ -3,7 +3,8 @@
 /*
     Features:
         -Not Implemented: None
-        -Implemented: deleteRepeats is implemented
+        -Implemented: add_entry, remove_entry, allocate, copy_list,
+            search_entry, print_list, test_string()
         -Partly implemented: None
 
     Bugs    : features that are implemented are bug-free.

@@ -13,6 +13,8 @@
 #include <initializer_list>
 #include <ostream>
 
+using namespace std;
+
 namespace bm
 {
 	template <typename T>
@@ -23,9 +25,9 @@ namespace bm
 			Default constructor to initialize size and capacity.
 		*/
 		Array()
-			: size(0), capacity(1), container(new T[capacity])
+			: size(0), capacity(1)
 		{
-
+			container = new char[sizeof(T) * capacity];
 		}
 
 		/*
@@ -35,8 +37,10 @@ namespace bm
 				to take in elements to add to array.
 		*/
 		Array(const std::initializer_list<T> &il)
-			: size(0), capacity(1), container(new T[capacity])
+			: size(0), capacity(1)
 		{
+			container = new char[sizeof(T) * capacity];
+
 			for (const auto &i : il)
 			{
 				Append(i);
@@ -51,7 +55,7 @@ namespace bm
 				array capacity.
 		*/
 		Array(const unsigned int &capacity)
-			: size(0), capacity(capacity), container(new T[capacity])
+			: size(0), capacity(capacity), container(new char[sizeof(T) * capacity])
 		{
 
 		}
@@ -64,7 +68,7 @@ namespace bm
 		*/
 		Array(const Array &rhs)
 			: size(rhs.size), capacity(rhs.capacity),
-			container(new T[capacity])
+			container(new char[sizeof(T) * rhs.capacity])
 		{
 			//copy elements from rhs array
 			Copy(rhs.container, container, rhs.size);
@@ -75,7 +79,7 @@ namespace bm
 
 			@param <Array &&rhs>: Rvalue reference.
 		*/
-		Array(Array &&rhs)
+		Array(Array &&rhs) noexcept
 			: size(rhs.size), capacity(rhs.capacity),
 			container(rhs.container)
 		{
@@ -116,10 +120,10 @@ namespace bm
 			@param <const int &index>: Indicates which index to iterate
 				to.
 
-			@return <T>: Return element at index, throws out of range error
+			@return <T &>: Return element at index, throws out of range error
 				if invalid index is given.
 		*/
-		T At(const unsigned int &index) const
+		T &At(const unsigned int &index) const
 		{
 			if (index >= size)
 			{
@@ -128,8 +132,7 @@ namespace bm
 					+ std::to_string(index));
 			}
 
-			//initialize walker
-			T *element = container + index;
+			T *element = static_cast<T*>(container) + index;
 
 			return *element;
 		}
@@ -147,10 +150,8 @@ namespace bm
 				Grow();
 			}
 
-			T *element = container + size;
-			*element = value;
-
-			++size;
+			T *location = static_cast<T *>(container) + size++;
+			new (location) T(value);
 		}
 
 		/*
@@ -158,8 +159,10 @@ namespace bm
 		*/
 		void RemoveBack()
 		{
-			if (size >= 1)
+			if (size > 0)
 			{
+				T *element = static_cast<T *>(container) + size - 1;
+				element->~T();
 				--size;
 			}
 
@@ -193,6 +196,18 @@ namespace bm
 		}
 
 		/*
+			Clears the array and calls the destructor for every element
+			in the array.
+		*/
+		void Clear()
+		{
+			while (size > 0)
+			{
+				RemoveBack();
+			}
+		}
+
+		/*
 			Overloaded assignment operator.
 
 			@param <const Array &rhs>: Other instance of Array object
@@ -204,8 +219,7 @@ namespace bm
 		{
 			size = rhs.size;
 			capacity = rhs.capacity;
-
-			container = new T[capacity];
+			container = new T[rhs.capacity];
 
 			//copy elements from rhs array
 			Copy(rhs.container, container, rhs.size);
@@ -218,7 +232,7 @@ namespace bm
 
 			@return <Array &>: Array reference to allow for chaining.
 		*/
-		Array &operator=(Array &&rhs)
+		Array &operator=(Array &&rhs) noexcept
 		{
 			size = rhs.size;
 			capacity = rhs.capacity;
@@ -236,7 +250,7 @@ namespace bm
 		*/
 		T &operator[](const int &index)
 		{
-			T *element = container + index;
+			T *element = static_cast<T *>(container) + index;
 
 			return *element;
 		}
@@ -269,21 +283,16 @@ namespace bm
 		void Grow()
 		{
 			//create a temp array to hold original elements
-			T *temp = new T[capacity];
-
-			//copy original elements to temp array
-			Copy(container, temp, size);
-
 			capacity *= 2;
 
-			//allocate new memory for container
-			container = new T[capacity];
+			char *temp = new char[sizeof(T) * capacity];
 
-			//copy elements back to container
-			Copy(temp, container, size);
+			//copy original elements to temp array
+			Copy(container, temp, sizeof(T) * size);
 
-			//cleanup
-			delete[] temp;
+			delete[] container;
+
+			container = temp;
 		}
 
 		/*
@@ -293,32 +302,27 @@ namespace bm
 		*/
 		void Shrink()
 		{
-			//create a temp array to hold original elements
-			T *temp = new T[capacity];
-
-			//copy original elements to temp array
-			Copy(container, temp, size);
-
 			capacity /= 2;
 
-			//allocate new memory for container
-			container = new T[capacity];
+			//create a temp array to hold original elements
+			char *temp = new char[sizeof(T) * capacity];
 
-			//copy elements back to container
-			Copy(temp, container, size);
+			//copy original elements to temp array
+			Copy(container, temp, sizeof(T) * size);
 
-			//cleanup
-			delete[] temp;
+			delete[] container;
+
+			container = temp;
 		}
 
 		/*
 			Copies elements from source array to destination array.
 
-			@param <T *source>: Source array to copy from.
-			@param <T *destination>: Destination array to copy to.
+			@param <char *source>: Source array to copy from.
+			@param <char *destination>: Destination array to copy to.
 			@param <const int &size>: Size of the source array.
 		*/
-		void Copy(T *source, T *destination, const int &size)
+		void Copy(char *source, char *destination, const int &size)
 		{
 			for (int i = 0; i < size; ++i)
 			{
@@ -333,8 +337,8 @@ namespace bm
 		*/
 		void ShiftLeft(const int &startingIndex)
 		{
-			T *curr = container + startingIndex;
-			T *next = container + startingIndex + 1;
+			T *curr = static_cast<T *>(container) + startingIndex;
+			T *next = static_cast<T *>(container) + startingIndex + 1;
 
 			for (int i = startingIndex; i < size - 1; ++i)
 			{
@@ -342,7 +346,7 @@ namespace bm
 			}
 		}
 
-		T *container;
+		char *container;
 		unsigned int capacity;
 		unsigned int size;
 	};
