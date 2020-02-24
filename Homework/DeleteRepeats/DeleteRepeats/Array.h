@@ -262,25 +262,6 @@ namespace bm
 			return *element;
 		}
 
-		/*
-			Overloading of ostream operator to print contents of Array class.
-
-			@param <ostream &os>: Ostream object to modify
-			@param <const Array &arr>: Class to display contents of.
-
-			@return <ostream &>: Returns a reference to the original ostream object
-				to allow for chaining.
-		*/
-		friend std::ostream &operator<<(std::ostream &os, const Array &arr)
-		{
-			for (unsigned int i = 0; i < arr.Size(); ++i)
-			{
-				os << arr.At(i) << " ";
-			}
-
-			return os;
-		}
-
 	private:
 		/*
 			Increases capacity by a factor of 2 if size >= capacity and 

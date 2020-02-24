@@ -14,6 +14,26 @@
 
 #include "Array.h"
 
+ /*
+	 Overloading of ostream operator to print contents of Array class.
+
+	 @param <ostream &os>: Ostream object to modify
+	 @param <const Array &arr>: Class to display contents of.
+
+	 @return <ostream &>: Returns a reference to the original ostream object
+		 to allow for chaining.
+ */
+template <typename T>
+std::ostream &operator<<(std::ostream &os, const bm::Array<T> &arr)
+{
+	for (unsigned int i = 0; i < arr.Size(); ++i)
+	{
+		os << arr.At(i) << " ";
+	}
+
+	return os;
+}
+
 template <typename T>
 bm::Array<T> deleteRepeats(bm::Array<T> &arr);
 
