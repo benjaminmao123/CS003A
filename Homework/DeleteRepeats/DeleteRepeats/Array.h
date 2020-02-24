@@ -130,7 +130,7 @@ namespace bm
 					+ std::to_string(index));
 			}
 
-			T *element = static_cast<T*>(container) + index;
+			T *element = reinterpret_cast<T*>(container) + index;
 
 			return *element;
 		}
@@ -142,13 +142,9 @@ namespace bm
 		*/
 		void Append(const T &value)
 		{
-			//condition for resizing
-			if (size >= capacity)
-			{
-				Grow();
-			}
+			Resize();
 
-			T *location = static_cast<T *>(container) + size++;
+			T *location = reinterpret_cast<T *>(container) + size++;
 			new (location) T(value);
 		}
 
@@ -159,15 +155,12 @@ namespace bm
 		{
 			if (size > 0)
 			{
-				T *element = static_cast<T *>(container) + size - 1;
+				T *element = reinterpret_cast<T *>(container) + size - 1;
 				element->~T();
 				--size;
 			}
 
-			if (size <= capacity / 4)
-			{
-				Shrink();
-			}
+			Resize();
 		}
 
 		/*
@@ -274,35 +267,21 @@ namespace bm
 
 	private:
 		/*
-			Increases the capacity by 2 and allocates more
-			memory for the array.
-			When the array is grown, the elements are copied over.
+			Increases capacity by a factor of 2 if size >= capacity and 
+			decreases capacity by a factor of 2 if size <= capacity / 4.
+			When the array is grown or shrunk, the elements are copied over.
 		*/
-		void Grow()
+		void Resize()
 		{
-			//create a temp array to hold original elements
-			capacity *= 2;
+			if (size <= capacity / 4)
+			{
+				capacity /= 2;
+			}
+			else if (size >= capacity)
+			{
+				capacity *= 2;
+			}
 
-			char *temp = new char[sizeof(T) * capacity];
-
-			//copy original elements to temp array
-			Copy(container, temp, sizeof(T) * size);
-
-			delete[] container;
-
-			container = temp;
-		}
-
-		/*
-			Decreases the capacity by 2 and allocates less
-			memory for the array.
-			When the array is shrunk, the elements are copied over.
-		*/
-		void Shrink()
-		{
-			capacity /= 2;
-
-			//create a temp array to hold original elements
 			char *temp = new char[sizeof(T) * capacity];
 
 			//copy original elements to temp array
@@ -335,8 +314,8 @@ namespace bm
 		*/
 		void ShiftLeft(const int &startingIndex)
 		{
-			T *curr = static_cast<T *>(container) + startingIndex;
-			T *next = static_cast<T *>(container) + startingIndex + 1;
+			T *curr = reinterpret_cast<T *>(container) + startingIndex;
+			T *next = reinterpret_cast<T *>(container) + startingIndex + 1;
 
 			for (int i = startingIndex; i < size - 1; ++i)
 			{
