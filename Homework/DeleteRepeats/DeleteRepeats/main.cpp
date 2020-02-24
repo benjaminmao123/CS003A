@@ -14,8 +14,6 @@
 
 #include "Array.h"
 
-using namespace std;
-
 template <typename T>
 bm::Array<T> deleteRepeats(bm::Array<T> &arr);
 

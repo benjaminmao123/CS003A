@@ -13,8 +13,6 @@
 #include <initializer_list>
 #include <ostream>
 
-using namespace std;
-
 namespace bm
 {
 	template <typename T>
