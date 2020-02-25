@@ -131,7 +131,7 @@ namespace bm
 					+ std::to_string(index));
 			}
 
-			T *element = reinterpret_cast<T*>(container) + index;
+			T *element = Container() + index;
 
 			return *element;
 		}
@@ -145,7 +145,7 @@ namespace bm
 		{
 			Resize();
 
-			T *location = reinterpret_cast<T *>(container) + size++;
+			T *location = Container() + size++;
 			new (location) T(value);
 		}
 
@@ -156,7 +156,7 @@ namespace bm
 		{
 			if (size > 0)
 			{
-				T *element = reinterpret_cast<T *>(container) + size - 1;
+				T *element = Container() + size - 1;
 				element->~T();
 				--size;
 			}
@@ -257,7 +257,7 @@ namespace bm
 		*/
 		T &operator[](const int &index)
 		{
-			T *element = reinterpret_cast<T *>(container) + index;
+			T *element = Container() + index;
 
 			return *element;
 		}
@@ -322,13 +322,18 @@ namespace bm
 		*/
 		void ShiftLeft(const int &startingIndex)
 		{
-			T *curr = reinterpret_cast<T *>(container) + startingIndex;
-			T *next = reinterpret_cast<T *>(container) + startingIndex + 1;
+			T *curr = Container() + startingIndex;
+			T *next = Container() + startingIndex + 1;
 
 			for (int i = startingIndex; i < size - 1; ++i)
 			{
 				*curr++ = *next++;
 			}
+		}
+
+		T *Container()
+		{
+			return reinterpret_cast<T *>(container);
 		}
 
 		char *container;
