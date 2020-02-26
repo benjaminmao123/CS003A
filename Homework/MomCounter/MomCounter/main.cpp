@@ -1,3 +1,13 @@
+/*
+ * Author: Benjamin Mao
+ * Project: Mom's Counter
+ * Purpose: Create a counter to practice object oriented design
+ *          using classes.
+ *
+ * Notes: None.
+ *
+ */
+
 #include <iostream>
 #include <string>
 #include <cctype>
@@ -33,9 +43,9 @@ void test_MCounter()
 		cout << "[A] 1000 [S] 100 [D] 10 [F] 1 [R]eset e[X]it ";
 
 		cin >> userInput;
-		cout << endl;
 
 		userInput = tolower(userInput);
+		cout << endl;
 
 		switch (userInput)
 		{
@@ -55,6 +65,7 @@ void test_MCounter()
 			mCounter.Reset();
 			break;
 		default:
+			cout << "Invalid Input.\n" << endl;
 			break;
 		}
 	}
@@ -69,7 +80,7 @@ void display_count(const MCounter &mCounter)
 {
 	if (mCounter.Is_Error())
 	{
-		cout << "ERROR" << endl;
+		cout << "\nERROR" << endl;
 	}
 	else
 	{
