@@ -1,3 +1,13 @@
+/*
+ * Author: Benjamin Mao
+ * Project: A Add Entry
+ * Purpose: To learn more about dynamic allocation and
+ *          also when to delete after allocating.
+ *
+ * Notes: None.
+ *
+ */
+
 #include <iostream>
 #include <string>
 
