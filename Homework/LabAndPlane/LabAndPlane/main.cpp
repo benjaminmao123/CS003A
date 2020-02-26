@@ -1,4 +1,5 @@
 #include <iostream>
+#include <cctype>
 
 using namespace std;
 
@@ -42,7 +43,35 @@ int main()
 	int lab_sizes[] = { 4, 3, 2, -1 };
 	int **labs = init_lab(lab_sizes);
 
-	print_twod(labs, lab_sizes);
+	char command = '\0';
+
+	while (command != 'x')
+	{
+		cout << "i. Login" << endl;
+		cout << "o. Logout" << endl;
+		cout << "x. Exit" << endl;
+		cout << "\nCommand: ";
+		cin >> command;
+		cout << endl;
+
+		command = tolower(command);
+
+		switch (command)
+		{
+		case 'i':
+			cout << "Labs: ";
+			print_array(lab_sizes);
+			cout << endl;
+
+			cout << "ID: ";
+			
+			break;
+		case 'o':
+			break;
+		default:
+			break;
+		}
+	}
 
 	return 0;
 }
@@ -129,4 +158,11 @@ int **init_lab(int *stations)
 	init_twod(labs, stations, 0);
 
 	return labs;
+}
+
+bool login(int **labs, int lab, int station, int id)
+{
+
+
+	return false;
 }
