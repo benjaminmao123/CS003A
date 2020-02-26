@@ -13,13 +13,13 @@
 using namespace std;
 
 template <typename T>
-T* m_union(T* p1, int size1, T* p2, int size2, int& u_size);
+T *m_union(T *p1, int size1, T *p2, int size2, int &u_size);
 
 template <typename T>
-T* intersection(T* p1, int size1, T* p2, int size2, int& i_size);
+T *intersection(T *p1, int size1, T *p2, int size2, int &i_size);
 
 template <typename T>
-void print(T* p, const int& size);
+void print(T *p, const int &size);
 
 int main()
 {
@@ -33,7 +33,7 @@ int main()
 
 	int uSize = 0;
 
-	int* c = m_union(a, aSize, b, bSize, uSize);
+	int *c = m_union(a, aSize, b, bSize, uSize);
 
 	cout << "Union: ";
 	print(c, uSize);
@@ -41,7 +41,7 @@ int main()
 
 	int iSize = 0;
 	
-	int* d = intersection(a, aSize, b, bSize, iSize);
+	int *d = intersection(a, aSize, b, bSize, iSize);
 	
 	cout << "Intersection: ";
 	print(d, iSize);
@@ -55,25 +55,25 @@ int main()
 /*
 	Finds all unique elements of two unique sorted arrays.
 
-	@param T* p1: First unique sorted array.
-	@param int size1: Size of first array.
-	@param T* p2: Second unique sorted array.
-	@param int size2: Size of second array.
-	@param int& u_size: Size of the final array containing
+	@param <T *p1>: First unique sorted array.
+	@param <int size1>: Size of first array.
+	@param <T *p2>: Second unique sorted array.
+	@param <int size2>: Size of second array.
+	@param <int &u_size>: Size of the final array containing
 		all the unique elements. This will be set in the
 		function.
-	@return T*: Returns an array of containing the unique
+	@return <T *>: Returns an array of containing the unique
 		elements.
 */
 template<typename T>
-T* m_union(T* p1, int size1, T* p2, int size2, int& u_size)
+T *m_union(T *p1, int size1, T *p2, int size2, int &u_size)
 {
 	//temporary size of unioned array
 	u_size = size1 + size2;
 
 	//create a temp array to store elements of unioned array
-	T* temp = new T[u_size];
-	T* tempWalker = temp;
+	T *temp = new T[u_size];
+	T *tempWalker = temp;
 
 	//keep iterating if size1 > 0 or size2 > 0
 	while (size1 > 0 || size2 > 0)
@@ -132,8 +132,8 @@ T* m_union(T* p1, int size1, T* p2, int size2, int& u_size)
 	}
 
 	//create a result array to hold the final unioned arrays
-	T* result = new T[u_size];
-	T* resultWalker = result;
+	T *result = new T[u_size];
+	T *resultWalker = result;
 
 	//move tempWalker back to beginning
 	tempWalker = temp;
@@ -152,22 +152,22 @@ T* m_union(T* p1, int size1, T* p2, int size2, int& u_size)
 /*
 	Finds all elements common between two unique sorted arrays.
 
-	@param T* p1: First unique sorted array.
-	@param int size1: Size of first array.
-	@param T* p2: Second unique sorted array.
-	@param int size2: Size of second array.
-	@param int& i_size: Size of the final array containing
+	@param <T *p1>: First unique sorted array.
+	@param <int size1>: Size of first array.
+	@param <T *p2>: Second unique sorted array.
+	@param <int size2>: Size of second array.
+	@param <int &i_size>: Size of the final array containing
 		all the common elements. This will be set in the
 		function.
-	@return T*: Returns an array of containing the common
+	@return <T *>: Returns an array of containing the common
 		elements.
 */
 template<typename T>
-T* intersection(T* p1, int size1, T* p2, int size2, int& i_size)
+T *intersection(T *p1, int size1, T *p2, int size2, int &i_size)
 {
 	//create a temp array to store common elements
-	T* temp = new T[size1 + size2];
-	T* tempWalker = temp;
+	T *temp = new T[size1 + size2];
+	T *tempWalker = temp;
 
 	/*
 		this will store the number of common elements.
@@ -214,8 +214,8 @@ T* intersection(T* p1, int size1, T* p2, int size2, int& i_size)
 	i_size = size;
 
 	//this array will hold final array of common elements
-	T* result = new T[i_size];
-	T* resultWalker = result;
+	T *result = new T[i_size];
+	T *resultWalker = result;
 
 	//move tempWalker back to beginning
 	tempWalker = temp;
@@ -234,11 +234,11 @@ T* intersection(T* p1, int size1, T* p2, int size2, int& i_size)
 /*
 	Prints the contents of a given array
 
-	@param T* p: Array to be printed.
-	@param const int& size: Size of the array.
+	@param <T *p>: Array to be printed.
+	@param <const int &size>: Size of the array.
 */
 template <typename T>
-void print(T* p, const int& size)
+void print(T *p, const int &size)
 {
 	for (int i = 0; i < size; ++i)
 	{
