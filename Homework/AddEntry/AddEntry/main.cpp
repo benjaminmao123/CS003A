@@ -1,4 +1,5 @@
 #include <iostream>
+#include <string>
 
 using namespace std;
 
@@ -100,15 +101,15 @@ T *remove_entry(T *list, const T &delete_me, int &size, int &capacity)
 
 		//allocate memory for new list
 		newList = allocate(newList, capacity);
-		T *newListWalker = newList;
+		T *newListEnd = newList + size;
 
 		//copy elements from the old list to the new list
-		for (int i = 0; i < size; ++i, ++list)
+		for (T *i = newList; i != newListEnd; ++list)
 		{
 			//do not copy if current element is the element to delete
 			if (list != deleteEntry)
 			{
-				*newListWalker++ = *list;
+				*i++ = *list;
 			}
 		}
 
@@ -147,9 +148,11 @@ T *allocate(T *list, int capacity)
 template<typename T>
 void copy_list(T *dest, T *src, int many_to_copy)
 {
-	for (int i = 0; i < many_to_copy; ++i)
+	T *destEnd = dest + many_to_copy;
+
+	for (T *i = dest; i != destEnd; ++i, ++src)
 	{
-		*dest++ = *src++;
+		*i = *src;
 	}
 }
 
@@ -167,11 +170,13 @@ void copy_list(T *dest, T *src, int many_to_copy)
 template<typename T>
 T *search_entry(T *list, const T &find_me, int size)
 {
-	for (int i = 0; i < size; ++i, ++list)
+	T *listEnd = list + size;
+
+	for (T *i = list; i != listEnd; ++i)
 	{
-		if (*list == find_me)
+		if (*i == find_me)
 		{
-			return list;
+			return i;
 		}
 	}
 
@@ -195,9 +200,11 @@ void print_list(T *list, int size)
 	}
 	else
 	{
-		for (int i = 0; i < size; ++i)
+		T *listEnd = list + size;
+
+		for (T *i = list; i != listEnd; ++i)
 		{
-			cout << *list++ << " ";
+			cout << *i << " ";
 		}
 	}
 }
@@ -210,26 +217,38 @@ void test_string()
 	int size = 0;
 	int capacity = 3;
 
-	int *list = nullptr;
+	string *list = nullptr;
 	list = allocate(list, capacity);
 
-	list = add_entry(list, 1, size, capacity);
+	list = add_entry(list, string("aaaa"), size, capacity);
 	print_list(list, size);
-	cout << endl;
+	cout << endl << endl;
 
-	list = add_entry(list, 2, size, capacity);
+	list = add_entry(list, string("bbbb"), size, capacity);
 	print_list(list, size);
-	cout << endl;
+	cout << endl << endl;
 
-	list = add_entry(list, 3, size, capacity);
+	list = add_entry(list, string("cccc"), size, capacity);
 	print_list(list, size);
-	cout << endl;
+	cout << endl << endl;
 
-	list = add_entry(list, 4, size, capacity);
+	list = add_entry(list, string("dddd"), size, capacity);
 	print_list(list, size);
-	cout << endl;
+	cout << endl << endl;
 
-	list = remove_entry(list, 5, size, capacity);
+	list = remove_entry(list, string("cccc"), size, capacity);
+	print_list(list, size);
+	cout << endl << endl;
+
+	list = remove_entry(list, string("bbbb"), size, capacity);
+	print_list(list, size);
+	cout << endl << endl;
+
+	list = remove_entry(list, string("aaaa"), size, capacity);
+	print_list(list, size);
+	cout << endl << endl;
+
+	list = remove_entry(list, string("dddd"), size, capacity);
 	print_list(list, size);
 	cout << endl;
 

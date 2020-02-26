@@ -9,74 +9,96 @@
  */
 
 #include <iostream>
-#include <set>
-#include <string>
 
-#include "Array.h"
-
- /*
-	 Overloading of ostream operator to print contents of Array class.
-
-	 @param <ostream &os>: Ostream object to modify
-	 @param <const Array &arr>: Class to display contents of.
-
-	 @return <ostream &>: Returns a reference to the original ostream object
-		 to allow for chaining.
- */
-template <typename T>
-std::ostream &operator<<(std::ostream &os, const bm::Array<T> &arr)
-{
-	for (unsigned int i = 0; i < arr.Size(); ++i)
-	{
-		os << arr.At(i) << " ";
-	}
-
-	return os;
-}
+using namespace std;
 
 template <typename T>
-bm::Array<T> deleteRepeats(bm::Array<T> &arr);
+void deleteRepeats(T *arr, int &size);
+
+template <typename T>
+T *find(T *arr, const int &size, const T &key, int &index);
+
+template <typename T>
+void shiftLeft(T *arr, const int &size, const int &index);
+
+template <typename T>
+void print(T *arr, const int &size);
 
 int main()
 {
-	bm::Array<char> arr = { 'a', 'a', 'a', 'd', 'a', 'c' };
-	std::cout << "Array before deleting duplicates: " << arr << std::endl;
+    char arr[] = "aabcdca";
+    int size = 7;
 
-	bm::Array<char> result = deleteRepeats(arr);
-	std::cout << "New array after deleting duplicates: " << result << std::endl;
+    deleteRepeats(arr, size);
+    print(arr, size);
 
 	return 0;
 }
 
 /*
 	Deletes duplicate elements in an array in order.
-
-	@param <Array<T> &arr>: Takes an Array object
-
-	@return <Array<T>>: Returns an Array object with duplicates
-		removed in order.
 */
 template <typename T>
-bm::Array<T> deleteRepeats(bm::Array<T> &arr)
+void deleteRepeats(T *arr, int &size)
 {
-	//create a set to store unique elements
-	std::set<T> uniqueElements;
+    T *walker = arr;
+    int index = 0;
 
-	bm::Array<T> uniqueArr;
+    for (int i = 0; i < size;)
+    {
+        index = i + 1;
 
-	//iterate through original array
-	for (unsigned int i = 0, j = 0; i < arr.Size(); ++i)
-	{
-		//if element does not exist in set
-		if (uniqueElements.find(arr.At(i)) == uniqueElements.end())
-		{
-			//add to set
-			uniqueElements.insert(arr.At(i));
+        T *duplicate = find(walker + 1, size, *walker, index);
 
-			//append to new array
-			uniqueArr.Append(arr.At(i));
-		}
-	}
-
-	return uniqueArr;
+        if (duplicate)
+        {
+            shiftLeft(arr, size, index);
+            --size;
+        }
+        else
+        {
+            ++i;
+            ++walker;
+        }
+    }
 }
+
+template<typename T>
+T *find(T *arr, const int &size, const T &key, int &index)
+{
+    T *walker = arr;
+
+    for (int i = index; i < size; ++i, ++walker)
+    {
+        if (*walker == key)
+        {
+            index = i;
+            return walker;
+        }
+    }
+
+    return nullptr;
+}
+
+template<typename T>
+void shiftLeft(T *arr, const int &size, const int &index)
+{
+    T *curr = arr + index;
+    T *next = arr + index + 1;
+
+    for (int i = index; i < size; ++i)
+    {
+        *curr++ = *next++;
+    }
+}
+
+template<typename T>
+void print(T *arr, const int &size)
+{
+    for (int i = 0; i < size; ++i)
+    {
+        cout << *arr++ << " ";
+    }
+}
+
+

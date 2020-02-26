@@ -11,9 +11,7 @@
 
     Reflections:
         This was an interesting assignment. It gave me good
-        practice using walkers instead of array notation to
-        deal with pointers. I found it a bit tedious to keep
-        having to declare walkers everytime so I wrote a little
-        class to deal with it.
+        practice with dynamic memory. Keeping track of where you allocate
+        and when to delete is very important to prevent memory leaks.
 */
 #endif // Z_WORK_REPORT_H

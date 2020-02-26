@@ -1,17 +1,6 @@
-/*
- * Author: Benjamin Mao
- * Project: Delete Repeats
- * Purpose: Created to abstract away some array features like
-			appending and also to keep track of size for iteration.
- *
- * Notes: None.
- *
- */
-
 #pragma once
 
 #include <initializer_list>
-#include <ostream>
 #include <algorithm>
 
 namespace bm
