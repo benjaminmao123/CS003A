@@ -5,18 +5,18 @@
 //---------------------------------------------------------------------
 // normal run:
 //---------------------------------------------------------------------
-Array<char> arr = { 'a', 'a', 'c', 'd', 'e', 'f', 'e', 'c' };
-Array<char> result = deleteRepeats(arr);
+char arr[] = "aabcdca";
+int size = 7;
 ------------ RESULTS --------------------
-Array before deleting duplicates: a a c d e f e c
-New array after deleting duplicates: a c d e f
+Array before deleting duplicates: a a b c d c a
+Array after deleting duplicates: a b c d
 
 
 //---------------------------------------------------------------------
 // empty array:
 //---------------------------------------------------------------------
-Array<char> arr = { };
-Array<char> result = deleteRepeats(arr);
+char arr[] = "";
+int size = 0;
 ------------ RESULTS --------------------
 Array before deleting duplicates: 
 New array after deleting duplicates: 
@@ -25,8 +25,8 @@ New array after deleting duplicates:
 //---------------------------------------------------------------------
 // no duplicates:
 //---------------------------------------------------------------------
-Array<char> arr = { 'a', 'b', 'c', 'd' };
-Array<char> result = deleteRepeats(arr);
+char arr[] = "abcd";
+int size = 4;
 ------------ RESULTS --------------------
 Array before deleting duplicates: a b c d
 New array after deleting duplicates: a b c d
@@ -35,8 +35,8 @@ New array after deleting duplicates: a b c d
 //---------------------------------------------------------------------
 // entire array has duplicate:
 //---------------------------------------------------------------------
-Array<char> arr = { 'a', 'a', 'a', 'a' };
-Array<char> result = deleteRepeats(arr);
+char arr[] = "aaaa";
+int size = 4;
 ------------ RESULTS --------------------
 Array before deleting duplicates: a a a a
 New array after deleting duplicates: a

@@ -16,6 +16,11 @@ int main()
 	return 0;
 }
 
+/*
+	A function to test the MCounter class.
+	Allows users to choose options from a menu.
+	Can add 1000, 100, 10, 1, reset, or exit.
+*/
 void test_MCounter()
 {
 	char userInput = ' ';
@@ -55,6 +60,11 @@ void test_MCounter()
 	}
 }
 
+/*
+	Displays the current count.
+
+	@param <const MCounter &mCounter>: 
+*/
 void display_count(const MCounter &mCounter)
 {
 	if (mCounter.Is_Error())
