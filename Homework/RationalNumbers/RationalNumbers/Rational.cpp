@@ -83,10 +83,14 @@ rational operator+(const rational &num1, const rational &num2)
 		return rational(num2);
 	}
 
-	int _nResult = num1._n + num2._n;
-	int _dResult = 
+	int _nNewNum1 = num1._n * num2._d;
+	int _dNew = num1._d * num2._d;
 
-	return rational(num1 + num2);
+	int _nNewNum2 = num2._n * num1._d;
+
+	int _nResult = _nNewNum1 + _nNewNum2;
+
+	return rational(_nResult, _dNew);
 }
 
 rational operator-(const rational &num1, const rational &num2)
@@ -100,7 +104,14 @@ rational operator-(const rational &num1, const rational &num2)
 		return rational(num2);
 	}
 
-	return rational(num1 - num2);
+	int _nNewNum1 = num1._n * num2._d;
+	int _dNew = num1._d * num2._d;
+
+	int _nNewNum2 = num2._n * num1._d;
+
+	int _nResult = _nNewNum1 - _nNewNum2;
+
+	return rational(_nResult, _dNew);
 }
 
 rational operator*(const rational &num1, const rational &num2)
@@ -114,7 +125,14 @@ rational operator*(const rational &num1, const rational &num2)
 		return rational(num2);
 	}
 
-	return rational(num1 * num2);
+	int _nNewNum1 = num1._n * num2._d;
+	int _dNew = num1._d * num2._d;
+
+	int _nNewNum2 = num2._n * num1._d;
+
+	int _nResult = _nNewNum1 * _nNewNum2;
+
+	return rational(_nResult, _dNew);
 }
 
 rational operator/(const rational &num1, const rational &num2)
