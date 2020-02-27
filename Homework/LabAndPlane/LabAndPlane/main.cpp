@@ -1,8 +1,8 @@
 /*
  * Author: Benjamin Mao
  * Project: Lab and Plane
- * Purpose: To learn how to work with 2D arrays and how to
- *          allocate memory for them.
+ * Purpose: Create a system capable of Plane reservation and
+ *          lab login and logout.
  *
  * Notes: This assumes the user can log into multiple labs at
  *		  the same time.
