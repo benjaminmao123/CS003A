@@ -1,8 +1,8 @@
 /*
  * Author: Benjamin Mao
  * Project: Union/Intersection
- * Purpose: To delete duplicate elements in an array to practice
- *          dynamic memory allocation.
+ * Purpose: To find the union and intersection between
+ *          two sorted arrays.
  *
  * Notes: This assumes uppercase is different from lowercase.
  *
