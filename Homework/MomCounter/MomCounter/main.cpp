@@ -1,8 +1,8 @@
 /*
  * Author: Benjamin Mao
  * Project: Mom's Counter
- * Purpose: Create a counter to practice object oriented design
- *          using classes.
+ * Purpose: Create a counter capable of adding 1000,
+ *			100, 10, 1 until it reaches a certain value.
  *
  * Notes: None.
  *
