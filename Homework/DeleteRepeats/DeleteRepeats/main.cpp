@@ -27,7 +27,7 @@ void print(T *arr, const int &size);
 int main()
 {
     char arr[] = "aabcdcaefehf";
-    int size = sizeof(arr) / sizeof(arr[0]);
+    int size = sizeof(arr) / sizeof(*arr);
 
     cout << "Array before deleting duplicates: ";
     print(arr, size);
@@ -57,7 +57,7 @@ void deleteRepeats(T *arr, int &size)
     for (T *i = arr; i != arrEnd;)
     {
         //find duplicate starting from the next element
-        T *duplicate = find(i, size, *i, arrEnd);
+        T *duplicate = find(i, *i, arrEnd);
 
         if (duplicate)
         {
