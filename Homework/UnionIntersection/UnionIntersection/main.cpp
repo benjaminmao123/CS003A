@@ -13,15 +13,15 @@
 using namespace std;
 
 template <typename T>
-T *m_union(T *p1, int size1, T *p2, int size2, int &u_size);
+void m_union(T *p1, int size1, T *p2, int size2, int &u_size, T *&p3);
 
 template <typename T>
-T *intersection(T *p1, int size1, T *p2, int size2, int &i_size);
+void intersection(T *p1, int size1, T *p2, int size2, int &i_size, T *&p3);
 
 template <typename T>
 void copy(T *src, T *dest, const int &size);
 
-template <typename T>
+template <typename T> 
 void print(T *p, const int &size);
 
 int main()
@@ -29,6 +29,8 @@ int main()
 
 	int a[] = { 1, 2, 3, 4 };
 	int b[] = { 1, 3, 6, 7, 8 };
+	int *c;
+	int *d;
 
 	//get size of arrays
 	const int aSize = sizeof(a) / sizeof(*a);
@@ -36,7 +38,7 @@ int main()
 
 	int uSize = 0;
 
-	int *c = m_union(a, aSize, b, bSize, uSize);
+	m_union(a, aSize, b, bSize, uSize, c);
 
 	cout << "Union: ";
 	print(c, uSize);
@@ -44,13 +46,14 @@ int main()
 
 	int iSize = 0;
 	
-	int *d = intersection(a, aSize, b, bSize, iSize);
+	intersection(a, aSize, b, bSize, iSize, d);
 	
 	cout << "Intersection: ";
 	print(d, iSize);
 	cout << endl;
 
 	delete[] c;
+	delete[] d;
 
 	return 0;
 }
@@ -69,7 +72,7 @@ int main()
 		elements.
 */
 template<typename T>
-T *m_union(T *p1, int size1, T *p2, int size2, int &u_size)
+void m_union(T *p1, int size1, T *p2, int size2, int &u_size, T *&p3)
 {
 	//temporary size of unioned array
 	u_size = size1 + size2;
@@ -132,17 +135,15 @@ T *m_union(T *p1, int size1, T *p2, int size2, int &u_size)
 	}
 
 	//create a result array to hold the final unioned arrays
-	T *result = new T[u_size];
+	p3 = new T[u_size];
 
 	//move tempWalker back to beginning
 	tempWalker = temp;
 
 	//copy elements from temp to result
-	copy(temp, result, u_size);
+	copy(temp, p3, u_size);
 
 	delete[] temp;
-
-	return result;
 }
 
 /*
@@ -159,7 +160,7 @@ T *m_union(T *p1, int size1, T *p2, int size2, int &u_size)
 		elements.
 */
 template<typename T>
-T *intersection(T *p1, int size1, T *p2, int size2, int &i_size)
+void intersection(T *p1, int size1, T *p2, int size2, int &i_size, T *&p3)
 {
 	//create a temp array to store common elements
 	T *temp = new T[size1 + size2];
@@ -209,17 +210,15 @@ T *intersection(T *p1, int size1, T *p2, int size2, int &i_size)
 	i_size = size;
 
 	//this array will hold final array of common elements
-	T *result = new T[i_size];
+	p3 = new T[i_size];
 
 	//move tempWalker back to beginning
 	tempWalker = temp;
 
 	//copy elements over to result
-	copy(temp, result, i_size);
+	copy(temp, p3, i_size);
 
 	delete[] temp;
-
-	return result;
 }
 
 template<typename T>
