@@ -19,6 +19,9 @@ template <typename T>
 T *intersection(T *p1, int size1, T *p2, int size2, int &i_size);
 
 template <typename T>
+void copy(T *src, T *dest, const int &size);
+
+template <typename T>
 void print(T *p, const int &size);
 
 int main()
@@ -130,16 +133,12 @@ T *m_union(T *p1, int size1, T *p2, int size2, int &u_size)
 
 	//create a result array to hold the final unioned arrays
 	T *result = new T[u_size];
-	T *resultEnd = result + u_size;
 
 	//move tempWalker back to beginning
 	tempWalker = temp;
 
 	//copy elements from temp to result
-	for (T *i = result; i != resultEnd; ++i)
-	{
-		*i = *tempWalker++;
-	}
+	copy(temp, result, u_size);
 
 	delete[] temp;
 
@@ -215,17 +214,23 @@ T *intersection(T *p1, int size1, T *p2, int size2, int &i_size)
 	//move tempWalker back to beginning
 	tempWalker = temp;
 
-	T *resultEnd = result + i_size;
-
 	//copy elements over to result
-	for (T *i = result; i != resultEnd; ++i)
-	{
-		*i = *tempWalker++;
-	}
+	copy(temp, result, i_size);
 
 	delete[] temp;
 
 	return result;
+}
+
+template<typename T>
+void copy(T *src, T *dest, const int &size)
+{
+	T *srcEnd = src + size;
+
+	for (T *i = src; i != srcEnd; ++i, ++dest)
+	{
+		*dest = *i;
+	}
 }
 
 /*
