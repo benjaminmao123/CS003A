@@ -16,18 +16,18 @@ template <typename T>
 void deleteRepeats(T *arr, int &size);
 
 template <typename T>
-T *find(T *arr, const int &size, const T &key, int &index);
+T *find(T *arr, const T &key, T *arrEnd);
 
 template <typename T>
-void shiftLeft(T *arr, const int &size, const int &index);
+void shiftLeft(T *arr, const int &size, T *arrEnd);
 
 template <typename T>
 void print(T *arr, const int &size);
 
 int main()
 {
-    char arr[] = "aaaa";
-    int size = 4;
+    char arr[] = "aabcdcaefehf";
+    int size = sizeof(arr) / sizeof(arr[0]);
 
     cout << "Array before deleting duplicates: ";
     print(arr, size);
@@ -52,26 +52,23 @@ int main()
 template <typename T>
 void deleteRepeats(T *arr, int &size)
 {
-    T *walker = arr;
-    int index = 0;
+    T *arrEnd = arr + size;
 
-    for (int i = 0; i < size;)
+    for (T *i = arr; i != arrEnd;)
     {
-        index = i + 1;
-
         //find duplicate starting from the next element
-        T *duplicate = find(walker + 1, size, *walker, index);
+        T *duplicate = find(i, size, *i, arrEnd);
 
         if (duplicate)
         {
             //shift left if duplicate at the index given
-            shiftLeft(arr, size, index);
+            shiftLeft(duplicate, size, arrEnd);
             --size;
+            arrEnd = arr + size;
         }
         else
         {
             ++i;
-            ++walker;
         }
     }
 }
@@ -85,18 +82,13 @@ void deleteRepeats(T *arr, int &size)
     @param <int &index>: Index to start search from.
 */
 template<typename T>
-T *find(T *arr, const int &size, const T &key, int &index)
+T *find(T *arr, const T &key, T *arrEnd)
 {
-    T *walker = arr;
-
-    for (int i = index; i < size; ++i, ++walker)
+    for (T *i = arr; i != arrEnd; ++i)
     {
-        if (*walker == key)
+        if (*i == key && i != arr)
         {
-            //set index to location of key
-            index = i;
-
-            return walker;
+            return i;
         }
     }
 
@@ -111,15 +103,13 @@ T *find(T *arr, const int &size, const T &key, int &index)
     @param <const int &index>: Index to start shift from.
 */
 template<typename T>
-void shiftLeft(T *arr, const int &size, const int &index)
+void shiftLeft(T *arr, const int &size, T *arrEnd)
 {
-    T *curr = arr + index;
-    T *next = arr + index + 1;
+    T *next = arr + 1;
 
-    for (int i = index; i < size; ++i)
+    for (T *curr = arr; curr != arrEnd; ++curr)
     {
-        //set value at curr address to value at next
-        *curr++ = *next++;
+        *curr = *next++;
     }
 }
 
@@ -132,9 +122,11 @@ void shiftLeft(T *arr, const int &size, const int &index)
 template<typename T>
 void print(T *arr, const int &size)
 {
-    for (int i = 0; i < size; ++i)
+    T *arrEnd = arr + size;
+
+    for (T *i = arr; i != arrEnd; ++i)
     {
-        cout << *arr++ << " ";
+        cout << *i << " ";
     }
 }
 

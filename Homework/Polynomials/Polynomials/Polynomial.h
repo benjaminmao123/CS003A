@@ -17,7 +17,6 @@ public:
     Poly &operator =(const Poly &rhs);
     ~Poly();
 
-
     friend bool operator ==(const Poly &lhs, const Poly &rhs);
     friend bool operator !=(const Poly &lhs, const Poly &rhs);
     friend bool operator >(const Poly &lhs, const Poly &rhs);
@@ -41,8 +40,21 @@ public:
     friend istream &operator >>(istream &ins, Poly &p);
 
     int order() const { return _order; }
+    int size() const
+    {
+        int count = 0;
+
+        for (double *i = _coefs; *i != 0; ++i)
+        {
+            ++count;
+        }
+
+        return count;
+    }
 
 private:
+    void copy(double *src, double *dest, const int &size);
+    void swap(const Poly &other);
     void fix_order();           //get rid of highest terms with zero coefs
     int _order;
     double *_coefs;
