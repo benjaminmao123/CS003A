@@ -1,8 +1,8 @@
 /*
  * Author: Benjamin Mao
  * Project: A Add Entry
- * Purpose: To learn more about dynamic allocation and
- *          also when to delete after allocating.
+ * Purpose: Add functinality to array to allow
+ *          for dynamic add and removal of elements.
  *
  * Notes: None.
  *

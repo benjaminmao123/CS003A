@@ -1,3 +1,13 @@
+/*
+ * Author: Benjamin Mao
+ * Project: Mom's Counter
+ * Purpose: Class to implement the functionality
+ *			of a counter.
+ *
+ * Notes: None.
+ *
+ */
+
 #include "MCounter.h"
 
 MCounter::MCounter(const int &maxCount)
