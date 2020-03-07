@@ -25,19 +25,27 @@ template <typename T>
 T *allocate(T *list, int capacity);
 
 template <typename T>
+T *reallocate(T *list, const int &size, const int &capacity);
+
+template <typename T>
 void copy_list(T *dest, T *src, int many_to_copy);
 
 template <typename T>
 T *search_entry(T *list, const T &find_me, int size);
 
 template <typename T>
+void shiftLeft(T *arr, T *arrEnd);
+
+template <typename T>
 void print_list(T *list, int size);
 
 void test_string();
+void test_int();
 
 int main()
 {
 	test_string();
+	test_int();
 
 	return 0;
 }
@@ -103,27 +111,17 @@ T *remove_entry(T *list, const T &delete_me, int &size, int &capacity)
 	//delete if the element exists
 	if (deleteEntry)
 	{
+		shiftLeft(deleteEntry, list + size);
+
 		//if the size drops below a certain amount decrease capacity
 		if (size <= capacity / 4)
 		{
 			capacity /= 2;
 		}
 
-		//allocate memory for new list
-		newList = allocate(newList, capacity);
-		T *newListEnd = newList + size;
-
-		//copy elements from the old list to the new list
-		for (T *i = newList; i != newListEnd; ++list)
-		{
-			//do not copy if current element is the element to delete
-			if (list != deleteEntry)
-			{
-				*i++ = *list;
-			}
-		}
-
 		--size;
+
+		newList = reallocate(list, size, capacity);
 	}
 
 	return newList;
@@ -146,6 +144,20 @@ T *allocate(T *list, int capacity)
 	list = new T[capacity];
 
 	return list;
+}
+
+template<typename T>
+T *reallocate(T *list, const int &size, const int &capacity)
+{
+	//allocate memory for new list
+	T *newList = nullptr;
+	newList = allocate(newList, capacity);
+	T *listEnd = list + size;
+
+	//copy elements from the old list to the new list
+	copy_list(newList, list, size);
+
+	return newList;
 }
 
 /*
@@ -194,6 +206,24 @@ T *search_entry(T *list, const T &find_me, int size)
 }
 
 /*
+	Shifts the array elements left starting from a specified index.
+
+	@param <T *arr>: Array to shift left.
+	@param <const int& size>: Size of the array.
+	@param <const int &index>: Index to start shift from.
+*/
+template<typename T>
+void shiftLeft(T *arr, T *arrEnd)
+{
+	T *next = arr + 1;
+
+	for (T *curr = arr; curr != arrEnd - 1; ++curr, ++next)
+	{
+		*curr = *next;
+	}
+}
+
+/*
 	Prints the contents of a given array.
 
 	@param <T *list>: The array to print.
@@ -230,37 +260,84 @@ void test_string()
 	string *list = nullptr;
 	list = allocate(list, capacity);
 
-	list = add_entry(list, string("aaaa"), size, capacity);
-	print_list(list, size);
-	cout << endl << endl;
-
-	list = add_entry(list, string("bbbb"), size, capacity);
-	print_list(list, size);
-	cout << endl << endl;
-
-	list = add_entry(list, string("cccc"), size, capacity);
-	print_list(list, size);
-	cout << endl << endl;
-
-	list = add_entry(list, string("dddd"), size, capacity);
-	print_list(list, size);
-	cout << endl << endl;
-
-	list = remove_entry(list, string("cccc"), size, capacity);
-	print_list(list, size);
-	cout << endl << endl;
-
-	list = remove_entry(list, string("bbbb"), size, capacity);
-	print_list(list, size);
-	cout << endl << endl;
-
-	list = remove_entry(list, string("aaaa"), size, capacity);
-	print_list(list, size);
-	cout << endl << endl;
-
-	list = remove_entry(list, string("dddd"), size, capacity);
+	list = add_entry(list, string("Red"), size, capacity);
 	print_list(list, size);
 	cout << endl;
+
+	list = add_entry(list, string("Bo"), size, capacity);
+	print_list(list, size);
+	cout << endl;
+
+	list = add_entry(list, string("Pierson"), size, capacity);
+	print_list(list, size);
+	cout << endl;
+
+	list = add_entry(list, string("Maher"), size, capacity);
+	print_list(list, size);
+	cout << endl;
+
+	list = add_entry(list, string("Mac"), size, capacity);
+	print_list(list, size);
+	cout << endl;
+
+	list = add_entry(list, string("Paula"), size, capacity);
+	print_list(list, size);
+	cout << endl;
+
+	cout << "Deleting Erika" << endl;
+
+	list = remove_entry(list, string("Erika"), size, capacity);
+	print_list(list, size);
+	cout << endl;
+
+	cout << "Deleting Bo" << endl;
+
+	list = remove_entry(list, string("Bo"), size, capacity);
+	print_list(list, size);
+	cout << endl;
+
+	cout << "Deleting Maher" << endl;
+
+	list = remove_entry(list, string("Maher"), size, capacity);
+	print_list(list, size);
+	cout << endl;
+
+	cout << "Deleting Pierson" << endl;
+
+	list = remove_entry(list, string("Pierson"), size, capacity);
+	print_list(list, size);
+	cout << endl;
+
+	cout << "Deleting Red" << endl;
+
+	list = remove_entry(list, string("Red"), size, capacity);
+	print_list(list, size);
+	cout << endl;
+
+	delete[] list;
+}
+
+void test_int()
+{
+	int size = 0;
+	int capacity = 3;
+
+	int *list = nullptr;
+	list = allocate(list, capacity);
+
+	for (int i = 0; i < 50; ++i)
+	{
+		list = add_entry(list, i, size, capacity);
+		print_list(list, size);
+		cout << endl;
+	}
+
+	for (int i = 49; i >= 0; --i)
+	{
+		list = remove_entry(list, i, size, capacity);
+		print_list(list, size);
+		cout << endl;
+	}
 
 	delete[] list;
 }

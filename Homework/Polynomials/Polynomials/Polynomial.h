@@ -53,7 +53,7 @@ public:
     }
 
 private:
-    void copy(double *src, double *dest, const int &size);
+    void copy(double *src, double *dest,    );
     void swap(const Poly &other);
     void fix_order();           //get rid of highest terms with zero coefs
     int _order;

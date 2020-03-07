@@ -49,94 +49,11 @@ bool logout(int **labs, int *sizes, int id);
 template <class T>
 ostream &print_twod(T **twod, int *sizes, ostream &outs = cout);
 
+void test_lab();
+
 int main()
 {
-	int lab_sizes[] = { 4, 3, 2, -1 };
-	int **labs = init_lab(lab_sizes);
-
-	char command = '\0';
-	int id, lab, station;
-
-	while (command != 'x')
-	{
-		cout << "Plane:" << endl;
-		print_twod(labs, lab_sizes);
-		cout << endl;
-
-		cout << "i. Login" << endl;
-		cout << "o. Logout" << endl;
-		cout << "x. Exit" << endl;
-
-		cout << "\nCommand: ";
-		cin >> command;
-		cout << endl;
-
-		command = tolower(command);
-
-		switch (command)
-		{
-		case 'i':
-			cout << "LOGIN" << endl;
-			cout << "Labs: ";
-			print_array(lab_sizes);
-			cout << endl;
-
-			cout << "ID: ";
-			cin >> id;
-
-			if (!id)
-			{
-				cout << "Error: ID cannot be 0" << endl;
-				break;
-			}
-
-			cout << "Lab: ";
-			cin >> lab;
-
-			cout << "Station: ";
-			cin >> station;
-			cout << endl;
-
-			if (index_is_valid(lab_sizes, lab, station))
-			{
-				if (login(labs, lab, station, id))
-				{
-					cout << "Success: You are logged in to lab " << lab 
-						 << " station " << station << endl;
-				}
-				else
-				{
-					cout << "Error: Lab " << lab << " station " << station 
-						 << " is occupied" << endl;
-				}
-			}
-			else
-			{
-				cout << "Error: Lab " << lab << " station " << station 
-					 << " is invalid" << endl;
-			}
-			break;
-		case 'o':
-			cout << "LOGOUT" << endl;
-			cout << "ID: ";
-			cin >> id;
-			cout << endl;
-
-			if (logout(labs, lab_sizes, id) && id)
-			{
-				cout << "Success: You have been logged out" << endl;
-			}
-			else
-			{
-				cout << "Error: ID does not exist or you are not logged in" << endl;
-			}
-			break;
-		default:
-			break;
-		}
-
-		cout << endl;
-	}
+	test_lab();
 
 	return 0;
 }
@@ -298,7 +215,6 @@ T *search_twod(T **twod, int *sizes, const T &key)
 
 	@param <T **twod>: Array to print.
 	@param <int *sizes>: Column lengths of array.
-	@param <
 */
 template<class T>
 ostream &print_twod(T **twod, int *sizes, ostream &outs)
@@ -442,4 +358,94 @@ bool logout(int **labs, int *sizes, int id)
 	}
 
 	return false;
+}
+
+void test_lab()
+{
+	int lab_sizes[] = { 4, 3, 2, -1 };
+	int **labs = init_lab(lab_sizes);
+
+	char command = '\0';
+	int id, lab, station;
+
+	while (command != 'x')
+	{
+		cout << "Plane:" << endl;
+		print_twod(labs, lab_sizes);
+		cout << endl;
+
+		cout << "i. Login" << endl;
+		cout << "o. Logout" << endl;
+		cout << "x. Exit" << endl;
+
+		cout << "\nCommand: ";
+		cin >> command;
+		cout << endl;
+
+		command = tolower(command);
+
+		switch (command)
+		{
+		case 'i':
+			cout << "LOGIN" << endl;
+			cout << "Labs: ";
+			print_array(lab_sizes);
+			cout << endl;
+
+			cout << "ID: ";
+			cin >> id;
+
+			if (!id)
+			{
+				cout << "Error: ID cannot be 0" << endl;
+				break;
+			}
+
+			cout << "Lab: ";
+			cin >> lab;
+
+			cout << "Station: ";
+			cin >> station;
+			cout << endl;
+
+			if (index_is_valid(lab_sizes, lab, station))
+			{
+				if (login(labs, lab, station, id))
+				{
+					cout << "Success: You are logged in to lab " << lab
+						<< " station " << station << endl;
+				}
+				else
+				{
+					cout << "Error: Lab " << lab << " station " << station
+						<< " is occupied" << endl;
+				}
+			}
+			else
+			{
+				cout << "Error: Lab " << lab << " station " << station
+					<< " is invalid" << endl;
+			}
+			break;
+		case 'o':
+			cout << "LOGOUT" << endl;
+			cout << "ID: ";
+			cin >> id;
+			cout << endl;
+
+			if (logout(labs, lab_sizes, id) && id)
+			{
+				cout << "Success: You have been logged out" << endl;
+			}
+			else
+			{
+				cout << "Error: ID does not exist or you are not logged in" << endl;
+			}
+			break;
+		default:
+			break;
+		}
+
+		cout << endl;
+	}
 }
