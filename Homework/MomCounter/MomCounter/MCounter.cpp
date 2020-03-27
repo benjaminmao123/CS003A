@@ -21,9 +21,11 @@ int MCounter::Add_1()
 	if (!Is_Error())
 	{
 		count += 1;
+
+		return 1;
 	};
 
-	return 1;
+	return 0;
 }
 
 int MCounter::Add_10()
@@ -35,7 +37,7 @@ int MCounter::Add_10()
 		return 1;
 	}
 
-	return -1;
+	return 0;
 }
 
 int MCounter::Add_100()
@@ -47,7 +49,7 @@ int MCounter::Add_100()
 		return 1;
 	}
 
-	return -1;
+	return 0;
 }
 
 int MCounter::Add_1000()
@@ -59,7 +61,7 @@ int MCounter::Add_1000()
 		return 1;
 	}
 
-	return -1;
+	return 0;
 }
 
 int MCounter::Reset()
