@@ -373,7 +373,7 @@ istream &operator>>(istream &ins, rational &num)
 
 	bool isWholeNumber = true;
 	
-	for (int i = 0; i < temp.size(); ++i)
+	for (unsigned int i = 0; i < temp.size(); ++i)
 	{
 		if (temp[i] == '/')
 		{

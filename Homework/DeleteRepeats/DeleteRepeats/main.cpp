@@ -19,7 +19,7 @@ template <typename T>
 T *find(T *arr, const T &key, T *arrEnd);
 
 template <typename T>
-void shiftLeft(T *arr, const int &size, T *arrEnd);
+void shiftLeft(T *arr, T *arrEnd);
 
 template <typename T>
 void print(T *arr, const int &size);
@@ -99,15 +99,14 @@ T *find(T *arr, const T &key, T *arrEnd)
     Shifts the array elements left starting from a specified index.
 
     @param <T *arr>: Array to shift left.
-    @param <const int& size>: Size of the array.
-    @param <const int &index>: Index to start shift from.
+    @param <T *endArr>: Pointer to the end of the array.
 */
 template<typename T>
-void shiftLeft(T *arr, const int &size, T *arrEnd)
+void shiftLeft(T *arr, T *arrEnd)
 {
     T *next = arr + 1;
 
-    for (T *curr = arr; curr != arrEnd; ++curr)
+    for (T *curr = arr; curr != arrEnd - 1; ++curr)
     {
         *curr = *next++;
     }
