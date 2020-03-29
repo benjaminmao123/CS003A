@@ -4,18 +4,37 @@
 
 using namespace std;
 
+void test();
+
 int main()
 {
-	Vector<int> test;
+	test();
 
-	test.push_back(0);
-	test.push_back(2);
-	test.push_back(3);
-	test.push_back(4);
-	//test.insert(4, 5);
-	test.insert(1, 1);
+	return 0;
+}
+
+void test()
+{
+	Vector<int> test(10);
+
+	//default constructor and assignment test
+	for (int i = 0; i < 10; ++i)
+	{
+		test[i] = i;
+	}
 
 	cout << test << endl;
 
-	return 0;
+	//push_back test
+	for (int i = 10; i < 20; ++i)
+	{
+		test.push_back(i);
+	}
+
+	cout << test << endl;
+
+	//pop_back test
+	test.pop_back();
+
+	cout << test << endl;
 }

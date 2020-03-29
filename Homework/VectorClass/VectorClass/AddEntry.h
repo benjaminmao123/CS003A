@@ -1,36 +1,59 @@
-#pragma once
+/*
+ * Author: Benjamin Mao
+ * Project: A Add Entry
+ * Purpose: Add functinality to array to allow
+ *          for dynamic add and removal of elements.
+ *
+ * Notes: None.
+ *
+ */
 
 #include <iostream>
+#include <string>
 
 using namespace std;
 
 template <typename T>
-T *add_entry(T *list, const T &new_entry,
-	unsigned int &size, unsigned int &capacity);
+T *add_entry(T *list, const T &new_entry, unsigned int &size, unsigned int &capacity);
 
 template <typename T>
-T *remove_entry(T *list, const T &delete_me,
-	unsigned int &size, unsigned int &capacity);
+T *remove_entry(T *list, const T &delete_me, unsigned int &size, unsigned int &capacity);
 
 template <typename T>
 T *allocate(T *list, const unsigned int capacity);
 
 template <typename T>
+T *reallocate(T *list, const unsigned int size, const unsigned int capacity);
+
+template <typename T>
 void copy_list(T *dest, T *src, const unsigned int size);
 
 template <typename T>
-T *search_entry(T *list, const T &find_me, const unsigned int size);
+T *search_entry(T *list, const T &find_me, const unsigned int size, unsigned int &index);
 
 template <typename T>
-void shift_left(T *arr, const T * const end);
+void shift_left(T *start, const T * const end);
 
+template <typename T>
+void shift_right(T *start, const T *const end);
+
+/*
+	Appends an element to the given array.
+
+	@param <T *list>: Original array.
+	@param <T &new_entry>: Value to append.
+	@param <unsigned int &size>: Size of the array.
+	@param <unsigned int &capacity>: Capacity of the array.
+
+	@return <T*>: New array with appended element.
+*/
 template<typename T>
 T *add_entry(T *list, const T &new_entry, unsigned int &size, unsigned int &capacity)
 {
-	T *newList = list;
-
 	if (size >= capacity)
 	{
+		T *newList = nullptr;
+
 		//increase capacity by a factor of 2
 		capacity *= 2;
 
@@ -69,33 +92,24 @@ template<typename T>
 T *remove_entry(T *list, const T &delete_me, unsigned int &size, unsigned int &capacity)
 {
 	//find the element to delete
-	T *deleteEntry = search_entry(list, delete_me, size);
+	unsigned int index = 0;
+	T *deleteEntry = search_entry(list, delete_me, size, index);
 	T *newList = list;
 
 	//delete if the element exists
 	if (deleteEntry)
 	{
+		shift_left(deleteEntry, list + size);
+
 		//if the size drops below a certain amount decrease capacity
 		if (size <= capacity / 4)
 		{
 			capacity /= 2;
 		}
 
-		//allocate memory for new list
-		newList = allocate(newList, capacity);
-		T *newListEnd = newList + size;
-
-		//copy elements from the old list to the new list
-		for (T *i = newList; i != newListEnd; ++list)
-		{
-			//do not copy if current element is the element to delete
-			if (list != deleteEntry)
-			{
-				*i++ = *list;
-			}
-		}
-
 		--size;
+
+		newList = reallocate(list, size, capacity);
 	}
 
 	return newList;
@@ -120,12 +134,26 @@ T *allocate(T *list, const unsigned int capacity)
 	return list;
 }
 
+template<typename T>
+T *reallocate(T *list, const unsigned int size, const unsigned int capacity)
+{
+	//allocate memory for new list
+	T *newList = nullptr;
+	newList = allocate(newList, capacity);
+	T *listEnd = list + size;
+
+	//copy elements from the old list to the new list
+	copy_list(newList, list, size);
+
+	return newList;
+}
+
 /*
 	Copies a source array to a destination array.
 
 	@param <T *dest>: The array to copy to.
 	@param <T *src>: The array to copy from.
-	@param <const int size>: Size of the source array.
+	@param <const unsigned int size>: Size of the source array.
 */
 template<typename T>
 void copy_list(T *dest, T *src, const unsigned int size)
@@ -150,9 +178,10 @@ void copy_list(T *dest, T *src, const unsigned int size)
 		to the first element found. Else, return nullptr.
 */
 template<typename T>
-T *search_entry(T *list, const T &find_me, const unsigned int size)
+T *search_entry(T *list, const T &find_me, const unsigned int size, unsigned int &index)
 {
 	T *listEnd = list + size;
+	index = 0;
 
 	for (T *i = list; i != listEnd; ++i)
 	{
@@ -160,50 +189,46 @@ T *search_entry(T *list, const T &find_me, const unsigned int size)
 		{
 			return i;
 		}
+
+		++index;
 	}
+
+	index = -1;
 
 	return nullptr;
 }
 
 /*
-	Prints the contents of a given array.
+	Shifts the array elements left starting from a specified index.
 
-	@param <T *list>: The array to print.
+	@param <T *start>: position to shift left from.
 	@param <const unsigned int size>: Size of the array.
 */
 template<typename T>
-void print_list(T *list, unsigned int size)
+void shift_left(T *start, const T * const end)
 {
-	cout << "List: ";
+	T *next = start + 1;
 
-	if (size <= 0)
+	for (T *curr = start; curr != end - 1; ++curr, ++next)
 	{
-		cout << "Empty";
-	}
-	else
-	{
-		T *listEnd = list + size;
-
-		for (T *i = list; i != listEnd; ++i)
-		{
-			cout << *i << " ";
-		}
+		*curr = *next;
 	}
 }
 
-/*
-	Shifts the array elements left starting from a specified index.
 
-	@param <T *arr>: Array to shift left.
-	@param <const unsigned int index>: Index to start shift from.
+/*
+	Shifts the array elements right starting from a specified index.
+
+	@param <T *start>: position to shift right from.
+	@param <const unsigned int size>: Size of the array.
 */
 template<typename T>
-void shift_left(T *arr, const T * const arrEnd)
+void shift_right(T *start, const T *const end)
 {
-	T *next = arr + 1;
+	T *next = start + 1;
 
-	for (T *curr = arr; curr != arrEnd - 1; ++curr)
+	for (T *curr = start; curr != end - 1; --curr, --next)
 	{
-		*curr = *next++;
+		*next = *curr;
 	}
 }
