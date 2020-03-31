@@ -20,16 +20,16 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Vector.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="AddEntry.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="z_output.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="z_work_report.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Vector.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ArrayLibrary.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

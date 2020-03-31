@@ -1,17 +1,13 @@
 /*
  * Author: Benjamin Mao
- * Project: A Add Entry
- * Purpose: Add functinality to array to allow
- *          for dynamic add and removal of elements.
- *
+ * Project: Array Library
+ * Purpose: Library functions to use for array
+ *			manipulation.
  * Notes: None.
  *
  */
 
-#include <iostream>
-#include <string>
-
-using namespace std;
+#pragma once
 
 template <typename T>
 T *add_entry(T *list, const T &new_entry, unsigned int &size, unsigned int &capacity);
@@ -36,6 +32,9 @@ void shift_left(T *start, const T * const end);
 
 template <typename T>
 void shift_right(T *start, const T *const end);
+
+template <typename T>
+void delete_array(T *&list);
 
 /*
 	Appends an element to the given array.
@@ -127,8 +126,6 @@ T *remove_entry(T *list, const T &delete_me, unsigned int &size, unsigned int &c
 template<typename T>
 T *allocate(T *list, const unsigned int capacity)
 {
-	const bool debug = false;
-	if (debug) cout << "allocate: capacity: " << capacity << endl;
 	list = new T[capacity];
 
 	return list;
@@ -231,4 +228,10 @@ void shift_right(T *start, const T *const end)
 	{
 		*next = *curr;
 	}
+}
+
+template<typename T>
+inline void delete_array(T *&list)
+{
+	delete[] list;
 }

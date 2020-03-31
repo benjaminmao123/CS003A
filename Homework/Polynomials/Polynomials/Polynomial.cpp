@@ -1,6 +1,7 @@
 #include <algorithm>
 
 #include "Polynomial.h"
+#include "ArrayLibrary.h"
 
 Poly::Poly()
 	: _order(0), _coefs(nullptr)
@@ -17,9 +18,7 @@ Poly::Poly(double *coefs, int order)
 Poly::Poly(const Poly &other)
 	: _order(other._order)
 {
-	_coefs = new double[other.size()];
-
-	copy(other._coefs, _coefs, other.size());
+	//_coefs = reallocate(_coefs, other.size(), other.size());
 }
 
 Poly &Poly::operator=(const Poly &rhs)
@@ -43,14 +42,6 @@ Poly::~Poly()
 Term Poly::operator[](int order) const
 {
 	return Term(0, 0);
-}
-
-void Poly::copy(double *src, double *dest, const int &size)
-{
-	for (int i = 0; i < size; ++i)
-	{
-		*dest++ = *src++;
-	}
 }
 
 void Poly::fix_order()

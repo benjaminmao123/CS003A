@@ -3,8 +3,9 @@
 #include <iostream>
 
 #include "Term.h"
+#include "ArrayLibrary.h"
 
-using namespace std;
+using std::istream;
 
 class Poly
 {
@@ -53,8 +54,6 @@ public:
     }
 
 private:
-    void copy(double *src, double *dest,    );
-    void swap(const Poly &other);
     void fix_order();           //get rid of highest terms with zero coefs
     int _order;
     double *_coefs;

@@ -3,14 +3,15 @@
 /*
     Features:
         -Not Implemented: None
-        -Implemented: All MCounter methods are implemented
+        -Implemented: All vector methods are implemented.
         -Partly implemented: None
 
     Bugs    : features that are implemented are bug-free.
 
     Reflections:
-        This was a good exercise to practice object-oriented
-        design. I also learned that it is good to return something
-        in a function to indicate its status.
+        I thought this was a nice exercise to learn how to
+        program your own container. I learned more about 
+        overloading operators as well as handling dynamic
+        memory.
 */
 #endif // Z_WORK_REPORT_H
