@@ -40,16 +40,10 @@ bool operator<(const Term &lhs, const Term &rhs)
 
 Term operator/(const Term &lhs, const Term &rhs)
 {
-	if (lhs == rhs)
-	{
-		return Term(1, 1);
-	}
-	else if (lhs._coef == rhs._coef)
-	{
-		return Term(lhs._coef, lhs._exp - rhs._exp);
-	}
+	int exp = lhs._exp - rhs._exp;
+	double coef = lhs._coef / rhs._coef;
 
-	assert(lhs._exp == rhs._exp);
+	return Term(coef, exp);
 }
 
 ostream &operator<<(ostream &outs, const Term &t)
@@ -58,12 +52,22 @@ ostream &operator<<(ostream &outs, const Term &t)
 	{
 		outs << "-";
 	}
-	else
+	else if (t._coef > 0)
 	{
 		outs << "+";
 	}
 
-	outs << t._coef << "x^" << t._exp;
+	if (t._coef != 0)
+	{
+		if (t._exp == 0)
+		{
+			outs << t._coef;
+		}
+		else
+		{
+			outs << t._coef << "x^" << t._exp;
+		}
+	}
 
 	return outs;
 }
