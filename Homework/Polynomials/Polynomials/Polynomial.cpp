@@ -234,6 +234,8 @@ Poly operator+(const Poly &lhs, const Term &t)
 {
 	Poly result(lhs);
 
+	//if term exp is higher than poly order, reallocate array, else
+	//simply modify value at location
 	if (t._exp > lhs._order)
 	{
 		result._coefs = reallocate(result._coefs, result._order + 1, t._exp + 1);
