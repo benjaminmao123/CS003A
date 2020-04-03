@@ -266,7 +266,7 @@ Poly operator+(const Poly &lhs, const Poly &rhs)
 {
 	Poly result(lhs);
 
-	for (int i = 0; i <= rhs._order; ++i)
+	for (int i = rhs._order; i >= 0; --i)
 	{
 		result = result + rhs[i];
 	}
@@ -310,7 +310,7 @@ Poly operator-(const Poly &lhs, const Poly &rhs)
 	Poly result(lhs);
 	Poly temp(-rhs);
 
-	for (int i = 0; i <= temp._order; ++i)
+	for (int i = temp._order; i >= 0; --i)
 	{
 		result = result + temp[i];
 	}
@@ -336,7 +336,7 @@ Poly operator*(const Poly &lhs, const Term &t)
 	Vector<int> exps;
 	Vector<double> coefs;
 
-	for (int i = 0; i <= result._order; ++i)
+	for (int i = result._order; i >= 0; --i)
 	{
 		double coef = result[i]._coef * t._coef;
 		int exp = result[i]._exp + t._exp;
@@ -421,7 +421,7 @@ Poly operator*(const Poly &lhs, const Poly &rhs)
 */
 Poly operator/(const Poly &lhs, const Poly &rhs)
 {
-	if (lhs._order < rhs._order)
+	if (lhs._order < rhs._order || !rhs[rhs._order]._coef)
 	{
 		return Poly();
 	}

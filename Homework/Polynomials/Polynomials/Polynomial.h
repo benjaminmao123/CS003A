@@ -45,7 +45,6 @@ public:
 private:
     void swap(Poly &p);
     void fix_order();           //get rid of highest terms with zero coefs
-    void swap(Poly &p);
     int _order;
     double *_coefs;
 };

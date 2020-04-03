@@ -6,18 +6,18 @@ using namespace std;
 
 int main()
 {
-	node<int> *head = new node<int>(0);
+	node<int> *head = nullptr;
 
-	InsertSorted(head, 4);
-	InsertSorted(head, 3);
-	InsertSorted(head, 2);
-	InsertSorted(head, 1);
-	InsertSorted(head, 5);
+	InsertSorted(head, 1, false);
+	InsertSorted(head, 2, false);
+	InsertSorted(head, 3, false);
+	InsertSorted(head, 4, false);
+	InsertSorted(head, 5, false);
+	InsertSorted_and_add(head, 5, false);
 
 	PrintList(head);
 	cout << endl;
-	ClearList(head);
-	PrintList(head);
+	cout << LastNode(head)->_item << endl;
 
 	return 0;
 }
