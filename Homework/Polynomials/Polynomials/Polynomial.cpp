@@ -336,7 +336,7 @@ Poly operator*(const Poly &lhs, const Term &t)
 	Vector<int> exps;
 	Vector<double> coefs;
 
-	for (int i = 0; i <= result._order; ++i)
+	for (int i = result._order; i >= 0; --i)
 	{
 		double coef = result[i]._coef * t._coef;
 		int exp = result[i]._exp + t._exp;

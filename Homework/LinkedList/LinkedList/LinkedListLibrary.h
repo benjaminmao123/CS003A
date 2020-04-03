@@ -113,7 +113,14 @@ inline void PrintList(node<ITEM_TYPE> *head)
 template<typename ITEM_TYPE>
 inline void PrintList_backwards(node<ITEM_TYPE> *head)
 {
+    using std::cout;
+    using std::endl;
 
+    if (head)
+    {
+        PrintList_backwards(head->next);
+        cout << head->_item << " ";
+    }
 }
 
 template<typename ITEM_TYPE>
@@ -225,7 +232,21 @@ inline ITEM_TYPE DeleteNode(node<ITEM_TYPE> *&head, node<ITEM_TYPE> *deleteThis)
 template<typename ITEM_TYPE>
 inline node<ITEM_TYPE> *CopyList(node<ITEM_TYPE> *head)
 {
-    return NULL;
+    if (head)
+    {
+        node<ITEM_TYPE> *newHead = new node<ITEM_TYPE>(head->_item);
+        node<ITEM_TYPE> *temp = newHead;
+
+        for (node<ITEM_TYPE> *i = head->next; i != nullptr; i = i->next)
+        {
+            InsertAfter(newHead, temp, i->_item);
+            temp = temp->next;
+        }
+
+        return newHead;
+    }
+
+    return nullptr;
 }
 
 template<typename ITEM_TYPE>
@@ -265,53 +286,28 @@ template<typename ITEM_TYPE>
 inline node<ITEM_TYPE> *InsertSorted(node<ITEM_TYPE> *&head, ITEM_TYPE item, bool ascending)
 {
     node<ITEM_TYPE> *newNode = nullptr;
+    node<ITEM_TYPE> *mNode = WhereThisGoes(head, item, ascending);
 
     if (ascending)
     {
-        node<ITEM_TYPE> *curr = head;
-        node<ITEM_TYPE> *next = curr->next;
-
-        for (; curr != nullptr && next != nullptr; curr = curr->next, next = next->next)
-        {
-            if (curr->_item <= item && next->_item >= item)
-            {
-                break;
-            }
-        }
-
-        newNode = new node<ITEM_TYPE>(item);
-        curr->next = newNode;
-        newNode->next = next;
+        newNode = InsertAfter(head, mNode, item);
     }
     else
     {
-        node<ITEM_TYPE> *prev = nullptr;
-        node<ITEM_TYPE> *curr = head;
-
-        for (; curr != nullptr; prev = curr, curr = curr->next)
+        if (mNode)
         {
-            if (!prev)
+            if (mNode->_item >= item)
             {
-                if (curr->_item <= item)
-                {
-                    return InsertHead(head, item);
-                }
+                newNode = InsertAfter(head, mNode, item);
             }
-            else if (!curr)
+            else
             {
-                if (prev->_item >= item)
-                {
-                    return InsertAfter(head, prev, item);
-                }
+                newNode = InsertBefore(head, mNode, item);
             }
-            else if (prev->_item >= item && curr->_item <= item)
-            {
-                newNode = new node<ITEM_TYPE>(item);
-                prev->next = newNode;
-                newNode->next = curr;
-
-                break;
-            }
+        }
+        else
+        {
+            newNode = InsertHead(head, item);
         }
     }
 
@@ -321,13 +317,51 @@ inline node<ITEM_TYPE> *InsertSorted(node<ITEM_TYPE> *&head, ITEM_TYPE item, boo
 template<typename ITEM_TYPE>
 inline node<ITEM_TYPE> *InsertSorted_and_add(node<ITEM_TYPE> *&head, ITEM_TYPE item, bool ascending)
 {
-    return NULL;
+    if (head)
+    {
+        node<ITEM_TYPE> *mNode = SearchList(head, item);
+
+        if (mNode)
+        {
+            mNode->_item += item;
+        }
+        else
+        {
+            mNode = InsertSorted(head, item, ascending);
+        }
+
+        return mNode;
+    }
+
+    return nullptr;
 }
 
 template<typename ITEM_TYPE>
 inline node<ITEM_TYPE> *WhereThisGoes(node<ITEM_TYPE> *head, ITEM_TYPE item, bool ascending)
 {
-    return NULL;
+    if (head)
+    {
+        node<ITEM_TYPE> *curr = head;
+
+        if (ascending)
+        {
+            while (curr->next != nullptr && curr->next->_item < item)
+            {
+                curr = curr->next;
+            }
+        }
+        else
+        {
+            while (curr->next != nullptr && curr->next->_item > item)
+            {
+                curr = curr->next;
+            }
+        }
+
+        return curr;
+    }
+
+    return nullptr;
 }
 
 template<typename ITEM_TYPE>
