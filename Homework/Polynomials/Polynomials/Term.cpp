@@ -22,7 +22,7 @@
 	@param <double coef>: Coefficient of term.
 	@param <int exp>: Exponent of term.
 */
-Term::Term(double coef, int exp)
+Term::Term(const double coef, const int exp)
 	: _coef(coef), _exp(exp)
 {
 

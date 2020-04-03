@@ -6,7 +6,7 @@ using namespace std;
 
 struct Term
 {
-    Term(double coef, int exp);
+    Term(const double coef, const int exp);
 
     friend bool operator==(const Term &lhs, const Term &rhs);
     friend bool operator!=(const Term &lhs, const Term &rhs);

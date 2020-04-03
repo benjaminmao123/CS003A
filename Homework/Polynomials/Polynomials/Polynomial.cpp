@@ -29,7 +29,7 @@ Poly::Poly()
 	@summary: Overloaded constructor, to create poly object from
 		given coef and order.
 */
-Poly::Poly(double *coefs, int order)
+Poly::Poly(double *coefs, const int order)
 	: _coefs(reallocate(coefs, order + 1, order + 1)), _order(order)
 {
 
@@ -76,7 +76,7 @@ Poly::~Poly()
 	@return <Term>: Returns a term object with the coef
 		and order.
 */
-Term Poly::operator[](int order) const
+Term Poly::operator[](const int order) const
 {
 	double *coef = _coefs + order;
 
@@ -266,7 +266,7 @@ Poly operator+(const Poly &lhs, const Poly &rhs)
 {
 	Poly result(lhs);
 
-	for (int i = 0; i <= rhs._order; ++i)
+	for (int i = rhs._order; i >= 0; --i)
 	{
 		result = result + rhs[i];
 	}
@@ -310,7 +310,7 @@ Poly operator-(const Poly &lhs, const Poly &rhs)
 	Poly result(lhs);
 	Poly temp(-rhs);
 
-	for (int i = 0; i <= temp._order; ++i)
+	for (int i = temp._order; i >= 0; --i)
 	{
 		result = result + temp[i];
 	}
@@ -421,7 +421,7 @@ Poly operator*(const Poly &lhs, const Poly &rhs)
 */
 Poly operator/(const Poly &lhs, const Poly &rhs)
 {
-	if (lhs._order < rhs._order)
+	if ((lhs._order < rhs._order) || !rhs[rhs._order]._coef)
 	{
 		return Poly();
 	}
@@ -448,6 +448,8 @@ Poly operator/(const Poly &lhs, const Poly &rhs)
 			dividend = dividend - temp;
 		}
 	}
+
+	quotient.fix_order();
 
 	return quotient;
 }
