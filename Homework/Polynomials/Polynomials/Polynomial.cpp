@@ -16,20 +16,15 @@ Poly::Poly(double *coefs, int order)
 }
 
 Poly::Poly(const Poly &other)
-	: _order(other._order)
+	: _order(other._order), _coefs(allocate(_coefs, other.size()))
 {
-	//_coefs = reallocate(_coefs, other.size(), other.size());
+	copy_list(_coefs, other._coefs, other.size());
 }
 
 Poly &Poly::operator=(const Poly &rhs)
 {
-	if (this != &rhs)
-	{
-		delete[] _coefs;
-		_order = rhs._order;
-		_coefs = new double[rhs.size()];
-		copy(rhs._coefs, _coefs, rhs.size());
-	}
+	Poly temp(rhs);
+	swap(temp);
 
 	return *this;
 }
@@ -47,6 +42,12 @@ Term Poly::operator[](int order) const
 void Poly::fix_order()
 {
 
+}
+
+void Poly::swap(Poly &p)
+{
+	std::swap(_order, p._order);
+	std::swap(_coefs, p._coefs);
 }
 
 bool operator==(const Poly &lhs, const Poly &rhs)
