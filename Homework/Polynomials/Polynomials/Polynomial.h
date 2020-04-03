@@ -5,7 +5,7 @@
 #include "Term.h"
 #include "ArrayLibrary.h"
 
-using std::istream;
+using namespace std;
 
 class Poly
 {
@@ -29,7 +29,7 @@ public:
     friend Poly operator+(const Poly &lhs, const Poly &rhs);
 
     friend Poly operator-(const Poly &p);
-    friend Poly operator- (const Poly &lhs, const Poly &rhs);
+    friend Poly operator-(const Poly &lhs, const Poly &rhs);
 
     friend Poly operator*(const Poly &lhs, const Term &t);
     friend Poly operator*(const Poly &lhs, const Poly &rhs);
@@ -41,19 +41,9 @@ public:
     friend istream &operator>>(istream &ins, Poly &p);
 
     int order() const { return _order; }
-    int size() const
-    {
-        int count = 0;
-
-        for (double *i = _coefs; *i != 0; ++i)
-        {
-            ++count;
-        }
-
-        return count;
-    }
 
 private:
+    void swap(Poly &p);
     void fix_order();           //get rid of highest terms with zero coefs
     void swap(Poly &p);
     int _order;

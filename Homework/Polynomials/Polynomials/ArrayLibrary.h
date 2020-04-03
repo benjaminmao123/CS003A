@@ -3,8 +3,8 @@
  * Project: Array Library
  * Purpose: Library functions to use for array
  *			manipulation.
- * Notes: None.
  *
+ * Notes: None.
  */
 
 #pragma once
@@ -126,7 +126,7 @@ T *remove_entry(T *list, const T &delete_me, unsigned int &size, unsigned int &c
 template<typename T>
 T *allocate(T *list, const unsigned int capacity)
 {
-	list = new T[capacity];
+	list = new T[capacity]();
 
 	return list;
 }

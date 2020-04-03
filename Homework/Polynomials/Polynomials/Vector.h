@@ -5,7 +5,6 @@
  *          for dynamic add and removal of elements.
  *
  * Notes: None.
- *
  */
 
 #pragma once
@@ -21,7 +20,8 @@ template <typename T>
 class Vector
 {
 public:
-    Vector(unsigned int size = 100);
+    Vector();
+    Vector(unsigned int size);
 	Vector(const Vector &other);
 	~Vector();
 
@@ -45,8 +45,8 @@ public:
     //size and capacity:
     void set_size(const unsigned int size);                 //enlarge the vector to this size
     void set_capacity(const unsigned int capacity);         //allocate this space
-    int size() const { return sz; }                         //return _size    
-    int capacity() const { return cap; }                    //return _capacity
+    unsigned int size() const { return sz; }                //return _size    
+    unsigned int capacity() const { return cap; }           //return _capacity
 
     bool empty() const;                                     //return true if vector is empty
 
@@ -68,6 +68,13 @@ private:
     unsigned int cap;
     T *data;
 };
+
+template<typename T>
+inline Vector<T>::Vector()
+    : sz(0), cap(1), data(allocate(data, cap))
+{
+
+}
 
 /*
     @summary: Overloaded constructor that takes in a size.
