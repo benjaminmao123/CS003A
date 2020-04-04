@@ -101,7 +101,22 @@ inline node<ITEM_TYPE> *List<ITEM_TYPE>::InsertSorted(ITEM_TYPE i)
 template<class ITEM_TYPE>
 inline ITEM_TYPE List<ITEM_TYPE>::Delete(node<ITEM_TYPE> *iMarker)
 {
-    return DeleteNode(head, iMarker);
+    ITEM_TYPE item = ITEM_TYPE();
+
+    if (head)
+    {
+        if (head == End())
+        {
+            item = DeleteNode(head, iMarker);
+            head = nullptr;
+        }
+        else if (iMarker)
+        {
+            item = DeleteNode(head, iMarker);
+        }
+    }
+
+    return item;
 }
 
 template<class ITEM_TYPE>
@@ -151,14 +166,7 @@ inline std::ostream &operator<<(std::ostream &outs, const List<U> &l)
 {
     for (node<U> *i = l.head; i != nullptr; i = i->next)
     {
-        if (i->next == nullptr)
-        {
-            outs << i->_item << "->|||";
-        }
-        else
-        {
-            outs << i->_item << "->";
-        }
+        outs << i->_item << " ";
     }
 
     return outs;

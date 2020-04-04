@@ -149,7 +149,7 @@ inline node<ITEM_TYPE> *InsertHead(node<ITEM_TYPE> *&head, ITEM_TYPE insertThis)
 
     head = newNode;
 
-    return newNode;
+    return head;
 }
 
 template<typename ITEM_TYPE>
@@ -161,10 +161,19 @@ inline node<ITEM_TYPE> *InsertAfter(node<ITEM_TYPE> *&head, node<ITEM_TYPE> *aft
     {
         newNode = new node<ITEM_TYPE>(insertThis);
 
-        node<ITEM_TYPE> *temp = afterThis->next;
+        node<ITEM_TYPE> *temp = nullptr;
+
+        if (afterThis->next)
+        {
+            temp = afterThis->next;
+        }
 
         afterThis->next = newNode;
-        newNode->next = temp;
+        
+        if (temp)
+        {
+            newNode->next = temp;
+        }
     }
     else
     {
@@ -200,7 +209,7 @@ inline node<ITEM_TYPE> *InsertBefore(node<ITEM_TYPE> *&head, node<ITEM_TYPE> *be
         newNode = InsertHead(head, insertThis);
     }
 
-    return newNode;
+    return beforeThis;
 }
 
 template<typename ITEM_TYPE>
@@ -225,15 +234,11 @@ inline ITEM_TYPE DeleteNode(node<ITEM_TYPE> *&head, node<ITEM_TYPE> *deleteThis)
     if (prev)
     {
         prev->next = deleteThis->next;
-    }
-    
-    if (head == deleteThis)
-    {
         delete deleteThis;
-        head = nullptr;
     }
     else
     {
+        head = deleteThis->next;
         delete deleteThis;
     }
 
