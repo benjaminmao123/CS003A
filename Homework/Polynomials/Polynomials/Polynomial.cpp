@@ -512,6 +512,13 @@ ostream &operator<<(ostream &outs, const Poly &p)
 				outs << p[i];
 			}
 		}
+		else if (!p[i]._coef)
+		{
+			if (!p._order)
+			{
+				outs << p[i];
+			}
+		}
 	}
 
 	outs << "]";
@@ -533,8 +540,21 @@ istream &operator>>(istream &ins, Poly &p)
 	cin.ignore();
 
 	string temp;
+
+	/*
+		Get input from user, should be in the form of:
+		coefficient x exponent e.g.
+		6x2+3x1-5x0
+	*/
 	getline(ins, temp);
 
+	/*
+		format the input
+		add spacing to the x on both sides and spacing to the + and - on the right side
+		
+		resulting string should be:
+		6 x 2 +3 x 1 -5 x 0
+	*/
 	for (unsigned int i = 0; i < temp.size(); ++i)
 	{
 		if (temp[i] == 'x' || temp[i] == '+' ||
@@ -551,30 +571,72 @@ istream &operator>>(istream &ins, Poly &p)
 		}
 	}
 
+	//vector to store coefficients 
 	Vector<double> mCoefs;
+	/*
+		vector to store the order of each coefficient.
+		this vector will be parallel to mCoefs
+	*/
 	Vector<int> orders;
 
+	//pass our string into istringstream object
 	istringstream iss(temp);
+
+	//temporary buffer to read into
 	string temp2;
 
+	/*
+		example string: 6 x 2 +3 x 1 +5 x 0
+		iss >> temp2 will insert '6' into temp2
+	*/
 	while (iss >> temp2)
 	{
+		//push_back 6 into mCoefs
 		mCoefs.push_back(stod(temp2));
+		/*
+			iss >> temp2 inserts 'x' into temp2
+			then another iss >> temp2 overwrites the 'x' with '2'
+		*/
 		iss >> temp2 >> temp2;
+
+		/*
+			push_back 2 into order so we have:
+			coefficient at 0: 6,
+			order at 0: 2
+		*/
 		orders.push_back(stoi(temp2));
 	}
 
 	double *coefs = nullptr;
+
+	//the order at orders[0] should be the highest so we allocate memory based on that.
 	int order = orders[0];
 	coefs = allocate(coefs, order + 1);
 
 	for (unsigned int i = 0; i < mCoefs.size(); ++i)
 	{
-		coefs[orders[i]] = mCoefs[i];
+		/*
+			access coefs based on the value of orders[i], and
+			assign it the value of the coefficient at i.
+
+			e.g.
+			i = 0,
+			orders[0] is 2,
+			mCoefs[0] is 6 so
+
+			coefs[2] = 6
+		*/
+		*(coefs + orders[i]) = mCoefs[i];
 	}
 
+	//create poly object with coefs and order
 	Poly p2(coefs, order);
+
+	//assign p to the newly constructed poly object.
 	p = p2;
+
+	//cleanup
+	delete[] coefs;
 
 	return ins;
 }

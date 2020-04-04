@@ -124,36 +124,33 @@ Term operator/(const Term &lhs, const Term &rhs)
 */
 ostream &operator<<(ostream &outs, const Term &t)
 {
-	if (t._coef)
+	if (t._coef < 0)
 	{
-		if (t._coef < 0)
+		outs << " - ";
+	}
+	else if (t._coef > 0)
+	{
+		outs << " + ";
+	}
+
+	if (!t._exp)
+	{
+		outs << abs(t._coef);
+	}
+	else
+	{
+		double coef = abs(t._coef);
+
+		if (coef > 0 && coef != 1)
 		{
-			outs << " - ";
-		}
-		else if (t._coef > 0)
-		{
-			outs << " + ";
+			outs << setprecision(1) << fixed << coef;
 		}
 
-		if (!t._exp)
-		{
-			outs << abs(t._coef);
-		}
-		else
-		{
-			double coef = abs(t._coef);
-
-			if (coef > 0 && coef != 1)
-			{
-				outs << setprecision(1) << fixed << coef;
-			}
-
-			outs << "x";
+		outs << "x";
 			
-			if (t._exp > 1)
-			{
-				outs << "^" << t._exp;
-			}
+		if (t._exp > 1)
+		{
+			outs << "^" << t._exp;
 		}
 	}
 
