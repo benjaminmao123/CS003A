@@ -95,11 +95,6 @@ node<ITEM_TYPE> *WhereThisGoes(node<ITEM_TYPE> *head,         //node after which
 template <typename ITEM_TYPE>
 node<ITEM_TYPE> *LastNode(node<ITEM_TYPE> *head);            //Last Node in the list
 
-/*
-    @summary: Prints the list forwards
-
-    @param <node<ITEM_TYPE> *head>: The head of the list.
-*/
 template<typename ITEM_TYPE>
 inline void PrintList(node<ITEM_TYPE> *head)
 {
@@ -115,11 +110,6 @@ inline void PrintList(node<ITEM_TYPE> *head)
     }
 }
 
-/*
-    @summary: Prints the list backwards
-
-    @param <node<ITEM_TYPE> *head>: The head of the list.
-*/
 template<typename ITEM_TYPE>
 inline void PrintList_backwards(node<ITEM_TYPE> *head)
 {
@@ -133,14 +123,6 @@ inline void PrintList_backwards(node<ITEM_TYPE> *head)
     }
 }
 
-/*
-    @summary: Searches for an item in the list with the given key.
-
-    @param <node<ITEM_TYPE> *head>: The head of the list.
-    @param <ITEM_TYPE key>: The item to search for.
-
-    @return <node<ITEM_TYPE> *>: The node containing the item.
-*/
 template<typename ITEM_TYPE>
 inline node<ITEM_TYPE> *SearchList(node<ITEM_TYPE> *head, ITEM_TYPE key)
 {
@@ -155,14 +137,6 @@ inline node<ITEM_TYPE> *SearchList(node<ITEM_TYPE> *head, ITEM_TYPE key)
     return nullptr;
 }
 
-/*
-    @summary: Inserts a node at the head of the list.
-
-    @param <node<ITEM_TYPE> *&head>: The head of the list.
-    @param <ITEM_TYPE insertThis>: The item to insert.
-
-    @return <node<ITEM_TYPE> *>: The node that was inserted.
-*/
 template<typename ITEM_TYPE>
 inline node<ITEM_TYPE> *InsertHead(node<ITEM_TYPE> *&head, ITEM_TYPE insertThis)
 {
@@ -175,18 +149,9 @@ inline node<ITEM_TYPE> *InsertHead(node<ITEM_TYPE> *&head, ITEM_TYPE insertThis)
 
     head = newNode;
 
-    return newNode;
+    return head;
 }
 
-/*
-    @summary: Inserts a node after a given node.
-
-    @param <node<ITEM_TYPE> *&head>: The head of the list.
-    @param <node<ITEM_TYPE> *afterThis>: The node to insert after.
-    @param <ITEM_TYPE insertThis>: The item to insert.
-
-    @return <node<ITEM_TYPE> *>: The node that was inserted.
-*/
 template<typename ITEM_TYPE>
 inline node<ITEM_TYPE> *InsertAfter(node<ITEM_TYPE> *&head, node<ITEM_TYPE> *afterThis, ITEM_TYPE insertThis)
 {
@@ -196,10 +161,19 @@ inline node<ITEM_TYPE> *InsertAfter(node<ITEM_TYPE> *&head, node<ITEM_TYPE> *aft
     {
         newNode = new node<ITEM_TYPE>(insertThis);
 
-        node<ITEM_TYPE> *temp = afterThis->next;
+        node<ITEM_TYPE> *temp = nullptr;
+
+        if (afterThis->next)
+        {
+            temp = afterThis->next;
+        }
 
         afterThis->next = newNode;
-        newNode->next = temp;
+        
+        if (temp)
+        {
+            newNode->next = temp;
+        }
     }
     else
     {
@@ -209,15 +183,6 @@ inline node<ITEM_TYPE> *InsertAfter(node<ITEM_TYPE> *&head, node<ITEM_TYPE> *aft
     return newNode;
 }
 
-/*
-    @summary: Inserts a node before a given node.
-
-    @param <node<ITEM_TYPE> *&head>: The head of the list.
-    @param <node<ITEM_TYPE> *beforeThis>: The node to insert before.
-    @param <ITEM_TYPE insertThis>: The item to insert.
-
-    @return <node<ITEM_TYPE> *>: The node that was inserted.
-*/
 template<typename ITEM_TYPE>
 inline node<ITEM_TYPE> *InsertBefore(node<ITEM_TYPE> *&head, node<ITEM_TYPE> *beforeThis, ITEM_TYPE insertThis)
 {
@@ -244,17 +209,9 @@ inline node<ITEM_TYPE> *InsertBefore(node<ITEM_TYPE> *&head, node<ITEM_TYPE> *be
         newNode = InsertHead(head, insertThis);
     }
 
-    return newNode;
+    return beforeThis;
 }
 
-/*
-    @summary: Returns the previous node of a given node.
-
-    @param <node<ITEM_TYPE> *head>: The head of the list.
-    @param <node<ITEM_TYPE> *prevToThis>: The node to get the previous node of.
-
-    @return <node<ITEM_TYPE> *>: The previous node of the given node.
-*/
 template<typename ITEM_TYPE>
 inline node<ITEM_TYPE> *PreviousNode(node<ITEM_TYPE> *head, node<ITEM_TYPE> *prevToThis)
 {
@@ -268,34 +225,26 @@ inline node<ITEM_TYPE> *PreviousNode(node<ITEM_TYPE> *head, node<ITEM_TYPE> *pre
     return prev;
 }
 
-/*
-    @summary: Deletes a given node.
-
-    @param <node<ITEM_TYPE> *&head>: The head of the list.
-    @param <node<ITEM_TYPE> *deleteThis>: The node to delete.
-
-    @return <ITEM_TYPE>: The value of the deleted node.
-*/
 template<typename ITEM_TYPE>
 inline ITEM_TYPE DeleteNode(node<ITEM_TYPE> *&head, node<ITEM_TYPE> *deleteThis)
 {
     node<ITEM_TYPE> *prev = PreviousNode(head, deleteThis);
     ITEM_TYPE item = deleteThis->_item;
 
-    prev->next = deleteThis->next;
-    
-    delete deleteThis;
+    if (prev)
+    {
+        prev->next = deleteThis->next;
+        delete deleteThis;
+    }
+    else
+    {
+        head = deleteThis->next;
+        delete deleteThis;
+    }
 
     return item;
 }
 
-/*
-    @summary: Copies a given list.
-
-    @param <node<ITEM_TYPE> *head>: The head of the list.
-
-    @return <node<ITEM_TYPE> *>: The copy of the given list.
-*/
 template<typename ITEM_TYPE>
 inline node<ITEM_TYPE> *CopyList(node<ITEM_TYPE> *head)
 {
@@ -316,36 +265,24 @@ inline node<ITEM_TYPE> *CopyList(node<ITEM_TYPE> *head)
     return nullptr;
 }
 
-/*
-    @summary: Clears a given list.
-
-    @param <node<ITEM_TYPE> *&head>: The head of the list.
-*/
 template<typename ITEM_TYPE>
 inline void ClearList(node<ITEM_TYPE> *&head)
 {
     node<ITEM_TYPE> *curr = head;
-    node<ITEM_TYPE> *next = curr->next;
+    node<ITEM_TYPE> *next = curr;
 
-    while (next)
+    while (curr && next)
     {
+        next = curr->next;
+
         delete curr;
         curr = nullptr;
         curr = next;
-        next = next->next;
     }
 
     head = nullptr;
 }
 
-/*
-    @summary: Gets the value of a given position in the list.
-
-    @param <node<ITEM_TYPE> *head>: The head of the list.
-    @param <int pos>: The index of the node.
-
-    @return <ITEM_TYPE &>: Reference to the item in the node.
-*/
 template<typename ITEM_TYPE>
 inline ITEM_TYPE &At(node<ITEM_TYPE> *head, int pos)
 {
@@ -362,15 +299,6 @@ inline ITEM_TYPE &At(node<ITEM_TYPE> *head, int pos)
     return i->_item;
 }
 
-/*
-    @summary: Inserts a node in a sorted order.
-
-    @param <node<ITEM_TYPE> *&head>: The head of the list.
-    @param <ITEM_TYPE item>: The item to insert.
-    @param <bool ascending>: Whether or not the list is sorted ascending or descending.
-
-    @return <node<ITEM_TYPE> *>: The node that was inserted.
-*/
 template<typename ITEM_TYPE>
 inline node<ITEM_TYPE> *InsertSorted(node<ITEM_TYPE> *&head, ITEM_TYPE item, bool ascending)
 {
@@ -403,16 +331,6 @@ inline node<ITEM_TYPE> *InsertSorted(node<ITEM_TYPE> *&head, ITEM_TYPE item, boo
     return newNode;
 }
 
-/*
-    @summary: Inserts a node into the list in a given order.
-        If the item in the node is a duplicate, then adds to the item already in the list.
-
-    @param <node<ITEM_TYPE> *&head>: The head of the list.
-    @param <ITEM_TYPE item>: The item to insert/add to the list.
-    @param <bool ascending>: Whether or not the list is sorted in ascending/descending order.
-
-    @return <node<ITEM_TYPE> *>: The node that was inserted.
-*/
 template<typename ITEM_TYPE>
 inline node<ITEM_TYPE> *InsertSorted_and_add(node<ITEM_TYPE> *&head, ITEM_TYPE item, bool ascending)
 {
@@ -435,15 +353,6 @@ inline node<ITEM_TYPE> *InsertSorted_and_add(node<ITEM_TYPE> *&head, ITEM_TYPE i
     return nullptr;
 }
 
-/*
-    @summary: Finds the spot to insert a given item in a sorted list.
-
-    @param <node<ITEM_TYPE> *head>: The head of the list.
-    @param <ITEM_TYPE item>: The item to insert.
-    @param <bool ascending>: Whether or not the list is sorted ascending or descending.
-
-    @return <node<ITEM_TYPE> *>: The node that was inserted.
-*/
 template<typename ITEM_TYPE>
 inline node<ITEM_TYPE> *WhereThisGoes(node<ITEM_TYPE> *head, ITEM_TYPE item, bool ascending)
 {
@@ -472,13 +381,6 @@ inline node<ITEM_TYPE> *WhereThisGoes(node<ITEM_TYPE> *head, ITEM_TYPE item, boo
     return nullptr;
 }
 
-/*
-    @summary: Returns the last node in the list.
-
-    @param <node<ITEM_TYPE> *head>: The head of the list.
-    
-    @return <node<ITEM_TYPE> *>: The last node in the list.
-*/
 template<typename ITEM_TYPE>
 inline node<ITEM_TYPE> *LastNode(node<ITEM_TYPE> *head)
 {
