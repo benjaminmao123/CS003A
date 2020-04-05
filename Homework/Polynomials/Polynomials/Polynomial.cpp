@@ -512,6 +512,13 @@ ostream &operator<<(ostream &outs, const Poly &p)
 				outs << p[i];
 			}
 		}
+		else if (!p[i]._coef)
+		{
+			if (!p._order)
+			{
+				outs << p[i];
+			}
+		}
 	}
 
 	outs << "]";
@@ -532,49 +539,104 @@ istream &operator>>(istream &ins, Poly &p)
 {
 	cin.ignore();
 
-	string temp;
-	getline(ins, temp);
+	string input;
 
-	for (unsigned int i = 0; i < temp.size(); ++i)
+	/*
+		Get input from user, should be in the form of:
+		coefficient x exponent e.g.
+		6x2+3x1-5x0
+	*/
+	getline(ins, input);
+
+	/*
+		format the input
+		add spacing to the x on both sides and spacing to the + and - on the right side
+		
+		resulting string should be:
+		6 x 2 +3 x 1 -5 x 0
+	*/
+	for (unsigned int i = 0; i < input.size(); ++i)
 	{
-		if (temp[i] == 'x' || temp[i] == '+' ||
-			temp[i] == '-')
+		if (input[i] == 'x' || input[i] == '+' ||
+			input[i] == '-')
 		{
-			temp.insert(i, " ");
+			input.insert(i, " ");
 			++i;
 		}
 
-		if (temp[i] == 'x')
+		if (input[i] == 'x')
 		{
-			temp.insert(i + 1, " ");
+			input.insert(i + 1, " ");
 			++i;
 		}
 	}
 
+	//vector to store coefficients 
 	Vector<double> mCoefs;
+	/*
+		vector to store the order of each coefficient.
+		this vector will be parallel to mCoefs
+	*/
 	Vector<int> orders;
 
-	istringstream iss(temp);
-	string temp2;
+	//pass our string into istringstream object
+	istringstream iss(input);
 
-	while (iss >> temp2)
+	//temporary buffer to read into
+	string buffer;
+
+	/*
+		example string: 6 x 2 +3 x 1 +5 x 0
+		iss >> buffer will insert '6' into buffer
+	*/
+	while (iss >> buffer)
 	{
-		mCoefs.push_back(stod(temp2));
-		iss >> temp2 >> temp2;
-		orders.push_back(stoi(temp2));
+		//push_back 6 into mCoefs
+		mCoefs.push_back(stod(buffer));
+		/*
+			iss >> buffer inserts 'x' into buffer
+			then another iss >> buffer overwrites the 'x' with '2'
+		*/
+		iss >> buffer >> buffer;
+
+		/*
+			push_back 2 into orders so we have:
+			mCoefs[0]: 6,
+			orders[0]: 2
+		*/
+		orders.push_back(stoi(buffer));
 	}
 
 	double *coefs = nullptr;
+
+	//the order at orders[0] should be the highest so we allocate memory based on that.
 	int order = orders[0];
 	coefs = allocate(coefs, order + 1);
 
 	for (unsigned int i = 0; i < mCoefs.size(); ++i)
 	{
-		coefs[orders[i]] = mCoefs[i];
+		/*
+			access coefs based on the value of orders[i], and
+			assign it the value of the coefficient at i.
+
+			e.g.
+			i: 0,
+			orders[0]: 2,
+			mCoefs[0]: 6 so
+
+			coefs[2] = 6
+		*/
+		*(coefs + orders[i]) = mCoefs[i];
 	}
 
+	//create poly object with coefs and order
 	Poly p2(coefs, order);
+
+	//assign p to the newly constructed poly object.
 	p = p2;
+
+	//cleanup
+	delete[] coefs;
 
 	return ins;
 }
