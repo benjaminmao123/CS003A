@@ -196,10 +196,19 @@ inline node<ITEM_TYPE> *InsertAfter(node<ITEM_TYPE> *&head, node<ITEM_TYPE> *aft
     {
         newNode = new node<ITEM_TYPE>(insertThis);
 
-        node<ITEM_TYPE> *temp = afterThis->next;
+        node<ITEM_TYPE> *temp = nullptr;
+
+        if (afterThis->next)
+        {
+            temp = afterThis->next;
+        }
 
         afterThis->next = newNode;
-        newNode->next = temp;
+
+        if (temp)
+        {
+            newNode->next = temp;
+        }
     }
     else
     {
@@ -282,9 +291,16 @@ inline ITEM_TYPE DeleteNode(node<ITEM_TYPE> *&head, node<ITEM_TYPE> *deleteThis)
     node<ITEM_TYPE> *prev = PreviousNode(head, deleteThis);
     ITEM_TYPE item = deleteThis->_item;
 
-    prev->next = deleteThis->next;
-    
-    delete deleteThis;
+    if (prev)
+    {
+        prev->next = deleteThis->next;
+        delete deleteThis;
+    }
+    else
+    {
+        head = deleteThis->next;
+        delete deleteThis;
+    }
 
     return item;
 }
@@ -325,14 +341,15 @@ template<typename ITEM_TYPE>
 inline void ClearList(node<ITEM_TYPE> *&head)
 {
     node<ITEM_TYPE> *curr = head;
-    node<ITEM_TYPE> *next = curr->next;
+    node<ITEM_TYPE> *next = curr;
 
-    while (next)
+    while (curr && next)
     {
+        next = curr->next;
+
         delete curr;
         curr = nullptr;
         curr = next;
-        next = next->next;
     }
 
     head = nullptr;
@@ -379,7 +396,21 @@ inline node<ITEM_TYPE> *InsertSorted(node<ITEM_TYPE> *&head, ITEM_TYPE item, boo
 
     if (ascending)
     {
-        newNode = InsertAfter(head, mNode, item);
+        if (mNode)
+        {
+            if (mNode->_item <= item)
+            {
+                newNode = InsertAfter(head, mNode, item);
+            }
+            else
+            {
+                newNode = InsertBefore(head, mNode, item);
+            }
+        }
+        else
+        {
+            newNode = InsertHead(head, item);
+        }
     }
     else
     {

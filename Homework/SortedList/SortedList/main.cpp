@@ -77,7 +77,7 @@ void test()
 			item = dist(rng);
 			list.Insert(item);
 
-			if (it == list.End())
+			if (!it)
 			{
 				it = list.Begin();
 			}
@@ -86,7 +86,7 @@ void test()
 			cin >> item;
 			list.Insert(item);
 
-			if (it == list.End())
+			if (!it)
 			{
 				it = list.Begin();
 			}
