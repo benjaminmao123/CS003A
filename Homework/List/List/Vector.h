@@ -40,7 +40,7 @@ public:
     //Insert and Erase:
     void insert(const unsigned int pos, const T &item);     //insert at pos
     void erase(const unsigned int erase_index);             //erase item at position
-    int index_of(const T &item);                            //search for item. retur index.
+    int index_of(const T &item) const;                      //search for item. retur index.
 
     //size and capacity:
     void set_size(const unsigned int size);                 //enlarge the vector to this size
@@ -284,7 +284,7 @@ inline void Vector<T>::erase(const unsigned int erase_index)
     @return <int>: Returns index of the item.
 */
 template<typename T>
-inline int Vector<T>::index_of(const T &item)
+inline int Vector<T>::index_of(const T &item) const
 {
     unsigned int index = 0;
 

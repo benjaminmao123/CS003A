@@ -209,7 +209,7 @@ inline node<ITEM_TYPE> *InsertBefore(node<ITEM_TYPE> *&head, node<ITEM_TYPE> *be
         newNode = InsertHead(head, insertThis);
     }
 
-    return beforeThis;
+    return newNode;
 }
 
 template<typename ITEM_TYPE>
