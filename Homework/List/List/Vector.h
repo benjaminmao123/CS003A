@@ -5,7 +5,6 @@
  *          for dynamic add and removal of elements.
  *
  * Notes: None.
- *
  */
 
 #pragma once
@@ -41,6 +40,7 @@ public:
     void insert(const unsigned int pos, const T &item);     //insert at pos
     void erase(const unsigned int erase_index);             //erase item at position
     int index_of(const T &item) const;                      //search for item. retur index.
+    void clear();
 
     //size and capacity:
     void set_size(const unsigned int size);                 //enlarge the vector to this size
@@ -49,6 +49,8 @@ public:
     int capacity() const { return cap; }                    //return _capacity
 
     bool empty() const;                                     //return true if vector is empty
+
+    void swap(Vector &v);
 
     //OUTPUT:
     template <class U>
@@ -62,8 +64,6 @@ public:
     Vector &operator=(const Vector &rhs);
 
 private:
-    void swap(Vector &v);
-
     unsigned int sz;
     unsigned int cap;
     T *data;
@@ -291,6 +291,18 @@ inline int Vector<T>::index_of(const T &item) const
     search_entry(data, item, sz, index);
 
     return index;
+}
+
+/*
+    @summary: Clears the vector.
+*/
+template<typename T>
+inline void Vector<T>::clear()
+{
+    while (!empty())
+    {
+        pop_back();
+    }
 }
 
 /*

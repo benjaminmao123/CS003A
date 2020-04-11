@@ -3,8 +3,8 @@
  * Project: Array Library
  * Purpose: Library functions to use for array
  *			manipulation.
- *
  * Notes: None.
+ *
  */
 
 #pragma once
@@ -22,16 +22,16 @@ template <typename T>
 T *reallocate(T *list, const unsigned int size, const unsigned int capacity);
 
 template <typename T>
-void copy_list(T *dest, T *src, const unsigned int size);
+void copy_list(T *dest, const T *src, const unsigned int size);
 
 template <typename T>
 T *search_entry(T *list, const T &find_me, const unsigned int size, unsigned int &index);
 
 template <typename T>
-void shift_left(T *start, const T * const end);
+void shift_left(T *start, const T *end);
 
 template <typename T>
-void shift_right(T *start, const T *const end);
+void shift_right(T *start, const T *end);
 
 template <typename T>
 void delete_array(T *&list);
@@ -126,7 +126,7 @@ T *remove_entry(T *list, const T &delete_me, unsigned int &size, unsigned int &c
 template<typename T>
 T *allocate(T *list, const unsigned int capacity)
 {
-	list = new T[capacity]();
+	list = new T[capacity];
 
 	return list;
 }
@@ -153,7 +153,7 @@ T *reallocate(T *list, const unsigned int size, const unsigned int capacity)
 	@param <const unsigned int size>: Size of the source array.
 */
 template<typename T>
-void copy_list(T *dest, T *src, const unsigned int size)
+void copy_list(T *dest, const T *src, const unsigned int size)
 {
 	T *destEnd = dest + size;
 
@@ -202,7 +202,7 @@ T *search_entry(T *list, const T &find_me, const unsigned int size, unsigned int
 	@param <const unsigned int size>: Size of the array.
 */
 template<typename T>
-void shift_left(T *start, const T * const end)
+void shift_left(T *start, const T *end)
 {
 	T *next = start + 1;
 
@@ -220,7 +220,7 @@ void shift_left(T *start, const T * const end)
 	@param <const unsigned int size>: Size of the array.
 */
 template<typename T>
-void shift_right(T *start, const T *const end)
+void shift_right(T *start, const T *end)
 {
 	T *next = start + 1;
 

@@ -37,18 +37,17 @@ public:
                                                                             //  function, you need to redesign
                                                                             //  your program.
 
+    void Swap(List<ITEM_TYPE> &li);
+
     template <class U>
     friend std::ostream &operator<<(std::ostream &outs, const List<U> &l);  //insertion operator for list
-    bool operator==(const List &rhs) const;
-    bool operator!=(const List &rhs) const;
 
 private:
-    void Swap(List<ITEM_TYPE> &li);
     node<ITEM_TYPE> *head;
 };
 
 /*
-    @summary: Default constructor, sets head to nullptr.
+    @summary: Default constructor, initializes head to nullptr.
 */
 template<class ITEM_TYPE>
 inline List<ITEM_TYPE>::List()
@@ -58,7 +57,7 @@ inline List<ITEM_TYPE>::List()
 }
 
 /*
-    @summary: Destructor, clears the list and deallocates memory.
+    @summary: Destructor, clears list.
 */
 template<class ITEM_TYPE>
 inline List<ITEM_TYPE>::~List()
@@ -67,9 +66,9 @@ inline List<ITEM_TYPE>::~List()
 }
 
 /*
-    @summary: Copy constructor.
+    @summary: Copy constructor, constructs list from another list.
 
-    @param <const List<ITEM_TYPE> &copyThis>: List to make a copy of.
+    @param <const List<ITEM_TYPE> &copyThis>: List to copy from.
 */
 template<class ITEM_TYPE>
 inline List<ITEM_TYPE>::List(const List<ITEM_TYPE> &copyThis)
@@ -79,9 +78,11 @@ inline List<ITEM_TYPE>::List(const List<ITEM_TYPE> &copyThis)
 }
 
 /*
-    @summary: Copy assignment operator.
+    @summary: Overloaded copy assignment operator.
 
-    @param <const List &RHS>: List to make a copy of.
+    @param <const List &RHS>: List object to copy and assign.
+
+    @return <List<ITEM_TYPE> &>: Reference to current list object.
 */
 template<class ITEM_TYPE>
 inline List<ITEM_TYPE> &List<ITEM_TYPE>::operator=(const List &RHS)
@@ -93,11 +94,11 @@ inline List<ITEM_TYPE> &List<ITEM_TYPE>::operator=(const List &RHS)
 }
 
 /*
-    @summary: Inserts a node at the head of the list.
+    @summary: Inserts node at head of the list.
 
-    @param <ITEM_TYPE> i>: Item to insert.
+    @param <ITEM_TYPE i>: Item to insert.
 
-    @return <node<ITEM_TYPE> *>: Node that was inserted.
+    @return <node<ITEM_TYPE> *>: node that was inserted.
 */
 template<class ITEM_TYPE>
 inline node<ITEM_TYPE> *List<ITEM_TYPE>::InsertHead(ITEM_TYPE i)
@@ -106,12 +107,12 @@ inline node<ITEM_TYPE> *List<ITEM_TYPE>::InsertHead(ITEM_TYPE i)
 }
 
 /*
-    @summary: Inserts a node after the given node.
+    @summary: Inserts node after given node.
 
-    @param <ITEM_TYPE> i>: Item to insert.
-    @param <node<ITEM_TYPE> *iMarker>: Node to insert after.
+    @param <ITEM_TYPE i>: Item to insert.
+    @param <node<ITEM_TYPE> *iMarker>: node to insert after.
 
-    @return <node<ITEM_TYPE> *>: Node that was inserted.
+    @return <node<ITEM_TYPE> *>: node that was inserted.
 */
 template<class ITEM_TYPE>
 inline node<ITEM_TYPE> *List<ITEM_TYPE>::InsertAfter(ITEM_TYPE i, node<ITEM_TYPE> *iMarker)
@@ -120,12 +121,12 @@ inline node<ITEM_TYPE> *List<ITEM_TYPE>::InsertAfter(ITEM_TYPE i, node<ITEM_TYPE
 }
 
 /*
-    @summary: Inserts a node before the given node.
+    @summary: Inserts node before given node.
 
-    @param <ITEM_TYPE> i>: Item to insert.
-    @param <node<ITEM_TYPE> *iMarker>: Node to insert before.
+    @param <ITEM_TYPE i>: Item to insert.
+    @param <node<ITEM_TYPE> *iMarker>: node to insert before.
 
-    @return <node<ITEM_TYPE> *>: Node that was inserted.
+    @return <node<ITEM_TYPE> *>: node that was inserted.
 */
 template<class ITEM_TYPE>
 inline node<ITEM_TYPE> *List<ITEM_TYPE>::InsertBefore(ITEM_TYPE i, node<ITEM_TYPE> *iMarker)
@@ -134,11 +135,11 @@ inline node<ITEM_TYPE> *List<ITEM_TYPE>::InsertBefore(ITEM_TYPE i, node<ITEM_TYP
 }
 
 /*
-    @summary: Inserts a in a sorted order.
+    @summary: Inserts node in sorted order.
 
-    @param <ITEM_TYPE> i>: Item to insert.
+    @param <ITEM_TYPE i>: Item to insert.
 
-    @return <node<ITEM_TYPE> *>: Node that was inserted.
+    @return <node<ITEM_TYPE> *>: node that was inserted.
 */
 template<class ITEM_TYPE>
 inline node<ITEM_TYPE> *List<ITEM_TYPE>::InsertSorted(ITEM_TYPE i)
@@ -147,11 +148,11 @@ inline node<ITEM_TYPE> *List<ITEM_TYPE>::InsertSorted(ITEM_TYPE i)
 }
 
 /*
-    @summary: Deletes a given node.
+    @summary: Deletes given node.
 
     @param <node<ITEM_TYPE> *iMarker>: Node to delete.
 
-    @return <ITEM_TYPE>: Item of the node that was deleted.
+    @return <ITEM_TYPE>: Item contained in deleted node.
 */
 template<class ITEM_TYPE>
 inline ITEM_TYPE List<ITEM_TYPE>::Delete(node<ITEM_TYPE> *iMarker)
@@ -175,7 +176,7 @@ inline ITEM_TYPE List<ITEM_TYPE>::Delete(node<ITEM_TYPE> *iMarker)
 }
 
 /*
-    @summary: Prints the contents of the list.
+    @summary: Prints contents of list.
 */
 template<class ITEM_TYPE>
 inline void List<ITEM_TYPE>::Print() const
@@ -184,11 +185,11 @@ inline void List<ITEM_TYPE>::Print() const
 }
 
 /*
-    @summary: Searches the list for a given key.
+    @summary: Searches for given key in list.
 
-    @param <const ITEM_TYPE &key>: Item to search for.
+    @param <const ITEM_TYPE &key>: Key to search for.
 
-    @return <node<ITEM_TYPE> *>: Node containing the given item.
+    @return <node<ITEM_TYPE> *>: node containing given key.
 */
 template<class ITEM_TYPE>
 inline node<ITEM_TYPE> *List<ITEM_TYPE>::Search(const ITEM_TYPE &key)
@@ -197,11 +198,11 @@ inline node<ITEM_TYPE> *List<ITEM_TYPE>::Search(const ITEM_TYPE &key)
 }
 
 /*
-    @summary: Gets the previous node of a given node.
+    @summary: Retrieves node previous to given node.
 
-    @param <node<ITEM_TYPE> *iMarker>: Node to get the previous node of.
+    @param <node<ITEM_TYPE> *iMarker>: node to get previous of.
 
-    @return <node<ITEM_TYPE> *>: The previous node of the given node.
+    @return <node<ITEM_TYPE> *>: The previous node.
 */
 template<class ITEM_TYPE>
 inline node<ITEM_TYPE> *List<ITEM_TYPE>::Prev(node<ITEM_TYPE> *iMarker)
@@ -210,11 +211,11 @@ inline node<ITEM_TYPE> *List<ITEM_TYPE>::Prev(node<ITEM_TYPE> *iMarker)
 }
 
 /*
-    @summary: Gets the item of a node at a given index.
+    @summary: Retrieves item of node at given index.
 
-    @param <int index>: Index of the node.
+    @param <int index>: Index to retrieve item at.
 
-    @return <ITEM_TYPE &>: The item of the node at index.
+    @return <ITEM_TYPE &>: Reference to the item.
 */
 template<class ITEM_TYPE>
 inline ITEM_TYPE &List<ITEM_TYPE>::operator[](int index)
@@ -223,9 +224,9 @@ inline ITEM_TYPE &List<ITEM_TYPE>::operator[](int index)
 }
 
 /*
-    @summary: Returns the front of the list.
+    @summary: Gets the head node of the list.
 
-    @return <node<ITEM_TYPE> *>: The node at the front of the list.
+    @return <node<ITEM_TYPE> *>: The head node.
 */
 template<class ITEM_TYPE>
 inline node<ITEM_TYPE> *List<ITEM_TYPE>::Begin() const
@@ -234,9 +235,9 @@ inline node<ITEM_TYPE> *List<ITEM_TYPE>::Begin() const
 }
 
 /*
-    @summary: Returns the back of the list.
+    @summary: Gets the tail node of the list.
 
-    @return <node<ITEM_TYPE> *>: The node at the back of the list.
+    @return <node<ITEM_TYPE> *>: The tail node.
 */
 template<class ITEM_TYPE>
 inline node<ITEM_TYPE> *List<ITEM_TYPE>::End() const
@@ -245,81 +246,9 @@ inline node<ITEM_TYPE> *List<ITEM_TYPE>::End() const
 }
 
 /*
-    @summary: Overloaded equality operator to compare two lists.
+    @summary: Swaps list with a given list.
 
-    @param <const List &rhs>: The list to comapre to.
-
-    @return <bool>: True if equal, false otherwise.
-*/
-template<class ITEM_TYPE>
-inline bool List<ITEM_TYPE>::operator==(const List &rhs) const
-{
-    for (node<ITEM_TYPE> *i = rhs.head, *temp = head; ; i = i->next, temp = temp->next)
-    {
-        if (!temp && i)
-        {
-            return false;
-        }
-        
-        if (!i && temp)
-        {
-            return false;
-        }
-
-        if (!i && !temp)
-        {
-            break;
-        }
-
-        if (i->_item != temp->_item)
-        {
-            return false;
-        }
-    }
-
-    return true;
-}
-
-/*
-    @summary: Overloaded inequality operator to compare two lists.
-
-    @param <const List &rhs>: The list to comapre to.
-
-    @return <bool>: True if not equal, false otherwise.
-*/
-template<class ITEM_TYPE>
-inline bool List<ITEM_TYPE>::operator!=(const List &rhs) const
-{
-    for (node<ITEM_TYPE> *i = rhs.head, *temp = head; ; i = i->next, temp = temp->next)
-    {
-        if (!temp && i)
-        {
-            return true;
-        }
-        
-        if (!i && temp)
-        {
-            return true;
-        }
-
-        if (!i && !temp)
-        {
-            break;
-        }
-
-        if (i->_item != temp->_item)
-        {
-            return true;
-        }
-    }
-
-    return false;
-}
-
-/*
-    @summary: Swaps two lists.
-
-    @param <const List &rhs>: The list to swap with.
+    @param <List<ITEM_TYPE &li>: List to swap with.
 */
 template<class ITEM_TYPE>
 inline void List<ITEM_TYPE>::Swap(List<ITEM_TYPE> &li)
@@ -328,12 +257,12 @@ inline void List<ITEM_TYPE>::Swap(List<ITEM_TYPE> &li)
 }
 
 /*
-    @summary: Overloaded insertion operator to print contents of list.
+    @summary: Overloaded stream insertion operator.
 
     @param <std::ostream &outs>: The ostream object.
-    @param <const List<U> &l>: The list to comapre to.
+    @param <const List<U> &l>: List to print contents of.
 
-    @return <std::ostream &>: Reference to ostream object.
+    @return <std::ostream &>: Reference to the ostream object.
 */
 template<class U>
 inline std::ostream &operator<<(std::ostream &outs, const List<U> &l)

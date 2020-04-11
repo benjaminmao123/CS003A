@@ -20,8 +20,8 @@
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
-    <ProjectGuid>{DB2478EA-E973-41F5-8AAC-90D0E43FFE5C}</ProjectGuid>
-    <RootNamespace>List</RootNamespace>
+    <ProjectGuid>{C66A5B8A-BFDE-41F2-838F-2B4FF43AD9C1}</ProjectGuid>
+    <RootNamespace>IteratedList</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -138,18 +138,18 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Application.cpp" />
-    <ClCompile Include="main.cpp" />
-  </ItemGroup>
-  <ItemGroup>
     <ClInclude Include="Application.h" />
     <ClInclude Include="ArrayLibrary.h" />
     <ClInclude Include="LinkedListLibrary.h" />
-    <ClInclude Include="List.h" />
+    <ClInclude Include="IteratedList.h" />
     <ClInclude Include="Node.h" />
     <ClInclude Include="Vector.h" />
     <ClInclude Include="z_output.h" />
     <ClInclude Include="z_work_report.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Application.cpp" />
+    <ClCompile Include="main.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

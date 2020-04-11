@@ -1,8 +1,8 @@
 /*
  * Author: Benjamin Mao
- * Project: Sorted List
- * Purpose: Class to implement a list that allows for
- *      sorted insertion.
+ * Project: Iterated List
+ * Purpose: Implements a iterated list data structure using
+ *      the Linked List Library.
  *
  * Notes: None.
  */
@@ -84,17 +84,23 @@ public:
     };
 
     //CTOR with default args
-    List(const bool order = true, const bool unique = false);
+    List();
             
     //BIG 3:
     ~List();
     List(const List<ITEM_TYPE> &copyThis);
     List &operator=(const List &RHS);
 
+    //insert at the head of list
+    Iterator InsertHead(const ITEM_TYPE &i);
+    //insert after marker
+    Iterator InsertAfter(const ITEM_TYPE &i, Iterator iMarker);
+    //insert before marker
+    Iterator InsertBefore(const ITEM_TYPE &i, Iterator iMarker);
     //Insert i in a sorted manner
-    Iterator Insert(const ITEM_TYPE &i);                                        
+    Iterator InsertSorted(const ITEM_TYPE &i);                                        
     //delete node pointed to by marker
-    ITEM_TYPE Delete(List<ITEM_TYPE>::Iterator iMarker);                        
+    ITEM_TYPE Delete(Iterator iMarker);                        
     void Print() const;
     //return Iterator to node [key]
     Iterator Search(const ITEM_TYPE &key) const;           
@@ -120,20 +126,14 @@ public:
 
 private:
     node<ITEM_TYPE> *_head_ptr;
-    bool _order;
-    bool _unique;
 };
 
 /*
-    @summary: Default constructor, initializes sorting type, if
-        the list is unique, and the head ptr of the list.
-
-    @param <bool order>: True for ascending sort, false for descending.
-    @param <bool unique>: Indiciates whether duplicates are allowed.
+    @summary: Default constructor, initializes head to nullptr.
 */
 template<class ITEM_TYPE>
-inline List<ITEM_TYPE>::List(const bool order, const bool unique)
-    : _order(order), _unique(unique), _head_ptr(nullptr)
+inline List<ITEM_TYPE>::List()
+    : _head_ptr(nullptr)
 {
 
 }
@@ -154,7 +154,7 @@ inline List<ITEM_TYPE>::~List()
 */
 template<class ITEM_TYPE>
 inline List<ITEM_TYPE>::List(const List<ITEM_TYPE> &copyThis)
-    : _head_ptr(CopyList(copyThis._head_ptr)), _order(copyThis._order), _unique(copyThis._unique)
+    : _head_ptr(CopyList(copyThis._head_ptr))
 {
 
 }
@@ -176,6 +176,51 @@ inline List<ITEM_TYPE> &List<ITEM_TYPE>::operator=(const List &RHS)
 }
 
 /*
+    @summary: Inserts node at head of the list.
+
+    @param <const ITEM_TYPE &i>: Item to insert.
+
+    @return <List<ITEM_TYPE>::Iterator>: Iterator to node that was inserted.
+*/
+template<class ITEM_TYPE>
+inline typename List<ITEM_TYPE>::Iterator List<ITEM_TYPE>::InsertHead(const ITEM_TYPE &i)
+{
+    return Iterator(::InsertHead(_head_ptr, i));
+}
+
+/*
+    @summary: Inserts node after given node.
+
+    @param <ITEM_TYPE i>: Item to insert.
+    @param <Iterator iMarker>: Iterator to node to insert after.
+
+    @return <List<ITEM_TYPE>::Iterator>: Iterator to node that was inserted.
+*/
+template<class ITEM_TYPE>
+inline typename List<ITEM_TYPE>::Iterator List<ITEM_TYPE>::InsertAfter(const ITEM_TYPE &i, Iterator iMarker)
+{
+    node<ITEM_TYPE> *mNode = SearchList(_head_ptr, *iMarker);
+
+    return Iterator(::InsertAfter(_head_ptr, mNode, i));
+}
+
+/*
+    @summary: Inserts node before given node.
+
+    @param <ITEM_TYPE i>: Item to insert.
+    @param <Iterator iMarker>: Iterator to node to insert before.
+
+    @return <List<ITEM_TYPE>::Iterator>: Iterator to node that was inserted.
+*/
+template<class ITEM_TYPE>
+inline typename List<ITEM_TYPE>::Iterator List<ITEM_TYPE>::InsertBefore(const ITEM_TYPE &i, Iterator iMarker)
+{
+    node<ITEM_TYPE> *mNode = SearchList(_head_ptr, *iMarker);
+
+    return Iterator(::InsertBefore(_head_ptr, mNode, i));
+}
+
+/*
     @summary: Inserts an item depending on the sorting order.
 
     @param <const ITEM_TYPE &i>: Item to insert.
@@ -183,14 +228,9 @@ inline List<ITEM_TYPE> &List<ITEM_TYPE>::operator=(const List &RHS)
     @return <List<ITEM_TYPE>::Iterator>: Returns iterator to the newly inserted item.
 */
 template<class ITEM_TYPE>
-inline typename List<ITEM_TYPE>::Iterator List<ITEM_TYPE>::Insert(const ITEM_TYPE &i)
+inline typename List<ITEM_TYPE>::Iterator List<ITEM_TYPE>::InsertSorted(const ITEM_TYPE &i)
 {
-    if (_unique)
-    {
-        return Iterator(InsertSorted_and_add(_head_ptr, i, _order));
-    }
-
-    return Iterator(InsertSorted(_head_ptr, i, _order));
+    return Iterator(::InsertSorted(_head_ptr, i));
 }
 
 /*
@@ -330,8 +370,6 @@ template<class ITEM_TYPE>
 inline void List<ITEM_TYPE>::Swap(List &l)
 {
     std::swap(_head_ptr, l._head_ptr);
-    std::swap(_order, l._order);
-    std::swap(_unique, l._unique);
 }
 
 /*

@@ -142,6 +142,9 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="LinkedListLibrary.h" />
+    <ClInclude Include="Node.h" />
+    <ClInclude Include="z_output.h" />
+    <ClInclude Include="z_work_report.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
