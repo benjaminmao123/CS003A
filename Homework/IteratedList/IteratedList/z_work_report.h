@@ -7,9 +7,9 @@
             Iterator: ctors, operator*, operator->, 
                 operator bool(), is_null, operator!=, operator==,
                 operator++, operator++(postfix)
-            List: ctor, Big 3, Insert, Delete, Print, Search, 
-                Prev, operator[], operator[](const), Begin, End, 
-                LastNode, operator<<
+            List: ctor, Big 3, InsertAfter, InsertBefore, InsertSorted,
+                InsertHead, Delete, Print, Search, Prev, operator[], 
+                operator[](const), Begin, End, LastNode, operator<<
         -Partly implemented: None
 
     Bugs: features that are implemented are bug-free.
