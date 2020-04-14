@@ -28,6 +28,9 @@ Poly::Poly()
 /*
 	@summary: Overloaded constructor, to create poly object from
 		given coef and order.
+
+	@param <double *coefs>: Array of coefficients.
+	@param <const unsigned int order>: The order.
 */
 Poly::Poly(double *coefs, const unsigned int order)
 	: _coefs(reallocate(coefs, order + 1, order + 1)), _order(order)
@@ -71,7 +74,7 @@ Poly::~Poly()
 /*
 	@summary: Overloaded subscript operator.
 
-	@param <int order>: Takes an index based on order.
+	@param <const unsigned int order>: Takes an index based on order.
 
 	@return <Term>: Returns a term object with the coef
 		and order.

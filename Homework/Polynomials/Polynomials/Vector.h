@@ -21,8 +21,8 @@ class Vector
 {
 public:
     Vector(const unsigned int size = 0);
-	Vector(const Vector &other);
-	~Vector();
+    Vector(const Vector &other);
+    ~Vector();
 
     const T operator[](const unsigned int index) const;
     T &operator[](const unsigned int index);
@@ -44,8 +44,8 @@ public:
     //size and capacity:
     void set_size(const unsigned int size);                 //enlarge the vector to this size
     void set_capacity(const unsigned int capacity);         //allocate this space
-    unsigned int size() const { return sz; }                //return _size    
-    unsigned int capacity() const { return cap; }           //return _capacity
+    unsigned int size() const { return sz; }                //return sz 
+    unsigned int capacity() const { return cap; }           //return cap
 
     bool empty() const;                                     //return true if vector is empty
 
@@ -120,6 +120,11 @@ inline Vector<T>::~Vector()
 template<typename T>
 inline const T Vector<T>::operator[](const unsigned int index) const
 {
+    if (index >= sz)
+    {
+        throw std::out_of_range("Index was out of range");
+    }
+
     T *location = data + index;
 
     return *location;
@@ -136,6 +141,11 @@ inline const T Vector<T>::operator[](const unsigned int index) const
 template<typename T>
 inline T &Vector<T>::operator[](const unsigned int index)
 {
+    if (index >= sz)
+    {
+        throw std::out_of_range("Index was out of range");
+    }
+
     T *location = data + index;
 
     return *location;
@@ -152,7 +162,7 @@ inline T &Vector<T>::operator[](const unsigned int index)
 template<typename T>
 inline T &Vector<T>::at(const unsigned int index)
 {
-    if (index < sz)
+    if (index >= sz)
     {
         throw std::out_of_range("Index was out of range");
     }
@@ -173,7 +183,7 @@ inline T &Vector<T>::at(const unsigned int index)
 template<typename T>
 inline const T Vector<T>::at(const unsigned int index) const
 {
-    if (index < sz)
+    if (index >= sz)
     {
         throw std::out_of_range("Index was out of range");
     }
@@ -202,7 +212,7 @@ inline T &Vector<T>::front() const
 template<typename T>
 inline T &Vector<T>::back() const
 {
-    return at(sz);
+    return at(sz - 1);
 }
 
 /*
@@ -253,7 +263,7 @@ inline T Vector<T>::pop_back()
 template<typename T>
 inline void Vector<T>::insert(const unsigned int pos, const T &item)
 {
-    if (!pos || pos >= sz)
+    if (pos >= sz)
     {
         push_back(item);
     }
@@ -272,7 +282,8 @@ inline void Vector<T>::insert(const unsigned int pos, const T &item)
 }
 
 /*
-    @summary: Erases the item at given index.
+    @summary: Erases the item at given index. If index >= size of vector,
+        pop_back is used.
 
     @param <const unsigned int erase_index>: Index of item to erase.
 */
@@ -392,7 +403,7 @@ inline bool Vector<T>::operator==(const Vector<T> &_a)
     {
         return false;
     }
-    
+
     for (unsigned int i = 0; i < sz; ++i)
     {
         if (at(i) != _a.at(i))
