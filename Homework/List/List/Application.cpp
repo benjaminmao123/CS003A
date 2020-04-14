@@ -8,7 +8,6 @@
  */
 
 #include <iostream>
-#include <sstream>
 #include <cctype>
 
 #include "Application.h"
@@ -16,7 +15,7 @@
 using namespace std;
 
 Application::Application(const int numElements, const int min, const int max)
-	: min(min), max(max), input('\0'), item(0), status(true), rng(rd())
+	: min(min), max(max), input('\0'), status(true), rng(rd())
 {
 	for (int i = 0; i < numElements; ++i)
 	{
@@ -24,7 +23,6 @@ Application::Application(const int numElements, const int min, const int max)
 	}
 
 	currNode = list.Begin();
-	cursor = list.Begin();
 }
 
 void Application::Run()
@@ -45,6 +43,8 @@ void Application::Input()
 
 void Application::Update()
 {
+	int item;
+
 	switch (input)
 	{
 	case 'r':
@@ -63,8 +63,11 @@ void Application::Update()
 		currNode = list.InsertBefore(item, currNode);
 		break;
 	case 'd':
-		list.Delete(currNode);
-		currNode = list.Begin();
+		if (currNode)
+		{
+			list.Delete(currNode);
+			currNode = list.Begin();
+		}
 		break;
 	case 's':
 	{
@@ -109,34 +112,20 @@ void Application::Update()
 	cout << endl;
 }
 
-void Application::Output()
+void Application::Output() const
 {
-	ostringstream oss;
-	oss << list;
-	istringstream iss(oss.str());
-
-	Vector<string>().swap(listOutput);
-	string temp;
-
-	while (iss >> temp)
-	{
-		listOutput.push_back(temp);
-	}
-
-	cursor = list.Begin();
-
-	for (int i = 0; i < listOutput.size(); ++i, cursor = cursor->next)
+	for (auto cursor = list.Begin(); cursor != nullptr; cursor = cursor->next)
 	{
 		if (cursor == currNode)
 		{
-			cout << "{" << listOutput[i] << "}->";
+			cout << "{" << *cursor << "}->";
 		}
 		else
 		{
-			cout << "[" << listOutput[i] << "]->";
+			cout << "[" << *cursor << "]->";
 		}
 
-		if (i == listOutput.size() - 1)
+		if (!cursor->next)
 		{
 			cout << "|||" << endl;
 		}

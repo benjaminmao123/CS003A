@@ -7,9 +7,12 @@
  */
 
 #include <cassert>
+#include <random>
 
 #include "List.h"
 #include "Application.h"
+#include "ListTest.h"
+#include "LinkedListLibraryTest.h"
 
 using namespace std;
 
@@ -28,27 +31,32 @@ int main()
 
 void Test()
 {
-	List<int> list;
+    cout << "Linked List Library Tests: " << endl;
+	LinkedListLibraryTest::TestInsertHead();
+	LinkedListLibraryTest::TestInsertAfter();
+	LinkedListLibraryTest::TestInsertBefore();
+	LinkedListLibraryTest::TestInsertSorted();
+	LinkedListLibraryTest::TestDeleteNode();
+	LinkedListLibraryTest::TestClearList();
+	LinkedListLibraryTest::TestSearchListTest();
+	LinkedListLibraryTest::TestPreviousNode();
+	LinkedListLibraryTest::TestAt();
+	LinkedListLibraryTest::TestLastNode();
+	LinkedListLibraryTest::TestPrintBackwards();
+	LinkedListLibraryTest::TestPrintList();
+	LinkedListLibraryTest::TestCopyList();
 
-	//InsertSorted test
-	cout << "InsertSorted" << endl;
-
-	for (int i = 0; i < 10; ++i)
-	{
-		list.InsertSorted(i);
-		cout << list << endl;
-	}
-
-	cout << endl;
-
-	//operator[] test
-	cout << "operator[]" << endl;
-
-	for (int i = 0; i < 10; ++i)
-	{
-		assert(list[i] == i);
-		cout << list[i] << " ";
-	}
-
-	cout << endl << endl;
+	cout << "List Tests: " << endl;
+	ListTest::TestInsertHead();
+	ListTest::TestInsertAfter();
+	ListTest::TestInsertBefore();
+	ListTest::TestInsertSorted();
+	ListTest::TestDelete();
+	ListTest::TestPrint();
+	ListTest::TestSearch();
+	ListTest::TestPrev();
+	ListTest::TestSubscriptOperator();
+	ListTest::TestBegin();
+	ListTest::TestEnd();
+	ListTest::TestStreamInsertionOperator();
 }

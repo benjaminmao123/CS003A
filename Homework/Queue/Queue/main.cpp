@@ -17,6 +17,12 @@ int main()
 	s.push(3);
 	cout << s << endl;
 
+	cout << s.front() << endl;
+
+	queue<int> s1(s);
+
+	cout << s1 << endl;
+
 	s.pop();
 	cout << s << endl;
 	s.pop();

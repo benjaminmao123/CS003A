@@ -138,6 +138,15 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="LinkedListLibrary.h" />
+    <ClInclude Include="Node.h" />
+    <ClInclude Include="Polynomial.h" />
+    <ClInclude Include="SortedList.h" />
+    <ClInclude Include="Term.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="Polynomial.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

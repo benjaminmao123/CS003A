@@ -1,26 +1,23 @@
 #include <iostream>
 
-#include "Stack.h"
+#include "StackTest.h"
 
 using namespace std;
 
+void Test();
+
 int main()
 {
-	stack<int> s;
-	stack<int> s2;
-
-	s2.push(0);
-
-	s.push(0);
-	s.push(1);
-	s.push(2);
-	s.push(3);
-
-	stack<int> s1(s);
-
-	cout << s << endl;
-	
-	cout << (s != s2) << endl;
+	Test();
 
 	return 0;
+}
+
+void Test()
+{
+	cout << "Stack Tests" << endl;
+
+	StackTest::TestPush();
+	StackTest::TestPop();
+	StackTest::TestTop();
 }

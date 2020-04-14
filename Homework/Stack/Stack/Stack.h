@@ -2,8 +2,9 @@
 
 #include <algorithm>
 #include <iostream>
+#include <cassert>
 
-#include "List.h"
+#include "LinkedListLibrary.h"
 
 template <typename T>
 class stack
@@ -37,7 +38,7 @@ public:
 private:
 	void swap(stack &s1, stack &s2);
 
-	List<value_type> list;
+	node<T> *head;
 	size_type sz;
 };
 
@@ -46,7 +47,7 @@ private:
 */
 template<typename T>
 inline stack<T>::stack()
-	: sz(0)
+	: sz(0), head(nullptr)
 {
 
 }
@@ -58,7 +59,7 @@ inline stack<T>::stack()
 */
 template<typename T>
 inline stack<T>::stack(const stack &other)
-	: sz(other.sz), list(other.list)
+	: sz(other.sz), head(CopyList(other.head))
 {
 
 }
@@ -83,7 +84,7 @@ inline stack<T> &stack<T>::operator=(const stack &rhs)
 template<typename T>
 inline stack<T>::~stack()
 {
-
+	ClearList(head);
 }
 
 /*
@@ -94,7 +95,7 @@ inline stack<T>::~stack()
 template<typename T>
 inline void stack<T>::push(const value_type &item)
 {
-	list.InsertHead(item);
+	InsertHead(head, item);
 	++sz;
 }
 
@@ -106,7 +107,7 @@ inline void stack<T>::pop()
 {
 	if (!empty())
 	{
-		list.Delete(list.Begin());
+		DeleteNode(head, head);
 		--sz;
 	}
 }
@@ -119,12 +120,12 @@ inline void stack<T>::pop()
 template<typename T>
 inline typename const stack<T>::reference stack<T>::top() const
 {
-	if (!empty())
+	if (empty())
 	{
-		return list.Begin()->_item;
+		throw std::out_of_range("Top called on empty stack.");
 	}
 
-	return nullptr;
+	return head->_item;
 }
 
 /*
@@ -135,12 +136,12 @@ inline typename const stack<T>::reference stack<T>::top() const
 template<typename T>
 inline typename stack<T>::reference stack<T>::top()
 {
-	if (!empty())
+	if (empty())
 	{
-		return list.Begin()->_item;
+		throw std::out_of_range("Top called on empty stack.");
 	}
 
-	return nullptr;
+	return head->_item;
 }
 
 /*
@@ -162,7 +163,7 @@ inline typename stack<T>::size_type stack<T>::size() const
 template<typename T>
 inline bool stack<T>::empty() const
 {
-	return sz == 0;
+	return sz == 0 || head == nullptr;
 }
 
 /*
@@ -174,7 +175,7 @@ template<typename T>
 inline void stack<T>::swap(stack &other) noexcept
 {
 	std::swap(sz, other.sz);
-	std::swap(list, other.list);
+	std::swap(head, other.head);
 }
 
 /*
@@ -190,7 +191,7 @@ inline bool stack<T>::operator==(const stack &rhs) const
 {
 	if (sz == rhs.sz)
 	{
-		return list == rhs.list;
+		return head == rhs.head;
 	}
 
 	return false;
@@ -212,7 +213,7 @@ inline bool stack<T>::operator!=(const stack &rhs) const
 		return true;
 	}
 
-	return list != rhs.list;
+	return head != rhs.head;
 }
 
 /*
@@ -225,7 +226,7 @@ template<typename T>
 inline void stack<T>::swap(stack &s1, stack &s2)
 {
 	std::swap(s1.sz, s2.sz);
-	std::swap(s1.list, s2.list);
+	std::swap(s1.head, s2.head);
 }
 
 /*
@@ -239,7 +240,10 @@ inline void stack<T>::swap(stack &s1, stack &s2)
 template<typename U>
 inline std::ostream &operator<<(std::ostream &os, const stack<U> &s)
 {
-	os << s.list;
+	for (auto i = s.head; i != nullptr; i = i->next)
+	{
+		os << *i << " ";
+	}
 
 	return os;
 }

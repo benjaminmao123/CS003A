@@ -4,7 +4,6 @@
 #include <random>
 
 #include "List.h"
-#include "Vector.h"
 
 class Application
 {
@@ -16,7 +15,7 @@ public:
 private:
 	void Input();
 	void Update();
-	void Output();
+	void Output() const;
 
 	int RandomNumber(const int min, const int max);
 
@@ -25,9 +24,6 @@ private:
 	node<int> *currNode;
 	int min;
 	int max;
-	int item;
-	node<int> *cursor;
-	Vector<std::string> listOutput;
 	bool status;
 	std::random_device rd;
 	std::mt19937 rng;

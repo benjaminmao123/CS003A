@@ -19,13 +19,10 @@ public:
     Poly &operator*=(const Poly &RHS);
     Poly &operator-=(const Poly &RHS);
 
-
-
     friend Poly operator+(const Poly &left, const Poly &right);
     friend Poly operator-(const Poly &left, const Poly &right);
     friend Poly operator*(const Poly &left, const Poly &right);
     Poly operator-() const;
-
 
     friend Poly operator+(const Poly &left, const Term &t);
     friend Poly operator*(const Poly &left, const Term &t);

@@ -2,6 +2,7 @@
 
 #include <algorithm>
 #include <iostream>
+#include <cassert>
 
 #include "List.h"
 
@@ -37,7 +38,8 @@ public:
 private:
 	void swap(queue &s1, queue &s2);
 
-	List<value_type> list;
+	node<T> *head;
+	node<T> *tail;
 	size_type sz;
 };
 
@@ -46,7 +48,7 @@ private:
 */
 template<typename T>
 inline queue<T>::queue()
-	: sz(0)
+	: sz(0), head(nullptr), tail(nullptr)
 {
 
 }
@@ -58,9 +60,12 @@ inline queue<T>::queue()
 */
 template<typename T>
 inline queue<T>::queue(const queue &other)
-	: sz(other.sz), list(other.list)
+	: sz(other.sz)
 {
-
+	for (auto i = other.head; i != nullptr; i = i->next)
+	{
+		push(i->_item);
+	}
 }
 
 /*
@@ -83,7 +88,7 @@ inline queue<T> &queue<T>::operator=(const queue &rhs)
 template<typename T>
 inline queue<T>::~queue()
 {
-
+	ClearList(head);
 }
 
 /*
@@ -94,7 +99,15 @@ inline queue<T>::~queue()
 template<typename T>
 inline void queue<T>::push(const value_type &item)
 {
-	list.InsertAfter(item, list.End());
+	if (!tail)
+	{
+		tail = InsertAfter(head, head, item);
+	}
+	else
+	{
+		tail = InsertAfter(head, tail, item);
+	}
+
 	++sz;
 }
 
@@ -106,7 +119,7 @@ inline void queue<T>::pop()
 {
 	if (!empty())
 	{
-		list.Delete(list.Begin());
+		DeleteNode(head, head);
 		--sz;
 	}
 }
@@ -119,12 +132,12 @@ inline void queue<T>::pop()
 template<typename T>
 inline typename const queue<T>::reference queue<T>::front() const
 {
-	if (!empty())
+	if (empty())
 	{
-		return list.Begin()->_item;
+		throw std::out_of_range("Front called on empty queue.");
 	}
 
-	return nullptr;
+	return head->_item;
 }
 
 /*
@@ -135,12 +148,12 @@ inline typename const queue<T>::reference queue<T>::front() const
 template<typename T>
 inline typename queue<T>::reference queue<T>::front()
 {
-	if (!empty())
+	if (empty())
 	{
-		return list.Begin()->_item;
+		throw std::out_of_range("Front called on empty queue.");
 	}
 
-	return nullptr;
+	return head->_item;
 }
 
 /*
@@ -162,7 +175,7 @@ inline typename queue<T>::size_type queue<T>::size() const
 template<typename T>
 inline bool queue<T>::empty() const
 {
-	return sz == 0;
+	return sz == 0 || head == nullptr;
 }
 
 /*
@@ -174,7 +187,8 @@ template<typename T>
 inline void queue<T>::swap(queue &other) noexcept
 {
 	std::swap(sz, other.sz);
-	std::swap(list, other.list);
+	std::swap(head, other.head);
+	std::swap(tail, other.tail);
 }
 
 /*
@@ -190,7 +204,7 @@ inline bool queue<T>::operator==(const queue &rhs) const
 {
 	if (sz == rhs.sz)
 	{
-		return list == rhs.list;
+		return head == rhs.head && tail == rhs.tail;
 	}
 
 	return false;
@@ -212,7 +226,7 @@ inline bool queue<T>::operator!=(const queue &rhs) const
 		return true;
 	}
 
-	return list != rhs.list;
+	return head != rhs.head && tail != rhs.tail;
 }
 
 /*
@@ -225,7 +239,8 @@ template<typename T>
 inline void queue<T>::swap(queue &s1, queue &s2)
 {
 	std::swap(s1.sz, s2.sz);
-	std::swap(s1.list, s2.list);
+	std::swap(s1.head, s2.head);
+	std::swap(s1.tail, s2.tail);
 }
 
 /*
@@ -239,7 +254,10 @@ inline void queue<T>::swap(queue &s1, queue &s2)
 template<typename U>
 inline std::ostream &operator<<(std::ostream &os, const queue<U> &q)
 {
-	os << q.list;
+	for (auto i = q.head; i != nullptr; i = i->next)
+	{
+		os << *i << " ";
+	}
 
 	return os;
 }

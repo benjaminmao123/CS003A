@@ -16,15 +16,14 @@
 using namespace std;
 
 Application::Application(const int numElements, const int min, const int max)
-	: min(min), max(max), input('\0'), item(0), status(true), rng(rd())
+	: min(min), max(max), input('\0'), status(true), rng(rd())
 {
 	for (int i = 0; i < numElements; ++i)
 	{
 		list.Insert(RandomNumber(min, max));
 	}
 
-	it = list.Begin();
-	cursor = list.Begin();
+	currIt = list.Begin();
 }
 
 void Application::Run()
@@ -45,21 +44,23 @@ void Application::Input()
 
 void Application::Update()
 {
+	int item;
+
 	switch (input)
 	{
 	case 'r':
 		item = RandomNumber(min, max);
 
-		it = list.Insert(item);
+		currIt = list.Insert(item);
 		break;
 	case 'i':
 		cin >> item;
 
-		it = list.Insert(item);
+		currIt = list.Insert(item);
 		break;
 	case 'd':
-		list.Delete(it);
-		it = list.Begin();
+		list.Delete(currIt);
+		currIt = list.Begin();
 		break;
 	case 's':
 	{
@@ -69,36 +70,36 @@ void Application::Update()
 
 		if (sIt)
 		{
-			it = sIt;
+			currIt = sIt;
 		}
 		break;
 	}
 	case 'p':
 	{
-		auto prev = list.Prev(it);
+		auto prev = list.Prev(currIt);
 
 		if (prev)
 		{
-			it = list.Prev(it);
+			currIt = list.Prev(currIt);
 		}
 		break;
 	}
 	case 'n':
 	{
-		auto next = it;
+		auto next = currIt;
 		++next;
 
 		if (next)
 		{
-			++it;
+			++currIt;
 		}
 		break;
 	}
 	case 'h':
-		it = list.Begin();
+		currIt = list.Begin();
 		break;
 	case 'e':
-		it = list.End();
+		currIt = list.LastNode();
 		break;
 	case 'x':
 		status = false;
@@ -109,37 +110,28 @@ void Application::Update()
 	cout << endl;
 }
 
-void Application::Output()
+void Application::Output() const
 {
-	ostringstream oss;
-	oss << list;
-	istringstream iss(oss.str());
+	auto cursor = list.Begin();
 
-	Vector<string>().swap(listOutput);
-	string temp;
-
-	while (iss >> temp)
+	while (true)
 	{
-		listOutput.push_back(temp);
-	}
-
-	cursor = list.Begin();
-
-	for (int i = 0; i < listOutput.size(); ++i, ++cursor)
-	{
-		if (cursor == it)
+		if (!cursor)
 		{
-			cout << "{" << listOutput[i] << "}->";
+			cout << "|||" << endl;
+			break;
+		}
+
+		if (cursor == currIt)
+		{
+			cout << "{" << *cursor << "}->";
 		}
 		else
 		{
-			cout << "[" << listOutput[i] << "]->";
+			cout << "[" << *cursor << "]->";
 		}
 
-		if (i == listOutput.size() - 1)
-		{
-			cout << "|||" << endl;
-		}
+		++cursor;
 	}
 
 	cout << "[R]andom [I]nsert [D]elete [S]earch [P]revious [N]ext [H]ome [E]nd E[x]it ";

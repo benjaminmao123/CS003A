@@ -6,7 +6,6 @@
  * Notes: None.
  */
 
-#include "IteratedList.h"
 #include "Application.h"
 
 using namespace std;

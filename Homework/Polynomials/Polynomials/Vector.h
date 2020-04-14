@@ -5,12 +5,12 @@
  *          for dynamic add and removal of elements.
  *
  * Notes: None.
+ *
  */
 
 #pragma once
 
 #include <iostream>
-#include <cassert>
 
 #include "ArrayLibrary.h"
 
@@ -20,8 +20,7 @@ template <typename T>
 class Vector
 {
 public:
-    Vector();
-    Vector(unsigned int size);
+    Vector(unsigned int size = 100);
 	Vector(const Vector &other);
 	~Vector();
 
@@ -45,8 +44,8 @@ public:
     //size and capacity:
     void set_size(const unsigned int size);                 //enlarge the vector to this size
     void set_capacity(const unsigned int capacity);         //allocate this space
-    unsigned int size() const { return sz; }                //return _size    
-    unsigned int capacity() const { return cap; }           //return _capacity
+    int size() const { return sz; }                         //return _size    
+    int capacity() const { return cap; }                    //return _capacity
 
     bool empty() const;                                     //return true if vector is empty
 
@@ -68,13 +67,6 @@ private:
     unsigned int cap;
     T *data;
 };
-
-template<typename T>
-inline Vector<T>::Vector()
-    : sz(0), cap(1), data(allocate(data, cap))
-{
-
-}
 
 /*
     @summary: Overloaded constructor that takes in a size.
@@ -150,7 +142,10 @@ inline T &Vector<T>::operator[](const unsigned int index)
 template<typename T>
 inline T &Vector<T>::at(const unsigned int index)
 {
-    assert(index < sz);
+    if (index < sz)
+    {
+        throw std::out_of_range("Index was out of range");
+    }
 
     T *location = data + index;
 
@@ -168,7 +163,10 @@ inline T &Vector<T>::at(const unsigned int index)
 template<typename T>
 inline const T Vector<T>::at(const unsigned int index) const
 {
-    assert(index < sz);
+    if (index < sz)
+    {
+        throw std::out_of_range("Index was out of range");
+    }
 
     T *location = data + index;
 

@@ -11,7 +11,6 @@
 #pragma once
 
 #include <iostream>
-#include <cassert>
 
 #include "ArrayLibrary.h"
 
@@ -143,7 +142,10 @@ inline T &Vector<T>::operator[](const unsigned int index)
 template<typename T>
 inline T &Vector<T>::at(const unsigned int index)
 {
-    assert(index < sz);
+    if (index < sz)
+    {
+        throw std::out_of_range("Index was out of range");
+    }
 
     T *location = data + index;
 
@@ -161,7 +163,10 @@ inline T &Vector<T>::at(const unsigned int index)
 template<typename T>
 inline const T Vector<T>::at(const unsigned int index) const
 {
-    assert(index < sz);
+    if (index < sz)
+    {
+        throw std::out_of_range("Index was out of range");
+    }
 
     T *location = data + index;
 

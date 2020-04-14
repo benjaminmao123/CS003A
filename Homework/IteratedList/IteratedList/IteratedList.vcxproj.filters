@@ -18,12 +18,6 @@
     <ClInclude Include="LinkedListLibrary.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Vector.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="ArrayLibrary.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="IteratedList.h">
       <Filter>Header Files</Filter>
     </ClInclude>

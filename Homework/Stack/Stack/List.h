@@ -1,4 +1,14 @@
+/*
+ * Author: Benjamin Mao
+ * Project: List
+ * Purpose: Implements a list data structure using
+ *      the Linked List Library.
+ *
+ * Notes: None.
+ */
+
 #pragma once
+
 
 #include <iostream>
 #include <algorithm>
@@ -269,7 +279,7 @@ inline std::ostream &operator<<(std::ostream &outs, const List<U> &l)
 {
     for (node<U> *i = l.head; i != nullptr; i = i->next)
     {
-        outs << i->_item << " ";
+        outs << *i << " ";
     }
 
     return outs;
