@@ -44,8 +44,8 @@ public:
     //size and capacity:
     void set_size(const unsigned int size);                 //enlarge the vector to this size
     void set_capacity(const unsigned int capacity);         //allocate this space
-    int size() const { return sz; }                         //return _size    
-    int capacity() const { return cap; }                    //return _capacity
+    unsigned int size() const { return sz; }                //return _size    
+    unsigned int capacity() const { return cap; }           //return _capacity
 
     bool empty() const;                                     //return true if vector is empty
 

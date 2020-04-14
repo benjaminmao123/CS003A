@@ -29,7 +29,7 @@ Poly::Poly()
 	@summary: Overloaded constructor, to create poly object from
 		given coef and order.
 */
-Poly::Poly(double *coefs, const int order)
+Poly::Poly(double *coefs, const unsigned int order)
 	: _coefs(reallocate(coefs, order + 1, order + 1)), _order(order)
 {
 
@@ -76,8 +76,13 @@ Poly::~Poly()
 	@return <Term>: Returns a term object with the coef
 		and order.
 */
-Term Poly::operator[](const int order) const
+Term Poly::operator[](const unsigned int order) const
 {
+	if (order > _order)
+	{
+		throw std::out_of_range("Order out of bounds.");
+	}
+
 	double *coef = _coefs + order;
 
 	return Term(*coef, order);
@@ -124,7 +129,7 @@ bool operator==(const Poly &lhs, const Poly &rhs)
 		return false;
 	}
 
-	for (int i = 0; i <= lhs._order; ++i)
+	for (unsigned int i = 0; i <= lhs._order; ++i)
 	{
 		if (lhs[i] != rhs[i])
 		{
@@ -151,7 +156,7 @@ bool operator!=(const Poly &lhs, const Poly &rhs)
 		return false;
 	}
 
-	for (int i = 0; i <= lhs._order; ++i)
+	for (unsigned int i = 0; i <= lhs._order; ++i)
 	{
 		if (lhs[i] == rhs[i])
 		{
@@ -333,7 +338,7 @@ Poly operator*(const Poly &lhs, const Term &t)
 {
 	Poly result(lhs);
 
-	Vector<int> exps;
+	Vector<unsigned int> exps;
 	Vector<double> coefs;
 
 	for (int i = result._order; i >= 0; --i)
@@ -383,7 +388,7 @@ Poly operator*(const Poly &lhs, const Poly &rhs)
 	{
 		Poly temp(lhs);
 
-		for (int i = 0; i <= rhs._order; ++i)
+		for (unsigned int i = 0; i <= rhs._order; ++i)
 		{
 			poly.push_back(temp * rhs[i]);
 		}
@@ -392,7 +397,7 @@ Poly operator*(const Poly &lhs, const Poly &rhs)
 	{
 		Poly temp(rhs);
 
-		for (int i = 0; i <= lhs._order; ++i)
+		for (unsigned int i = 0; i <= lhs._order; ++i)
 		{
 			poly.push_back(temp * lhs[i]);
 		}
@@ -555,7 +560,7 @@ istream &operator>>(istream &ins, Poly &p)
 		resulting string should be:
 		6 x 2 +3 x 1 -5 x 0
 	*/
-	for (unsigned int i = 0; i < input.size(); ++i)
+	for (size_t i = 0; i < input.size(); ++i)
 	{
 		if (input[i] == 'x' || input[i] == '+' ||
 			input[i] == '-')

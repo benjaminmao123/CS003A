@@ -11,7 +11,7 @@ class Poly
 {
 public:
     Poly();
-    Poly(double *coefs, const int order);
+    Poly(double *coefs, const unsigned int order);
 
     //the BIG 3
     Poly(const Poly &other);
@@ -23,7 +23,7 @@ public:
     friend bool operator>(const Poly &lhs, const Poly &rhs);
     friend bool operator<(const Poly &lhs, const Poly &rhs);
 
-    Term operator[](const int order) const;
+    Term operator[](const unsigned int order) const;
 
     friend Poly operator+(const Poly &lhs, const Term &t);
     friend Poly operator+(const Poly &lhs, const Poly &rhs);
@@ -45,6 +45,6 @@ public:
 private:
     void swap(Poly &p);
     void fix_order();           //get rid of highest terms with zero coefs
-    int _order;
+    unsigned int _order;
     double *_coefs;
 };
