@@ -20,7 +20,7 @@ template <typename T>
 class Vector
 {
 public:
-    Vector(unsigned int size = 100);
+    Vector(const unsigned int size = 0);
 	Vector(const Vector &other);
 	~Vector();
 
@@ -70,18 +70,28 @@ private:
 
 /*
     @summary: Overloaded constructor that takes in a size.
+
+    @param <const unsigned int size>: Size to set vector to.
 */
 template<typename T>
-inline Vector<T>::Vector(unsigned int size)
-    : sz(size), data(allocate(data, cap))
+inline Vector<T>::Vector(const unsigned int size)
+    : sz(0), cap(1), data(nullptr)
 {
-    size ? cap = size : cap = 1;
-
-    set_size(size);
+    if (size)
+    {
+        cap = size;
+        set_size(size);
+    }
+    else
+    {
+        data = allocate(data, cap);
+    }
 }
 
 /*
     @summary: Copy-constructor.
+
+    @param <const Vector &other>: Other vector to copy.
 */
 template<typename T>
 inline Vector<T>::Vector(const Vector &other)
@@ -305,7 +315,7 @@ inline int Vector<T>::index_of(const T &item)
 template<typename T>
 inline void Vector<T>::set_size(const unsigned int size)
 {
-    if (size >= cap)
+    while (size >= cap)
     {
         set_capacity(cap * 2);
     }
