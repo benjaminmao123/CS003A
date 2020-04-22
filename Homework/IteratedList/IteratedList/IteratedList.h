@@ -243,13 +243,13 @@ inline typename List<ITEM_TYPE>::Iterator List<ITEM_TYPE>::InsertSorted(const IT
 template<class ITEM_TYPE>
 inline ITEM_TYPE List<ITEM_TYPE>::Delete(Iterator iMarker)
 {
-    ITEM_TYPE item = ITEM_TYPE();
-
-    if (iMarker)
+    if (!iMarker)
     {
-        node<ITEM_TYPE> *mNode = SearchList(_head_ptr, *iMarker);
-        item = DeleteNode(_head_ptr, mNode);
+        throw std::invalid_argument("iMarker contained nullptr");
     }
+
+    node<ITEM_TYPE> *mNode = SearchList(_head_ptr, *iMarker);
+    ITEM_TYPE item = DeleteNode(_head_ptr, mNode);
 
     return item;
 }

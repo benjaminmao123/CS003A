@@ -30,12 +30,12 @@ public:
         //Point Iterator to where p is pointing to
         Iterator(node<ITEM_TYPE> *p) : _ptr(p) { }
         //dereference operator
-        ITEM_TYPE operator*()
+        const ITEM_TYPE &operator*()
         {
             return _ptr->_item;
         }
         //member access operator
-        ITEM_TYPE *operator->()
+        const ITEM_TYPE *operator->()
         {
             return &_ptr->_item;
         }
@@ -203,13 +203,13 @@ inline typename List<ITEM_TYPE>::Iterator List<ITEM_TYPE>::Insert(const ITEM_TYP
 template<class ITEM_TYPE>
 inline ITEM_TYPE List<ITEM_TYPE>::Delete(Iterator iMarker)
 {
-    ITEM_TYPE item = ITEM_TYPE();
-
-    if (iMarker)
+    if (!iMarker)
     {
-        node<ITEM_TYPE> *mNode = SearchList(_head_ptr, *iMarker);
-        item = DeleteNode(_head_ptr, mNode);
+        throw std::invalid_argument("iMarker contained nullptr");
     }
+
+    node<ITEM_TYPE> *mNode = SearchList(_head_ptr, *iMarker);
+    ITEM_TYPE item = DeleteNode(_head_ptr, mNode);
 
     return item;
 }
