@@ -13,10 +13,12 @@ void StackTest::TestPush()
 
     for (int i = 0; i < 10; ++i)
     {
+        cout << "Stack: " << testStack << endl;
         cout << "Push: " << i << endl;
         testStack.push(i);
-        cout << "Top: " << testStack.top() << endl;
     }
+
+    cout << "Stack: " << testStack << endl;
 
     cout << endl;
 }
@@ -37,10 +39,12 @@ void StackTest::TestPop()
 
     for (int i = 0; i < 10; ++i)
     {
-        cout << "Top: " << testStack.top() << endl;
+        cout << "Stack: " << testStack << endl;
         testStack.pop();
         cout << "Pop" << endl;
     }
+
+    cout << "Stack: " << testStack << endl;
 
     cout << endl;
 }
@@ -53,7 +57,9 @@ void StackTest::TestTop()
 
     for (int i = 0; i < 10; ++i)
     {
+        cout << "Push: " << i << endl;
         testStack.push(i);
+        cout << "Stack: " << testStack << endl;
         cout << "Top: " << testStack.top() << endl;
     }
 

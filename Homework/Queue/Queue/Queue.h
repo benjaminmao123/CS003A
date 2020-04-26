@@ -4,28 +4,92 @@
 #include <iostream>
 #include <cassert>
 
-#include "List.h"
+#include "IteratedList.h"
 
 template <typename T>
 class queue
 {
 public:
-	using value_type = T;
-	using reference = T &;
-	using pointer = T *;
-	using size_type = size_t;
+	class Iterator
+	{
+	public:
+		friend class queue;
+
+		Iterator() { }
+
+		Iterator(const typename List<T>::Iterator &it) : listIt(it) { }
+
+		T &operator*()
+		{
+			return *listIt;
+		}
+
+		const T &operator*() const
+		{
+			return *listIt;
+		}
+
+		T *operator->()
+		{
+			return &*listIt;
+		}
+
+		const T *operator->() const
+		{
+			return &*listIt;
+		}
+
+		operator bool() const
+		{
+			return listIt;
+		}
+
+		//true if left != right
+		friend bool operator!=(const Iterator &left, const Iterator &right)
+		{
+			return left.listIt != right.listIt;
+		}
+
+		//true if left == right
+		friend bool operator==(const Iterator &left, const Iterator &right)
+		{
+			return left.listIt == right.listIt;
+		}
+
+		//member operator: ++it; or ++it = new_value
+		Iterator &operator++()
+		{
+			++listIt;
+
+			return *this;
+		}
+
+		//friend operator: it++
+		friend Iterator operator++(Iterator &it, const int unused)
+		{
+			Iterator temp(it.listIt);
+			it.operator++();
+
+			return temp;
+		}
+
+	private:
+		typename List<T>::Iterator listIt;
+	};
 
 	queue();
 	queue(const queue &other);
 	queue &operator=(const queue &rhs);
-	~queue();
 
-	void push(const value_type &item);
+	void push(const T &item);
 	void pop();
 
-	const reference front() const;
-	reference front();
-	size_type size() const;
+	Iterator begin() const;
+	Iterator end() const;
+
+	const T &front() const;
+	T &front();
+	size_t size() const;
 	bool empty() const;
 	
 	void swap(queue &other) noexcept;
@@ -36,11 +100,11 @@ public:
 	bool operator!=(const queue &rhs) const;
 
 private:
-	void swap(queue &s1, queue &s2);
+	void swap(queue &s1, queue &s2) noexcept;
 
-	node<T> *head;
-	node<T> *tail;
-	size_type sz;
+	List<T> list;
+	typename List<T>::Iterator tail;
+	size_t sz;
 };
 
 /*
@@ -48,7 +112,7 @@ private:
 */
 template<typename T>
 inline queue<T>::queue()
-	: sz(0), head(nullptr), tail(nullptr)
+	: sz(0), tail(list.Begin())
 {
 
 }
@@ -60,12 +124,9 @@ inline queue<T>::queue()
 */
 template<typename T>
 inline queue<T>::queue(const queue &other)
-	: sz(other.sz)
+	: sz(other.sz), list(other.list), tail(list.Begin())
 {
-	for (auto i = other.head; i != nullptr; i = i->next)
-	{
-		push(i->_item);
-	}
+	
 }
 
 /*
@@ -83,31 +144,14 @@ inline queue<T> &queue<T>::operator=(const queue &rhs)
 }
 
 /*
-	@summary: Destructor.
-*/
-template<typename T>
-inline queue<T>::~queue()
-{
-	ClearList(head);
-}
-
-/*
 	@summary: Adds an item to the back of the queue and increments size.
 
 	@param <const reference item>: Item to add to the queue.
 */
 template<typename T>
-inline void queue<T>::push(const value_type &item)
+inline void queue<T>::push(const T &item)
 {
-	if (!tail)
-	{
-		tail = InsertAfter(head, head, item);
-	}
-	else
-	{
-		tail = InsertAfter(head, tail, item);
-	}
-
+	tail = list.InsertAfter(item, tail);
 	++sz;
 }
 
@@ -119,9 +163,21 @@ inline void queue<T>::pop()
 {
 	if (!empty())
 	{
-		DeleteNode(head, head);
+		list.Delete(list.Begin());
 		--sz;
 	}
+}
+
+template<typename T>
+inline typename queue<T>::Iterator queue<T>::begin() const
+{
+	return Iterator(list.Begin());
+}
+
+template<typename T>
+inline typename queue<T>::Iterator queue<T>::end() const
+{
+	return Iterator(list.End());
 }
 
 /*
@@ -130,14 +186,14 @@ inline void queue<T>::pop()
 	@return <const reference>: Reference to the item at the top of the queue.
 */
 template<typename T>
-inline typename const queue<T>::reference queue<T>::front() const
+inline const T &queue<T>::front() const
 {
 	if (empty())
 	{
 		throw std::out_of_range("Front called on empty queue.");
 	}
 
-	return head->_item;
+	return *list.Begin();
 }
 
 /*
@@ -146,14 +202,14 @@ inline typename const queue<T>::reference queue<T>::front() const
 	@return <const reference>: Reference to the item at the top of the queue.
 */
 template<typename T>
-inline typename queue<T>::reference queue<T>::front()
+inline T &queue<T>::front()
 {
 	if (empty())
 	{
 		throw std::out_of_range("Front called on empty queue.");
 	}
 
-	return head->_item;
+	return *list.Begin();
 }
 
 /*
@@ -162,7 +218,7 @@ inline typename queue<T>::reference queue<T>::front()
 	@return <size_type>: The size of the queue.
 */
 template<typename T>
-inline typename queue<T>::size_type queue<T>::size() const
+inline size_t queue<T>::size() const
 {
 	return sz;
 }
@@ -175,7 +231,7 @@ inline typename queue<T>::size_type queue<T>::size() const
 template<typename T>
 inline bool queue<T>::empty() const
 {
-	return sz == 0 || head == nullptr;
+	return sz == 0;
 }
 
 /*
@@ -187,7 +243,7 @@ template<typename T>
 inline void queue<T>::swap(queue &other) noexcept
 {
 	std::swap(sz, other.sz);
-	std::swap(head, other.head);
+	std::swap(list, other.list);
 	std::swap(tail, other.tail);
 }
 
@@ -204,7 +260,7 @@ inline bool queue<T>::operator==(const queue &rhs) const
 {
 	if (sz == rhs.sz)
 	{
-		return head == rhs.head && tail == rhs.tail;
+		return list == rhs.list;
 	}
 
 	return false;
@@ -226,7 +282,7 @@ inline bool queue<T>::operator!=(const queue &rhs) const
 		return true;
 	}
 
-	return head != rhs.head && tail != rhs.tail;
+	return list != rhs.list;
 }
 
 /*
@@ -236,10 +292,10 @@ inline bool queue<T>::operator!=(const queue &rhs) const
 	@param <queue &s2>: second queue to swap.
 */
 template<typename T>
-inline void queue<T>::swap(queue &s1, queue &s2)
+inline void queue<T>::swap(queue &s1, queue &s2) noexcept
 {
 	std::swap(s1.sz, s2.sz);
-	std::swap(s1.head, s2.head);
+	std::swap(s1.list, s2.list);
 	std::swap(s1.tail, s2.tail);
 }
 
@@ -254,9 +310,9 @@ inline void queue<T>::swap(queue &s1, queue &s2)
 template<typename U>
 inline std::ostream &operator<<(std::ostream &os, const queue<U> &q)
 {
-	for (auto i = q.head; i != nullptr; i = i->next)
+	for (auto it = q.begin(); it != q.end(); ++it)
 	{
-		os << *i << " ";
+		os << *it << " ";
 	}
 
 	return os;

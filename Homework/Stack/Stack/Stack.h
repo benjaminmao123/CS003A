@@ -10,22 +10,85 @@ template <typename T>
 class stack
 {
 public:
-	using value_type = T;
-	using reference = T &;
-	using pointer = T *;
-	using size_type = size_t;
+	class Iterator
+	{
+	public:
+		Iterator() { }
+		Iterator(node<T> *ptr) : ptr(ptr) { };
+
+		const T &operator*() const
+		{
+			return ptr->_item;
+		}
+
+		T &operator*()
+		{
+			return ptr->_item;
+		}
+
+		const T *operator->() const
+		{
+			return &ptr->_item;
+		}
+
+		T *operator->()
+		{
+			return &ptr->_item;
+		}
+
+		//casting operator: true if _ptr not NULL
+		operator bool() const
+		{
+			return ptr != nullptr;
+		}
+
+		//true if left != right
+		friend bool operator!=(const Iterator &left, const Iterator &right)
+		{
+			return left.ptr != right.ptr;
+		}
+
+		//true if left == right
+		friend bool operator==(const Iterator &left, const Iterator &right)
+		{
+			return left.ptr == right.ptr;
+		}
+
+		//member operator: ++it; or ++it = new_value
+		Iterator &operator++()
+		{
+			ptr = ptr->next;
+
+			return *this;
+		}
+
+		//friend operator: it++
+		friend Iterator operator++(Iterator &it, const int unused)
+		{
+			Iterator temp(it.ptr);
+			it.operator++();
+
+			return temp;
+		}
+
+	private:
+		node<T> *ptr;
+	};
 
 	stack();
 	stack(const stack &other);
 	stack &operator=(const stack &rhs);
 	~stack();
 
-	void push(const value_type &item);
+	void push(const T &item);
 	void pop();
 
-	const reference top() const;
-	reference top();
-	size_type size() const;
+	Iterator begin() const;
+	Iterator end() const;
+
+	const T &top() const;
+	T &top();
+	size_t size() const;
 	bool empty() const;
 	
 	void swap(stack &other) noexcept;
@@ -39,7 +102,7 @@ private:
 	void swap(stack &s1, stack &s2);
 
 	node<T> *head;
-	size_type sz;
+	size_t sz;
 };
 
 /*
@@ -93,7 +156,7 @@ inline stack<T>::~stack()
 	@param <const value_type &item>: Item to add to the stack.
 */
 template<typename T>
-inline void stack<T>::push(const value_type &item)
+inline void stack<T>::push(const T &item)
 {
 	InsertHead(head, item);
 	++sz;
@@ -112,13 +175,25 @@ inline void stack<T>::pop()
 	}
 }
 
+template<typename T>
+inline typename stack<T>::Iterator stack<T>::begin() const
+{
+	return Iterator(head);
+}
+
+template<typename T>
+inline typename stack<T>::Iterator stack<T>::end() const
+{
+	return Iterator(nullptr);
+}
+
 /*
 	@summary: Returns the item at the top of the stack.
 
 	@return <const reference>: Reference to the item at the top of the stack.
 */
 template<typename T>
-inline typename const stack<T>::reference stack<T>::top() const
+inline const T &stack<T>::top() const
 {
 	if (empty())
 	{
@@ -134,7 +209,7 @@ inline typename const stack<T>::reference stack<T>::top() const
 	@return <const reference>: Reference to the item at the top of the stack.
 */
 template<typename T>
-inline typename stack<T>::reference stack<T>::top()
+inline T &stack<T>::top()
 {
 	if (empty())
 	{
@@ -150,7 +225,7 @@ inline typename stack<T>::reference stack<T>::top()
 	@return <size_type>: The size of the stack.
 */
 template<typename T>
-inline typename stack<T>::size_type stack<T>::size() const
+inline size_t stack<T>::size() const
 {
 	return sz;
 }
@@ -240,10 +315,14 @@ inline void stack<T>::swap(stack &s1, stack &s2)
 template<typename U>
 inline std::ostream &operator<<(std::ostream &os, const stack<U> &s)
 {
-	for (auto i = s.head; i != nullptr; i = i->next)
+	auto nextIt = s.begin();
+
+	for (auto it = s.begin(); it != s.end(); ++it)
 	{
-		os << *i << " ";
+		os << *it << "->";
 	}
+
+	os << "|||";
 
 	return os;
 }

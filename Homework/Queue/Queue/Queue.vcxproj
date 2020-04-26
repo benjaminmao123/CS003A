@@ -138,8 +138,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="IteratedList.h" />
     <ClInclude Include="LinkedListLibrary.h" />
-    <ClInclude Include="List.h" />
     <ClInclude Include="Queue.h" />
   </ItemGroup>
   <ItemGroup>

@@ -18,10 +18,10 @@
     <ClInclude Include="LinkedListLibrary.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="List.h">
+    <ClInclude Include="Queue.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Queue.h">
+    <ClInclude Include="IteratedList.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

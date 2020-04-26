@@ -15,6 +15,7 @@ int main()
 	s.push(1);
 	s.push(2);
 	s.push(3);
+
 	cout << s << endl;
 
 	cout << s.front() << endl;
@@ -27,9 +28,16 @@ int main()
 	cout << s << endl;
 	s.pop();
 	cout << s << endl;
+	s.push(6);
+	cout << s << endl;
 	s.pop();
 	cout << s << endl;
 	s.pop();
+	cout << s << endl;
+	s.pop();
+	cout << s << endl;
+
+	s.push(7);
 	cout << s << endl;
 
 	return 0;

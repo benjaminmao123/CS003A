@@ -139,7 +139,6 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="LinkedListLibrary.h" />
-    <ClInclude Include="List.h" />
     <ClInclude Include="Node.h" />
     <ClInclude Include="Stack.h" />
     <ClInclude Include="StackTest.h" />

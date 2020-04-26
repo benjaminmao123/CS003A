@@ -29,26 +29,23 @@ public:
 
         //Point Iterator to where p is pointing to
         Iterator(node<ITEM_TYPE> *p) : _ptr(p) { }
+
         //dereference operator
-        const ITEM_TYPE &operator*()
+        const ITEM_TYPE &operator*() const
         {
             return _ptr->_item;
         }
+
         //member access operator
-        const ITEM_TYPE *operator->()
+        const ITEM_TYPE *operator->() const
         {
             return &_ptr->_item;
         }
+
         //casting operator: true if _ptr not NULL
         operator bool() const
         {
             return _ptr != nullptr;
-        }
-   
-        //true if _ptr is NULL
-        bool is_null() const
-        {
-            return _ptr == nullptr;
         }
         
         //true if left != right
@@ -56,6 +53,7 @@ public:
         {
             return left._ptr != right._ptr;
         }
+
         //true if left == right
         friend bool operator==(const Iterator &left, const Iterator &right) 
         {
@@ -69,6 +67,7 @@ public:
 
             return *this;
         }
+
         //friend operator: it++
         friend Iterator operator++(Iterator &it, const int unused)
         {
