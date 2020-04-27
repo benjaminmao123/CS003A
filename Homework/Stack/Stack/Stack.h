@@ -43,15 +43,15 @@ public:
 		}
 
 		//true if left != right
-		friend bool operator!=(const Iterator &left, const Iterator &right)
+		bool operator!=(const Iterator &rhs) const
 		{
-			return left.ptr != right.ptr;
+			return ptr != rhs.ptr;
 		}
 
 		//true if left == right
-		friend bool operator==(const Iterator &left, const Iterator &right)
+		bool operator==(const Iterator &rhs) const
 		{
-			return left.ptr == right.ptr;
+			return ptr == rhs.ptr;
 		}
 
 		//member operator: ++it; or ++it = new_value
@@ -62,11 +62,10 @@ public:
 			return *this;
 		}
 
-		//friend operator: it++
-		friend Iterator operator++(Iterator &it, const int unused)
+		Iterator operator++(int)
 		{
-			Iterator temp(it.ptr);
-			it.operator++();
+			Iterator temp(ptr);
+			operator++();
 
 			return temp;
 		}

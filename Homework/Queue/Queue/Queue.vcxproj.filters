@@ -24,9 +24,21 @@
     <ClInclude Include="IteratedList.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="QueueTest.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="z_output_queue.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="z_work_report_queue.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="main.cpp">
+    <ClCompile Include="QueueTest.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="main_queue.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

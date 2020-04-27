@@ -142,12 +142,14 @@
     <ClInclude Include="LinkedListLibrary.h" />
     <ClInclude Include="Node.h" />
     <ClInclude Include="SortedList.h" />
+    <ClInclude Include="SortedListTest.h" />
     <ClInclude Include="z_output.h" />
     <ClInclude Include="z_work_report.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Application.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="SortedListTest.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

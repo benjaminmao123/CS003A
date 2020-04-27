@@ -21,9 +21,6 @@ public:
     class Iterator 
     {
     public:
-        //give access to list to access _ptr
-        friend class List; 
-        
         //default ctor
         Iterator() { _ptr = NULL; }     
 
@@ -49,15 +46,15 @@ public:
         }
         
         //true if left != right
-        friend bool operator!=(const Iterator &left, const Iterator &right) 
+        bool operator!=(const Iterator &rhs) const
         {
-            return left._ptr != right._ptr;
+            return _ptr != rhs._ptr;
         }
 
         //true if left == right
-        friend bool operator==(const Iterator &left, const Iterator &right) 
+        bool operator==(const Iterator &rhs) const
         {
-            return left._ptr == right._ptr;
+            return _ptr == rhs._ptr;
         }
 
         //member operator: ++it; or ++it = new_value
@@ -69,10 +66,10 @@ public:
         }
 
         //friend operator: it++
-        friend Iterator operator++(Iterator &it, const int unused)
+        Iterator operator++(int)
         {
-            Iterator temp(it._ptr);
-            it.operator++();
+            Iterator temp(_ptr);
+            operator++();
 
             return temp;
         }

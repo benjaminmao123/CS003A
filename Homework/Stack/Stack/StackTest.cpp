@@ -64,4 +64,16 @@ void StackTest::TestTop()
     }
 
     cout << endl;
+
+    for (int i = 0; i < 10; ++i)
+    {
+        cout << "Pop" << endl;
+        testStack.pop();
+        cout << "Stack: " << testStack << endl;
+
+        if (!testStack.empty())
+            cout << "Top: " << testStack.top() << endl;
+    }
+
+    cout << endl;
 }

@@ -142,9 +142,11 @@
     <ClInclude Include="Node.h" />
     <ClInclude Include="Stack.h" />
     <ClInclude Include="StackTest.h" />
+    <ClInclude Include="z_output_stack.h" />
+    <ClInclude Include="z_work_report_stack.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="main.cpp" />
+    <ClCompile Include="main_stack.cpp" />
     <ClCompile Include="StackTest.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

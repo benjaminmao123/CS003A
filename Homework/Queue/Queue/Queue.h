@@ -13,10 +13,7 @@ public:
 	class Iterator
 	{
 	public:
-		friend class queue;
-
 		Iterator() { }
-
 		Iterator(const typename List<T>::Iterator &it) : listIt(it) { }
 
 		T &operator*()
@@ -31,12 +28,12 @@ public:
 
 		T *operator->()
 		{
-			return &*listIt;
+			return listIt.operator->();
 		}
 
 		const T *operator->() const
 		{
-			return &*listIt;
+			return listIt.operator->();
 		}
 
 		operator bool() const
@@ -45,15 +42,15 @@ public:
 		}
 
 		//true if left != right
-		friend bool operator!=(const Iterator &left, const Iterator &right)
+		bool operator!=(const Iterator &rhs) const
 		{
-			return left.listIt != right.listIt;
+			return listIt != rhs.listIt;
 		}
 
 		//true if left == right
-		friend bool operator==(const Iterator &left, const Iterator &right)
+		bool operator==(const Iterator &rhs) const
 		{
-			return left.listIt == right.listIt;
+			return listIt == rhs.listIt;
 		}
 
 		//member operator: ++it; or ++it = new_value
@@ -64,11 +61,10 @@ public:
 			return *this;
 		}
 
-		//friend operator: it++
-		friend Iterator operator++(Iterator &it, const int unused)
+		Iterator operator++(int)
 		{
-			Iterator temp(it.listIt);
-			it.operator++();
+			Iterator temp(listIt);
+			operator++();
 
 			return temp;
 		}
@@ -310,10 +306,14 @@ inline void queue<T>::swap(queue &s1, queue &s2) noexcept
 template<typename U>
 inline std::ostream &operator<<(std::ostream &os, const queue<U> &q)
 {
+	auto nextIt = q.begin();
+
 	for (auto it = q.begin(); it != q.end(); ++it)
 	{
-		os << *it << " ";
+		os << *it << "->";
 	}
+
+	os << "|||";
 
 	return os;
 }

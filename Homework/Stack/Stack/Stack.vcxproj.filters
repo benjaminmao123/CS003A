@@ -27,12 +27,18 @@
     <ClInclude Include="StackTest.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="z_output_stack.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="z_work_report_stack.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="main.cpp">
+    <ClCompile Include="StackTest.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="StackTest.cpp">
+    <ClCompile Include="main_stack.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
