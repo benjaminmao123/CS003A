@@ -142,12 +142,15 @@
     <ClInclude Include="LinkedListLibrary.h" />
     <ClInclude Include="Queue.h" />
     <ClInclude Include="QueueTest.h" />
+    <ClInclude Include="Stack.h" />
+    <ClInclude Include="StackTest.h" />
     <ClInclude Include="z_output_queue.h" />
     <ClInclude Include="z_work_report_queue.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main_queue.cpp" />
     <ClCompile Include="QueueTest.cpp" />
+    <ClCompile Include="StackTest.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

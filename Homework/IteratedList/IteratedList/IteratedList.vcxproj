@@ -139,6 +139,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="Application.h" />
+    <ClInclude Include="IteratedListTest.h" />
     <ClInclude Include="LinkedListLibrary.h" />
     <ClInclude Include="IteratedList.h" />
     <ClInclude Include="Node.h" />

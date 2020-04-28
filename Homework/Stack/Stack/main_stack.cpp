@@ -15,8 +15,6 @@ int main()
 
 void Test()
 {
-	cout << "Stack Tests" << endl;
-
 	StackTest::TestPush();
 	StackTest::TestPop();
 	StackTest::TestTop();

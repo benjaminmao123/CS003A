@@ -1,6 +1,7 @@
 #include <iostream>
 
 #include "QueueTest.h"
+#include "StackTest.h"
 
 using namespace std;
 
@@ -18,4 +19,7 @@ void Test()
 	QueueTest::PushTest();
 	QueueTest::PopTest();
 	QueueTest::FrontTest();
+	StackTest::TestPush();
+	StackTest::TestPop();
+	StackTest::TestTop();
 }

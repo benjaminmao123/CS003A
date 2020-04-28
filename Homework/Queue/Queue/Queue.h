@@ -78,7 +78,7 @@ public:
 	queue &operator=(const queue &rhs);
 
 	void push(const T &item);
-	void pop();
+	T pop();
 
 	Iterator begin() const;
 	Iterator end() const;
@@ -108,7 +108,7 @@ private:
 */
 template<typename T>
 inline queue<T>::queue()
-	: sz(0), tail(list.Begin())
+	: sz(0)
 {
 
 }
@@ -120,7 +120,7 @@ inline queue<T>::queue()
 */
 template<typename T>
 inline queue<T>::queue(const queue &other)
-	: sz(other.sz), list(other.list), tail(list.Begin())
+	: sz(other.sz), list(other.list)
 {
 	
 }
@@ -155,13 +155,17 @@ inline void queue<T>::push(const T &item)
 	@summary: Removes an item from the top of the queue and decrements size.
 */
 template<typename T>
-inline void queue<T>::pop()
+inline T queue<T>::pop()
 {
-	if (!empty())
+	if (empty())
 	{
-		list.Delete(list.Begin());
-		--sz;
+		throw std::out_of_range("Queue is empty.");
 	}
+
+	T data = list.Delete(list.Begin());
+	--sz;
+
+	return data;
 }
 
 template<typename T>
@@ -306,11 +310,9 @@ inline void queue<T>::swap(queue &s1, queue &s2) noexcept
 template<typename U>
 inline std::ostream &operator<<(std::ostream &os, const queue<U> &q)
 {
-	auto nextIt = q.begin();
-
-	for (auto it = q.begin(); it != q.end(); ++it)
+	for (auto i : q)
 	{
-		os << *it << "->";
+		os << i << "->";
 	}
 
 	os << "|||";

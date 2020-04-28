@@ -44,7 +44,24 @@ void QueueTest::PopTest()
         cout << "Pop" << endl;
     }
 
-    cout << "Queue: " << testQueue << endl;
+    cout << "Queue: " << testQueue << endl << endl;
+
+    for (int i = 0; i < 10; ++i)
+    {
+        cout << "Push: " << i << endl;
+        testQueue.push(i);
+    }
+
+    cout << endl;
+
+    for (int i = 0; i < 10; ++i)
+    {
+        cout << "Queue: " << testQueue << endl;
+        testQueue.pop();
+        cout << "Pop" << endl;
+    }
+
+    cout << "Queue: " << testQueue << endl << endl;
 
     cout << endl;
 }

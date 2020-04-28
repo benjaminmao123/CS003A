@@ -172,11 +172,10 @@ inline T stack<T>::pop()
 		throw std::out_of_range("Stack is empty.");
 	}
 
-	if (!empty())
-	{
-		DeleteNode(head, head);
-		--sz;
-	}
+	T data = DeleteNode(head, head);
+	--sz;
+
+	return data;
 }
 
 template<typename T>

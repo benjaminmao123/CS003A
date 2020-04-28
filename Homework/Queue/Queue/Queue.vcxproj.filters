@@ -33,6 +33,12 @@
     <ClInclude Include="z_work_report_queue.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Stack.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="StackTest.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="QueueTest.cpp">
@@ -40,6 +46,9 @@
     </ClCompile>
     <ClCompile Include="main_queue.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="StackTest.cpp">
+      <Filter>Header Files</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
