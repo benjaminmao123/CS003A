@@ -9,7 +9,7 @@ class Poly
 {
 public:
     Poly();
-    Poly(int term_array[], int order);
+    Poly(const double term_array[], int order);
 
     //big three?
     Poly &operator+=(const Term &t);
@@ -18,19 +18,24 @@ public:
     Poly &operator+=(const Poly &RHS);
     Poly &operator*=(const Poly &RHS);
     Poly &operator-=(const Poly &RHS);
+    Poly operator-() const;
 
+    friend Poly operator/(const Poly &lhs, const Poly &rhs);
     friend Poly operator+(const Poly &left, const Poly &right);
     friend Poly operator-(const Poly &left, const Poly &right);
     friend Poly operator*(const Poly &left, const Poly &right);
-    Poly operator-() const;
 
     friend Poly operator+(const Poly &left, const Term &t);
     friend Poly operator*(const Poly &left, const Term &t);
 
+    friend Poly operator%(const Poly &lhs, const Poly &rhs);
+
     friend std::ostream &operator<<(std::ostream &outs, const Poly &print_me);
-    friend std::istream &operator>>(std::istream &outs, Poly &print_me);
+    friend std::istream &operator>>(std::istream &ins, Poly &poly);
 
 private:
+    void fix_order();
+
     List<Term> _poly; //descending sorted list  
     int _order;
 };

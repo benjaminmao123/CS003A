@@ -36,7 +36,7 @@ void SortedListTest::TestDelete()
 
 	for (int i = 0; i < 20; ++i)
 	{
-		auto it = list.Begin();
+		auto it = list.begin();
 		auto last = list.LastNode();
 		
 		while (it != last)
@@ -65,7 +65,7 @@ void SortedListTest::TestSearch()
 
 	cout << endl;
 
-	auto it = list.Begin();
+	auto it = list.begin();
 
 	for (int i = 0; i < 20; ++i)
 	{

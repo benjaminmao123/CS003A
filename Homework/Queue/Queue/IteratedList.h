@@ -117,9 +117,9 @@ public:
     //return item at position index
     ITEM_TYPE &operator[](const int index);                                           
     //Iterator to the head node
-    Iterator Begin() const;                     
+    Iterator begin() const;                     
     //Iterator to NULL
-    Iterator End() const;                                       
+    Iterator end() const;                                       
     //Iterator to the last node
     Iterator LastNode() const;                                                  
 
@@ -291,10 +291,10 @@ inline typename List<ITEM_TYPE>::Iterator List<ITEM_TYPE>::Search(const ITEM_TYP
 template<class ITEM_TYPE>
 inline typename List<ITEM_TYPE>::Iterator List<ITEM_TYPE>::Prev(Iterator iMarker)
 {
-    auto prev = Begin();
+    auto prev = begin();
     node<ITEM_TYPE> *mNode = nullptr;
 
-    for (auto curr = Begin(); curr != End(); ++curr)
+    for (auto curr = begin(); curr != end(); ++curr)
     {
         if (curr == iMarker)
         {
@@ -304,7 +304,7 @@ inline typename List<ITEM_TYPE>::Iterator List<ITEM_TYPE>::Prev(Iterator iMarker
         prev = curr;
     }
 
-    return End();
+    return end();
 }
 
 /*
@@ -339,7 +339,7 @@ inline ITEM_TYPE &List<ITEM_TYPE>::operator[](const int index)
     @return <List<ITEM_TYPE>::Iterator>: Iterator to the head node.
 */
 template<class ITEM_TYPE>
-inline typename List<ITEM_TYPE>::Iterator List<ITEM_TYPE>::Begin() const
+inline typename List<ITEM_TYPE>::Iterator List<ITEM_TYPE>::begin() const
 {
     return Iterator(_head_ptr);
 }
@@ -350,7 +350,7 @@ inline typename List<ITEM_TYPE>::Iterator List<ITEM_TYPE>::Begin() const
     @return <List<ITEM_TYPE>::Iterator>: Iterator to nullptr.
 */
 template<class ITEM_TYPE>
-inline typename List<ITEM_TYPE>::Iterator List<ITEM_TYPE>::End() const
+inline typename List<ITEM_TYPE>::Iterator List<ITEM_TYPE>::end() const
 {
     return Iterator(nullptr);
 }

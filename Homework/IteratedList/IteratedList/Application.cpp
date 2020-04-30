@@ -22,7 +22,7 @@ Application::Application(const int numElements, const int min, const int max)
 		list.InsertSorted(RandomNumber(min, max));
 	}
 
-	currIt = list.Begin();
+	currIt = list.begin();
 }
 
 void Application::Run()
@@ -64,7 +64,7 @@ void Application::Update()
 		break;
 	case 'd':
 		list.Delete(currIt);
-		currIt = list.Begin();
+		currIt = list.begin();
 		break;
 	case 's':
 	{
@@ -100,7 +100,7 @@ void Application::Update()
 		break;
 	}
 	case 'h':
-		currIt = list.Begin();
+		currIt = list.begin();
 		break;
 	case 'e':
 		currIt = list.LastNode();
@@ -116,7 +116,7 @@ void Application::Update()
 
 void Application::Output() const
 {
-	auto cursor = list.Begin();
+	auto cursor = list.begin();
 
 	while (true)
 	{

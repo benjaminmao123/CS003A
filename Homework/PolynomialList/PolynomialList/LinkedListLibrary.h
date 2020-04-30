@@ -204,20 +204,23 @@ inline node<ITEM_TYPE> *InsertAfter(node<ITEM_TYPE> *&head,
 
     if (head)
     {
-        newNode = new node<ITEM_TYPE>(insertThis);
-
-        node<ITEM_TYPE> *temp = nullptr;
-
-        if (afterThis->next)
+        if (afterThis)
         {
-            temp = afterThis->next;
-        }
+            newNode = new node<ITEM_TYPE>(insertThis);
 
-        afterThis->next = newNode;
+            node<ITEM_TYPE> *temp = nullptr;
 
-        if (temp)
-        {
-            newNode->next = temp;
+            if (afterThis->next)
+            {
+                temp = afterThis->next;
+            }
+
+            afterThis->next = newNode;
+
+            if (temp)
+            {
+                newNode->next = temp;
+            }
         }
     }
     else
@@ -245,15 +248,18 @@ inline node<ITEM_TYPE> *InsertBefore(node<ITEM_TYPE> *&head,
 
     if (head)
     {
-        if (beforeThis == head)
+        if (beforeThis)
         {
-            InsertHead(head, insertThis);
-        }
-        else
-        {
-            node<ITEM_TYPE> *prev = PreviousNode(head, beforeThis);
+            if (beforeThis == head)
+            {
+                newNode = InsertHead(head, insertThis);
+            }
+            else
+            {
+                node<ITEM_TYPE> *prev = PreviousNode(head, beforeThis);
 
-            newNode = InsertAfter(head, prev, insertThis);
+                newNode = InsertAfter(head, prev, insertThis);
+            }
         }
     }
     else
@@ -297,9 +303,20 @@ inline node<ITEM_TYPE> *PreviousNode(node<ITEM_TYPE> *head,
 template<typename ITEM_TYPE>
 inline ITEM_TYPE DeleteNode(node<ITEM_TYPE> *&head, node<ITEM_TYPE> *deleteThis)
 {
-    ITEM_TYPE item = ITEM_TYPE();
+    if (!deleteThis)
+    {
+        throw std::invalid_argument("Delete this was nullptr");
+    }
 
-    if (deleteThis)
+    ITEM_TYPE item;
+
+    if (head == deleteThis && !deleteThis->next)
+    {
+        item = head->_item;
+        delete head;
+        head = nullptr;
+    }
+    else
     {
         node<ITEM_TYPE> *prev = PreviousNode(head, deleteThis);
         item = deleteThis->_item;
@@ -389,7 +406,10 @@ inline ITEM_TYPE &At(node<ITEM_TYPE> *head, const int pos)
         ++idx;
     }
 
-    assert(i != nullptr);
+    if (!i)
+    {
+        throw std::out_of_range("Index was out of range.");
+    }
 
     return i->_item;
 }
@@ -464,23 +484,18 @@ template<typename ITEM_TYPE>
 inline node<ITEM_TYPE> *InsertSorted_and_add(node<ITEM_TYPE> *&head, 
     const ITEM_TYPE &item, const bool ascending)
 {
-    if (head)
+    node<ITEM_TYPE> *mNode = SearchList(head, item);
+
+    if (mNode)
     {
-        node<ITEM_TYPE> *mNode = SearchList(head, item);
-
-        if (mNode)
-        {
-            mNode->_item += item;
-        }
-        else
-        {
-            mNode = InsertSorted(head, item, ascending);
-        }
-
-        return mNode;
+        mNode->_item += item;
+    }
+    else
+    {
+        mNode = InsertSorted(head, item, ascending);
     }
 
-    return nullptr;
+    return mNode;
 }
 
 /*
