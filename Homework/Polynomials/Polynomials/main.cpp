@@ -1,12 +1,14 @@
 /*
  * Author: Benjamin Mao
  * Project: Polynomial
- * Purpose: Entry point to polynomial class.
+ * Purpose: Driver class that acts as
+ *      entry point to the polynomial class.
  *
  * Notes: None.
  */
 
 #include <iostream>
+#include <sstream>
 #include <string>
 
 #include "Polynomial.h"
@@ -23,7 +25,7 @@ int main()
 {
     test();
 
-	return 0;
+    return 0;
 }
 
 void test()
@@ -95,7 +97,16 @@ void test_add(const Poly &p, const Poly &q)
     cout << p << " + " << q << endl;
     cout << "      = " << r << "  ";
 
-    if (r - q == p)
+    Poly poly = r - q;
+
+    ostringstream oss;
+    oss << poly;
+    string temp = oss.str();
+
+    ostringstream oss2;
+    oss2 << p;
+
+    if (temp == oss2.str())
     {
         cout << "VERIFIED" << endl;
     }
@@ -113,7 +124,16 @@ void test_sub(const Poly &p, const Poly &q)
     cout << p << " - " << q << endl;
     cout << "      = " << r << "  ";
 
-    if (p - r == q)
+    Poly poly = p - r;
+
+    ostringstream oss;
+    oss << poly;
+    string temp = oss.str();
+
+    ostringstream oss2;
+    oss2 << q;
+
+    if (temp == oss2.str())
     {
         cout << "VERIFIED" << endl;
     }
@@ -131,7 +151,16 @@ void test_mult(const Poly &p, const Poly &q)
     cout << p << " * " << q << endl;
     cout << "      = " << r << "  ";
 
-    if (r / q == p)
+    Poly poly = r / q;
+
+    ostringstream oss;
+    oss << poly;
+    string temp = oss.str();
+
+    ostringstream oss2;
+    oss2 << p;
+
+    if (temp == oss2.str())
     {
         cout << "VERIFIED" << endl;
     }
@@ -150,11 +179,20 @@ void test_div(const Poly &p, const Poly &q)
     cout << "      = " << r;
     cout << "  rem = " << p % q << "  ";
 
-    if (r * q + p % q == p) 
+    Poly poly = r * q + p % q;
+
+    ostringstream oss;
+    oss << poly;
+    string temp = oss.str();
+
+    ostringstream oss2;
+    oss2 << p;
+
+    if (temp == oss2.str())
     {
         cout << "VERIFIED" << endl;
     }
-    else 
+    else
     {
         cout << endl << "   ***VERIFICATION FAILED" << endl;
         cout << "   r * q: " << r * q << endl;

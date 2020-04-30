@@ -1,3 +1,12 @@
+/*
+ * Author: Benjamin Mao
+ * Project: Queue
+ * Purpose: Implementation a FIFO container called
+ *		a stack.
+ *
+ * Notes: None.
+ */
+
 #pragma once
 
 #include <algorithm>

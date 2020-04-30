@@ -1,3 +1,11 @@
+/*
+ * Author: Benjamin Mao
+ * Project: Queue
+ * Purpose: Test functions for queue.
+ *
+ * Notes: None.
+ */
+
 #include <iostream>
 
 #include "QueueTest.h"

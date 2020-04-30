@@ -143,6 +143,8 @@
     <ClInclude Include="Polynomial.h" />
     <ClInclude Include="SortedList.h" />
     <ClInclude Include="Term.h" />
+    <ClInclude Include="z_output.h" />
+    <ClInclude Include="z_work_report.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />

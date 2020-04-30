@@ -538,6 +538,13 @@ ostream &operator<<(ostream &outs, const Poly &p)
 	@summary: Overloaded stream extraction operator
 		to input to poly object.
 
+		Takes input in the following format:
+			coefficientxexponent+coefficientxexponent
+			
+			Sample usage:
+				5x4+3x2+2x0
+				6x2+3x1+5x0
+
 	@param <istream &ins>: istream object to extract.
 	@param <Poly &p>: Poly object to write to.
 

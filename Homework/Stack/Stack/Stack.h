@@ -1,3 +1,12 @@
+/*
+ * Author: Benjamin Mao
+ * Project: Stack
+ * Purpose: Implementation a LIFO container called
+ *		a stack.
+ *
+ * Notes: None.
+ */
+
 #pragma once
 
 #include <algorithm>

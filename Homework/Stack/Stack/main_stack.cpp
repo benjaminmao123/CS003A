@@ -1,3 +1,11 @@
+/*
+ * Author: Benjamin Mao
+ * Project: Stack
+ * Purpose: Entry point for stack.
+ *
+ * Notes: None.
+ */
+
 #include <iostream>
 
 #include "StackTest.h"
