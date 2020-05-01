@@ -33,8 +33,11 @@ void test()
     double pC[] = { 5, 1, 2, 3 };
     double qC[] = { 5, 1, 2, 3, 4 };
 
-    Poly p(pC, 3);
-    Poly q(qC, 4);
+    int pCSize = sizeof(pC) / sizeof(*pC);
+    int qCSize = sizeof(qC) / sizeof(*qC);
+
+    Poly p(pC, pCSize);
+    Poly q(qC, qCSize);
     char userInput = '\0';
 
     while (userInput != 'X')

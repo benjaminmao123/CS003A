@@ -34,15 +34,15 @@ Poly::Poly()
 		only allow unique elements and inserts values determined
 		by term_array. Also initializes order to a given order.
 
-	@param <const Term term_array[]>: Terms to insert into the poly.
+	@param <double term_array[]>: Terms to insert into the poly.
 	@param <int order>: The order of the polynomial.
 */
 Poly::Poly(double term_array[], int order)
-	: _poly(false, true), _order(order)
+	: _poly(false, true), _order(order - 1)
 {
-	for (int i = 0; i <= order; ++i)
+	for (int i = 0; i < order; ++i)
 	{
-		operator+=(Term(term_array[i], i));
+		operator+=(Term(*(term_array + i), i));
 	}
 }
 
@@ -370,13 +370,14 @@ void Poly::fix_order()
 		{
 			auto nextIt = it;
 			++nextIt;
-			_poly.Delete(it);
-			it = nextIt;
 
 			if (_order)
 			{
+				_poly.Delete(it);
 				--_order;
 			}
+
+			it = nextIt;
 		}
 		else
 		{
@@ -411,6 +412,10 @@ std::ostream &operator<<(std::ostream &outs, const Poly &print_me)
 			{
 				outs << i;
 			}
+		}
+		else if (!print_me._order)
+		{
+			outs << i;
 		}
 	}
 
