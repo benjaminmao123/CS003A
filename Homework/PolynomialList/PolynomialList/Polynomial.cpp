@@ -9,6 +9,8 @@
  */
 
 #include <cmath>
+#include <sstream>
+#include <string>
 
 #include "Polynomial.h"
 
@@ -32,15 +34,15 @@ Poly::Poly()
 		only allow unique elements and inserts values determined
 		by term_array. Also initializes order to a given order.
 
-	@param <const double term_array[]>: Values to insert into the poly.
-	@param <const int order>: The order of the polynomial.
+	@param <const Term term_array[]>: Terms to insert into the poly.
+	@param <int order>: The order of the polynomial.
 */
-Poly::Poly(const double term_array[], int order)
+Poly::Poly(double term_array[], int order)
 	: _poly(false, true), _order(order)
 {
-	for (double i = order; i >= 0; --i)
+	for (int i = 0; i <= order; ++i)
 	{
-		_poly.Insert(Term(*(term_array + (int)i), i));
+		operator+=(Term(term_array[i], i));
 	}
 }
 
@@ -319,6 +321,42 @@ Poly operator%(const Poly &lhs, const Poly &rhs)
 }
 
 /*
+	@summary: Overloaded equality operator.
+		Checks whether or not each term in the _poly list
+		are equal to each other and if the _order is equal.
+		To account for double inaccuracy, each value is rounded
+		to the nearest .1 and then compared.
+
+	@param <const Poly &rhs>: Right hand poly argument.
+
+	@return <Poly>: True if equal, false otherwise.
+*/
+bool Poly::operator==(const Poly &rhs) const
+{
+	auto it = _poly.begin(), rhsIt = rhs._poly.begin();
+	bool itEnd = false, rhsItEnd = false;
+
+	while (true)
+	{
+		if (it == _poly.end()) itEnd = true;
+		if (rhsIt == rhs._poly.end()) rhsItEnd = true;
+		if (itEnd || rhsItEnd) break;
+
+		ostringstream itOss;
+		itOss << *it;
+		ostringstream rhsItOss;
+		rhsItOss << *rhsIt;
+
+		if (itOss.str() != rhsItOss.str()) return false;
+
+		++it;
+		++rhsIt;
+	}
+
+	return (itEnd == rhsItEnd) && (_order == rhs._order);
+}
+
+/*
 	@summary: Removes the highest term with a coefficient of 0 and
 		decrements the order of the polynomial.
 */
@@ -396,17 +434,13 @@ std::istream &operator>>(std::istream &ins, Poly &poly)
 {
 	double coef;
 	int exp = 1;
+	string x;
 
 	Poly temp;
 
 	while (exp)
 	{
-		cout << "Enter coefficient: ";
-		ins >> coef;
-
-		cout << "Enter exponent: ";
-		ins >> exp;
-
+		ins >> coef >> x >> exp;
 		temp += Term(coef, exp);
 	}
 

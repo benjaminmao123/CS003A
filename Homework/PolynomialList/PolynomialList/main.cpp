@@ -75,11 +75,13 @@ void test()
         switch (userInput)
         {
         case 'P':
-            cout << "[P]: " << endl;
+            cout << "Enter polynomial in the following format: Coefficient x Exponent. e.g: 5 x 4 -3 x 0" << endl;
+            cout << "[P]: ";
             cin >> p;
             break;
         case 'Q':
-            cout << "[Q]: " << endl;
+            cout << "Enter polynomial in the following format: Coefficient x Exponent. e.g: 5 x 4 -3 x 0" << endl;
+            cout << "[Q]: ";
             cin >> q;
             break;
         default:
@@ -99,14 +101,7 @@ void test_add(const Poly &p, const Poly &q)
 
     Poly poly = r - q;
 
-    ostringstream oss;
-    oss << poly;
-    string temp = oss.str();
-
-    ostringstream oss2;
-    oss2 << p;
-
-    if (temp == oss2.str())
+    if (r - q == p)
     {
         cout << "VERIFIED" << endl;
     }
@@ -126,14 +121,7 @@ void test_sub(const Poly &p, const Poly &q)
 
     Poly poly = p - r;
 
-    ostringstream oss;
-    oss << poly;
-    string temp = oss.str();
-
-    ostringstream oss2;
-    oss2 << q;
-
-    if (temp == oss2.str())
+    if (p - r == q)
     {
         cout << "VERIFIED" << endl;
     }
@@ -153,14 +141,7 @@ void test_mult(const Poly &p, const Poly &q)
 
     Poly poly = r / q;
 
-    ostringstream oss;
-    oss << poly;
-    string temp = oss.str();
-   
-    ostringstream oss2;
-    oss2 << p;
-
-    if (temp == oss2.str())
+    if (r / q == p)
     {
         cout << "VERIFIED" << endl;
     }
@@ -181,14 +162,7 @@ void test_div(const Poly &p, const Poly &q)
 
     Poly poly = r * q + p % q;
 
-    ostringstream oss;
-    oss << poly;
-    string temp = oss.str();
-
-    ostringstream oss2;
-    oss2 << p;
-
-    if (temp == oss2.str())
+    if (r * q + p % q == p)
     {
         cout << "VERIFIED" << endl;
     }

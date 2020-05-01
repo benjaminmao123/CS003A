@@ -9,7 +9,7 @@ class Poly
 {
 public:
     Poly();
-    Poly(const double term_array[], int order);
+    Poly(double term_array[], int order);
 
     //big three?
     Poly &operator+=(const Term &t);
@@ -29,6 +29,8 @@ public:
     friend Poly operator*(const Poly &left, const Term &t);
 
     friend Poly operator%(const Poly &lhs, const Poly &rhs);
+
+    bool operator==(const Poly &rhs) const;
 
     friend std::ostream &operator<<(std::ostream &outs, const Poly &print_me);
     friend std::istream &operator>>(std::istream &ins, Poly &poly);
