@@ -25,7 +25,7 @@ using namespace std;
 Poly::Poly()
 	: _poly(false, true), _order(0)
 {
-
+	operator+=(Term());
 }
 
 /*
@@ -40,6 +40,8 @@ Poly::Poly()
 Poly::Poly(double term_array[], int order)
 	: _poly(false, true), _order(order - 1)
 {
+	operator+=(Term());
+
 	for (int i = 0; i < order; ++i)
 	{
 		operator+=(Term(*(term_array + i), i));
@@ -347,6 +349,9 @@ bool Poly::operator==(const Poly &rhs) const
 		ostringstream rhsItOss;
 		rhsItOss << *rhsIt;
 
+		string itStr = itOss.str();
+		string rhsItStr = rhsItOss.str();
+
 		if (itOss.str() != rhsItOss.str()) return false;
 
 		++it;
@@ -400,11 +405,13 @@ std::ostream &operator<<(std::ostream &outs, const Poly &print_me)
 {
 	outs << "[";
 
+	int idx = 0;
+
 	for (auto i : print_me._poly)
 	{
 		if (i._coef)
 		{
-			if (i._exp)
+			if (i._exp && print_me._poly[idx + 1]._coef)
 			{
 				outs << i << " ";
 			}
@@ -417,6 +424,8 @@ std::ostream &operator<<(std::ostream &outs, const Poly &print_me)
 		{
 			outs << i;
 		}
+
+		++idx;
 	}
 
 	outs << "]";

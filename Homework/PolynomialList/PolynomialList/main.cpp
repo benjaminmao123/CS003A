@@ -30,7 +30,7 @@ int main()
 
 void test()
 {
-    double pC[] = { 5, 1, 2, 3 };
+    double pC[] = { 0, 1, 2 };
     double qC[] = { 5, 1, 2, 3, 4 };
 
     int pCSize = sizeof(pC) / sizeof(*pC);
@@ -71,19 +71,23 @@ void test()
         test_div(q, p);
         cout << endl;
 
-        cout << "[P] [Q] E[x]it ";
+        cout << "[P] [Q] E[x]it: ";
         cin >> userInput;
         userInput = toupper(userInput);
 
         switch (userInput)
         {
         case 'P':
-            cout << "Enter polynomial in the following format: Coefficient x Exponent. e.g: 5 x 4 -3 x 0" << endl;
+            cout << "\nEnter polynomial in the following format: Coefficient x Exponent. " << endl
+                 << "Enter 0th power term to end input. " << endl
+                 << "e.g: 5 x 4 -3 x 0" << endl;
             cout << "[P]: ";
             cin >> p;
             break;
         case 'Q':
-            cout << "Enter polynomial in the following format: Coefficient x Exponent. e.g: 5 x 4 -3 x 0" << endl;
+            cout << "\nEnter polynomial in the following format: Coefficient x Exponent. " << endl
+                 << "Enter 0th power term to end input. " << endl
+                 << "e.g: 5 x 4 -3 x 0" << endl;
             cout << "[Q]: ";
             cin >> q;
             break;
@@ -101,8 +105,6 @@ void test_add(const Poly &p, const Poly &q)
 
     cout << p << " + " << q << endl;
     cout << "      = " << r << "  ";
-
-    Poly poly = r - q;
 
     if (r - q == p)
     {
@@ -122,8 +124,6 @@ void test_sub(const Poly &p, const Poly &q)
     cout << p << " - " << q << endl;
     cout << "      = " << r << "  ";
 
-    Poly poly = p - r;
-
     if (p - r == q)
     {
         cout << "VERIFIED" << endl;
@@ -141,8 +141,6 @@ void test_mult(const Poly &p, const Poly &q)
 
     cout << p << " * " << q << endl;
     cout << "      = " << r << "  ";
-
-    Poly poly = r / q;
 
     if (r / q == p)
     {
@@ -162,8 +160,6 @@ void test_div(const Poly &p, const Poly &q)
     cout << p << " / " << q << endl;
     cout << "      = " << r;
     cout << "  rem = " << p % q << "  ";
-
-    Poly poly = r * q + p % q;
 
     if (r * q + p % q == p)
     {
