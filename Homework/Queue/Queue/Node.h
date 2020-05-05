@@ -43,8 +43,7 @@ public:
 
         @return <std::ostream &>: ostream reference.
     */
-    template <typename T>
-    friend std::ostream &operator<<(std::ostream &outs, const node<T> &printMe)
+    friend std::ostream &operator<<(std::ostream &outs, const node<ITEM_TYPE> &printMe)
     {
         outs << printMe._item;
 

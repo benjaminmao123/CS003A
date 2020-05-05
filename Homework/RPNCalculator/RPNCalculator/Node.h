@@ -39,7 +39,7 @@ public:
         @summary: Overloaded insertion operator to print contents of node.
 
         @param <std::ostream &outs>: The ostream object.
-        @param <const node<T> &printMe>: The node to print.
+        @param <const node<U> &printMe>: The node to print.
 
         @return <std::ostream &>: ostream reference.
     */

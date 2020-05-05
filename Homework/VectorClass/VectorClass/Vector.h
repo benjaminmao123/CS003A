@@ -311,7 +311,7 @@ inline void Vector<T>::erase(const unsigned int erase_index)
 template<typename T>
 inline int Vector<T>::index_of(const T &item)
 {
-    unsigned int index = 0;
+    int index = -1;
 
     search_entry(data, item, sz, index);
 

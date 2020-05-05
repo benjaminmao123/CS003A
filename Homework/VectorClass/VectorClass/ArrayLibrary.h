@@ -175,7 +175,7 @@ void copy_list(T *dest, const T *src, const unsigned int size)
 		to the first element found. Else, return nullptr.
 */
 template<typename T>
-T *search_entry(T *list, const T &find_me, const unsigned int size, unsigned int &index)
+T *search_entry(T *list, const T &find_me, const unsigned int size, int &index)
 {
 	T *listEnd = list + size;
 	index = 0;

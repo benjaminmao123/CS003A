@@ -158,6 +158,51 @@ Poly &Poly::operator-=(const Poly &RHS)
 }
 
 /*
+	@summary: Overloaded division assignment operator.
+		Divides a given poly to the current poly.
+
+	@param <const Poly &RHS>: Poly to divide with.
+
+	@return <Poly &>: The polynomial.
+*/
+Poly &Poly::operator/=(const Poly &rhs)
+{
+	if ((_order < rhs._order) || !rhs._poly.begin()->_coef)
+	{
+		*this = Poly();
+		return *this;
+	}
+
+	Poly dividend(*this);
+	Poly divisor(rhs);
+	Poly quotient;
+
+	if (divisor._order <= 0)
+	{
+		Term term = *divisor._poly.begin();
+		term._coef = 1.0 / term._coef;
+		quotient = *this * term;
+	}
+	else
+	{
+		while (dividend._order >= divisor._order)
+		{
+			Term term = *dividend._poly.begin() / *divisor._poly.begin();
+			quotient += term;
+
+			Poly temp = divisor * term;
+
+			dividend -= temp;
+		}
+	}
+
+	quotient.fix_order();
+	*this = quotient;
+
+	return *this;
+}
+
+/*
 	@summary: Overloaded subtraction operator.
 		Simply inverts the sign of each term.
 
@@ -187,37 +232,10 @@ Poly Poly::operator-() const
 */
 Poly operator/(const Poly &lhs, const Poly &rhs)
 {
-	if ((lhs._order < rhs._order) || !rhs._poly.begin()->_coef)
-	{
-		return Poly();
-	}
+	Poly res(lhs);
+	res /= rhs;
 
-	Poly dividend(lhs);
-	Poly divisor(rhs);
-	Poly quotient;
-
-	if (divisor._order <= 0)
-	{
-		Term term = *divisor._poly.begin();
-		term._coef = 1.0 / term._coef;
-		quotient = lhs * term;
-	}
-	else
-	{
-		while (dividend._order >= divisor._order)
-		{
-			Term term = *dividend._poly.begin() / *divisor._poly.begin();
-			quotient += term;
-
-			Poly temp = divisor * term;
-
-			dividend -= temp;
-		}
-	}
-
-	quotient.fix_order();
-
-	return quotient;
+	return res;
 }
 
 /*

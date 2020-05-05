@@ -308,7 +308,7 @@ Term operator/(const Term &lhs, const Term &rhs)
 	@summary: Overloaded stream insertion operator
 		Prints the given Term's coefficient and exponent. 
 		If positive + is printed out.
-
+		
 	@param <std::ostream &outs>: The ostream object to modify.
 	@param <const Term &t>: The Term to print.
 
@@ -321,7 +321,9 @@ std::ostream &operator<<(std::ostream &outs, const Term &t)
 		outs << "+";
 	}
 
-	outs << setprecision(1) << fixed << t._coef << "x^" << t._exp;
+	double coef = round(t._coef * 10) / 10;
+
+	outs << setprecision(1) << fixed << coef << "x^" << t._exp;
 
 	return outs;
 }

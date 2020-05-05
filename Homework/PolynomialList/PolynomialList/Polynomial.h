@@ -18,6 +18,7 @@ public:
     Poly &operator+=(const Poly &RHS);
     Poly &operator*=(const Poly &RHS);
     Poly &operator-=(const Poly &RHS);
+    Poly &operator/=(const Poly &rhs);
     Poly operator-() const;
 
     friend Poly operator/(const Poly &lhs, const Poly &rhs);

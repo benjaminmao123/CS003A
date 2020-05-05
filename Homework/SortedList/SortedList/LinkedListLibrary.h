@@ -97,11 +97,11 @@ inline void PrintList(const node<ITEM_TYPE> *head)
         {
             if (!i->next)
             {
-                cout << i->_item << "->|||";
+                cout << *i << "->|||";
             }
             else
             {
-                cout << i->_item << "->";
+                cout << *i << "->";
             }
         }
     }
@@ -128,11 +128,11 @@ inline void PrintList_backwards(const node<ITEM_TYPE> *head, const int depth)
 
         if (!depth)
         {
-            cout << head->_item;
+            cout << *head;
         }
         else
         {
-            cout << head->_item << "<-";
+            cout << *head << "<-";
         }
     }
     else

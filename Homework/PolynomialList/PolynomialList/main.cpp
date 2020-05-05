@@ -30,7 +30,7 @@ int main()
 
 void test()
 {
-    double pC[] = { 0, 1, 2 };
+    double pC[] = { 5, 1, 2, 3 };
     double qC[] = { 5, 1, 2, 3, 4 };
 
     int pCSize = sizeof(pC) / sizeof(*pC);
