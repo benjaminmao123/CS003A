@@ -1,4 +1,5 @@
 #include <random>
+#include <algorithm>
 
 #include "Creature.h"
 #include "Grid.h"
@@ -11,9 +12,14 @@ Creature::Creature(const Location &location, char icon)
 
 }
 
+Creature::~Creature()
+{
+
+}
+
 void Creature::Move(Grid &grid)
 {
-	MoveTo(grid);
+
 }
 
 void Creature::Breed()
@@ -36,6 +42,21 @@ const Location &Creature::GetLocation() const
 	return location;
 }
 
+char Creature::GetIcon() const
+{
+	return icon;
+}
+
+bool Creature::HasMoved() const
+{
+	return hasMoved;
+}
+
+void Creature::SetMoved(bool state)
+{
+	hasMoved = state;
+}
+
 void Creature::SetType(Type type)
 {
 	this->type = type;
@@ -44,9 +65,12 @@ void Creature::SetType(Type type)
 void Creature::MoveTo(Grid &grid)
 {
 	GetAvailableLocations(grid);
-	int index = RandomNumber(0, 7);
+	int index = 0;
+
+	if (!availableLocations.empty())
+		index = RandomNumber(0, availableLocations.size() - 1);
 	
-	if (availableLocations[index].x != -1)
+	if (!availableLocations.empty() && availableLocations[index].row != -1)
 	{
 		grid.SetGrid(nullptr, location);
 		location = availableLocations[index];
@@ -58,42 +82,43 @@ void Creature::GetAvailableLocations(const Grid &grid)
 {
 	availableLocations.clear();
 
-	if (location.x)
+	if (location.col >= 3)
 	{
-		if (!grid.IsOccupied(Location{ location.x - 1, location.y }))
-			availableLocations.push_back(Location{ location.x - 1, location.y });
+		if (!grid.IsOccupied(Location{ location.row, location.col - 2 }))
+			availableLocations.push_back(Location{ location.row, location.col - 2 });
 
-		if (location.y)
+		if (location.row)
 		{
-			if (!grid.IsOccupied(Location{ location.x - 1, location.y - 1 }))
-				availableLocations.push_back(Location{ location.x - 1, location.y - 1 });
-			if (!grid.IsOccupied(Location{ location.x, location.y - 1 }))
-				availableLocations.push_back(Location{ location.x, location.y - 1 });
+			if (!grid.IsOccupied(Location{ location.row - 1, location.col - 2 }))
+				availableLocations.push_back(Location{ location.row - 1, location.col - 2 });
+			if (!grid.IsOccupied(Location{ location.row - 1, location.col }))
+				availableLocations.push_back(Location{ location.row - 1, location.col });
 		}
 
-		if (location.y < maxRows - 1)
+		if (location.row < maxRows - 1)
 		{
-			if (!grid.IsOccupied(Location{ location.x - 1, location.y + 1 }))
-				availableLocations.push_back(Location{ location.x - 1, location.y + 1 });
-			if (!grid.IsOccupied(Location{ location.x, location.y + 1 }))
-				availableLocations.push_back(Location{ location.x, location.y + 1 });
+			if (!grid.IsOccupied(Location{ location.row + 1, location.col - 2 }))
+				availableLocations.push_back(Location{ location.row + 1, location.col - 2 });
 		}
 	}
-	else
+	
+	if (location.col < maxCols - 2)
 	{
-		if (!grid.IsOccupied(Location{ location.x + 1, location.y }))
-			availableLocations.push_back(Location{ location.x + 1, location.y });
+		if (!grid.IsOccupied(Location{ location.row, location.col + 2 }))
+			availableLocations.push_back(Location{ location.row, location.col + 2 });
 
-		if (location.y)
+		if (location.row)
 		{
-			if (!grid.IsOccupied(Location{ location.x + 1, location.y - 1 }))
-				availableLocations.push_back(Location{ location.x + 1, location.y - 1 });
+			if (!grid.IsOccupied(Location{ location.row - 1, location.col + 2 }))
+				availableLocations.push_back(Location{ location.row - 1, location.col + 2 });
 		}
 
-		if (location.y < maxRows - 1)
+		if (location.row < maxRows - 1)
 		{
-			if (!grid.IsOccupied(Location{ location.x + 1, location.y + 1 }))
-				availableLocations.push_back(Location{ location.x + 1, location.y + 1 });
+			if (!grid.IsOccupied(Location{ location.row + 1, location.col + 2 }))
+				availableLocations.push_back(Location{ location.row + 1, location.col + 2 });
+			if (!grid.IsOccupied(Location{ location.row + 1, location.col }))
+				availableLocations.push_back(Location{ location.row + 1, location.col });
 		}
 	}
 }

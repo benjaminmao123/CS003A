@@ -141,7 +141,9 @@
     <ClCompile Include="Creature.cpp" />
     <ClCompile Include="Grid.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="Predator.cpp" />
     <ClCompile Include="Prey.cpp" />
+    <ClCompile Include="Wall.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ArrayLibrary.h" />

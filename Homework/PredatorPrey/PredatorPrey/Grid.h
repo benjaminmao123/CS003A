@@ -4,8 +4,8 @@
 
 #include "Location.h"
 
-static const int maxRows = 10;
-static const int maxCols = 10;
+static const int maxRows = 11;
+static const int maxCols = 11;
 
 class Creature;
 
@@ -13,6 +13,7 @@ class Grid
 {
 public:
 	Grid();
+	~Grid();
 
 	void FillGrid();
 	void Step();

@@ -13,7 +13,8 @@ class Grid;
 class Creature
 {
 public:
-	Creature(const Location &location = { }, char icon = 'O');
+	Creature(const Location &location = { }, char icon = 'C');
+	virtual ~Creature();
 
 	virtual void Move(Grid &grid);
 	virtual void Breed();
@@ -21,14 +22,17 @@ public:
 
 	Type GetType() const;
 	const Location &GetLocation() const;
+	char GetIcon() const;
+	bool HasMoved() const;
+	void SetMoved(bool state);
 
 	friend std::ostream &operator<<(std::ostream &os, const Creature &c);
 
 protected:
 	void SetType(Type type);
+	void MoveTo(Grid &grid);
 
 private:
-	void MoveTo(Grid &grid);
 	void GetAvailableLocations(const Grid &grid);
 	int RandomNumber(int start, int end);
 
@@ -38,4 +42,5 @@ private:
 	std::random_device rd;
 	std::mt19937 gen;
 	char icon;
+	bool hasMoved;
 };

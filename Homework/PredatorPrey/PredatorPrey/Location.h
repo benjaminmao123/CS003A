@@ -2,6 +2,6 @@
 
 struct Location
 {
-	int x{ -1 };
-	int y{ -1 };
+	int row{ -1 };
+	int col{ -1 };
 };
