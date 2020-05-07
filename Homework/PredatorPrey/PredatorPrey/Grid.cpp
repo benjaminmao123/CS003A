@@ -6,6 +6,13 @@
 
 using namespace std;
 
+/*
+	@summary: Default constructor.
+		Initializes all grid locations to nullptr
+		and settings.
+
+	@param <const Settings &settings>: Simulation settings.
+*/
 Grid::Grid(const Settings &settings)
 	: settings(settings), currentStep(0)
 {
@@ -20,6 +27,10 @@ Grid::Grid(const Settings &settings)
 	}
 }
 
+/*
+	@summary: Destructor, cleans up memory allocated by
+		grid.
+*/
 Grid::~Grid()
 {
 	for (int row = 0; row < settings.maxRows; ++row)
@@ -31,6 +42,10 @@ Grid::~Grid()
 	}
 }
 
+/*
+	@summary: Fills the grid with walls, prey, and predator
+		objects.
+*/
 void Grid::FillGrid()
 {
 	for (int row = 0; row < settings.maxRows; ++row)
@@ -55,6 +70,11 @@ void Grid::FillGrid()
 	}
 }
 
+/*
+	@summary: Advance on step in the simulation.
+		Calls Breed(), Move(), and Kill(), also 
+		increments currentStep;
+*/
 void Grid::Step()
 {
 	Breed();
@@ -63,6 +83,10 @@ void Grid::Step()
 	++currentStep;
 }
 
+/*
+	@summary: Calls Move() of each Creature object
+		occupying a location on the grid.
+*/
 void Grid::Move()
 {
 	for (int row = 0; row < settings.maxRows; ++row)
@@ -89,6 +113,10 @@ void Grid::Move()
 	}
 }
 
+/*
+	@summary: Calls Breed() of each Creature object
+		occupying a location on the grid.
+*/
 void Grid::Breed()
 {
 	for (int row = 0; row < settings.maxRows; ++row)
@@ -101,6 +129,10 @@ void Grid::Breed()
 	}
 }
 
+/*
+	@summary: Calls Kill() of each creature object
+		in the deadCreatures vector.
+*/
 void Grid::Kill()
 {
 	while (!deadCreatures.empty())
@@ -110,11 +142,29 @@ void Grid::Kill()
 	}
 }
 
+/*
+	@summary: Gets a creature pointer from a given
+		row and col in the grid.
+
+	@param <int row>: Row of creature.
+	@param <int col>: Column of creature.
+
+	@return <const Creature *>: The creature at the location.
+*/
 const Creature *Grid::GetGrid(int row, int col) const
 {
 	return grid[row][col];
 }
 
+/*
+	@summary: Checks if a given row and col is occupied by
+		a creature.
+
+	@param <int row>: Row of grid.
+	@param <int col>: Column of grid.
+
+	@return <bool>: True if it is, false otherwise.
+*/
 bool Grid::IsOccupied(int row, int col) const
 {
 	if (row >= settings.maxRows - 1 || col >= settings.maxCols - 1 ||
@@ -124,16 +174,38 @@ bool Grid::IsOccupied(int row, int col) const
 	return grid[row][col];
 }
 
+/*
+	@summary: Sets a given location on the grid to
+		a given Creature pointer.
+
+	@param <Creature *creature>: Creature * to assign to grid.
+	@param <int row>: Row of grid.
+	@param <int col>: Column of grid.
+*/
 void Grid::SetGrid(Creature *creature, int row, int col)
 {
 	grid[row][col] = creature;
 }
 
+/*
+	@summary: Adds a creature to the vector of dead creatures.
+
+	@param <int row>: Row of the creature.
+	@param <int col>: Column of the creature.
+*/
 void Grid::AddDeadCreature(int row, int col)
 {
 	deadCreatures.push_back(grid[row][col]);
 }
 
+/*
+	@summary: Overloaded insertion operator to print the grid.
+
+	@param <std::ostream &os>: The ostream object.
+	@param <const Grid &g>: The grid to print.
+
+	@return <std::ostream &>: ostream reference.
+*/
 std::ostream &operator<<(std::ostream &os, const Grid &g)
 {
 	cout << "Step: " << g.currentStep << endl;

@@ -5,7 +5,6 @@
  *          for dynamic add and removal of elements.
  *
  * Notes: None.
- *
  */
 
 #pragma once

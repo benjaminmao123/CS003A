@@ -20,8 +20,8 @@
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
-    <ProjectGuid>{4035A709-B962-42AA-82E4-089A66BBE3EE}</ProjectGuid>
-    <RootNamespace>PredatorPrey</RootNamespace>
+    <ProjectGuid>{D4248024-CDD4-422A-AB17-766CE79D7050}</ProjectGuid>
+    <RootNamespace>RecursionDrills</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -138,25 +138,6 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Creature.cpp" />
-    <ClCompile Include="Grid.cpp" />
-    <ClCompile Include="main.cpp" />
-    <ClCompile Include="Predator.cpp" />
-    <ClCompile Include="Prey.cpp" />
-    <ClCompile Include="Wall.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="ArrayLibrary.h" />
-    <ClInclude Include="Creature.h" />
-    <ClInclude Include="Grid.h" />
-    <ClInclude Include="Location.h" />
-    <ClInclude Include="Predator.h" />
-    <ClInclude Include="Prey.h" />
-    <ClInclude Include="Settings.h" />
-    <ClInclude Include="Vector.h" />
-    <ClInclude Include="Wall.h" />
-    <ClInclude Include="z_output.h" />
-    <ClInclude Include="z_work_report.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -11,6 +11,12 @@ Prey::Prey(const Settings &settings, const Location &location,
 	type = Type::Prey;
 }
 
+/*
+	@summary: Moves the predator to a random,
+		unoccupied location on the grid.
+
+	@param <Grid &grid>: Grid object to manipulate.
+*/
 void Prey::Move(Grid &grid)
 {
 	FindBlank(grid);
@@ -25,6 +31,14 @@ void Prey::Move(Grid &grid)
 	}
 }
 
+/*
+	@summary: If the prey survives a certain
+		number of steps, then a new prey is
+		created at its old location and resets
+		the breedStep.
+
+	@param <Grid &grid>: The Grid object.
+*/
 void Prey::Breed(Grid &grid)
 {
 	if (breedStep >= settings.preyBreedRate)

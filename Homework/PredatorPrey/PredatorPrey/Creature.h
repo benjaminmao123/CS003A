@@ -1,3 +1,12 @@
+/*
+ * Author: Benjamin Mao
+ * Project: Predator/Prey
+ * Purpose: Base class for all
+ *		creature types.
+ *
+ * Notes: None.
+ */
+
 #pragma once
 
 #include <random>

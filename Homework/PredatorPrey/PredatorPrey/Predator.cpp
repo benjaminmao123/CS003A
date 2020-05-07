@@ -11,6 +11,21 @@ Predator::Predator(const Settings &settings, const Location &location,
 	type = Type::Predator;
 }
 
+/*
+	@summary: Moves the predator to a given location on
+		the grid. 
+		
+		The predator moves to a random location adjacent to 
+		it where a prey is at.
+		If there is no prey, then it simply moves to a
+		random, adjacent unoccupied spot.
+
+		Energy is used every time this function
+		is called. If predator's energy level reaches 0,
+		the predator dies. 
+
+	@param <Grid &grid>: Grid object to manipulate.
+*/
 void Predator::Move(Grid &grid)
 {
 	if (!currEnergy)
@@ -49,6 +64,14 @@ void Predator::Move(Grid &grid)
 	}
 }
 
+/*
+	@summary: If the predator survives a certain
+		number of steps, then a new predator is
+		created at its old location and resets
+		the breedStep.
+
+	@param <Grid &grid>: The Grid object.
+*/
 void Predator::Breed(Grid &grid)
 {
 	if (breedStep >= settings.predBreedRate)

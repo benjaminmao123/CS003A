@@ -1,3 +1,12 @@
+/*
+ * Author: Benjamin Mao
+ * Project: Predator/Prey
+ * Purpose: Settings for the 
+ *      simulation.
+ *
+ * Notes: None.
+ */
+
 #pragma once
 
 struct Settings

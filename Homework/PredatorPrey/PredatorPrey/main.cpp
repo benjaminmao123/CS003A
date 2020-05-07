@@ -1,3 +1,11 @@
+/*
+ * Author: Benjamin Mao
+ * Project: Predator/Prey
+ * Purpose: Entry point to the Grid class.
+ *
+ * Notes: None.
+ */
+
 #include <iostream>
 #include <string>
 #include <cstdlib>
@@ -7,6 +15,9 @@
 
 using namespace std;
 
+/*
+	@summary: Clears the console.
+*/
 void clearConsole()
 {
 #ifdef _WIN32
@@ -17,7 +28,16 @@ void clearConsole()
 #endif
 }
 
+void Test();
+
 int main()
+{
+	Test();
+
+	return 0;
+}
+
+void Test()
 {
 	Settings settings;
 	settings.preyBreedRate = 3;
@@ -26,20 +46,22 @@ int main()
 
 	Grid grid(settings);
 	grid.FillGrid();
-	
+
 	string input;
 	cout << grid << endl;
 
 	while (true)
 	{
 		cout << "[Enter]: Next Step" << endl;
+		cout << "E[x]it" << endl;
 		getline(cin, input);
 
+		if (input == "x")
+			break;
+
 		grid.Step();
-		
+
 		clearConsole();
 		cout << grid << endl;
 	}
-
-	return 0;
 }

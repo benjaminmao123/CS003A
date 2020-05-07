@@ -1,3 +1,12 @@
+/*
+ * Author: Benjamin Mao
+ * Project: Predatory/Prey
+ * Purpose: Child class to represent
+ *      the predator.
+ *
+ * Notes: None.
+ */
+
 #pragma once
 
 #include "Creature.h"
