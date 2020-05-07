@@ -1,5 +1,9 @@
 #include "Predator.h"
 
+/*
+	@summary: Default constructor.
+		Initializes creature settings and location.
+*/
 Predator::Predator(const Settings &settings, const Location &location,
 	char icon)
 	: Creature(settings, location, icon), currEnergy(settings.startEnergy)

@@ -1,5 +1,9 @@
 #include "Prey.h"
 
+/*
+	@summary: Default constructor.
+		Initializes creature settings and location.
+*/
 Prey::Prey(const Settings &settings, const Location &location,
 	char icon)
 	: Creature(settings, location, icon)

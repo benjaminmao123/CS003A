@@ -6,6 +6,10 @@
 
 using namespace std;
 
+/*
+	@summary: Default constructor.
+		Initializes creature settings and location.
+*/
 Creature::Creature(const Settings &settings, const Location &location,
 	char icon)
 	: currPos(location), type(Type::None), gen(rd()), hasMoved(false), 
@@ -14,11 +18,17 @@ Creature::Creature(const Settings &settings, const Location &location,
 
 }
 
+/*
+	@summary: Destructor.
+*/
 Creature::~Creature()
 {
 
 }
 
+/*
+	
+*/
 void Creature::Move(Grid &grid)
 {
 
