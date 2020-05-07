@@ -3,16 +3,15 @@
 #include <ostream>
 
 #include "Location.h"
-
-static const int maxRows = 11;
-static const int maxCols = 11;
+#include "Vector.h"
+#include "Settings.h"
 
 class Creature;
 
 class Grid
 {
 public:
-	Grid();
+	Grid(const Settings &settings);
 	~Grid();
 
 	void FillGrid();
@@ -21,11 +20,16 @@ public:
 	void Breed();
 	void Kill();
 
-	bool IsOccupied(const Location &loc) const;
-	void SetGrid(Creature *creature, const Location &loc);
+	const Creature *GetGrid(int row, int col) const;
+	bool IsOccupied(int row, int col) const;
+	void SetGrid(Creature *creature, int row, int col);
+	void AddDeadCreature(int row, int col);
 
 	friend std::ostream &operator<<(std::ostream &os, const Grid &g);
 
 private:
-	Creature *grid[maxRows][maxCols];
+	Creature ***grid;
+	Vector<Creature *> deadCreatures;
+	const Settings &settings;
+	int currentStep;
 };

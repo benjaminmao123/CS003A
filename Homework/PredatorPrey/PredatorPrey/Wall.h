@@ -5,8 +5,6 @@
 class Wall : public Creature
 {
 public:
-	Wall(const Location &location = { }, char icon = '|');
-
-private:
-
+	Wall(const Settings &settings, const Location &location = { },
+		char icon = '|');
 };

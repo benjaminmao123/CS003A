@@ -6,12 +6,12 @@
 class Predator : public Creature
 {
 public:
-	Predator(const Location &location = { }, char icon = 'X');
+	Predator(const Settings &settings, const Location &location = { },
+		char icon = 'X');
 
 	virtual void Move(Grid &grid) override;
-	virtual void Breed() override;
-	virtual void Kill() override;
+	virtual void Breed(Grid &grid) override;
 	
 private:
-
+	int currEnergy;
 };

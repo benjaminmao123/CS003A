@@ -29,7 +29,9 @@ public:
     T &at(const int index);                        //return reference to item at position index
     const T at(const int index) const;             //return a const item at position index
     T &front() const;                                       //return item at position 0.
+    T &front();
     T &back() const;                                        //return item at the last position
+    T &back();
 
     //Push and Pop functions:
     Vector &operator+=(const T &item);                      //push_back
@@ -204,6 +206,12 @@ inline T &Vector<T>::front() const
     return at(0);
 }
 
+template<typename T>
+inline T &Vector<T>::front()
+{
+    return at(0);
+}
+
 /*
     @summary: Retrieves the element the last element.
 
@@ -211,6 +219,12 @@ inline T &Vector<T>::front() const
 */
 template<typename T>
 inline T &Vector<T>::back() const
+{
+    return at(sz - 1);
+}
+
+template<typename T>
+inline T &Vector<T>::back()
 {
     return at(sz - 1);
 }

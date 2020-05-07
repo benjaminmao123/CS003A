@@ -5,42 +5,50 @@
 
 #include "Location.h"
 #include "Vector.h"
+#include "Settings.h"
 
-enum class Type { Wall, Prey, Predator};
+enum class Type { None, Wall, Prey, Predator};
 
 class Grid;
 
 class Creature
 {
 public:
-	Creature(const Location &location = { }, char icon = 'C');
+	Creature(const Settings &settings, const Location &location = { },
+		char icon = 'C');
 	virtual ~Creature();
 
 	virtual void Move(Grid &grid);
-	virtual void Breed();
-	virtual void Kill();
+	virtual void Breed(Grid &grid);
+	void Kill(Grid &grid);
 
 	Type GetType() const;
 	const Location &GetLocation() const;
-	char GetIcon() const;
 	bool HasMoved() const;
 	void SetMoved(bool state);
+	char GetIcon() const;
 
 	friend std::ostream &operator<<(std::ostream &os, const Creature &c);
 
 protected:
-	void SetType(Type type);
-	void MoveTo(Grid &grid);
-
-private:
-	void GetAvailableLocations(const Grid &grid);
+	void MoveTo(Grid &grid, const Location &dest);
+	void FindBlank(const Grid &grid);
+	void FindPredator(const Grid &grid);
+	void FindPrey(const Grid &grid);
 	int RandomNumber(int start, int end);
 
-	Location location;
+	Vector<Location> blankLoc;
+	Vector<Location> predLoc;
+	Vector<Location> preyLoc;
+	Location oldPos;
+	Location currPos;
 	Type type;
-	Vector<Location> availableLocations;
+	int breedStep;
+	const Settings &settings;
+
+private:
+	char icon;
 	std::random_device rd;
 	std::mt19937 gen;
-	char icon;
 	bool hasMoved;
 };

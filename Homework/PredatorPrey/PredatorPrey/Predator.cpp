@@ -1,22 +1,57 @@
 #include "Predator.h"
 
-Predator::Predator(const Location &location, char icon)
-	: Creature(location, icon)
+Predator::Predator(const Settings &settings, const Location &location,
+	char icon)
+	: Creature(settings, location, icon), currEnergy(settings.startEnergy)
 {
-	SetType(Type::Predator);
+	type = Type::Predator;
 }
 
 void Predator::Move(Grid &grid)
 {
-	MoveTo(grid);
+	if (!currEnergy)
+	{
+		grid.AddDeadCreature(currPos.row, currPos.col);
+		return;
+	}
+
+	FindPrey(grid);
+	int index = 0;
+
+	if (!preyLoc.empty())
+	{
+		index = RandomNumber(0, preyLoc.size() - 1);
+
+		if (preyLoc[index].row != -1)
+		{
+			grid.AddDeadCreature(preyLoc[index].row, preyLoc[index].col);
+			MoveTo(grid, preyLoc[index]);
+			++currEnergy;
+		}
+	}
+	else
+	{
+		FindBlank(grid);
+
+		if (!blankLoc.empty())
+		{
+			index = RandomNumber(0, blankLoc.size() - 1);
+
+			if (blankLoc[index].row != -1)
+				MoveTo(grid, blankLoc[index]);
+
+			--currEnergy;
+		}
+	}
 }
 
-void Predator::Breed()
+void Predator::Breed(Grid &grid)
 {
-
+	if (breedStep >= settings.predBreedRate)
+	{
+		breedStep = 0;
+		grid.SetGrid(new Predator(settings, oldPos), 
+			oldPos.row, oldPos.col);
+	}
 }
 
-void Predator::Kill()
-{
-
-}
