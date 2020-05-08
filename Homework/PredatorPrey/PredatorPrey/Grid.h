@@ -37,6 +37,8 @@ public:
 	friend std::ostream &operator<<(std::ostream &os, const Grid &g);
 
 private:
+	int preyCount;
+	int predCount;
 	Creature ***grid;
 	Vector<Creature *> deadCreatures;
 	const Settings &settings;

@@ -14,7 +14,7 @@ using namespace std;
 	@param <const Settings &settings>: Simulation settings.
 */
 Grid::Grid(const Settings &settings)
-	: settings(settings), currentStep(0)
+	: settings(settings), currentStep(0), predCount(0), preyCount(0)
 {
 	grid = new Creature **[settings.maxRows];
 
@@ -36,9 +36,7 @@ Grid::~Grid()
 	for (int row = 0; row < settings.maxRows; ++row)
 	{
 		for (int col = 0; col < settings.maxCols; ++col)
-		{
 			delete grid[row][col];
-		}
 	}
 }
 
@@ -60,12 +58,18 @@ void Grid::FillGrid()
 				c = new Wall(settings, Location{ row, col });
 			else if (col % 2 && (row >= settings.maxRows - 1 || row <= 0))
 				c = new Wall(settings, Location{ row, col }, 'Z');
-			else if (row == 5 && col == 5)
+			else if ((row == 1 && col == 5) || (row == 1 && col == 31) ||
+				     (row == 10 && col == 5) || (row == 10 && col == 31) ||
+				     (row == 17 && col == 17))
+			{
 				c = new Predator(settings, Location{ row, col });
-			else if (row == 15 && col == 31)
-				c = new Predator(settings, Location{ row, col });
+				++predCount;
+			}
 			else
+			{
 				c = new Prey(settings, Location{ row, col });
+				++preyCount;
+			}
 		}
 	}
 }
@@ -89,12 +93,22 @@ void Grid::Step()
 */
 void Grid::Move()
 {
+	predCount = 0;
+	preyCount = 0;
+
 	for (int row = 0; row < settings.maxRows; ++row)
 	{
 		for (int col = 0; col < settings.maxCols; ++col)
 		{
 			if (IsOccupied(row, col))
+			{
 				grid[row][col]->SetMoved(false);
+
+				if (grid[row][col]->GetType() == Type::Predator)
+					++predCount;
+				else if (grid[row][col]->GetType() == Type::Prey)
+					++preyCount;
+			}
 		}
 	}
 
@@ -209,6 +223,8 @@ void Grid::AddDeadCreature(int row, int col)
 std::ostream &operator<<(std::ostream &os, const Grid &g)
 {
 	cout << "Step: " << g.currentStep << endl;
+	cout << "Prey: " << g.preyCount << endl;
+	cout << "Predator: " << g.predCount << endl;
 
 	for (int row = 0; row < g.settings.maxRows; ++row)
 	{

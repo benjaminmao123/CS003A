@@ -39,10 +39,9 @@ int main()
 
 void Test()
 {
-	Settings settings;
+	Settings settings(20);
 	settings.preyBreedRate = 3;
-	settings.predBreedRate = 20;
-	settings.startEnergy = 1;
+	settings.predBreedRate = 8;
 
 	Grid grid(settings);
 	grid.FillGrid();

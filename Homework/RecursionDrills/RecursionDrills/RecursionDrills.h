@@ -12,11 +12,15 @@
 	09. n/2 Hips, Hurrah, then n/2 Hips
 	10. n asterisks, a vertical bar, then n exclamation marks
 */
-class RecursionDrills
+namespace RecursionDrills
 {
-public:
 	void PrintIntVertically(int num);
 	void CountUp(int start, int end);
 	void CountDown(int start, int end);
-	void CountDownToOneCountUp(int start, int end);
+	void CountDownToOneCountUp(int num);
+	void HipHurrah(int n);
+	void HurrahHip(int n);
+	void HipHurrahHip1(int n);
+	void HipHurrahHip2(int n);
+	void StarsBarExclamation(int n);
 };

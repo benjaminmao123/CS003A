@@ -9,11 +9,20 @@
 
 #pragma once
 
+#include <algorithm>
+
 struct Settings
 {
-	int maxRows{ 20 };
-	int maxCols{ maxRows * 2 - 1 };
+    Settings(int rows)
+        : maxRows(std::max(20, rows)), maxCols(maxRows * 2 - 1)
+    {
+
+    }
+
+    const int maxRows;
+    const int maxCols;
 	int preyBreedRate{ 5 };
 	int predBreedRate{ 10 };
-	int startEnergy{ 9 };
+	int startEnergy{ 1 };
+    int maxEnergy{ 4 };
 };

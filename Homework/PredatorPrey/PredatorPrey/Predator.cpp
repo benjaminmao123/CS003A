@@ -34,30 +34,32 @@ void Predator::Move(Grid &grid)
 		return;
 	}
 
-	FindPrey(grid);
+	FindPreyAdjacent(grid);
 	int index = 0;
 
-	if (!preyLoc.empty())
+	if (!preyLocAdj.empty())
 	{
-		index = RandomNumber(0, preyLoc.size() - 1);
+		index = RandomNumber(0, preyLocAdj.size() - 1);
 
-		if (preyLoc[index].row != -1)
+		if (preyLocAdj[index].row != -1)
 		{
-			grid.AddDeadCreature(preyLoc[index].row, preyLoc[index].col);
-			MoveTo(grid, preyLoc[index]);
-			++currEnergy;
+			grid.AddDeadCreature(preyLocAdj[index].row, preyLocAdj[index].col);
+			MoveTo(grid, preyLocAdj[index]);
+			
+			if (currEnergy < settings.maxEnergy)
+				++currEnergy;
 		}
 	}
 	else
 	{
-		FindBlank(grid);
+		FindBlankAdjacent(grid);
 
-		if (!blankLoc.empty())
+		if (!blankLocAdj.empty())
 		{
-			index = RandomNumber(0, blankLoc.size() - 1);
+			index = RandomNumber(0, blankLocAdj.size() - 1);
 
-			if (blankLoc[index].row != -1)
-				MoveTo(grid, blankLoc[index]);
+			if (blankLocAdj[index].row != -1)
+				MoveTo(grid, blankLocAdj[index]);
 
 			--currEnergy;
 		}
@@ -76,9 +78,31 @@ void Predator::Breed(Grid &grid)
 {
 	if (breedStep >= settings.predBreedRate)
 	{
-		breedStep = 0;
-		grid.SetGrid(new Predator(settings, oldPos), 
-			oldPos.row, oldPos.col);
+		if (!grid.IsOccupied(oldPos.row, oldPos.col))
+		{
+			grid.SetGrid(new Predator(settings, oldPos),
+				oldPos.row, oldPos.col);
+
+			breedStep = 0;
+		}
+		else
+		{
+			FindBlankAdjacent(grid);
+			int index = 0;
+
+			if (!blankLocAdj.empty())
+			{
+				index = RandomNumber(0, blankLocAdj.size() - 1);
+
+				if (blankLocAdj[index].row != -1)
+				{
+					grid.SetGrid(new Predator(settings, blankLocAdj[index]),
+						blankLocAdj[index].row, blankLocAdj[index].col);
+
+					breedStep = 0;
+				}
+			}
+		}
 	}
 }
 

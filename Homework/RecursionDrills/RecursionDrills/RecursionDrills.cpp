@@ -56,15 +56,82 @@ void RecursionDrills::CountDown(int start, int end)
 	cout << end << endl;
 }
 
-void RecursionDrills::CountDownToOneCountUp(int start, int end)
+void RecursionDrills::CountDownToOneCountUp(int num)
 {
-	if (start <= end)
+	if (num <= 0) return;
+
+	cout << num << endl;
+	CountDownToOneCountUp(num - 1);
+	cout << num << endl;
+}
+
+void RecursionDrills::HipHurrah(int n)
+{
+	if (n <= 1)
 	{
-		cout << start << endl;
+		cout << "Hurrah!!";
 		return;
 	}
 
-	CountDownToOneCountUp(start - 1, end);
+	cout << "Hip ";
+	HipHurrah(n - 1);
+}
 
-	cout << start << endl;
+void RecursionDrills::HurrahHip(int n)
+{
+	if (n <= 1)
+	{
+		cout << "Hurrah!! ";
+		return;
+	}
+
+	HurrahHip(n - 1);
+	cout << "Hip ";
+}
+
+void RecursionDrills::HipHurrahHip1(int n)
+{
+	if (n <= 1)
+	{
+		cout << "Hurrah!! ";
+		return;
+	}
+
+	cout << "Hip ";
+	HipHurrahHip1(n - 1);
+	cout << "Hip ";
+}
+
+void RecursionDrills::HipHurrahHip2(int n)
+{
+	if (n == 1)
+	{
+		cout << "Hurrah!! ";
+		return;
+	}
+	
+	if (!(n % 2))
+	{
+		cout << "Hip ";
+	}
+
+	HipHurrahHip2(n - 1);
+	
+	if (!(n % 2))
+	{
+		cout << "Hip ";
+	}
+}
+
+void RecursionDrills::StarsBarExclamation(int n)
+{
+	if (n <= 0)
+	{
+		cout << "|";
+		return;
+	}
+
+	cout << "*";
+	StarsBarExclamation(n - 1);
+	cout << "!";
 }

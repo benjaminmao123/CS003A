@@ -135,8 +135,7 @@ void Creature::MoveTo(Grid &grid, const Location &dest)
 }
 
 /*
-	@summary: Generates a list of blank spots adjacent to
-		creature.
+	@summary: Generates a list of blank spots.
 
 	@param <const Grid &grid>: The grid object.
 */
@@ -144,27 +143,47 @@ void Creature::FindBlank(const Grid &grid)
 {
 	blankLoc.clear();
 
+	for (int row = 0; row < settings.maxRows; ++row)
+	{
+		for (int col = 0; col < settings.maxCols; ++col)
+		{
+			if (!grid.IsOccupied(row, col))
+				blankLoc.push_back(Location{ row, col });
+		}
+	}
+}
+
+/*
+	@summary: Generates a list of blank spots adjacent to
+		creature.
+
+	@param <const Grid &grid>: The grid object.
+*/
+void Creature::FindBlankAdjacent(const Grid &grid)
+{
+	blankLocAdj.clear();
+
 	if (!grid.IsOccupied(currPos.row, currPos.col - 2))
-		blankLoc.push_back(Location{ currPos.row, currPos.col - 2 });
+		blankLocAdj.push_back(Location{ currPos.row, currPos.col - 2 });
 
 	if (!grid.IsOccupied(currPos.row - 1, currPos.col - 2))
-		blankLoc.push_back(Location{ currPos.row - 1, currPos.col - 2 });
+		blankLocAdj.push_back(Location{ currPos.row - 1, currPos.col - 2 });
 	if (!grid.IsOccupied(currPos.row - 1, currPos.col))
-		blankLoc.push_back(Location{ currPos.row - 1, currPos.col });
+		blankLocAdj.push_back(Location{ currPos.row - 1, currPos.col });
 
 	if (!grid.IsOccupied(currPos.row + 1, currPos.col - 2))
-		blankLoc.push_back(Location{ currPos.row + 1, currPos.col - 2 });
+		blankLocAdj.push_back(Location{ currPos.row + 1, currPos.col - 2 });
 
 	if (!grid.IsOccupied(currPos.row, currPos.col + 2))
-		blankLoc.push_back(Location{ currPos.row, currPos.col + 2 });
+		blankLocAdj.push_back(Location{ currPos.row, currPos.col + 2 });
 
 	if (!grid.IsOccupied(currPos.row - 1, currPos.col + 2))
-		blankLoc.push_back(Location{ currPos.row - 1, currPos.col + 2 });
+		blankLocAdj.push_back(Location{ currPos.row - 1, currPos.col + 2 });
 
 	if (!grid.IsOccupied(currPos.row + 1, currPos.col + 2))
-		blankLoc.push_back(Location{ currPos.row + 1, currPos.col + 2 });
+		blankLocAdj.push_back(Location{ currPos.row + 1, currPos.col + 2 });
 	if (!grid.IsOccupied(currPos.row + 1, currPos.col))
-		blankLoc.push_back(Location{ currPos.row + 1, currPos.col });
+		blankLocAdj.push_back(Location{ currPos.row + 1, currPos.col });
 }
 
 /*
@@ -173,39 +192,39 @@ void Creature::FindBlank(const Grid &grid)
 
 	@param <const Grid &grid>: The grid object.
 */
-void Creature::FindPredator(const Grid &grid)
+void Creature::FindPredatorAdjacent(const Grid &grid)
 {
-	predLoc.clear();
+	predLocAdj.clear();
 
 	if (grid.IsOccupied(currPos.row, currPos.col - 2) &&
 		grid.GetGrid(currPos.row, currPos.col - 2)->GetType() == Type::Predator)
-		predLoc.push_back(Location{ currPos.row, currPos.col - 2 });
+		predLocAdj.push_back(Location{ currPos.row, currPos.col - 2 });
 
 	if (grid.IsOccupied(currPos.row - 1, currPos.col - 2) &&
 		grid.GetGrid(currPos.row - 1, currPos.col - 2)->GetType() == Type::Predator)
-		predLoc.push_back(Location{ currPos.row - 1, currPos.col - 2 });
+		predLocAdj.push_back(Location{ currPos.row - 1, currPos.col - 2 });
 	if (grid.IsOccupied(currPos.row - 1, currPos.col) &&
 		grid.GetGrid(currPos.row - 1, currPos.col)->GetType() == Type::Predator)
-		predLoc.push_back(Location{ currPos.row - 1, currPos.col });
+		predLocAdj.push_back(Location{ currPos.row - 1, currPos.col });
 
 	if (grid.IsOccupied(currPos.row + 1, currPos.col - 2) &&
 		grid.GetGrid(currPos.row + 1, currPos.col - 2)->GetType() == Type::Predator)
-		predLoc.push_back(Location{ currPos.row + 1, currPos.col - 2 });
+		predLocAdj.push_back(Location{ currPos.row + 1, currPos.col - 2 });
 
 	if (grid.IsOccupied(currPos.row, currPos.col + 2) &&
 		grid.GetGrid(currPos.row, currPos.col + 2)->GetType() == Type::Predator)
-		predLoc.push_back(Location{ currPos.row, currPos.col + 2 });
+		predLocAdj.push_back(Location{ currPos.row, currPos.col + 2 });
 
 	if (grid.IsOccupied(currPos.row - 1, currPos.col + 2) &&
 		grid.GetGrid(currPos.row - 1, currPos.col + 2)->GetType() == Type::Predator)
-		predLoc.push_back(Location{ currPos.row - 1, currPos.col + 2 });
+		predLocAdj.push_back(Location{ currPos.row - 1, currPos.col + 2 });
 
 	if (grid.IsOccupied(currPos.row + 1, currPos.col + 2) &&
 		grid.GetGrid(currPos.row + 1, currPos.col + 2)->GetType() == Type::Predator)
-		predLoc.push_back(Location{ currPos.row + 1, currPos.col + 2 });
+		predLocAdj.push_back(Location{ currPos.row + 1, currPos.col + 2 });
 	if (grid.IsOccupied(currPos.row + 1, currPos.col) &&
 		grid.GetGrid(currPos.row + 1, currPos.col)->GetType() == Type::Predator)
-		predLoc.push_back(Location{ currPos.row + 1, currPos.col });
+		predLocAdj.push_back(Location{ currPos.row + 1, currPos.col });
 }
 
 /*
@@ -214,39 +233,39 @@ void Creature::FindPredator(const Grid &grid)
 
 	@param <const Grid &grid>: The grid object.
 */
-void Creature::FindPrey(const Grid &grid)
+void Creature::FindPreyAdjacent(const Grid &grid)
 {
-	preyLoc.clear();
+	preyLocAdj.clear();
 
 	if (grid.IsOccupied(currPos.row, currPos.col - 2) &&
 		grid.GetGrid(currPos.row, currPos.col - 2)->GetType() == Type::Prey)
-		preyLoc.push_back(Location{ currPos.row, currPos.col - 2 });
+		preyLocAdj.push_back(Location{ currPos.row, currPos.col - 2 });
 
 	if (grid.IsOccupied(currPos.row - 1, currPos.col - 2) &&
 		grid.GetGrid(currPos.row - 1, currPos.col - 2)->GetType() == Type::Prey)
-		preyLoc.push_back(Location{ currPos.row - 1, currPos.col - 2 });
+		preyLocAdj.push_back(Location{ currPos.row - 1, currPos.col - 2 });
 	if (grid.IsOccupied(currPos.row - 1, currPos.col) &&
 		grid.GetGrid(currPos.row - 1, currPos.col)->GetType() == Type::Prey)
-		preyLoc.push_back(Location{ currPos.row - 1, currPos.col });
+		preyLocAdj.push_back(Location{ currPos.row - 1, currPos.col });
 
 	if (grid.IsOccupied(currPos.row + 1, currPos.col - 2) &&
 		grid.GetGrid(currPos.row + 1, currPos.col - 2)->GetType() == Type::Prey)
-		preyLoc.push_back(Location{ currPos.row + 1, currPos.col - 2 });
+		preyLocAdj.push_back(Location{ currPos.row + 1, currPos.col - 2 });
 
 	if (grid.IsOccupied(currPos.row, currPos.col + 2) &&
 		grid.GetGrid(currPos.row, currPos.col + 2)->GetType() == Type::Prey)
-		preyLoc.push_back(Location{ currPos.row, currPos.col + 2 });
+		preyLocAdj.push_back(Location{ currPos.row, currPos.col + 2 });
 
 	if (grid.IsOccupied(currPos.row - 1, currPos.col + 2) &&
 		grid.GetGrid(currPos.row - 1, currPos.col + 2)->GetType() == Type::Prey)
-		preyLoc.push_back(Location{ currPos.row - 1, currPos.col + 2 });
+		preyLocAdj.push_back(Location{ currPos.row - 1, currPos.col + 2 });
 
 	if (grid.IsOccupied(currPos.row + 1, currPos.col + 2) &&
 		grid.GetGrid(currPos.row + 1, currPos.col + 2)->GetType() == Type::Prey)
-		preyLoc.push_back(Location{ currPos.row + 1, currPos.col + 2 });
+		preyLocAdj.push_back(Location{ currPos.row + 1, currPos.col + 2 });
 	if (grid.IsOccupied(currPos.row + 1, currPos.col) &&
 		grid.GetGrid(currPos.row + 1, currPos.col)->GetType() == Type::Prey)
-		preyLoc.push_back(Location{ currPos.row + 1, currPos.col });
+		preyLocAdj.push_back(Location{ currPos.row + 1, currPos.col });
 }
 
 /*
