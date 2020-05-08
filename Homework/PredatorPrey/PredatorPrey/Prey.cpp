@@ -17,7 +17,7 @@ Prey::Prey(const Settings &settings, const Location &location,
 
 	@param <Grid &grid>: Grid object to manipulate.
 */
-void Prey::Move(Grid &grid)
+bool Prey::Move(Grid &grid)
 {
 	FindBlankAdjacent(grid);
 	int index = 0;
@@ -29,6 +29,8 @@ void Prey::Move(Grid &grid)
 		if (blankLocAdj[index].row != -1)
 			MoveTo(grid, blankLocAdj[index]);
 	}
+
+	return false;
 }
 
 /*
@@ -39,16 +41,16 @@ void Prey::Move(Grid &grid)
 
 	@param <Grid &grid>: The Grid object.
 */
-void Prey::Breed(Grid &grid)
+bool Prey::Breed(Grid &grid)
 {
 	if (breedStep >= settings.preyBreedRate)
 	{
-		if (!grid.IsOccupied(oldPos.row, oldPos.col))
+		if (!grid.IsOccupied(oldPos))
 		{
-			grid.SetGrid(new Prey(settings, oldPos),
-				oldPos.row, oldPos.col);
-
+			grid.SetGrid(new Prey(settings, oldPos), oldPos);
 			breedStep = 0;
+
+			return true;
 		}
 		else
 		{
@@ -61,13 +63,14 @@ void Prey::Breed(Grid &grid)
 
 				if (blankLocAdj[index].row != -1)
 				{
-					grid.SetGrid(new Prey(settings, blankLocAdj[index]),
-						blankLocAdj[index].row, blankLocAdj[index].col);
+					grid.SetGrid(new Prey(settings, blankLocAdj[index]), blankLocAdj[index]);
 
 					breedStep = 0;
 				}
 			}
 		}
 	}
+
+	return false;
 }
 

@@ -81,8 +81,8 @@ void Grid::FillGrid()
 */
 void Grid::Step()
 {
-	Breed();
 	Move();
+	Breed();
 	Kill();
 	++currentStep;
 }
@@ -93,22 +93,14 @@ void Grid::Step()
 */
 void Grid::Move()
 {
-	predCount = 0;
-	preyCount = 0;
-
 	for (int row = 0; row < settings.maxRows; ++row)
 	{
 		for (int col = 0; col < settings.maxCols; ++col)
 		{
-			if (IsOccupied(row, col))
-			{
-				grid[row][col]->SetMoved(false);
+			Location loc{ row, col };
 
-				if (grid[row][col]->GetType() == Type::Predator)
-					++predCount;
-				else if (grid[row][col]->GetType() == Type::Prey)
-					++preyCount;
-			}
+			if (IsOccupied(loc))
+				grid[row][col]->SetMoved(false);
 		}
 	}
 
@@ -117,8 +109,9 @@ void Grid::Move()
 		for (int col = 0; col < settings.maxCols; ++col)
 		{
 			Creature *c = grid[row][col];
+			Location loc{ row, col };
 
-			if (IsOccupied(row, col) && !c->HasMoved())
+			if (IsOccupied(loc) && !c->HasMoved())
 			{
 				c->Move(*this);
 				c->SetMoved(true);
@@ -137,8 +130,14 @@ void Grid::Breed()
 	{
 		for (int col = 0; col < settings.maxCols; ++col)
 		{
-			if (IsOccupied(row, col))
-				grid[row][col]->Breed(*this);
+			Location loc{ row, col };
+
+			if (IsOccupied(loc))
+			{
+				Creature *c = grid[row][col];
+
+				c->Breed(*this);
+			}
 		}
 	}
 }
@@ -149,10 +148,32 @@ void Grid::Breed()
 */
 void Grid::Kill()
 {
-	while (!deadCreatures.empty())
+	predCount = 0;
+	preyCount = 0;
+
+	for (int row = 0; row < settings.maxRows; ++row)
 	{
-		deadCreatures.back()->Kill(*this);
-		deadCreatures.pop_back();
+		for (int col = 0; col < settings.maxCols; ++col)
+		{
+			Location loc{ row, col };
+
+			if (IsOccupied(loc))
+			{
+				switch (grid[row][col]->GetType())
+				{
+				case Type::Predator:
+					++predCount;
+					break;
+				case Type::Prey:
+					++preyCount;
+				default:
+					break;
+				}
+
+				if (grid[row][col]->Kill(*this))
+					--predCount;
+			}
+		}
 	}
 }
 
@@ -165,9 +186,9 @@ void Grid::Kill()
 
 	@return <const Creature *>: The creature at the location.
 */
-const Creature *Grid::GetGrid(int row, int col) const
+const Creature *Grid::GetGrid(const Location &loc) const
 {
-	return grid[row][col];
+	return grid[loc.row][loc.col];
 }
 
 /*
@@ -179,13 +200,13 @@ const Creature *Grid::GetGrid(int row, int col) const
 
 	@return <bool>: True if it is, false otherwise.
 */
-bool Grid::IsOccupied(int row, int col) const
+bool Grid::IsOccupied(const Location &loc) const
 {
-	if (row >= settings.maxRows - 1 || col >= settings.maxCols - 1 ||
-		row < 0 || col < 0)
+	if (loc.row >= settings.maxRows - 1 || loc.col >= settings.maxCols - 1 ||
+		loc.row < 0 || loc.col < 0)
 		return true;
 
-	return grid[row][col];
+	return grid[loc.row][loc.col];
 }
 
 /*
@@ -196,20 +217,9 @@ bool Grid::IsOccupied(int row, int col) const
 	@param <int row>: Row of grid.
 	@param <int col>: Column of grid.
 */
-void Grid::SetGrid(Creature *creature, int row, int col)
+void Grid::SetGrid(Creature *creature, const Location &loc)
 {
-	grid[row][col] = creature;
-}
-
-/*
-	@summary: Adds a creature to the vector of dead creatures.
-
-	@param <int row>: Row of the creature.
-	@param <int col>: Column of the creature.
-*/
-void Grid::AddDeadCreature(int row, int col)
-{
-	deadCreatures.push_back(grid[row][col]);
+	grid[loc.row][loc.col] = creature;
 }
 
 /*
@@ -230,7 +240,9 @@ std::ostream &operator<<(std::ostream &os, const Grid &g)
 	{
 		for (int col = 0; col < g.settings.maxCols; ++col)
 		{
-			if (g.IsOccupied(row, col))
+			Location loc{ row, col };
+
+			if (g.IsOccupied(loc))
 			{
 				Creature *c = g.grid[row][col];
 

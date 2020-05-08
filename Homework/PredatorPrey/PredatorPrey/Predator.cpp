@@ -26,14 +26,8 @@ Predator::Predator(const Settings &settings, const Location &location,
 
 	@param <Grid &grid>: Grid object to manipulate.
 */
-void Predator::Move(Grid &grid)
+bool Predator::Move(Grid &grid)
 {
-	if (!currEnergy)
-	{
-		grid.AddDeadCreature(currPos.row, currPos.col);
-		return;
-	}
-
 	FindPreyAdjacent(grid);
 	int index = 0;
 
@@ -43,11 +37,13 @@ void Predator::Move(Grid &grid)
 
 		if (preyLocAdj[index].row != -1)
 		{
-			grid.AddDeadCreature(preyLocAdj[index].row, preyLocAdj[index].col);
+			delete grid.GetGrid(preyLocAdj[index]);
 			MoveTo(grid, preyLocAdj[index]);
 			
 			if (currEnergy < settings.maxEnergy)
 				++currEnergy;
+
+			return true;
 		}
 	}
 	else
@@ -64,6 +60,8 @@ void Predator::Move(Grid &grid)
 			--currEnergy;
 		}
 	}
+
+	return false;
 }
 
 /*
@@ -74,16 +72,16 @@ void Predator::Move(Grid &grid)
 
 	@param <Grid &grid>: The Grid object.
 */
-void Predator::Breed(Grid &grid)
+bool Predator::Breed(Grid &grid)
 {
 	if (breedStep >= settings.predBreedRate)
 	{
-		if (!grid.IsOccupied(oldPos.row, oldPos.col))
+		if (!grid.IsOccupied(oldPos))
 		{
-			grid.SetGrid(new Predator(settings, oldPos),
-				oldPos.row, oldPos.col);
-
+			grid.SetGrid(new Predator(settings, oldPos), oldPos);
 			breedStep = 0;
+
+			return true;
 		}
 		else
 		{
@@ -96,13 +94,32 @@ void Predator::Breed(Grid &grid)
 
 				if (blankLocAdj[index].row != -1)
 				{
-					grid.SetGrid(new Predator(settings, blankLocAdj[index]),
-						blankLocAdj[index].row, blankLocAdj[index].col);
-
+					grid.SetGrid(new Predator(settings, blankLocAdj[index]), blankLocAdj[index]);
 					breedStep = 0;
 				}
 			}
 		}
 	}
+
+	return false;
+}
+
+/*
+	@summary: Kills the current creature if 
+		currEnergy < startEnergy.
+
+	@param <Grid &grid>: Grid to manipulate.
+*/
+bool Predator::Kill(Grid &grid)
+{
+	if (currEnergy < settings.startEnergy)
+	{
+		grid.SetGrid(nullptr, currPos);
+		delete this;
+
+		return true;
+	}
+
+	return false;
 }
 

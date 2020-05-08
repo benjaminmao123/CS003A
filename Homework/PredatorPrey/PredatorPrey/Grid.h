@@ -29,10 +29,9 @@ public:
 	void Breed();
 	void Kill();
 
-	const Creature *GetGrid(int row, int col) const;
-	bool IsOccupied(int row, int col) const;
-	void SetGrid(Creature *creature, int row, int col);
-	void AddDeadCreature(int row, int col);
+	const Creature *GetGrid(const Location &loc) const;
+	bool IsOccupied(const Location &loc) const;
+	void SetGrid(Creature *creature, const Location &loc);
 
 	friend std::ostream &operator<<(std::ostream &os, const Grid &g);
 

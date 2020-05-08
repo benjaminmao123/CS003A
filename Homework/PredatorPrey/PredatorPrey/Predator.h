@@ -18,8 +18,9 @@ public:
 	Predator(const Settings &settings, const Location &location = { },
 		char icon = 'X');
 
-	virtual void Move(Grid &grid) override;
-	virtual void Breed(Grid &grid) override;
+	virtual bool Move(Grid &grid) override;
+	virtual bool Breed(Grid &grid) override;
+    virtual bool Kill(Grid &grid) override;
 	
 private:
 	int currEnergy;
