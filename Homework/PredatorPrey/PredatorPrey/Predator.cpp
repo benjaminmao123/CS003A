@@ -28,17 +28,17 @@ Predator::Predator(const Settings &settings, const Location &location,
 */
 void Predator::Move(Grid &grid)
 {
-	FindPreyAdjacent(grid);
+	Vector<Location> prey = FindPreyAdjacent(grid);
 	int index = 0;
 
-	if (!preyLocAdj.empty())
+	if (!prey.empty())
 	{
-		index = RandomNumber(0, preyLocAdj.size() - 1);
+		index = RandomNumber(0, prey.size() - 1);
 
-		if (preyLocAdj[index].row != -1)
+		if (prey[index].row != -1)
 		{
-			delete grid.GetGrid(preyLocAdj[index]);
-			MoveTo(grid, preyLocAdj[index]);
+			delete grid.GetGrid(prey[index]);
+			MoveTo(grid, prey[index]);
 			
 			if (currEnergy < settings.maxEnergy)
 				++currEnergy;
@@ -46,14 +46,14 @@ void Predator::Move(Grid &grid)
 	}
 	else
 	{
-		FindBlankAdjacent(grid);
+		Vector<Location> blank = FindBlankAdjacent(grid);
 
-		if (!blankLocAdj.empty())
+		if (!blank.empty())
 		{
-			index = RandomNumber(0, blankLocAdj.size() - 1);
+			index = RandomNumber(0, blank.size() - 1);
 
-			if (blankLocAdj[index].row != -1)
-				MoveTo(grid, blankLocAdj[index]);
+			if (blank[index].row != -1)
+				MoveTo(grid, blank[index]);
 
 			--currEnergy;
 		}
@@ -79,16 +79,16 @@ void Predator::Breed(Grid &grid)
 		}
 		else
 		{
-			FindBlankAdjacent(grid);
+			Vector<Location> blank = FindBlankAdjacent(grid);
 			int index = 0;
 
-			if (!blankLocAdj.empty())
+			if (!blank.empty())
 			{
-				index = RandomNumber(0, blankLocAdj.size() - 1);
+				index = RandomNumber(0, blank.size() - 1);
 
-				if (blankLocAdj[index].row != -1)
+				if (blank[index].row != -1)
 				{
-					grid.SetGrid(new Predator(settings, blankLocAdj[index]), blankLocAdj[index]);
+					grid.SetGrid(new Predator(settings, blank[index]), blank[index]);
 					breedStep = 0;
 				}
 			}

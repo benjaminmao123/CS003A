@@ -41,16 +41,12 @@ public:
 
 protected:
 	void MoveTo(Grid &grid, const Location &dest);
-	void FindBlank(const Grid &grid);
-	void FindBlankAdjacent(const Grid &grid);
-	void FindPredatorAdjacent(const Grid &grid);
-	void FindPreyAdjacent(const Grid &grid);
+	Vector<Location> FindBlank(const Grid &grid);
+	Vector<Location> FindBlankAdjacent(const Grid &grid);
+	Vector<Location> FindPredatorAdjacent(const Grid &grid);
+	Vector<Location> FindPreyAdjacent(const Grid &grid);
 	int RandomNumber(int start, int end);
 
-	Vector<Location> blankLoc;
-	Vector<Location> blankLocAdj;
-	Vector<Location> predLocAdj;
-	Vector<Location> preyLocAdj;
 	Location oldPos;
 	Location currPos;
 	Type type;
