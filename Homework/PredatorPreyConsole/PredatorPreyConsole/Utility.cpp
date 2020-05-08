@@ -12,7 +12,6 @@
 
 #include "Utility.h"
 
-using namespace std;
 /*
 	@summary: Utility function to generate a random int
 		within a given range.
@@ -26,7 +25,7 @@ int Utility::RandomNumber(int start, int end)
 {
 	static std::random_device rd;
 	static std::mt19937 gen(rd());
-	uniform_int_distribution<> dist(start, end);
+	std::uniform_int_distribution<> dist(start, end);
 
 	return dist(gen);
 }

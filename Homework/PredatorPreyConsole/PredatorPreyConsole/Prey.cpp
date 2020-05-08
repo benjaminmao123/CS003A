@@ -29,7 +29,7 @@ Prey::Prey(const Settings &settings, const Location &location,
 */
 void Prey::Move(Grid &grid)
 {
-	Vector<Location> blank = FindBlankAdjacent(grid);
+	vector<Location> blank = FindBlankAdjacent(grid);
 	int index = 0;
 
 	if (!blank.empty())
@@ -60,7 +60,7 @@ void Prey::Breed(Grid &grid)
 		}
 		else
 		{
-			Vector<Location> blank = FindBlankAdjacent(grid);
+			vector<Location> blank = FindBlankAdjacent(grid);
 			int index = 0;
 
 			if (!blank.empty())

@@ -11,8 +11,6 @@
 
 #include "Operand.h"
 
-using namespace std;
-
 /*
 	@summary: Overloaded constructor that takes
 		initializes value with a given value.
@@ -23,7 +21,7 @@ using namespace std;
 Operand::Operand(double value)
 	: value(value)
 {
-	TokenString(to_string(value));
+	TokenString(std::to_string(value));
 }
 
 /*

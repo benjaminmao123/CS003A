@@ -122,7 +122,7 @@ Term operator/(const Term &lhs, const Term &rhs)
 
 	@return <ostream &>: ostream reference for chaining.
 */
-ostream &operator<<(ostream &outs, const Term &t)
+std::ostream &operator<<(std::ostream &outs, const Term &t)
 {
 	if (t._coef < 0)
 	{
@@ -143,7 +143,7 @@ ostream &operator<<(ostream &outs, const Term &t)
 
 		if (coef > 0 && coef != 1)
 		{
-			outs << setprecision(1) << fixed << coef;
+			outs << std::setprecision(1) << std::fixed << coef;
 		}
 
 		outs << "x";

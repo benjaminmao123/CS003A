@@ -11,8 +11,6 @@
 
 #include "Calculator.h"
 
-using namespace std;
-
 void Test();
 
 int main()

@@ -25,8 +25,8 @@ private:
 
 	stack<Token *> result;
 	queue<Token *> postfix;
-	Vector<char> validOpsChar;
-	Vector<std::string> validOpsString;
+	vector<char> validOpsChar;
+	vector<std::string> validOpsString;
 	std::string input;
 	std::string output;
 };

@@ -5,8 +5,6 @@
 #include "Term.h"
 #include "ArrayLibrary.h"
 
-using namespace std;
-
 class Poly
 {
 public:
@@ -37,8 +35,8 @@ public:
     friend Poly operator/(const Poly &lhs, const Poly &rhs);
     friend Poly operator%(const Poly &lhs, const Poly &rhs);
 
-    friend ostream &operator<<(ostream &outs, const Poly &p);
-    friend istream &operator>>(istream &ins, Poly &p);
+    friend std::ostream &operator<<(std::ostream &outs, const Poly &p);
+    friend std::istream &operator>>(std::istream &ins, Poly &p);
 
     int order() const { return _order; }
 

@@ -30,7 +30,7 @@ private:
 	int preyCount;
 	int predCount;
 	Creature ***grid;
-	Vector<Creature *> deadCreatures;
+	vector<Creature *> deadCreatures;
 	const Settings &settings;
 	int currentStep;
 };

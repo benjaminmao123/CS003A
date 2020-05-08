@@ -10,19 +10,17 @@
 
 #pragma once
 
-#include <iostream>
+#include <ostream>
 
 #include "ArrayLibrary.h"
 
-using std::ostream;
-
 template <typename T>
-class Vector
+class vector
 {
 public:
-    Vector(int size = 0);
-    Vector(const Vector &other);
-    ~Vector();
+    vector(int size = 0);
+    vector(const vector &other);
+    ~vector();
 
     const T operator[](int index) const;
     T &operator[](int index);
@@ -33,7 +31,7 @@ public:
     const T &back() const;                                        
     T &back();
 
-    Vector &operator+=(const T &item);                      
+    vector &operator+=(const T &item);                      
     void push_back(const T &item);                        
     void pop_back();                                        
 
@@ -47,16 +45,16 @@ public:
     int capacity() const { return cap; }        
 
     bool empty() const;                             
-    void swap(Vector &v);
+    void swap(vector &v);
     void clear();
 
     template <class U>
-    friend ostream &operator<<(ostream &outs, const Vector<U> &_a);
+    friend std::ostream &operator<<(std::ostream &outs, const vector<U> &_a);
 
-    bool operator==(const Vector<T> &_a);
-    bool operator!=(const Vector<T> &_a);
+    bool operator==(const vector<T> &_a);
+    bool operator!=(const vector<T> &_a);
 
-    Vector &operator=(const Vector &rhs);
+    vector &operator=(const vector &rhs);
 
 private:
     int sz;
@@ -70,7 +68,7 @@ private:
     @param <int size>: Size to set vector to.
 */
 template<typename T>
-inline Vector<T>::Vector(int size)
+inline vector<T>::vector(int size)
     : sz(0), cap(1), data(nullptr)
 {
     if (size)
@@ -90,7 +88,7 @@ inline Vector<T>::Vector(int size)
     @param <const Vector &other>: Other vector to copy.
 */
 template<typename T>
-inline Vector<T>::Vector(const Vector &other)
+inline vector<T>::vector(const vector &other)
     : sz(other.sz), cap(other.cap), data(allocate(data, cap))
 {
     copy_list(data, other.data, sz);
@@ -100,7 +98,7 @@ inline Vector<T>::Vector(const Vector &other)
     @summary: Destructor, cleans up data.
 */
 template<typename T>
-inline Vector<T>::~Vector()
+inline vector<T>::~vector()
 {
     delete[] data;
 }
@@ -114,7 +112,7 @@ inline Vector<T>::~Vector()
     @return <const T>: Returns a copy of the element at index.
 */
 template<typename T>
-inline const T Vector<T>::operator[](int index) const
+inline const T vector<T>::operator[](int index) const
 {
     if (index >= sz)
     {
@@ -135,7 +133,7 @@ inline const T Vector<T>::operator[](int index) const
     @return <T &>: Returns a reference to the element at index.
 */
 template<typename T>
-inline T &Vector<T>::operator[](int index)
+inline T &vector<T>::operator[](int index)
 {
     if (index >= sz)
     {
@@ -156,7 +154,7 @@ inline T &Vector<T>::operator[](int index)
     @return <T &>: Returns a reference to the element at index.
 */
 template<typename T>
-inline T &Vector<T>::at(int index)
+inline T &vector<T>::at(int index)
 {
     if (index >= sz)
     {
@@ -177,7 +175,7 @@ inline T &Vector<T>::at(int index)
     @return <const T>: Returns a copy to the element at index.
 */
 template<typename T>
-inline const T Vector<T>::at(int index) const
+inline const T vector<T>::at(int index) const
 {
     if (index >= sz)
     {
@@ -195,7 +193,7 @@ inline const T Vector<T>::at(int index) const
     @return <const T &>: Returns a reference to the first element.
 */
 template<typename T>
-inline const T &Vector<T>::front() const
+inline const T &vector<T>::front() const
 {
     return at(0);
 }
@@ -206,7 +204,7 @@ inline const T &Vector<T>::front() const
     @return <T &>: Returns a reference to the last element.
 */
 template<typename T>
-inline T &Vector<T>::front()
+inline T &vector<T>::front()
 {
     return at(0);
 }
@@ -217,7 +215,7 @@ inline T &Vector<T>::front()
     @return <const T &>: Returns a reference to the last element.
 */
 template<typename T>
-inline const T &Vector<T>::back() const
+inline const T &vector<T>::back() const
 {
     return at(sz - 1);
 }
@@ -228,7 +226,7 @@ inline const T &Vector<T>::back() const
     @return <T &>: Returns a reference to the last element.
 */
 template<typename T>
-inline T &Vector<T>::back()
+inline T &vector<T>::back()
 {
     return at(sz - 1);
 }
@@ -240,7 +238,7 @@ inline T &Vector<T>::back()
     @param <const T &item>: Item to to append.
 */
 template<typename T>
-inline Vector<T> &Vector<T>::operator+=(const T &item)
+inline vector<T> &vector<T>::operator+=(const T &item)
 {
     push_back(item);
 }
@@ -252,7 +250,7 @@ inline Vector<T> &Vector<T>::operator+=(const T &item)
     @param <const T &item>: Item to to append.
 */
 template<typename T>
-inline void Vector<T>::push_back(const T &item)
+inline void vector<T>::push_back(const T &item)
 {
     data = add_entry(data, item, sz, cap);
 }
@@ -263,7 +261,7 @@ inline void Vector<T>::push_back(const T &item)
     @return <T>: Returns the popped item.
 */
 template<typename T>
-inline void Vector<T>::pop_back()
+inline void vector<T>::pop_back()
 {
     remove_last(data, sz, cap);
 }
@@ -276,7 +274,7 @@ inline void Vector<T>::pop_back()
     @param <const T &item>: Item to insert.
 */
 template<typename T>
-inline void Vector<T>::insert(int pos, const T &item)
+inline void vector<T>::insert(int pos, const T &item)
 {
     if (pos >= sz)
     {
@@ -303,7 +301,7 @@ inline void Vector<T>::insert(int pos, const T &item)
     @param <int erase_index>: Index of item to erase.
 */
 template<typename T>
-inline void Vector<T>::erase(int erase_index)
+inline void vector<T>::erase(int erase_index)
 {
     if (erase_index >= sz)
     {
@@ -324,7 +322,7 @@ inline void Vector<T>::erase(int erase_index)
     @return <int>: Returns index of the item.
 */
 template<typename T>
-inline int Vector<T>::index_of(const T &item)
+inline int vector<T>::index_of(const T &item)
 {
     int index = -1;
 
@@ -339,7 +337,7 @@ inline int Vector<T>::index_of(const T &item)
     @param <int size>: Value to set size to.
 */
 template<typename T>
-inline void Vector<T>::set_size(int size)
+inline void vector<T>::set_size(int size)
 {
     while (size >= cap)
     {
@@ -355,7 +353,7 @@ inline void Vector<T>::set_size(int size)
     @param <int capacity>: Value to set capacity to.
 */
 template<typename T>
-inline void Vector<T>::set_capacity(int capacity)
+inline void vector<T>::set_capacity(int capacity)
 {
     if (capacity > sz)
     {
@@ -378,7 +376,7 @@ inline void Vector<T>::set_capacity(int capacity)
     @return <bool>: If container is empty return true, else false.
 */
 template<typename T>
-inline bool Vector<T>::empty() const
+inline bool vector<T>::empty() const
 {
     return sz == 0;
 }
@@ -393,7 +391,7 @@ inline bool Vector<T>::empty() const
     @return <ostream &>: The ostream object that was inserted into.
 */
 template<class U>
-inline ostream &operator<<(ostream &outs, const Vector<U> &_a)
+inline std::ostream &operator<<(std::ostream &outs, const vector<U> &_a)
 {
     for (int i = 0; i < _a.sz; ++i)
     {
@@ -412,7 +410,7 @@ inline ostream &operator<<(ostream &outs, const Vector<U> &_a)
     @return <bool>: If they are the same, return true, else false.
 */
 template <typename T>
-inline bool Vector<T>::operator==(const Vector<T> &_a)
+inline bool vector<T>::operator==(const vector<T> &_a)
 {
     if (sz != _a.sz || cap != _a.cap)
     {
@@ -439,7 +437,7 @@ inline bool Vector<T>::operator==(const Vector<T> &_a)
     @return <bool>: If they are not the same, return true, else false.
 */
 template<typename T>
-inline bool Vector<T>::operator!=(const Vector<T> &_a)
+inline bool vector<T>::operator!=(const vector<T> &_a)
 {
     if (sz != _a.sz || cap != _a.cap)
     {
@@ -465,9 +463,9 @@ inline bool Vector<T>::operator!=(const Vector<T> &_a)
     @return <Vector<T> &>: Returns reference to this.
 */
 template<typename T>
-inline Vector<T> &Vector<T>::operator=(const Vector &rhs)
+inline vector<T> &vector<T>::operator=(const vector &rhs)
 {
-    Vector temp(rhs);
+    vector temp(rhs);
     swap(temp);
 
     return *this;
@@ -479,7 +477,7 @@ inline Vector<T> &Vector<T>::operator=(const Vector &rhs)
     @param <const Vector<T> &v>: Container to copy.
 */
 template<typename T>
-inline void Vector<T>::swap(Vector &v)
+inline void vector<T>::swap(vector &v)
 {
     std::swap(sz, v.sz);
     std::swap(cap, v.cap);
@@ -490,7 +488,7 @@ inline void Vector<T>::swap(Vector &v)
     @summary: Clears the entire vector.
 */
 template<typename T>
-inline void Vector<T>::clear()
+inline void vector<T>::clear()
 {
     while (sz) { pop_back(); }
 }

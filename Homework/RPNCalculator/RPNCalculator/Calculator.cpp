@@ -11,8 +11,6 @@
 #include "LeftParenthesis.h"
 #include "RightParenthesis.h"
 
-using namespace std;
-
 /*
 	@summary: Default constructor. Initializes
 		valid operator vectors and error/end flags.
@@ -62,31 +60,31 @@ void Calculator::Run()
 
 	while (menuInput != 'x')
 	{
-		cout << "[E]xpression E[x]it: ";
-		cin >> menuInput;
+		std::cout << "[E]xpression E[x]it: ";
+		std::cin >> menuInput;
 		menuInput = tolower(menuInput);
 
 		switch (menuInput)
 		{
 		case 'e':
-			cin.ignore(1000, '\n');
-			cout << "Enter an infix string: ";
-			getline(cin, input);
+			std::cin.ignore(1000, '\n');
+			std::cout << "Enter an infix string: ";
+			std::getline(std::cin, input);
 
 			if (!ParseExpression())
 			{
-				cout << "Error: Enter a correct expression." << endl;
+				std::cout << "Error: Enter a correct expression." << std::endl;
 			}
 			else
 			{
-				cout << "Result: " << result.top()->Evaluate() << endl;
+				std::cout << "Result: " << result.top()->Evaluate() << std::endl;
 			}
 			break;
 		default:
 			break;
 		}
 
-		cout << endl;
+		std::cout << std::endl;
 	}
 }
 
@@ -149,8 +147,8 @@ bool Calculator::ParseInput()
 {
 	stack<Operator *> operators;
 
-	istringstream iss(input);
-	string temp;
+	std::istringstream iss(input);
+	std::string temp;
 
 	while (iss >> temp)
 	{

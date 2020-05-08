@@ -2,8 +2,6 @@
 
 #include <ostream>
 
-using namespace std;
-
 struct Term
 {
     Term(const double coef, const unsigned int exp);
@@ -16,7 +14,7 @@ struct Term
     //used in Poly division operator
     friend Term operator/(const Term &lhs, const Term &rhs);
 
-    friend ostream &operator<<(ostream &outs, const Term &t);
+    friend std::ostream &operator<<(std::ostream &outs, const Term &t);
 
     double _coef;
     unsigned int _exp;

@@ -13,8 +13,6 @@
 #include "Creature.h"
 #include "Grid.h"
 
-using namespace std;
-
 /*
 	@summary: Default constructor.
 		Initializes creature settings and location.
@@ -141,9 +139,9 @@ void Creature::MoveTo(Grid &grid, const Location &dest)
 
 	@param <const Grid &grid>: The grid object.
 */
-Vector<Location> Creature::FindBlank(const Grid &grid)
+vector<Location> Creature::FindBlank(const Grid &grid)
 {
-	Vector<Location> location;
+	vector<Location> location;
 
 	for (int row = 0; row < settings.maxRows; ++row)
 	{
@@ -165,9 +163,9 @@ Vector<Location> Creature::FindBlank(const Grid &grid)
 
 	@param <const Grid &grid>: The grid object.
 */
-Vector<Location> Creature::FindBlankAdjacent(const Grid &grid)
+vector<Location> Creature::FindBlankAdjacent(const Grid &grid)
 {
-	Vector<Location> location;
+	vector<Location> location;
 
 	//left
 	if (!grid.IsOccupied(Location{ currPos.row, currPos.col - 2 }))
@@ -210,9 +208,9 @@ Vector<Location> Creature::FindBlankAdjacent(const Grid &grid)
 
 	@param <const Grid &grid>: The grid object.
 */
-Vector<Location> Creature::FindPredatorAdjacent(const Grid &grid)
+vector<Location> Creature::FindPredatorAdjacent(const Grid &grid)
 {
-	Vector<Location> location;
+	vector<Location> location;
 
 	//left
 	if (grid.IsOccupied(Location{ currPos.row, currPos.col - 2 }) &&
@@ -263,9 +261,9 @@ Vector<Location> Creature::FindPredatorAdjacent(const Grid &grid)
 
 	@param <const Grid &grid>: The grid object.
 */
-Vector<Location> Creature::FindPreyAdjacent(const Grid &grid)
+vector<Location> Creature::FindPreyAdjacent(const Grid &grid)
 {
-	Vector<Location> location;
+	vector<Location> location;
 
 	//left
 	if (grid.IsOccupied(Location{ currPos.row, currPos.col - 2 }) &&

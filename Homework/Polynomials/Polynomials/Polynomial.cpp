@@ -341,8 +341,8 @@ Poly operator*(const Poly &lhs, const Term &t)
 {
 	Poly result(lhs);
 
-	Vector<unsigned int> exps;
-	Vector<double> coefs;
+	vector<unsigned int> exps;
+	vector<double> coefs;
 
 	for (int i = result._order; i >= 0; --i)
 	{
@@ -353,7 +353,7 @@ Poly operator*(const Poly &lhs, const Term &t)
 		exps.push_back(exp);
 	}
 
-	for (unsigned int i = 0; i < exps.size(); ++i)
+	for (int i = 0; i < exps.size(); ++i)
 	{
 		if (exps[i] > result._order)
 		{
@@ -365,7 +365,7 @@ Poly operator*(const Poly &lhs, const Term &t)
 	double *start = result._coefs;
 	double *end = result._coefs + result._order + 1;
 
-	for (unsigned int i = 0; i < coefs.size(); ++i)
+	for (int i = 0; i < coefs.size(); ++i)
 	{
 		double *loc = start + exps[i];
 		*loc = coefs[i];
@@ -385,7 +385,7 @@ Poly operator*(const Poly &lhs, const Term &t)
 */
 Poly operator*(const Poly &lhs, const Poly &rhs)
 {
-	Vector<Poly> poly;
+	vector<Poly> poly;
 
 	if (lhs._order > rhs._order)
 	{
@@ -408,7 +408,7 @@ Poly operator*(const Poly &lhs, const Poly &rhs)
 
 	Poly result;
 
-	for (unsigned int i = 0; i < poly.size(); ++i)
+	for (int i = 0; i < poly.size(); ++i)
 	{
 		result = result + poly[i];
 	}
@@ -487,9 +487,9 @@ Poly operator%(const Poly &lhs, const Poly &rhs)
 
 	@return <ostream &>: ostream object reference for chaining.
 */
-ostream &operator<<(ostream &outs, const Poly &p)
+std::ostream &operator<<(std::ostream &outs, const Poly &p)
 {
-	ostringstream oss;
+	std::ostringstream oss;
 
 	outs << "[";
 
@@ -501,7 +501,7 @@ ostream &operator<<(ostream &outs, const Poly &p)
 			{
 				oss << p[i];
 
-				string temp = oss.str();
+				std::string temp = oss.str();
 
 				if (p[i]._coef > 0)
 				{
@@ -550,18 +550,18 @@ ostream &operator<<(ostream &outs, const Poly &p)
 
 	@return <istream &>: istream object reference for chaining.
 */
-istream &operator>>(istream &ins, Poly &p)
+std::istream &operator>>(std::istream &ins, Poly &p)
 {
-	cin.ignore();
+	std::cin.ignore();
 
-	string input;
+	std::string input;
 
 	/*
 		Get input from user, should be in the form of:
 		coefficient x exponent e.g.
 		6x2+3x1-5x0
 	*/
-	getline(ins, input);
+	std::getline(ins, input);
 
 	/*
 		format the input
@@ -587,18 +587,18 @@ istream &operator>>(istream &ins, Poly &p)
 	}
 
 	//vector to store coefficients 
-	Vector<double> mCoefs;
+	vector<double> mCoefs;
 	/*
 		vector to store the order of each coefficient.
 		this vector will be parallel to mCoefs
 	*/
-	Vector<int> orders;
+	vector<int> orders;
 
 	//pass our string into istringstream object
-	istringstream iss(input);
+	std::istringstream iss(input);
 
 	//temporary buffer to read into
-	string buffer;
+	std::string buffer;
 
 	/*
 		example string: 6 x 2 +3 x 1 +5 x 0
@@ -628,7 +628,7 @@ istream &operator>>(istream &ins, Poly &p)
 	int order = orders[0];
 	coefs = allocate(coefs, order + 1);
 
-	for (unsigned int i = 0; i < mCoefs.size(); ++i)
+	for (int i = 0; i < mCoefs.size(); ++i)
 	{
 		/*
 			access coefs based on the value of orders[i], and

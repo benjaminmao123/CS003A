@@ -32,10 +32,10 @@ public:
 
 protected:
 	void MoveTo(Grid &grid, const Location &dest);
-	Vector<Location> FindBlank(const Grid &grid);
-	Vector<Location> FindBlankAdjacent(const Grid &grid);
-	Vector<Location> FindPredatorAdjacent(const Grid &grid);
-	Vector<Location> FindPreyAdjacent(const Grid &grid);
+	vector<Location> FindBlank(const Grid &grid);
+	vector<Location> FindBlankAdjacent(const Grid &grid);
+	vector<Location> FindPredatorAdjacent(const Grid &grid);
+	vector<Location> FindPreyAdjacent(const Grid &grid);
 
 	const Location &GetOldPos() const;
 	const Location &GetCurrPos() const;

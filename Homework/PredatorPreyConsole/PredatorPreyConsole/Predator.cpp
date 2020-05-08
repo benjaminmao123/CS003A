@@ -38,7 +38,7 @@ Predator::Predator(const Settings &settings, const Location &location,
 */
 void Predator::Move(Grid &grid)
 {
-	Vector<Location> prey = FindPreyAdjacent(grid);
+	vector<Location> prey = FindPreyAdjacent(grid);
 	int index = 0;
 
 	if (!prey.empty())
@@ -56,7 +56,7 @@ void Predator::Move(Grid &grid)
 	}
 	else
 	{
-		Vector<Location> blank = FindBlankAdjacent(grid);
+		vector<Location> blank = FindBlankAdjacent(grid);
 
 		if (!blank.empty())
 		{
@@ -89,7 +89,7 @@ void Predator::Breed(Grid &grid)
 		}
 		else
 		{
-			Vector<Location> blank = FindBlankAdjacent(grid);
+			vector<Location> blank = FindBlankAdjacent(grid);
 			int index = 0;
 
 			if (!blank.empty())

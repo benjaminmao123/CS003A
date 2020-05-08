@@ -26,7 +26,7 @@ int main()
 //test function
 void test()
 {
-	Vector<int> test(10);
+	vector<int> test(10);
 
 	//default constructor and assignment test
 	for (int i = 0; i < 10; ++i)

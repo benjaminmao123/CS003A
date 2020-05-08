@@ -1,0 +1,30 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClInclude Include="ArrayLibrary.h">
+      <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="Vector.h">
+      <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="z_output.h">
+      <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="z_work_report.h">
+      <Filter>Header</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Source">
+      <UniqueIdentifier>{f6587782-d19a-4e70-9419-89c806b6dfe6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header">
+      <UniqueIdentifier>{be8f55c5-2671-456b-9352-c69204b6ec2a}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="main.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+  </ItemGroup>
+</Project>

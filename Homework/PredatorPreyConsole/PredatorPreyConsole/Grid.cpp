@@ -14,8 +14,6 @@
 #include "Wall.h"
 #include "Utility.h"
 
-using namespace std;
-
 /*
 	@summary: Default constructor.
 		Initializes all grid locations to nullptr
@@ -258,7 +256,7 @@ void Grid::SetGrid(Creature *creature, const Location &loc)
 */
 std::ostream &operator<<(std::ostream &os, const Grid &g)
 {
-	os << "Step: " << g.currentStep << endl << endl;
+	os << "Step: " << g.currentStep << std::endl << std::endl;
 
 	for (int row = 0; row < g.settings.maxRows; ++row)
 	{
@@ -276,12 +274,12 @@ std::ostream &operator<<(std::ostream &os, const Grid &g)
 				os << ' ';
 		}
 
-		os << endl;
+		os << std::endl;
 	}
 
-	os << endl;
-	os << "Prey: " << g.preyCount << endl;
-	os << "Predator: " << g.predCount << endl;
+	os << std::endl;
+	os << "Prey: " << g.preyCount << std::endl;
+	os << "Predator: " << g.predCount << std::endl;
 
 	return os;
 }

@@ -14,8 +14,6 @@
 #include "Settings.h"
 #include "Utility.h"
 
-using namespace std;
-
 void Test();
 
 int main()
@@ -34,14 +32,14 @@ void Test()
 	Grid grid(settings);
 	grid.FillGrid();
 
-	string input;
-	cout << grid << endl;
+	std::string input;
+	std::cout << grid << std::endl;
 
 	while (true)
 	{
-		cout << "[Enter]: Next Step" << endl;
-		cout << "E[x]it" << endl;
-		getline(cin, input);
+		std::cout << "[Enter]: Next Step" << std::endl;
+		std::cout << "E[x]it" << std::endl;
+		std::getline(std::cin, input);
 
 		if (input == "x")
 			break;
@@ -49,6 +47,6 @@ void Test()
 		grid.Step();
 
 		Utility::ClearConsole();
-		cout << grid << endl;
+		std::cout << grid << std::endl;
 	}
 }
