@@ -135,7 +135,24 @@ void Grid::Move()
 			Creature *c = grid[row][col];
 			Location loc{ row, col };
 
-			if (IsOccupied(loc) && !c->HasMoved())
+			if (IsOccupied(loc) && !c->HasMoved() && 
+				c->GetType() == Type::Predator)
+			{
+				c->Move(*this);
+				c->SetMoved(true);
+			}
+		}
+	}
+
+	for (int row = 0; row < settings.maxRows; ++row)
+	{
+		for (int col = 0; col < settings.maxCols; ++col)
+		{
+			Creature *c = grid[row][col];
+			Location loc{ row, col };
+
+			if (IsOccupied(loc) && !c->HasMoved() &&
+				c->GetType() == Type::Prey)
 			{
 				c->Move(*this);
 				c->SetMoved(true);
