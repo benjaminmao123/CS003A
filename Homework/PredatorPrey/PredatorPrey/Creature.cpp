@@ -234,6 +234,16 @@ Vector<Location> Creature::FindPredatorAdjacent(const Grid &grid)
 		grid.GetGrid(Location{ currPos.row + 1, currPos.col })->GetType() == Type::Predator)
 		location.push_back(Location{ currPos.row + 1, currPos.col });
 
+	//top left
+	if (grid.IsOccupied(Location{ currPos.row - 1, currPos.col - 2 }) &&
+		grid.GetGrid(Location{ currPos.row - 1, currPos.col - 2 })->GetType() == Type::Predator)
+		location.push_back(Location{ currPos.row - 1, currPos.col - 2 });
+
+	//top right
+	if (grid.IsOccupied(Location{ currPos.row - 1, currPos.col + 2 }) &&
+		grid.GetGrid(Location{ currPos.row - 1, currPos.col + 2 })->GetType() == Type::Predator)
+		location.push_back(Location{ currPos.row - 1, currPos.col + 2 });
+
 	//bottom left
 	if (grid.IsOccupied(Location{ currPos.row + 1, currPos.col - 2 }) &&
 		grid.GetGrid(Location{ currPos.row + 1, currPos.col - 2 })->GetType() == Type::Predator)
@@ -243,16 +253,6 @@ Vector<Location> Creature::FindPredatorAdjacent(const Grid &grid)
 	if (grid.IsOccupied(Location{ currPos.row + 1, currPos.col + 2 }) &&
 		grid.GetGrid(Location{ currPos.row + 1, currPos.col + 2 })->GetType() == Type::Predator)
 		location.push_back(Location{ currPos.row + 1, currPos.col + 2 });
-
-	//top right
-	if (grid.IsOccupied(Location{ currPos.row - 1, currPos.col + 2 }) &&
-		grid.GetGrid(Location{ currPos.row - 1, currPos.col + 2 })->GetType() == Type::Predator)
-		location.push_back(Location{ currPos.row - 1, currPos.col + 2 });
-
-	//top left
-	if (grid.IsOccupied(Location{ currPos.row - 1, currPos.col - 2 }) &&
-		grid.GetGrid(Location{ currPos.row - 1, currPos.col - 2 })->GetType() == Type::Predator)
-		location.push_back(Location{ currPos.row - 1, currPos.col - 2 });
 
 	return location;
 }
@@ -287,6 +287,16 @@ Vector<Location> Creature::FindPreyAdjacent(const Grid &grid)
 		grid.GetGrid(Location{ currPos.row + 1, currPos.col })->GetType() == Type::Prey)
 		location.push_back(Location{ currPos.row + 1, currPos.col });
 
+	//top left
+	if (grid.IsOccupied(Location{ currPos.row - 1, currPos.col - 2 }) &&
+		grid.GetGrid(Location{ currPos.row - 1, currPos.col - 2 })->GetType() == Type::Prey)
+		location.push_back(Location{ currPos.row - 1, currPos.col - 2 });
+
+	//top right
+	if (grid.IsOccupied(Location{ currPos.row - 1, currPos.col + 2 }) &&
+		grid.GetGrid(Location{ currPos.row - 1, currPos.col + 2 })->GetType() == Type::Prey)
+		location.push_back(Location{ currPos.row - 1, currPos.col + 2 });
+
 	//bottom left
 	if (grid.IsOccupied(Location{ currPos.row + 1, currPos.col - 2 }) &&
 		grid.GetGrid(Location{ currPos.row + 1, currPos.col - 2 })->GetType() == Type::Prey)
@@ -297,17 +307,79 @@ Vector<Location> Creature::FindPreyAdjacent(const Grid &grid)
 		grid.GetGrid(Location{ currPos.row + 1, currPos.col + 2 })->GetType() == Type::Prey)
 		location.push_back(Location{ currPos.row + 1, currPos.col + 2 });
 
-	//top right
-	if (grid.IsOccupied(Location{ currPos.row - 1, currPos.col + 2 }) &&
-		grid.GetGrid(Location{ currPos.row - 1, currPos.col + 2 })->GetType() == Type::Prey)
-		location.push_back(Location{ currPos.row - 1, currPos.col + 2 });
-
-	//top left
-	if (grid.IsOccupied(Location{ currPos.row - 1, currPos.col - 2 }) &&
-		grid.GetGrid(Location{ currPos.row - 1, currPos.col - 2 })->GetType() == Type::Prey)
-		location.push_back(Location{ currPos.row - 1, currPos.col - 2 });
-
 	return location;
+}
+
+/*
+	@summary: Getter method for oldPos.
+
+	@return <const Location&>: Returns oldPos.
+*/
+const Location &Creature::GetOldPos() const
+{
+	return oldPos;
+}
+
+/*
+	@summary: Getter method for currPos.
+
+	@return <const Location&>: Returns currPos.
+*/
+const Location &Creature::GetCurrPos() const
+{
+	return currPos;
+}
+
+/*
+	@summary: Getter method for breedStep.
+
+	@return <int>: Returns breedStep.
+*/
+int Creature::GetBreedStep() const
+{
+	return breedStep;
+}
+
+/*
+	@summary: Setter method for oldPos.
+
+	@param <const Location &loc>: Location to assign
+		to oldPos.
+*/
+void Creature::SetOldPos(const Location &loc)
+{
+	oldPos = loc;
+}
+
+/*
+	@summary: Setter method for currPos.
+
+	@param <const Location &loc>: Location to assign
+		to currPos.
+*/
+void Creature::SetCurrPos(const Location &loc)
+{
+	currPos = loc;
+}
+
+/*
+	@summary: Setter method for breedStep.
+
+	@param <int value>: Value to assign to breedStep.
+*/
+void Creature::SetBreedStep(int value)
+{
+	breedStep = value;
+}
+
+/*
+	@summary: Setter method for type.
+
+	@param <Type type>: Value to assign to type.
+*/
+void Creature::SetType(Type type)
+{
+	this->type = type;
 }
 
 /*

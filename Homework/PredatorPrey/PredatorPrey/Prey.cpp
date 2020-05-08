@@ -18,7 +18,7 @@ Prey::Prey(const Settings &settings, const Location &location,
 	char icon)
 	: Creature(settings, location, icon)
 {
-	type = Type::Prey;
+	SetType(Type::Prey);
 }
 
 /*
@@ -51,12 +51,12 @@ void Prey::Move(Grid &grid)
 */
 void Prey::Breed(Grid &grid)
 {
-	if (breedStep >= settings.preyBreedRate)
+	if (GetBreedStep() >= settings.preyBreedRate)
 	{
-		if (!grid.IsOccupied(oldPos))
+		if (!grid.IsOccupied(GetOldPos()))
 		{
-			grid.SetGrid(new Prey(settings, oldPos), oldPos);
-			breedStep = 0;
+			grid.SetGrid(new Prey(settings, GetOldPos()), GetOldPos());
+			SetBreedStep(0);
 		}
 		else
 		{
@@ -70,7 +70,7 @@ void Prey::Breed(Grid &grid)
 				if (blank[index].row != -1)
 				{
 					grid.SetGrid(new Prey(settings, blank[index]), blank[index]);
-					breedStep = 0;
+					SetBreedStep(0);
 				}
 			}
 		}

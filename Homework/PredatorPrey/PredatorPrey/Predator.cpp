@@ -18,7 +18,7 @@ Predator::Predator(const Settings &settings, const Location &location,
 	char icon)
 	: Creature(settings, location, icon), currEnergy(settings.startEnergy)
 {
-	type = Type::Predator;
+	SetType(Type::Predator);
 }
 
 /*
@@ -80,12 +80,12 @@ void Predator::Move(Grid &grid)
 */
 void Predator::Breed(Grid &grid)
 {
-	if (breedStep >= settings.predBreedRate)
+	if (GetBreedStep() >= settings.predBreedRate)
 	{
-		if (!grid.IsOccupied(oldPos))
+		if (!grid.IsOccupied(GetOldPos()))
 		{
-			grid.SetGrid(new Predator(settings, oldPos), oldPos);
-			breedStep = 0;
+			grid.SetGrid(new Predator(settings, GetOldPos()), GetOldPos());
+			SetBreedStep(0);
 		}
 		else
 		{
@@ -99,7 +99,7 @@ void Predator::Breed(Grid &grid)
 				if (blank[index].row != -1)
 				{
 					grid.SetGrid(new Predator(settings, blank[index]), blank[index]);
-					breedStep = 0;
+					SetBreedStep(0);
 				}
 			}
 		}
@@ -116,7 +116,7 @@ bool Predator::Kill(Grid &grid)
 {
 	if (currEnergy < settings.startEnergy)
 	{
-		grid.SetGrid(nullptr, currPos);
+		grid.SetGrid(nullptr, GetCurrPos());
 		delete this;
 
 		return true;

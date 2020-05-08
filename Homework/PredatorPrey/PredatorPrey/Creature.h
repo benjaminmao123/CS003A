@@ -37,13 +37,21 @@ protected:
 	Vector<Location> FindPredatorAdjacent(const Grid &grid);
 	Vector<Location> FindPreyAdjacent(const Grid &grid);
 
+	const Location &GetOldPos() const;
+	const Location &GetCurrPos() const;
+	int GetBreedStep() const;
+	const Settings &settings;
+
+	void SetOldPos(const Location &loc);
+	void SetCurrPos(const Location &loc);
+	void SetBreedStep(int value);
+	void SetType(Type type);
+
+private:
 	Location oldPos;
 	Location currPos;
 	Type type;
 	int breedStep;
-	const Settings &settings;
-
-private:
 	char icon;
 	bool hasMoved;
 };
