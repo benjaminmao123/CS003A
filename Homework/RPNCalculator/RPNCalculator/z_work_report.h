@@ -3,16 +3,15 @@
 /*
     Features:
         -Not Implemented: None
-        -Implemented: push(), pop(), top(), empty(), size(),
-            Iterator
+        -Implemented: All operators classes and calculator classes.
         -Partly implemented: None
 
-    Bugs    : features that are implemented are bug-free.
+    Bugs    : Does not check against unbalanced parentheses/invalid input.
 
     Reflections:
-        This assignment taught me that you can nest classes
-        within another class and also showed me how important
-        iterators are as it makes your containers generic
-        to iterate through.
+        I thought this was a fun exercise to learn about
+        inheritance in C++. The program was fun to make
+        and showed the relationships between each class
+        in the hierarchy.
 */
 #endif // Z_WORK_REPORT_H

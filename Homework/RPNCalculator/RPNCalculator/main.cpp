@@ -13,10 +13,17 @@
 
 using namespace std;
 
+void Test();
+
 int main()
 {
-	Calculator calc;
-	calc.Run();
+    Test();
 
 	return 0;
+}
+
+void Test()
+{
+    Calculator calc;
+    calc.Run();
 }
