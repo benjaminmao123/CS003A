@@ -3,102 +3,330 @@
 /*
 ***** ALL RESULTS ARE VERIFIED ******
 //---------------------------------------------------------------------
-// constructor and print test:
+// Normal run:
 //---------------------------------------------------------------------
-Vector<int> test(10);
-
-for (int i = 0; i < 10; ++i)
-{
-	test[i] = i;
-}
-
-cout << test << endl;
+ : Enter
+ : Enter
+ : Enter
+ : Enter
+ : Enter
+ : Enter
+ : Enter
+ : Enter
+ : Enter
+ : Enter
 ------------ RESULTS --------------------
-0 1 2 3 4 5 6 7 8 9
+Step: 0
 
+|Z|Z|Z|Z|Z|Z|Z|Z|Z|Z|Z|Z|Z|Z|Z|Z|Z|Z|Z|
+|Z| |O| |O| |O| | | |O| |O| | | |O| |Z|
+|Z| | | | | |O| |O| | |O|O| | | | | |Z|
+|Z| | | | |O| | |O|O|O|O| |O| | | | |Z|
+|Z| |O|O| |O|O|O| |O| | | |O| | |O| |Z|
+|Z|O| |O| | | | | | | | |O| | |O| | |Z|
+|Z|O|O| |O|O|O|O|O|O| | | | |O| | | |Z|
+|Z|O| | | | | |X|O| | | | |O| | | | |Z|
+|Z|O| | | | | |O| | | | | |O| | |O| |Z|
+|Z|O| |O| |O|O| |O| | |O| | | | |O| |Z|
+|Z| | |O| |X| |O|O| | | |X|O| | | | |Z|
+|Z| | | |O| |O| | |O|O| | |O| | | | |Z|
+|Z|O|O| |O| |O| |O| | | | | |O| | | |Z|
+|Z|O| | | | |O| |O| | | | |O| |O| | |Z|
+|Z| | | | | | | | | |O|O| | |O| |O| |Z|
+|Z| | | |O| |O|O| | |O|O| | | |O|O| |Z|
+|Z|O|O|O| | |O|O| | |O|X| | |O| | |O|Z|
+|Z|O| | | |X| | | | |O| |O|O|O| | | |Z|
+|Z| | | | | | |O| |O| |O| |O| | |O| |Z|
+|Z|Z|Z|Z|Z|Z|Z|Z|Z|Z|Z|Z|Z|Z|Z|Z|Z|Z|Z|
 
-//---------------------------------------------------------------------
-// push_back:
-//---------------------------------------------------------------------
-for (int i = 10; i < 20; ++i)
-{
-	test.push_back(i);
-}
+Prey: 100
+Predator: 5
 
------------- RESULTS --------------------
-0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19
+Step: 1
 
+|Z|Z|Z|Z|Z|Z|Z|Z|Z|Z|Z|Z|Z|Z|Z|Z|Z|Z|Z|
+|Z|O| | | | | | |O| |O| | |O|O| | | |Z|
+|Z| | | |O|O| | | |O| | |O| |O| |O| |Z|
+|Z| |O| |O| | |O| | | |O| | |O| |X| |Z|
+|Z|O| | |O| | | | |O|O| | |O| | | | |Z|
+|Z|O| | | |X|O| | | | | | | | | | | |Z|
+|Z|O|O|O| | |O| | | | |O|O|X| | | | |Z|
+|Z|O| | | | |O| |O| | | | | |O| |O| |Z|
+|Z| | | | | | |O| | | | | |O|O|O| | |Z|
+|Z| | |O| | | |O| |O| |O| | | | | | |Z|
+|Z| | |O| | |O| |O|O| | |O|O| | |O| |Z|
+|Z| |O| |O| | | |O|O| | | |O|O| | | |Z|
+|Z| | |X| | | | | |O|O| |O| | | |O| |Z|
+|Z|O| | |O|O| |O|O|O|O| |O| |O| | |O|Z|
+|Z| | | | | |O| |O| | |O| |O|O|O| | |Z|
+|Z| | | | | | | |O| | | | |O|O| | | |Z|
+|Z|X|O| |O| | | | | | |O| | | | |O| |Z|
+|Z|O|O|O| |O|O| | |O|O|O| |O| | | | |Z|
+|Z|O| | | |O| |O| | | | | | | | | |O|Z|
+|Z|Z|Z|Z|Z|Z|Z|Z|Z|Z|Z|Z|Z|Z|Z|Z|Z|Z|Z|
 
-//---------------------------------------------------------------------
-// pop_back:
-//---------------------------------------------------------------------
-test.pop_back()
------------- RESULTS --------------------
-0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18
+Prey: 95
+Predator: 5
 
+Step: 2
 
-//---------------------------------------------------------------------
-// insert:
-//---------------------------------------------------------------------
-test.insert(1, 1)
------------- RESULTS --------------------
-0 1 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18
+|Z|Z|Z|Z|Z|Z|Z|Z|Z|Z|Z|Z|Z|Z|Z|Z|Z|Z|Z|
+|Z| |O| | | | | | |O| |O|O| | |O| |O|Z|
+|Z| | |O|O| | | | | | | | | | |X| | |Z|
+|Z|O| | | | | | |O|O|O| |O| |O| | | |Z|
+|Z|O|O| | |O|O|O| | | | | | |O| | | |Z|
+|Z|O| |O|O| | | | | |O| |O| | | | | |Z|
+|Z| | | | | |X| | |O|O| | | | | | | |Z|
+|Z| |O|O| | | |O| | | | | | |X|O|O| |Z|
+|Z| | | | | | | | | | | |O| | | | | |Z|
+|Z| |O| |O| | |O|O|O|O| |O| |O|O| | |Z|
+|Z| |O| | | | |O|O| | |O| | |O| | | |Z|
+|Z| | | | | | | | |O|O|O| | | |O| |O|Z|
+|Z| |O| | |O|O|O|O| | | | |O| | | | |Z|
+|Z| | | |X| |O| |O| |O|O| |O| |O| | |Z|
+|Z| | | | | | |O| |O| | |O|O|O| |O| |Z|
+|Z| | | | | | |O| | |O| | | | |O|O| |Z|
+|Z|O| | |O|O|O| |O|O|O|O| | |O| | | |Z|
+|Z|X|O| | |O| |O| | | | | | |O| | | |Z|
+|Z| |O| | | |O| | | | | | | | | |O| |Z|
+|Z|Z|Z|Z|Z|Z|Z|Z|Z|Z|Z|Z|Z|Z|Z|Z|Z|Z|Z|
 
+Prey: 90
+Predator: 5
 
-//---------------------------------------------------------------------
-// erase:
-//---------------------------------------------------------------------
-test.erase(1)
------------- RESULTS --------------------
-0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18
+Step: 3
 
+|Z|Z|Z|Z|Z|Z|Z|Z|Z|Z|Z|Z|Z|Z|Z|Z|Z|Z|Z|
+|Z| |O| | |O| | | |O| |O|O| | |O|O|O|Z|
+|Z|O|O|O|O| | | | |O|O|O| | | | |O| |Z|
+|Z|O|O|O| |O| |O|O|O|O|O|O|O|X| | | |Z|
+|Z|O|O| |O|O|O|O|O| |O| | |O|O| | | |Z|
+|Z|O|O|O|O| |O|O|O|O|O| |O| | | | | |Z|
+|Z| |O|O|O| | | | |O|O| | | | |O| | |Z|
+|Z| |O|O|O| | |X|O| |O| | | | |X|O| |Z|
+|Z| |O| | | | |O|O|O|O|O|O| |O|O| | |Z|
+|Z| |O|O|O|O| |O|O|O|O|O|O| |O|O| | |Z|
+|Z| |O| |O| | |O|O|O| |O|O| |O| | | |Z|
+|Z| |O| |O|O|O|O|O|O|O|O| |O|O|O| |O|Z|
+|Z| |O| | |O|O|O|O|O|O|O| |O| |O|O| |Z|
+|Z| | | | |O|O| |O|O|O|O| |O|O|O|O|O|Z|
+|Z| | |X| |O| |O| |O|O|O|O|O|O|O|O|O|Z|
+|Z|O| |O|O| |O|O| |O|O|O| |O|O|O|O| |Z|
+|Z|O| | |O|O|O| |O|O|O|O|O|O|O|O| | |Z|
+|Z| |X|O|O|O| |O|O| | |O| | |O| |O| |Z|
+|Z|O|O| |O| |O|O| | | | | | | | |O| |Z|
+|Z|Z|Z|Z|Z|Z|Z|Z|Z|Z|Z|Z|Z|Z|Z|Z|Z|Z|Z|
 
-//---------------------------------------------------------------------
-// index_of:
-//---------------------------------------------------------------------
-test.index_of(7)
------------- RESULTS --------------------
-: 8
+Prey: 172
+Predator: 5
 
+Step: 4
 
-//---------------------------------------------------------------------
-// at:
-//---------------------------------------------------------------------
-test.at(0)
------------- RESULTS --------------------
-: 0
+|Z|Z|Z|Z|Z|Z|Z|Z|Z|Z|Z|Z|Z|Z|Z|Z|Z|Z|Z|
+|Z|O|O|O|O|O| | |O|O|O|O| | |O|O|O| |Z|
+|Z|O|O| | |O|O| | |O|O|O|O|X| | | | |Z|
+|Z| |O|O|O|O|O|O| |O|O| | | | |O|O| |Z|
+|Z|O|O|O| | | | | |O|O|O|O| | | | | |Z|
+|Z| | |O|O|O| |O| |O|O| | |O|O| | | |Z|
+|Z|O| |O| |O| |O| | |O| | | | | |X| |Z|
+|Z|O|O| | | | |O|X|O|O|O| |O| | | |O|Z|
+|Z|O|O|O|O|O|O|O|O| |O|O| |O| |O|O| |Z|
+|Z| | | |O| |O| |O| | |O| | |O| | | |Z|
+|Z|O|O|O| |O|O|O|O|O|O|O| |O|O| | |O|Z|
+|Z| |O| |O|O|O|O|O|O|O|O|O| |O| |O|O|Z|
+|Z| | |O|O|O|O|O|O| |O| |O|O|O|O|O|O|Z|
+|Z| | | | | |O|O|O|O|O|O|O|O|O|O|O| |Z|
+|Z| | | |O|O|O| | | |O| |O|O|O|O| | |Z|
+|Z|O|O|O|X| | | |O|O| |O|O|O|O|O| | |Z|
+|Z| |O| |O|O| |O| |O|O|O| | |O| | | |Z|
+|Z| |O|O|O|O|O| |O|O|O| |O| | |O|O|O|Z|
+|Z|X| |O| | | | |O| | | | |O| | | | |Z|
+|Z|Z|Z|Z|Z|Z|Z|Z|Z|Z|Z|Z|Z|Z|Z|Z|Z|Z|Z|
 
+Prey: 167
+Predator: 5
 
-//---------------------------------------------------------------------
-// operator+=:
-//---------------------------------------------------------------------
-test += 19
------------- RESULTS --------------------
-0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19
+Step: 5
 
+|Z|Z|Z|Z|Z|Z|Z|Z|Z|Z|Z|Z|Z|Z|Z|Z|Z|Z|Z|
+|Z|O|O| |O| |O|O|O|O|O|O|X| |O| | | |Z|
+|Z|O|O|O|O| |O| |O|O| |O| | |O| |O| |Z|
+|Z|O|O|O| |O| | |O|O| | | | |O|O| | |Z|
+|Z|O|O| |O| |O| |O|O|O| | | | |O| | |Z|
+|Z|O|O|O| | |O| |O| | |O|O| | | | | |Z|
+|Z|O|O| | | | |O| |O|O|O|O| | | | | |Z|
+|Z|O|O|O|O| |O| |O| |O| |O| |O| | |X|Z|
+|Z| | | |O|O| |X| |O|O|O|O| |O| | | |Z|
+|Z| |O|O| |O|O|O| |O| |O| | | | |O|O|Z|
+|Z|O|O|O|O|O|O|O|O|O|O| |O|O|O|O|O|O|Z|
+|Z|O| | |O|O|O|O|O|O|O|O|O|O|O|O|O|O|Z|
+|Z| | | |O|O| |O|O|O|O|O|O|O| |O| | |Z|
+|Z| | | |O|O| | | |O| | |O|O|O|O|O|O|Z|
+|Z| |O|O|X|O| | | |O| |O|O|O| | | | |Z|
+|Z|O|O| | | |O| |O|O| | |O| | | | | |Z|
+|Z|O| |O| | |O| |O|O|O| |O|O| |O|O|O|Z|
+|Z|X| | | | | |O|O| | |O| |O| |O| | |Z|
+|Z| |O| |O|O|O|O| |O| |O| | |O| | | |Z|
+|Z|Z|Z|Z|Z|Z|Z|Z|Z|Z|Z|Z|Z|Z|Z|Z|Z|Z|Z|
 
-//---------------------------------------------------------------------
-// operator[]:
-//---------------------------------------------------------------------
-cout << test[5]
------------- RESULTS --------------------
-: 4
+Prey: 162
+Predator: 5
 
+Step: 5
 
-//---------------------------------------------------------------------
-// front():
-//---------------------------------------------------------------------
-cout << test.front()
------------- RESULTS --------------------
-: 0
+|Z|Z|Z|Z|Z|Z|Z|Z|Z|Z|Z|Z|Z|Z|Z|Z|Z|Z|Z|
+|Z|O|O| |O| |O|O|O|O|O|O|X| |O| | | |Z|
+|Z|O|O|O|O| |O| |O|O| |O| | |O| |O| |Z|
+|Z|O|O|O| |O| | |O|O| | | | |O|O| | |Z|
+|Z|O|O| |O| |O| |O|O|O| | | | |O| | |Z|
+|Z|O|O|O| | |O| |O| | |O|O| | | | | |Z|
+|Z|O|O| | | | |O| |O|O|O|O| | | | | |Z|
+|Z|O|O|O|O| |O| |O| |O| |O| |O| | |X|Z|
+|Z| | | |O|O| |X| |O|O|O|O| |O| | | |Z|
+|Z| |O|O| |O|O|O| |O| |O| | | | |O|O|Z|
+|Z|O|O|O|O|O|O|O|O|O|O| |O|O|O|O|O|O|Z|
+|Z|O| | |O|O|O|O|O|O|O|O|O|O|O|O|O|O|Z|
+|Z| | | |O|O| |O|O|O|O|O|O|O| |O| | |Z|
+|Z| | | |O|O| | | |O| | |O|O|O|O|O|O|Z|
+|Z| |O|O|X|O| | | |O| |O|O|O| | | | |Z|
+|Z|O|O| | | |O| |O|O| | |O| | | | | |Z|
+|Z|O| |O| | |O| |O|O|O| |O|O| |O|O|O|Z|
+|Z|X| | | | | |O|O| | |O| |O| |O| | |Z|
+|Z| |O| |O|O|O|O| |O| |O| | |O| | | |Z|
+|Z|Z|Z|Z|Z|Z|Z|Z|Z|Z|Z|Z|Z|Z|Z|Z|Z|Z|Z|
 
+Prey: 162
+Predator: 5
 
-//---------------------------------------------------------------------
-// back():
-//---------------------------------------------------------------------
-cout << test.back()
------------- RESULTS --------------------
-: 19
+Step: 6
+
+|Z|Z|Z|Z|Z|Z|Z|Z|Z|Z|Z|Z|Z|Z|Z|Z|Z|Z|Z|
+|Z|O|O|O|O|O|O|O|O|O|O|O| |O|O|O| | |Z|
+|Z|O|O|O|O|O|O|O|O|O|O|X|O| |O| |O|O|Z|
+|Z|O|O|O|O|O|O|O|O|O|O|O| | |O|O| |O|Z|
+|Z|O|O|O|O|O|O|O|O|O|O|O| | |O|O| | |Z|
+|Z|O|O|O|O|O|O|O|O|O|O|O|O|O|O| | | |Z|
+|Z|O|O|O|O|O|O|O|O|O|O|O|O| |O| |X| |Z|
+|Z|O|O|O|O|O|O|O|O|O|O|O|O|O|O| |O| |Z|
+|Z|O|O|O|O|O|X|O|O|O|O|O|O|O|O| |O|O|Z|
+|Z|O|O|O|O|O|O|O|O|O|O|O|O|O|O|O|O|O|Z|
+|Z|O|O|O|O|O|O|O|O|O|O|O|O|O|O|O|O|O|Z|
+|Z|O|O|O|O|O|O|O|O|O|O|O|O|O|O|O|O|O|Z|
+|Z|O|O|O|O|O|O|O|O|O|O|O|O|O|O|O|O|O|Z|
+|Z| |O|O|X|O|O|O|O|O|O|O|O|O|O|O|O|O|Z|
+|Z|O|O|O|O|O|O|O|O|O|O|O|O|O|O|O|O|O|Z|
+|Z|O|O|O| | |O|O|O|O|O|O|O|O|O|O|O| |Z|
+|Z|O|O|O| |O|O|O|O|O|O|O|O|O|O|O|O|O|Z|
+|Z| |O|O|O|O|O|O|O|O|O|O|O|O|O|O|O|O|Z|
+|Z| |X|O|O|O|O|O|O|O|O|O|O|O|O|O|O| |Z|
+|Z|Z|Z|Z|Z|Z|Z|Z|Z|Z|Z|Z|Z|Z|Z|Z|Z|Z|Z|
+
+Prey: 272
+Predator: 5
+
+Step: 7
+
+|Z|Z|Z|Z|Z|Z|Z|Z|Z|Z|Z|Z|Z|Z|Z|Z|Z|Z|Z|
+|Z|O|O|O|O|O|O|O|O|O|X|O|O|O|O| | |O|Z|
+|Z|O|O|O|O|O|O|O|O|O|O|O| |O|O|O|O| |Z|
+|Z|O|O|O|O|O|O|O|O|O|O|O| |O|O| |O| |Z|
+|Z|O|O|O|O|O|O|O|O| |O|O|O|O| | |O| |Z|
+|Z|O|O|O|O|O|O|O|O|O|O|O|O| | |O| | |Z|
+|Z|O|O|O|O|O|O|O|O|O|O|O|O|O| |O| | |Z|
+|Z|O|O|O|O|O|O|O|O|O|O|O|O|O|O|O|X|O|Z|
+|Z|O|O|O|O|O|O|O|O|O|O|O|O|O|O|O|O| |Z|
+|Z|O|O|O|O|X|O|O|O|O|O|O|O|O|O|O|O| |Z|
+|Z|O|O|O|O|O|O|O|O|O|O|O|O|O|O|O|O|O|Z|
+|Z|O|O|O|O|O|O|O|O|O|O|O|O|O|O|O|O| |Z|
+|Z|O|O|O|O|O|O|O|O|O|O|O|O|O|O|O|O| |Z|
+|Z|O|O|O|O|X|O|O|O|O|O|O|O|O|O|O|O|O|Z|
+|Z|O|O|O|O|O|O|O|O|O|O|O|O|O|O|O|O| |Z|
+|Z|O|O|O|O|O|O|O|O|O|O|O|O|O|O|O|O|O|Z|
+|Z| |O|O|O|O|O|O|O|O|O|O|O|O|O|O|O|O|Z|
+|Z|O|X|O|O|O|O|O|O|O|O|O|O|O|O|O|O| |Z|
+|Z|O|O|O|O|O|O|O|O| |O| |O|O| | | |O|Z|
+|Z|Z|Z|Z|Z|Z|Z|Z|Z|Z|Z|Z|Z|Z|Z|Z|Z|Z|Z|
+
+Prey: 271
+Predator: 5
+
+Step: 8
+
+|Z|Z|Z|Z|Z|Z|Z|Z|Z|Z|Z|Z|Z|Z|Z|Z|Z|Z|Z|
+|Z|O|O|O|O|O|O|O|O|O|O|O|X|O|O|O|O| |Z|
+|Z|O|O|O|O|O|O|O|O|O|O|X|O| |O|O| |O|Z|
+|Z|O|O|O|O|O|O|O|O|O|O|O|O| |O| | |O|Z|
+|Z|O|O|O|O|O|O|O|O|O|O|O|O|O|O| | | |Z|
+|Z|O|O|O|O|O|O|O|O|O|O| |O|O|O| |O| |Z|
+|Z|O|O|O|O|O|O|O|O|O|O|O|O|O|O|O|X|O|Z|
+|Z|O|O|O|O|O|O|O|O|O|O|O|O| | |O|X|O|Z|
+|Z|O|O|O|O|O|O|O|O|O|O|O|O|O|O| |O|O|Z|
+|Z|O|O|O|O|O|O|O|O|O|O|O|O|O|O|O|O| |Z|
+|Z|O|O|O|O|O|X|O|O|O|O|O|O|O|O|O|O| |Z|
+|Z|O|O|O|O|O|O|O|O|O|O|O|O|O|O|O|O|O|Z|
+|Z|O|O|O|X|O|O|O|O|O|O|O|O|O|O| |O|O|Z|
+|Z|O|O|O|O|O|O|O|O|O|O|O|O|O|O|O|O| |Z|
+|Z|O|O|O|O|O|O|O|O|O|O|O|O|O|O|O|O|O|Z|
+|Z|O|O|O|O|O|O|O|O|O|O|O|O|O|O|O|O|O|Z|
+|Z|O|O|O|O|O|O|O|O|O|O|O|O|O|O| | |O|Z|
+|Z|X|O|O|O|O|O|O|O|O|O|O|O|O| | |O|O|Z|
+|Z|O|O|O|O|O|O|O| |O| |O|O| | | |O| |Z|
+|Z|Z|Z|Z|Z|Z|Z|Z|Z|Z|Z|Z|Z|Z|Z|Z|Z|Z|Z|
+
+Prey: 270
+Predator: 7
+
+Step: 9
+
+|Z|Z|Z|Z|Z|Z|Z|Z|Z|Z|Z|Z|Z|Z|Z|Z|Z|Z|Z|
+|Z|O|O|O|O|O|O|O|O|O|O|O|O|X|O|O|O|O|Z|
+|Z|O|O|O|O|O|O|O|O|O|O|O|X|O|O|O|O|O|Z|
+|Z|O|O|O|O|O|O|O|O|O|O|O|O|O|O|O|O|O|Z|
+|Z|O|O|O|O|O|O|O|O|O|O|O|O|O|O|O|O| |Z|
+|Z|O|O|O|O|O|O|O|O|O|O|O|O|O|O|O|X| |Z|
+|Z|O|O|O|O|O|O|O|O|O|O|O|O|O|O|O|X|O|Z|
+|Z|O|O|O|O|O|O|O|O|O|O|O|O|O|O|O|O|O|Z|
+|Z|O|O|O|O|O|O|O|O|O|O|O|O|O|O|O|O|O|Z|
+|Z|O|O|O|O|O|O|O|O|O|O|O|O|O|O|O|O|O|Z|
+|Z|O|O|O|O|O|O|X|O|O|O|O|O|O|O|O|O|O|Z|
+|Z|O|O|O|O|O|O|O|O|O|O|O|O|O|O|O|O|O|Z|
+|Z|O|O|O|O|O|O|O|O|O|O|O|O|O|O|O|O|O|Z|
+|Z|O|O|O|X|O|O|O|O|O|O|O|O|O|O|O|O|O|Z|
+|Z|O|O|O|O|O|O|O|O|O|O|O|O|O|O|O|O|O|Z|
+|Z|O|O|O|O|O|O|O|O|O|O|O|O|O|O|O|O|O|Z|
+|Z|X|O|O|O|O|O|O|O|O|O|O|O|O|O|O|O|O|Z|
+|Z|O|O|O|O|O|O|O|O|O|O|O|O|O|O|O|O|O|Z|
+|Z|O|O|O|O|O|O|O|O|O|O|O|O|O|O|O|O| |Z|
+|Z|Z|Z|Z|Z|Z|Z|Z|Z|Z|Z|Z|Z|Z|Z|Z|Z|Z|Z|
+
+Prey: 296
+Predator: 7
+
+Step: 10
+
+|Z|Z|Z|Z|Z|Z|Z|Z|Z|Z|Z|Z|Z|Z|Z|Z|Z|Z|Z|
+|Z|O|O|O|O|O|O|O|O|O|O|X|O|O|O|O|O|O|Z|
+|Z|O|O|O|O|O|O|O|O|O|O|O|O|O|X|O|O|O|Z|
+|Z|O|O|O|O|O|O|O|O|O|O|O|O|O|O|O|O| |Z|
+|Z|O|O|O|O|O|O|O|O|O|O|O|O|O|O|O|X|O|Z|
+|Z|O|O|O|O|O|O|O|O|O|O|O|O|O|O|X|O|O|Z|
+|Z|O|O|O|O|O|O|O|O|O|O|O|O|O|O|O|O|O|Z|
+|Z|O|O|O|O|O|O|O|O|O|O|O|O|O|O|O|O| |Z|
+|Z|O|O|O|O|O|O|O|O|O|O|O|O|O|O|O|O|O|Z|
+|Z|O|O|O|O|O|O|X|O|O|O|O|O|O|O|O|O|O|Z|
+|Z|O|O|O|O|O|O|O|O|O|O|O|O|O|O|O|O|O|Z|
+|Z|O|O|O|O|O|O|O|O|O|O|O|O|O|O|O|O|O|Z|
+|Z|O|O|O|O|O|O|O|O|O|O|O|O|O|O|O|O|O|Z|
+|Z|O|O|O|O|O|O|O|O|O|O|O|O|O|O|O|O|O|Z|
+|Z|O|O|O|O|X|O|O|O|O|O|O|O|O|O|O|O|O|Z|
+|Z|O|O|O|O|O|O|O|O|O|O|O|O|O|O|O|O|O|Z|
+|Z|O|O|O|O|O|O|O|O|O|O|O|O|O|O|O|O|O|Z|
+|Z|O|X|O|O|O|O|O|O|O|O|O|O|O|O|O|O| |Z|
+|Z|O|O|O|O|O|O|O|O|O|O|O|O|O|O|O| | |Z|
+|Z|Z|Z|Z|Z|Z|Z|Z|Z|Z|Z|Z|Z|Z|Z|Z|Z|Z|Z|
+
+Prey: 294
+Predator: 7
 
 
 */

@@ -3,15 +3,15 @@
 /*
     Features:
         -Not Implemented: None
-        -Implemented: All vector methods are implemented.
+        -Implemented: All Creature, Grid methods are implemented.
         -Partly implemented: None
 
     Bugs    : features that are implemented are bug-free.
 
     Reflections:
-        I thought this was a nice exercise to learn how to
-        program your own container. I learned more about 
-        overloading operators as well as handling dynamic
-        memory.
+        I thought this was a fun exercise to learn about
+        inheritance in C++. The program was fun to make
+        and showed the relationships between each class
+        in the hierarchy.
 */
 #endif // Z_WORK_REPORT_H
