@@ -26,42 +26,36 @@ public:
 
     const T operator[](int index) const;
     T &operator[](int index);
-    T &at(int index);                        //return reference to item at position index
-    const T at(int index) const;             //return a const item at position index
-    T &front() const;                                       //return item at position 0.
+    T &at(int index);                       
+    const T at(int index) const;             
+    const T &front() const;                                       
     T &front();
-    T &back() const;                                        //return item at the last position
+    const T &back() const;                                        
     T &back();
 
-    //Push and Pop functions:
-    Vector &operator+=(const T &item);                      //push_back
-    void push_back(const T &item);                          //append to the end
-    void pop_back();                                           //remove last item
+    Vector &operator+=(const T &item);                      
+    void push_back(const T &item);                        
+    void pop_back();                                        
 
-    //Insert and Erase:
-    void insert(int pos, const T &item);     //insert at pos
-    void erase(int erase_index);             //erase item at position
-    int index_of(const T &item);                            //search for item. retur index.
+    void insert(int pos, const T &item);    
+    void erase(int erase_index);           
+    int index_of(const T &item);                       
 
-    //size and capacity:
-    void set_size(int size);                 //enlarge the vector to this size
-    void set_capacity(int capacity);         //allocate this space
-    int size() const { return sz; }                //return sz 
-    int capacity() const { return cap; }           //return cap
+    void set_size(int size);                
+    void set_capacity(int capacity);      
+    int size() const { return sz; }             
+    int capacity() const { return cap; }        
 
-    bool empty() const;                                     //return true if vector is empty
+    bool empty() const;                             
     void swap(Vector &v);
     void clear();
 
-    //OUTPUT:
     template <class U>
     friend ostream &operator<<(ostream &outs, const Vector<U> &_a);
 
-    //EQUALITY:
     bool operator==(const Vector<T> &_a);
     bool operator!=(const Vector<T> &_a);
 
-    //assignment
     Vector &operator=(const Vector &rhs);
 
 private:
@@ -113,7 +107,7 @@ inline Vector<T>::~Vector()
 
 /*
     @summary: Overloaded subscript operator that retrieves
-    element at given location.
+        element at given location.
 
     @param <int index>: Index to retrieve element.
 
@@ -134,7 +128,7 @@ inline const T Vector<T>::operator[](int index) const
 
 /*
     @summary: Overloaded subscript operator that retrieves
-    element at given location.
+        element at given location.
 
     @param <int index>: Index to retrieve element.
 
@@ -155,7 +149,7 @@ inline T &Vector<T>::operator[](int index)
 
 /*
     @summary: Retrieves the element at the given index. If invalid
-    argument is given, assert.
+        argument is given, assert.
 
     @param <int index>: Index to retrieve element.
 
@@ -176,7 +170,7 @@ inline T &Vector<T>::at(int index)
 
 /*
     @summary: Retrieves the element at the given index. If invalid
-    argument is given, assert.
+        argument is given, assert.
 
     @param <int index>: Index to retrieve element.
 
@@ -198,16 +192,10 @@ inline const T Vector<T>::at(int index) const
 /*
     @summary: Retrieves the first element.
 
-    @return <T &>: Returns a reference to the first element.
+    @return <const T &>: Returns a reference to the first element.
 */
 template<typename T>
-inline T &Vector<T>::front() const
-{
-    return at(0);
-}
-
-template<typename T>
-inline T &Vector<T>::front()
+inline const T &Vector<T>::front() const
 {
     return at(0);
 }
@@ -218,11 +206,27 @@ inline T &Vector<T>::front()
     @return <T &>: Returns a reference to the last element.
 */
 template<typename T>
-inline T &Vector<T>::back() const
+inline T &Vector<T>::front()
+{
+    return at(0);
+}
+
+/*
+    @summary: Retrieves the element the last element.
+
+    @return <const T &>: Returns a reference to the last element.
+*/
+template<typename T>
+inline const T &Vector<T>::back() const
 {
     return at(sz - 1);
 }
 
+/*
+    @summary: Retrieves the element the last element.
+
+    @return <T &>: Returns a reference to the last element.
+*/
 template<typename T>
 inline T &Vector<T>::back()
 {
@@ -231,7 +235,7 @@ inline T &Vector<T>::back()
 
 /*
     @summary: Appends an item to the container. Resizes
-    the container if sz >= cap.
+        the container if sz >= cap.
 
     @param <const T &item>: Item to to append.
 */
@@ -243,7 +247,7 @@ inline Vector<T> &Vector<T>::operator+=(const T &item)
 
 /*
     @summary: Appends an item to the container. Resizes
-    the container if sz >= cap.
+        the container if sz >= cap.
 
     @param <const T &item>: Item to to append.
 */
@@ -266,7 +270,7 @@ inline void Vector<T>::pop_back()
 
 /*
     @summary: Inserts an item to the container. Resizes the container
-    if sz >= cap.
+        if sz >= cap.
 
     @param <int pos>: Position to insert to.
     @param <const T &item>: Item to insert.
@@ -381,7 +385,7 @@ inline bool Vector<T>::empty() const
 
 /*
     @summary: Overloaded insertion operator to print contents of
-    the container.
+        the container.
 
     @param <ostream &outs>: ostream object to insert into.
     @param <const Vector<U> &_a>: Container to print.
@@ -401,7 +405,7 @@ inline ostream &operator<<(ostream &outs, const Vector<U> &_a)
 
 /*
     @summary: Overloaded equality operator. First checks if sz and cap
-    are the same, if they are checks if the contents are the same.
+        are the same, if they are checks if the contents are the same.
 
     @param <const Vector<T> &_a>: Container to compare to.
 
@@ -428,7 +432,7 @@ inline bool Vector<T>::operator==(const Vector<T> &_a)
 
 /*
     @summary: Overloaded inequality operator. First checks if sz and cap
-    are the same, if they are checks if the contents are the same.
+        are the same, if they are checks if the contents are the same.
 
     @param <const Vector<T> &_a>: Container to compare to.
 
@@ -482,6 +486,9 @@ inline void Vector<T>::swap(Vector &v)
     std::swap(data, v.data);
 }
 
+/*
+    @summary: Clears the entire vector.
+*/
 template<typename T>
 inline void Vector<T>::clear()
 {
