@@ -19,6 +19,6 @@ public:
 	Prey(const Settings &settings, const Location &location = { },
 		char icon = 'O');
 
-	virtual bool Move(Grid &grid) override;
-	virtual bool Breed(Grid &grid) override;
+	virtual void Move(Grid &grid) override;
+	virtual void Breed(Grid &grid) override;
 };

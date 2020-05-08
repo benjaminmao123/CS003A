@@ -26,7 +26,7 @@ Predator::Predator(const Settings &settings, const Location &location,
 
 	@param <Grid &grid>: Grid object to manipulate.
 */
-bool Predator::Move(Grid &grid)
+void Predator::Move(Grid &grid)
 {
 	FindPreyAdjacent(grid);
 	int index = 0;
@@ -42,8 +42,6 @@ bool Predator::Move(Grid &grid)
 			
 			if (currEnergy < settings.maxEnergy)
 				++currEnergy;
-
-			return true;
 		}
 	}
 	else
@@ -60,8 +58,6 @@ bool Predator::Move(Grid &grid)
 			--currEnergy;
 		}
 	}
-
-	return false;
 }
 
 /*
@@ -72,7 +68,7 @@ bool Predator::Move(Grid &grid)
 
 	@param <Grid &grid>: The Grid object.
 */
-bool Predator::Breed(Grid &grid)
+void Predator::Breed(Grid &grid)
 {
 	if (breedStep >= settings.predBreedRate)
 	{
@@ -80,8 +76,6 @@ bool Predator::Breed(Grid &grid)
 		{
 			grid.SetGrid(new Predator(settings, oldPos), oldPos);
 			breedStep = 0;
-
-			return true;
 		}
 		else
 		{
@@ -100,8 +94,6 @@ bool Predator::Breed(Grid &grid)
 			}
 		}
 	}
-
-	return false;
 }
 
 /*

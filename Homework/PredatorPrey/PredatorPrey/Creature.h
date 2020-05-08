@@ -27,8 +27,8 @@ public:
 		char icon = 'C');
 	virtual ~Creature();
 
-	virtual bool Move(Grid &grid);
-	virtual bool Breed(Grid &grid);
+	virtual void Move(Grid &grid);
+	virtual void Breed(Grid &grid);
 	virtual bool Kill(Grid &grid);
 
 	Type GetType() const;

@@ -33,9 +33,9 @@ Creature::~Creature()
 
 	@param <Grid &grid>: Grid object to manipulate.
 */
-bool Creature::Move(Grid &grid)
+void Creature::Move(Grid &grid)
 {
-	return false;
+
 }
 
 /*
@@ -44,9 +44,9 @@ bool Creature::Move(Grid &grid)
 
 	@param <Grid &grid>: Grid object to manipulate.
 */
-bool Creature::Breed(Grid &grid)
+void Creature::Breed(Grid &grid)
 {
-	return false;
+
 }
 
 /*
