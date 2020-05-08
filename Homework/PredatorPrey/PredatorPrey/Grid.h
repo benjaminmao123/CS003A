@@ -1,12 +1,3 @@
-/*
- * Author: Benjamin Mao
- * Project: Predator/Prey
- * Purpose: Generates the grid for
- *		the simulation.
- *
- * Notes: None.
- */
-
 #pragma once
 
 #include <ostream>

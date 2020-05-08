@@ -1,3 +1,12 @@
+/*
+ * Author: Benjamin Mao
+ * Project: Predator/Prey
+ * Purpose: Base class for all
+ *		creature types.
+ *
+ * Notes: None.
+ */
+
 #include <random>
 #include <algorithm>
 
@@ -12,7 +21,7 @@ using namespace std;
 */
 Creature::Creature(const Settings &settings, const Location &location,
 	char icon)
-	: currPos(location), type(Type::None), gen(rd()), hasMoved(false), 
+	: currPos(location), type(Type::None), hasMoved(false), 
 	breedStep(0), settings(settings), icon(icon)
 {
 
@@ -299,22 +308,6 @@ Vector<Location> Creature::FindPreyAdjacent(const Grid &grid)
 		location.push_back(Location{ currPos.row - 1, currPos.col - 2 });
 
 	return location;
-}
-
-/*
-	@summary: Utility function to generate a random int
-		within a given range.
-
-	@param <int start>: Start range.
-	@param <int end>: End range.
-
-	@return <int>: The random int.
-*/
-int Creature::RandomNumber(int start, int end)
-{
-	uniform_int_distribution<> dist(start, end);
-
-	return dist(gen);
 }
 
 /*

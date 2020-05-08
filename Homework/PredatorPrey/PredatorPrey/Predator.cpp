@@ -1,4 +1,14 @@
+/*
+ * Author: Benjamin Mao
+ * Project: Predatory/Prey
+ * Purpose: Child class to represent
+ *      the predator.
+ *
+ * Notes: None.
+ */
+
 #include "Predator.h"
+#include "Utility.h"
 
 /*
 	@summary: Default constructor.
@@ -33,7 +43,7 @@ void Predator::Move(Grid &grid)
 
 	if (!prey.empty())
 	{
-		index = RandomNumber(0, prey.size() - 1);
+		index = Utility::RandomNumber(0, prey.size() - 1);
 
 		if (prey[index].row != -1)
 		{
@@ -50,7 +60,7 @@ void Predator::Move(Grid &grid)
 
 		if (!blank.empty())
 		{
-			index = RandomNumber(0, blank.size() - 1);
+			index = Utility::RandomNumber(0, blank.size() - 1);
 
 			if (blank[index].row != -1)
 				MoveTo(grid, blank[index]);
@@ -84,7 +94,7 @@ void Predator::Breed(Grid &grid)
 
 			if (!blank.empty())
 			{
-				index = RandomNumber(0, blank.size() - 1);
+				index = Utility::RandomNumber(0, blank.size() - 1);
 
 				if (blank[index].row != -1)
 				{

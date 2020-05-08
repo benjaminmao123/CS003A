@@ -1,12 +1,3 @@
-/*
- * Author: Benjamin Mao
- * Project: Predator/Prey
- * Purpose: Base class for all
- *		creature types.
- *
- * Notes: None.
- */
-
 #pragma once
 
 #include <random>
@@ -45,7 +36,6 @@ protected:
 	Vector<Location> FindBlankAdjacent(const Grid &grid);
 	Vector<Location> FindPredatorAdjacent(const Grid &grid);
 	Vector<Location> FindPreyAdjacent(const Grid &grid);
-	int RandomNumber(int start, int end);
 
 	Location oldPos;
 	Location currPos;
@@ -55,7 +45,5 @@ protected:
 
 private:
 	char icon;
-	std::random_device rd;
-	std::mt19937 gen;
 	bool hasMoved;
 };

@@ -12,21 +12,9 @@
 
 #include "Grid.h"
 #include "Settings.h"
+#include "Utility.h"
 
 using namespace std;
-
-/*
-	@summary: Clears the console.
-*/
-void clearConsole()
-{
-#ifdef _WIN32
-	std::system("cls");
-#else
-	// Assume POSIX
-	std::system("clear");
-#endif
-}
 
 void Test();
 
@@ -60,7 +48,7 @@ void Test()
 
 		grid.Step();
 
-		clearConsole();
+		Utility::ClearConsole();
 		cout << grid << endl;
 	}
 }

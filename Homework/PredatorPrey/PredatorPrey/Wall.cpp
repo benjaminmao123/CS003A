@@ -1,3 +1,12 @@
+/*
+ * Author: Benjamin Mao
+ * Project: Predatory/Prey
+ * Purpose: Child class to represent the
+ *      the walls of the grid.
+ *
+ * Notes: None.
+ */
+
 #include "Wall.h"
 
 /*

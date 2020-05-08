@@ -1,8 +1,18 @@
+/*
+ * Author: Benjamin Mao
+ * Project: Predator/Prey
+ * Purpose: Generates the grid for
+ *		the simulation.
+ *
+ * Notes: None.
+ */
+
 #include "Grid.h"
 #include "Creature.h"
 #include "Prey.h"
 #include "Predator.h"
 #include "Wall.h"
+#include "Utility.h"
 
 using namespace std;
 
@@ -58,18 +68,34 @@ void Grid::FillGrid()
 				c = new Wall(settings, Location{ row, col });
 			else if (col % 2 && (row >= settings.maxRows - 1 || row <= 0))
 				c = new Wall(settings, Location{ row, col }, 'Z');
-			else if ((row == 1 && col == 5) || (row == 1 && col == 31) ||
-				     (row == 10 && col == 5) || (row == 10 && col == 31) ||
-				     (row == 17 && col == 17))
-			{
-				c = new Predator(settings, Location{ row, col });
-				++predCount;
-			}
-			else
-			{
-				c = new Prey(settings, Location{ row, col });
-				++preyCount;
-			}
+		}
+	}
+
+	while (predCount < 5)
+	{
+		int row = Utility::RandomNumber(0, settings.maxRows - 1);
+		int col = Utility::RandomNumber(0, settings.maxCols - 1);
+
+		Location loc{ row, col };
+
+		if (!IsOccupied(loc))
+		{
+			grid[row][col] = new Predator(settings, loc);
+			++predCount;
+		}
+	}
+
+	while (preyCount < 100)
+	{
+		int row = Utility::RandomNumber(0, settings.maxRows - 1);
+		int col = Utility::RandomNumber(0, settings.maxCols - 1);
+
+		Location loc{ row, col };
+
+		if (!IsOccupied(loc))
+		{
+			grid[row][col] = new Prey(settings, loc);
+			++preyCount;
 		}
 	}
 }
@@ -232,9 +258,7 @@ void Grid::SetGrid(Creature *creature, const Location &loc)
 */
 std::ostream &operator<<(std::ostream &os, const Grid &g)
 {
-	cout << "Step: " << g.currentStep << endl;
-	cout << "Prey: " << g.preyCount << endl;
-	cout << "Predator: " << g.predCount << endl;
+	os << "Step: " << g.currentStep << endl << endl;
 
 	for (int row = 0; row < g.settings.maxRows; ++row)
 	{
@@ -252,8 +276,12 @@ std::ostream &operator<<(std::ostream &os, const Grid &g)
 				os << ' ';
 		}
 
-		cout << endl;
+		os << endl;
 	}
+
+	os << endl;
+	os << "Prey: " << g.preyCount << endl;
+	os << "Predator: " << g.predCount << endl;
 
 	return os;
 }
