@@ -18,43 +18,32 @@ template <typename T>
 class vector
 {
 public:
+    template <bool IsConst>
     class Iterator
     {
     public:
-        Iterator(T *ptr)
-            : ptr(ptr)
+        using difference_type = std::ptrdiff_t;
+        using value_type = T;
+        using reference = value_type &;
+        using pointer = T *;
+        using iterator_category = std::random_access_iterator_tag;
+
+        Iterator()
+            :   ptr(nullptr)
         {
 
         }
 
-        T &operator*()
+        Iterator(pointer ptr)
+            :   ptr(ptr)
         {
-            return *ptr;
+
         }
 
-        const T &operator*() const
+        Iterator(const Iterator &other)
+            :   ptr(other.ptr)
         {
-            return *ptr;
-        }
 
-        T *operator->()
-        {
-            return ptr;
-        }
-
-        const T *operator->() const
-        {
-            return ptr;
-        }
-
-        friend bool operator==(const Iterator &lhs, const Iterator &rhs)
-        {
-            return ptr == rhs.ptr;
-        }
-
-        friend bool operator!=(const Iterator &lhs, const Iterator &rhs)
-        {
-            return lhs.ptr != rhs.ptr;
         }
 
         Iterator &operator++()
@@ -66,10 +55,37 @@ public:
 
         Iterator operator++(int)
         {
-            Iterator temp(*this);
-            operator++();
+            return Iterator(ptr++);
+        }
 
-            return temp;
+        bool operator==(const Iterator &rhs) const
+        {
+            return ptr == rhs.ptr;
+        }
+
+        bool operator!=(const Iterator &rhs) const
+        {
+            return ptr != rhs.ptr;
+        }
+
+        reference operator*()
+        {
+            return *ptr;
+        }
+
+        const reference operator*() const
+        {
+            return *ptr;
+        }
+
+        pointer operator->()
+        {
+            return ptr;
+        }
+
+        const pointer operator->() const
+        {
+            return ptr;
         }
 
         Iterator &operator--()
@@ -79,33 +95,99 @@ public:
             return *this;
         }
 
-        Iterator operator--(int offset)
+        Iterator operator--(int)
         {
-            Iterator temp(*this);
-            operator--();
-
-            return temp;
+            return Iterator(ptr--);
         }
 
-        Iterator operator+(int offset)
+        Iterator operator+(difference_type n) const
         {
-            Iterator temp(*this);
-            temp.ptr += offset;
-
-            return temp;
+            return Iterator(ptr + n);
         }
 
-        Iterator operator-(int offset)
+        friend Iterator operator+(difference_type n, const Iterator &rhs)
         {
-            Iterator temp(*this);
-            temp.ptr -= offset;
+            return Iterator(n + rhs.ptr);
+        }
 
-            return temp;
+        Iterator operator+(const Iterator &rhs) const
+        {
+            return Iterator(ptr + rhs.ptr);
+        }
+
+        Iterator operator-(difference_type n) const
+        {
+            return Iterator(ptr - n);
+        }
+
+        friend Iterator operator-(difference_type n, const Iterator &rhs)
+        {
+            return Iterator(n - rhs.ptr);
+        }
+
+        difference_type operator-(const Iterator &rhs) const
+        {
+            return ptr - rhs.ptr;
+        }
+
+        bool operator<(const Iterator &rhs) const
+        {
+            return ptr < rhs.ptr;
+        }
+
+        bool operator>(const Iterator &rhs) const
+        {
+            return ptr > rhs.ptr;
+        }
+
+        bool operator<=(const Iterator &rhs) const
+        {
+            return ptr <= rhs.ptr;
+        }
+
+        bool operator>=(const Iterator &rhs) const
+        {
+            return ptr >= rhs.ptr;
+        }
+
+        Iterator &operator+=(difference_type n)
+        {
+            ptr += n;
+
+            return *this;
+        }
+
+        Iterator &operator-=(difference_type n)
+        {
+            ptr -= n;
+
+            return *this;
+        }
+
+        reference operator[](difference_type n) const
+        {
+            return *(ptr + n);
+        }
+
+        reference operator[](difference_type n)
+        {
+            return *(ptr + n);
         }
 
     private:
-        T *ptr;
+        pointer ptr;
     };
+
+    using value_type = T;
+    using reference = value_type &;
+    using const_reference = const reference;
+    using pointer = T *;
+    using iterator = Iterator<false>;
+    using const_iterator = Iterator<true>;
+    using reverse_iterator = std::reverse_iterator<iterator>;
+    using const_reverse_iterator = std::reverse_iterator<const_iterator>;
+    using difference_type = std::ptrdiff_t;
+    using size_type = int;
 
     vector(int size = 0);
     vector(const vector &other);
@@ -120,10 +202,16 @@ public:
     const T &back() const;                                        
     T &back();
 
-    Iterator begin();
-    Iterator cbegin() const;
-    Iterator end();
-    Iterator cend() const;
+    iterator begin();
+    const_iterator begin() const;
+    const_iterator cbegin() const;
+    reverse_iterator rbegin();
+    const_reverse_iterator crbegin() const;
+    iterator end();
+    const_iterator end() const;
+    const_iterator cend() const;
+    reverse_iterator rend();
+    const_reverse_iterator crend() const;
 
     vector &operator+=(const T &item);                      
     void push_back(const T &item);                        
@@ -163,7 +251,7 @@ private:
 */
 template<typename T>
 inline vector<T>::vector(int size)
-    : sz(0), cap(1), data(nullptr)
+    :   sz(0), cap(1), data(nullptr)
 {
     if (size)
     {
@@ -183,7 +271,7 @@ inline vector<T>::vector(int size)
 */
 template<typename T>
 inline vector<T>::vector(const vector &other)
-    : sz(other.sz), cap(other.cap), data(allocate(data, cap))
+    :   sz(other.sz), cap(other.cap), data(allocate(data, cap))
 {
     copy_list(data, other.data, sz);
 }
@@ -328,46 +416,113 @@ inline T &vector<T>::back()
 /*
     @summary: Iterator to the beginning of the list.
 
-    @return <vector<T>::Iterator>: The iterator.
+    @return <vector<T>::iterator>: The iterator.
 */
 template<typename T>
-inline typename vector<T>::Iterator vector<T>::begin()
+inline typename vector<T>::iterator vector<T>::begin()
 {
-    return Iterator(data);
+    return iterator(data);
 }
 
 /*
     @summary: Iterator to the beginning of the list.
 
-    @return <vector<T>::Iterator>: The iterator.
+    @return <vector<T>::iterator>: The iterator.
 */
 template<typename T>
-inline typename vector<T>::Iterator vector<T>::cbegin() const
+inline typename vector<T>::const_iterator vector<T>::begin() const
 {
-    return Iterator(data);
+    return const_iterator(data);
+}
+
+/*
+    @summary: Iterator to the beginning of the list.
+
+    @return <vector<T>::const_iterator>: The iterator.
+*/
+template<typename T>
+inline typename vector<T>::const_iterator vector<T>::cbegin() const
+{
+    return const_iterator(data);
+}
+
+/*
+    @summary: Iterator to the beginning of the list.
+
+    @return <vector<T>::reverse_iterator>: The iterator.
+*/
+template<typename T>
+inline typename vector<T>::reverse_iterator vector<T>::rbegin()
+{
+    return reverse_iterator(data);
+}
+
+/*
+    @summary: Iterator to the beginning of the list.
+
+    @return <vector<T>::const_reverse_iterator>: The iterator.
+*/
+template<typename T>
+inline typename vector<T>::const_reverse_iterator vector<T>::crbegin() const
+{
+    return const_reverse_iterator(data);
 }
 
 /*
     @summary: Iterator to the end of the list.
 
-    @return <vector<T>::Iterator>: The iterator.
+    @return <vector<T>::iterator>: The iterator.
 */
 template<typename T>
-inline typename vector<T>::Iterator vector<T>::end()
+inline typename vector<T>::iterator vector<T>::end()
 {
-    return Iterator(data + sz);
+    return iterator(data + sz);
 }
 
 /*
     @summary: Iterator to the end of the list.
 
-    @return <vector<T>::Iterator>: The iterator.
+    @return <vector<T>::iterator>: The iterator.
 */
 template<typename T>
-inline typename vector<T>::Iterator vector<T>::cend() const
+inline typename vector<T>::const_iterator vector<T>::end() const
 {
-    return Iterator(data + sz);
+    return const_iterator(data + sz);
 }
+
+/*
+    @summary: Iterator to the end of the list.
+
+    @return <vector<T>::const_iterator>: The iterator.
+*/
+template<typename T>
+inline typename vector<T>::const_iterator vector<T>::cend() const
+{
+    return const_iterator(data + sz);
+}
+
+/*
+    @summary: Iterator to the end of the list.
+
+    @return <vector<T>::reverse_iterator>: The iterator.
+*/
+template<typename T>
+inline typename vector<T>::reverse_iterator vector<T>::rend()
+{
+    return reverse_iterator(data + sz);
+}
+
+/*
+    @summary: Iterator to the end of the list.
+
+    @return <vector<T>::const_reverse_iterator>: The iterator.
+*/
+template<typename T>
+inline typename vector<T>::const_reverse_iterator vector<T>::crend() const
+{
+    return const_reverse_iterator(data + sz);
+}
+
 
 /*
     @summary: Appends an item to the container. Resizes

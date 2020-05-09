@@ -1,7 +1,10 @@
 #include "Engine.h"
 
-bme::Engine::Engine(int32_t sWidth, int32_t sHeight, const std::string &appName)
-	:	window(sf::VideoMode(sWidth, sHeight), appName), context(window, sceneManager, time)
+bme::Engine::Engine(int32_t sWidth, int32_t sHeight, 
+					const std::string &appName, const sf::Color &sClearColor)
+	:	window(sf::VideoMode(sWidth, sHeight), appName), inputManager(window),
+		context(window, sceneManager, time, inputManager, resourceManager), 
+		appName(appName), screenClearColor(sClearColor)
 {
 
 }
@@ -13,6 +16,7 @@ void bme::Engine::Start()
 	while (window.isOpen())
 	{
 		Update();
+		LateUpdate();
 		Render();
 	}
 }
@@ -20,12 +24,20 @@ void bme::Engine::Start()
 void bme::Engine::Update()
 {
 	time.Update();
+	PollEvents();
 	sceneManager.Update();
+}
+
+void bme::Engine::LateUpdate()
+{
+	sceneManager.LateUpdate();
 }
 
 void bme::Engine::Render()
 {
+	window.clear(screenClearColor);
 	sceneManager.Render();
+	window.display();
 }
 
 void bme::Engine::PollEvents()
@@ -37,6 +49,8 @@ void bme::Engine::PollEvents()
 		case sf::Event::Closed:
 			window.close();
 			break;
+		case sf::Event::MouseWheelMoved:
+			inputManager.SetMouseWheelData(event);
 		default:
 			break;
 		}
@@ -46,4 +60,9 @@ void bme::Engine::PollEvents()
 void bme::Engine::AddScene(Scene *scene)
 {
 	sceneManager.AddScene(scene);
+}
+
+bme::Context &bme::Engine::GetContext()
+{
+	return context;
 }

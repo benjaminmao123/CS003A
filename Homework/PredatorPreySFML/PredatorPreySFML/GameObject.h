@@ -3,21 +3,36 @@
 #include <SFML\Graphics.hpp>
 
 #include "Vector.h"
-#include "Component.h"
 
 namespace bme
 {
+	class Scene;
+	class Component;
+	class Context;
+
 	class GameObject
 	{
 	public:
-		GameObject(Context &context, GameObject *parent = nullptr, const sf::Vector2f &pos = sf::Vector2f());
+		GameObject(Context &context, GameObject *parent, const sf::Vector2f &pos, const std::string &name);
+		GameObject(Context &context);
+		GameObject(Context &context, GameObject *parent);
+		GameObject(Context &context, GameObject *parent, const sf::Vector2f &pos);
+		GameObject(Context &context, const sf::Vector2f &pos);
+		GameObject(Context &context, const sf::Vector2f &pos, const std::string &name);
+		GameObject(Context &context, const std::string &name);
+
 		virtual ~GameObject();
 
+		virtual void Awake();
 		virtual void Start();
-		virtual void Update();
+		virtual void Update(const sf::Transform &parentTransform);
+		virtual void LateUpdate(const sf::Transform &parentTransform);
 		virtual void Render();
 
 		void AddChild(GameObject *object);
+		GameObject *GetChild(const std::string &name);
+		static GameObject *Instantiate(const GameObject *object);
+		static GameObject *Instantiate(const GameObject *object, GameObject *parent);
 
 		template <typename T>
 		T *GetComponent();
@@ -28,23 +43,36 @@ namespace bme
 		template <typename T, typename ...Types>
 		T *AddComponent(Types &... types);
 
+		GameObject *GetParent();
 		const sf::Transform &GetTransform() const;
 		const sf::Transform &GetWorldTransform() const;
 		sf::Transformable &GetTransformable();
+		bool IsEnabled() const;
+		void SetIsEnabled(bool state);
+		const std::string &GetName() const;
+		void SetName(const std::string &name);
+
+	protected:
+		Context &GetContext();
 
 	private:
+		GameObject *InstantiateHelper(const GameObject *object) const;
+		GameObject *InstantiateHelper(const GameObject *object, GameObject *parent) const;
+
 		template <typename T>
 		T *GetComponentInParent(const GameObject *parent);
 		template <typename T>
 		T *GetComponentInChildren(const GameObject *object);
 
+		vector<Component *> components;
+		vector<GameObject *> children;
 		Context &context;
 		GameObject *parent;
 		sf::Transform transform;
 		sf::Transform worldTransform;
 		sf::Transformable transformable;
-		vector<Component *> components;
-		vector<GameObject *> children;
+		bool isEnabled;
+		std::string name;
 	};
 	
 	template<typename T>

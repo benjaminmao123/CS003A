@@ -143,27 +143,55 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="ButtonRenderer.cpp" />
+    <ClCompile Include="ButtonObject.cpp" />
+    <ClCompile Include="Camera2D.cpp" />
+    <ClCompile Include="CameraObject.cpp" />
     <ClCompile Include="Component.cpp" />
     <ClCompile Include="Context.cpp" />
     <ClCompile Include="Engine.cpp" />
+    <ClCompile Include="Event.cpp" />
+    <ClCompile Include="EventHandler.cpp" />
+    <ClCompile Include="FontResource.cpp" />
     <ClCompile Include="GameObject.cpp" />
+    <ClCompile Include="InputManager.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="PointRenderer.cpp" />
+    <ClCompile Include="Renderer2D.cpp" />
+    <ClCompile Include="Resource.cpp" />
+    <ClCompile Include="ResourceManager.cpp" />
     <ClCompile Include="Scene.cpp" />
     <ClCompile Include="SceneManager.cpp" />
+    <ClCompile Include="Selectable.cpp" />
+    <ClCompile Include="TextObject.cpp" />
+    <ClCompile Include="TextRenderer.cpp" />
+    <ClCompile Include="TextureResource.cpp" />
     <ClCompile Include="Time.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ArrayLibrary.h" />
+    <ClInclude Include="ButtonRenderer.h" />
+    <ClInclude Include="ButtonObject.h" />
+    <ClInclude Include="Camera2D.h" />
+    <ClInclude Include="CameraObject.h" />
     <ClInclude Include="Component.h" />
     <ClInclude Include="Context.h" />
     <ClInclude Include="Engine.h" />
+    <ClInclude Include="Event.h" />
+    <ClInclude Include="EventHandler.h" />
+    <ClInclude Include="FontResource.h" />
     <ClInclude Include="GameObject.h" />
-    <ClInclude Include="LinkedListLibrary.h" />
-    <ClInclude Include="Node.h" />
-    <ClInclude Include="Queue.h" />
+    <ClInclude Include="InputManager.h" />
+    <ClInclude Include="PointRenderer.h" />
+    <ClInclude Include="Renderer2D.h" />
+    <ClInclude Include="Resource.h" />
+    <ClInclude Include="ResourceManager.h" />
     <ClInclude Include="Scene.h" />
     <ClInclude Include="SceneManager.h" />
-    <ClInclude Include="Stack.h" />
+    <ClInclude Include="Selectable.h" />
+    <ClInclude Include="TextObject.h" />
+    <ClInclude Include="TextRenderer.h" />
+    <ClInclude Include="TextureResource.h" />
     <ClInclude Include="Time.h" />
     <ClInclude Include="Vector.h" />
   </ItemGroup>

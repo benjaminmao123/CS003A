@@ -7,6 +7,14 @@ bme::SceneManager::SceneManager()
 
 }
 
+bme::SceneManager::~SceneManager()
+{
+	for (auto &scene : scenes)
+		delete scene;
+
+	scenes.clear();
+}
+
 void bme::SceneManager::Start()
 {
 	if (!scenes.empty())
@@ -20,6 +28,12 @@ void bme::SceneManager::Update()
 {
 	if (currentScene)
 		currentScene->Update();
+}
+
+void bme::SceneManager::LateUpdate()
+{
+	if (currentScene)
+		currentScene->LateUpdate();
 }
 
 void bme::SceneManager::Render()
@@ -42,7 +56,7 @@ void bme::SceneManager::SetCurrentScene(int idx)
 	}
 }
 
-const bme::Scene *bme::SceneManager::CurrentScene() const
+bme::Scene *bme::SceneManager::CurrentScene()
 {
 	return currentScene;
 }
