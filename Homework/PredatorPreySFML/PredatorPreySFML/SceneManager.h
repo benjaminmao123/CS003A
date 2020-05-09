@@ -1,19 +1,26 @@
 #pragma once
 
-#include "Stack.h"
-#include "Scene.h"
+#include "Vector.h"
 
 namespace bme
 {
+	class Scene;
+
 	class SceneManager
 	{
 	public:
-		void Push();
-		void Pop();
+		SceneManager();
 
-		void Top();
+		void Start();
+		void Update();
+		void Render();
+
+		void AddScene(Scene *scene);
+		void SetCurrentScene(int idx);
+		const Scene *CurrentScene() const;
 
 	private:
-
+		vector<Scene *> scenes;
+		Scene *currentScene;
 	};
 }
