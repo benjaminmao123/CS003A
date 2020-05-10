@@ -17,6 +17,9 @@ bme::ButtonRenderer::ButtonRenderer(GameObject *owner, Context &context)
 void bme::ButtonRenderer::Start()
 {
 	text = GetOwner()->GetComponentInChildren<TextRenderer>();
+
+	if (text)
+		text->SetZOrder(GetZOrder() + 1);
 }
 
 void bme::ButtonRenderer::Update()
