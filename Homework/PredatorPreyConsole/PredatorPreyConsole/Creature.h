@@ -34,8 +34,7 @@ protected:
 	void MoveTo(Grid &grid, const Location &dest);
 	vector<Location> FindBlank(const Grid &grid);
 	vector<Location> FindBlankAdjacent(const Grid &grid);
-	vector<Location> FindPredatorAdjacent(const Grid &grid);
-	vector<Location> FindPreyAdjacent(const Grid &grid);
+	vector<Location> FindCreatureAdjacent(const Grid &grid, Type type);
 
 	const Location &GetOldPos() const;
 	const Location &GetCurrPos() const;
