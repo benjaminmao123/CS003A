@@ -167,37 +167,16 @@ vector<Location> Creature::FindBlankAdjacent(const Grid &grid)
 {
 	vector<Location> location;
 
-	//left
-	if (!grid.IsOccupied(Location{ currPos.row, currPos.col - 2 }))
-		location.push_back(Location{ currPos.row, currPos.col - 2 });
+	for (int row = -1; row <= 1; ++row)
+	{
+		for (int col = -2; col <= 2; ++col)
+		{
+			Location loc{ currPos.row + row, currPos.col + col };
 
-	//right
-	if (!grid.IsOccupied(Location{ currPos.row, currPos.col + 2 }))
-		location.push_back(Location{ currPos.row, currPos.col + 2 });
-
-	//top
-	if (!grid.IsOccupied(Location{ currPos.row - 1, currPos.col }))
-		location.push_back(Location{ currPos.row - 1, currPos.col });
-
-	//bottom
-	if (!grid.IsOccupied(Location{ currPos.row + 1, currPos.col }))
-		location.push_back(Location{ currPos.row + 1, currPos.col });
-
-	//top left
-	if (!grid.IsOccupied(Location{ currPos.row - 1, currPos.col - 2 }))
-		location.push_back(Location{ currPos.row - 1, currPos.col - 2 });
-
-	//top right
-	if (!grid.IsOccupied(Location{ currPos.row - 1, currPos.col + 2 }))
-		location.push_back(Location{ currPos.row - 1, currPos.col + 2 });
-
-	//bottom left
-	if (!grid.IsOccupied(Location{ currPos.row + 1, currPos.col - 2 }))
-		location.push_back(Location{ currPos.row + 1, currPos.col - 2 });
-
-	//bottom right
-	if (!grid.IsOccupied(Location{ currPos.row + 1, currPos.col + 2 }))
-		location.push_back(Location{ currPos.row + 1, currPos.col + 2 });
+			if (!grid.IsOccupied(loc))
+				location.push_back(loc);
+		}
+	}
 
 	return location;
 }
@@ -212,45 +191,17 @@ vector<Location> Creature::FindPredatorAdjacent(const Grid &grid)
 {
 	vector<Location> location;
 
-	//left
-	if (grid.IsOccupied(Location{ currPos.row, currPos.col - 2 }) &&
-		grid.GetGrid(Location{ currPos.row, currPos.col - 2 })->GetType() == Type::Predator)
-		location.push_back(Location{ currPos.row, currPos.col - 2 });
+	for (int row = -1; row <= 1; ++row)
+	{
+		for (int col = -2; col <= 2; ++col)
+		{
+			Location loc{ currPos.row + row, currPos.col + col };
 
-	//right
-	if (grid.IsOccupied(Location{ currPos.row, currPos.col + 2 }) &&
-		grid.GetGrid(Location{ currPos.row, currPos.col + 2 })->GetType() == Type::Predator)
-		location.push_back(Location{ currPos.row, currPos.col + 2 });
-
-	//top
-	if (grid.IsOccupied(Location{ currPos.row - 1, currPos.col }) &&
-		grid.GetGrid(Location{ currPos.row - 1, currPos.col })->GetType() == Type::Predator)
-		location.push_back(Location{ currPos.row - 1, currPos.col });
-
-	//bottom
-	if (grid.IsOccupied(Location{ currPos.row + 1, currPos.col }) &&
-		grid.GetGrid(Location{ currPos.row + 1, currPos.col })->GetType() == Type::Predator)
-		location.push_back(Location{ currPos.row + 1, currPos.col });
-
-	//top left
-	if (grid.IsOccupied(Location{ currPos.row - 1, currPos.col - 2 }) &&
-		grid.GetGrid(Location{ currPos.row - 1, currPos.col - 2 })->GetType() == Type::Predator)
-		location.push_back(Location{ currPos.row - 1, currPos.col - 2 });
-
-	//top right
-	if (grid.IsOccupied(Location{ currPos.row - 1, currPos.col + 2 }) &&
-		grid.GetGrid(Location{ currPos.row - 1, currPos.col + 2 })->GetType() == Type::Predator)
-		location.push_back(Location{ currPos.row - 1, currPos.col + 2 });
-
-	//bottom left
-	if (grid.IsOccupied(Location{ currPos.row + 1, currPos.col - 2 }) &&
-		grid.GetGrid(Location{ currPos.row + 1, currPos.col - 2 })->GetType() == Type::Predator)
-		location.push_back(Location{ currPos.row + 1, currPos.col - 2 });
-
-	//bottom right
-	if (grid.IsOccupied(Location{ currPos.row + 1, currPos.col + 2 }) &&
-		grid.GetGrid(Location{ currPos.row + 1, currPos.col + 2 })->GetType() == Type::Predator)
-		location.push_back(Location{ currPos.row + 1, currPos.col + 2 });
+			if (grid.IsOccupied(loc) && 
+				grid.GetGrid(loc)->GetType() == Type::Predator)
+				location.push_back(loc);
+		}
+	}
 
 	return location;
 }
@@ -265,45 +216,17 @@ vector<Location> Creature::FindPreyAdjacent(const Grid &grid)
 {
 	vector<Location> location;
 
-	//left
-	if (grid.IsOccupied(Location{ currPos.row, currPos.col - 2 }) &&
-		grid.GetGrid(Location{ currPos.row, currPos.col - 2 })->GetType() == Type::Prey)
-		location.push_back(Location{ currPos.row, currPos.col - 2 });
+	for (int row = -1; row <= 1; ++row)
+	{
+		for (int col = -2; col <= 2; ++col)
+		{
+			Location loc{ currPos.row + row, currPos.col + col };
 
-	//right
-	if (grid.IsOccupied(Location{ currPos.row, currPos.col + 2 }) &&
-		grid.GetGrid(Location{ currPos.row, currPos.col + 2 })->GetType() == Type::Prey)
-		location.push_back(Location{ currPos.row, currPos.col + 2 });
-
-	//top
-	if (grid.IsOccupied(Location{ currPos.row - 1, currPos.col }) &&
-		grid.GetGrid(Location{ currPos.row - 1, currPos.col })->GetType() == Type::Prey)
-		location.push_back(Location{ currPos.row - 1, currPos.col });
-
-	//bottom
-	if (grid.IsOccupied(Location{ currPos.row + 1, currPos.col }) &&
-		grid.GetGrid(Location{ currPos.row + 1, currPos.col })->GetType() == Type::Prey)
-		location.push_back(Location{ currPos.row + 1, currPos.col });
-
-	//top left
-	if (grid.IsOccupied(Location{ currPos.row - 1, currPos.col - 2 }) &&
-		grid.GetGrid(Location{ currPos.row - 1, currPos.col - 2 })->GetType() == Type::Prey)
-		location.push_back(Location{ currPos.row - 1, currPos.col - 2 });
-
-	//top right
-	if (grid.IsOccupied(Location{ currPos.row - 1, currPos.col + 2 }) &&
-		grid.GetGrid(Location{ currPos.row - 1, currPos.col + 2 })->GetType() == Type::Prey)
-		location.push_back(Location{ currPos.row - 1, currPos.col + 2 });
-
-	//bottom left
-	if (grid.IsOccupied(Location{ currPos.row + 1, currPos.col - 2 }) &&
-		grid.GetGrid(Location{ currPos.row + 1, currPos.col - 2 })->GetType() == Type::Prey)
-		location.push_back(Location{ currPos.row + 1, currPos.col - 2 });
-
-	//bottom right
-	if (grid.IsOccupied(Location{ currPos.row + 1, currPos.col + 2 }) &&
-		grid.GetGrid(Location{ currPos.row + 1, currPos.col + 2 })->GetType() == Type::Prey)
-		location.push_back(Location{ currPos.row + 1, currPos.col + 2 });
+			if (grid.IsOccupied(loc) &&
+				grid.GetGrid(loc)->GetType() == Type::Prey)
+				location.push_back(loc);
+		}
+	}
 
 	return location;
 }
