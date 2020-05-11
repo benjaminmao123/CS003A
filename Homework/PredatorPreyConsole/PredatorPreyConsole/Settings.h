@@ -23,6 +23,5 @@ struct Settings
     const int maxCols;
 	int preyBreedRate{ 5 };
 	int predBreedRate{ 10 };
-	int startEnergy{ 1 };
-    int maxEnergy{ 4 };
+    int maxEatStep{ 3 };
 };

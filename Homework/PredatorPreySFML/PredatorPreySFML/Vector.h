@@ -1,787 +1,922 @@
-/*
- * Author: Benjamin Mao
- * Project: Vector
- * Purpose: Implementation of a container that allows
- *          for dynamic add and removal of elements.
- *
- * Notes: None.
- *
- */
-
 #pragma once
 
+#include <initializer_list>
+#include <algorithm>
 #include <iostream>
+#include <string>
+#include <cmath>
+#include <iterator>
 
-#include "ArrayLibrary.h"
+template <typename T>
+class VectorIterator
+{
+public:
+	using difference_type = std::ptrdiff_t;
+	using value_type = T;
+	using reference = value_type &;
+	using pointer = T *;
+	using iterator_category = std::random_access_iterator_tag;
+
+	VectorIterator()
+		: ptr(nullptr)
+	{
+
+	}
+
+	VectorIterator(pointer ptr)
+		: ptr(ptr)
+	{
+
+	}
+
+	VectorIterator(const VectorIterator &other)
+		: ptr(other.ptr)
+	{
+
+	}
+
+	~VectorIterator()
+	{
+
+	}
+
+	VectorIterator &operator++()
+	{
+		++ptr;
+
+		return *this;
+	}
+
+	VectorIterator operator++(int)
+	{
+		return VectorIterator(ptr++);
+	}
+
+	bool operator==(const VectorIterator &rhs) const
+	{
+		return ptr == rhs.ptr;
+	}
+
+	bool operator!=(const VectorIterator &rhs) const
+	{
+		return ptr != rhs.ptr;
+	}
+
+	reference operator*()
+	{
+		return *ptr;
+	}
+
+	reference operator*() const
+	{
+		return *ptr;
+	}
+
+	pointer operator->()
+	{
+		return ptr;
+	}
+
+	pointer operator->() const
+	{
+		return ptr;
+	}
+
+	VectorIterator &operator--()
+	{
+		--ptr;
+
+		return *this;
+	}
+
+	VectorIterator operator--(int)
+	{
+		return VectorIterator(ptr--);
+	}
+
+	VectorIterator operator+(difference_type n) const
+	{
+		return VectorIterator(ptr + n);
+	}
+
+	friend VectorIterator operator+(difference_type n, const VectorIterator &rhs)
+	{
+		return VectorIterator(n + rhs.ptr);
+	}
+
+	VectorIterator operator+(const VectorIterator &rhs) const
+	{
+		return VectorIterator(ptr + rhs.ptr);
+	}
+
+	VectorIterator operator-(difference_type n) const
+	{
+		return VectorIterator(ptr - n);
+	}
+
+	friend VectorIterator operator-(difference_type n, const VectorIterator &rhs)
+	{
+		return VectorIterator(n - rhs.ptr);
+	}
+
+	difference_type operator-(const VectorIterator &rhs) const
+	{
+		return ptr - rhs.ptr;
+	}
+
+	bool operator<(const VectorIterator &rhs) const
+	{
+		return ptr < rhs.ptr;
+	}
+
+	bool operator>(const VectorIterator &rhs) const
+	{
+		return ptr > rhs.ptr;
+	}
+
+	bool operator<=(const VectorIterator &rhs) const
+	{
+		return ptr <= rhs.ptr;
+	}
+
+	bool operator>=(const VectorIterator &rhs) const
+	{
+		return ptr >= rhs.ptr;
+	}
+
+	VectorIterator &operator+=(difference_type n)
+	{
+		ptr += n;
+
+		return *this;
+	}
+
+	VectorIterator &operator-=(difference_type n)
+	{
+		ptr -= n;
+
+		return *this;
+	}
+
+	reference operator[](difference_type n) const
+	{
+		return *(ptr + n);
+	}
+
+	reference operator[](difference_type n)
+	{
+		return *(ptr + n);
+	}
+
+private:
+	pointer ptr;
+};
 
 template <typename T>
 class vector
 {
 public:
-    template <bool IsConst>
-    class Iterator
-    {
-    public:
-        using difference_type = std::ptrdiff_t;
-        using value_type = T;
-        using reference = value_type &;
-        using pointer = T *;
-        using iterator_category = std::random_access_iterator_tag;
+	using value_type = T;
+	using reference = value_type &;
+	using const_reference = const reference;
+	using pointer = T *;
+	using iterator = VectorIterator<T>;
+	using const_iterator = VectorIterator<const T>;
+	using reverse_iterator = std::reverse_iterator<iterator>;
+	using const_reverse_iterator = std::reverse_iterator<const_iterator>;
+	using difference_type = std::ptrdiff_t;
+	using size_type = unsigned int;
 
-        Iterator()
-            :   ptr(nullptr)
-        {
+	vector();
+	vector(const std::initializer_list<T> &il);
+	vector(const size_type &sz);
+	vector(const vector &rhs);
+	vector(vector &&rhs) noexcept;
+	~vector();
 
-        }
+	void push_back(const value_type &value);
+	void pop_back();
+	void erase(const size_type &index);
+	void insert(const size_type &index, const value_type &value);
+	int index_of(const value_type &value);
 
-        Iterator(pointer ptr)
-            :   ptr(ptr)
-        {
+	reference at(const size_type &index);
+	const value_type &at(const size_type &index) const;
+	reference front();
+	const value_type &front() const;
+	reference back();
+	const value_type &back() const;
+	size_type size() const;
+	void size(const size_type &sz);
+	void capacity(const size_type &capacity);
+	size_type capacity() const;
+	size_type max_size() const;
 
-        }
+	void clear();
+	void swap(vector &other);
 
-        Iterator(const Iterator &other)
-            :   ptr(other.ptr)
-        {
+	friend void swap(vector &v1, vector &v2)
+	{
+		std::swap(v1.sz, v2.sz);
+		std::swap(v1.cap, v2.cap);
+		std::swap(v1.container, v2.container);
+	}
 
-        }
+	bool empty() const;
 
-        Iterator &operator++()
-        {
-            ++ptr;
+	iterator begin() noexcept
+	{
+		return iterator(Container());
+	}
 
-            return *this;
-        }
+	const_iterator begin() const noexcept
+	{
+		return const_iterator(Container());
+	}
 
-        Iterator operator++(int)
-        {
-            return Iterator(ptr++);
-        }
+	iterator end() noexcept
+	{
+		return iterator(Container() + sz);
+	}
 
-        bool operator==(const Iterator &rhs) const
-        {
-            return ptr == rhs.ptr;
-        }
+	const_iterator end() const noexcept
+	{
+		return const_iterator(Container() + sz);
+	}
 
-        bool operator!=(const Iterator &rhs) const
-        {
-            return ptr != rhs.ptr;
-        }
+	const_iterator cbegin() const noexcept
+	{
+		return const_iterator(Container());
+	}
 
-        reference operator*()
-        {
-            return *ptr;
-        }
+	const_iterator cend() const noexcept
+	{
+		return const_iterator(Container() + sz);
+	}
 
-        const reference operator*() const
-        {
-            return *ptr;
-        }
+	reverse_iterator rbegin() noexcept
+	{
+		return reverse_iterator(Container() + sz);
+	}
 
-        pointer operator->()
-        {
-            return ptr;
-        }
+	reverse_iterator rend() noexcept
+	{
+		return reverse_iterator(Container());
+	}
 
-        const pointer operator->() const
-        {
-            return ptr;
-        }
+	const_reverse_iterator crbegin() const noexcept
+	{
+		return const_reverse_iterator(Container() + sz);
+	}
 
-        Iterator &operator--()
-        {
-            --ptr;
+	const_reverse_iterator crend() const noexcept
+	{
+		return const_reverse_iterator(Container());
+	}
 
-            return *this;
-        }
+	/*
+		Overloaded assignment operator.
 
-        Iterator operator--(int)
-        {
-            return Iterator(ptr--);
-        }
+		@param <const Array &rhs>: Other instance of Array object
+			to perform deep copy from.
 
-        Iterator operator+(difference_type n) const
-        {
-            return Iterator(ptr + n);
-        }
+		@return <Array &>: Array reference to allow for chaining.
+	*/
+	vector &operator=(const vector &rhs)
+	{
+		if (this != &rhs)
+		{
+			vector(rhs).swap(*this);
+		}
 
-        friend Iterator operator+(difference_type n, const Iterator &rhs)
-        {
-            return Iterator(n + rhs.ptr);
-        }
+		return *this;
+	}
 
-        Iterator operator+(const Iterator &rhs) const
-        {
-            return Iterator(ptr + rhs.ptr);
-        }
+	/*
+		Overloaded move assignment operator.
 
-        Iterator operator-(difference_type n) const
-        {
-            return Iterator(ptr - n);
-        }
+		@param <Array &&rhs>: Rvalue reference.
 
-        friend Iterator operator-(difference_type n, const Iterator &rhs)
-        {
-            return Iterator(n - rhs.ptr);
-        }
+		@return <Array &>: Array reference to allow for chaining.
+	*/
+	vector &operator=(vector &&rhs) noexcept
+	{
+		if (this != &rhs)
+		{
+			swap(rhs);
+		}
 
-        difference_type operator-(const Iterator &rhs) const
-        {
-            return ptr - rhs.ptr;
-        }
+		return *this;
+	}
 
-        bool operator<(const Iterator &rhs) const
-        {
-            return ptr < rhs.ptr;
-        }
+	reference operator[](const unsigned int &index);
 
-        bool operator>(const Iterator &rhs) const
-        {
-            return ptr > rhs.ptr;
-        }
+	const reference operator[](const unsigned int &index) const
+	{
+		pointer element = Container() + index;
 
-        bool operator<=(const Iterator &rhs) const
-        {
-            return ptr <= rhs.ptr;
-        }
+		return *element;
+	}
 
-        bool operator>=(const Iterator &rhs) const
-        {
-            return ptr >= rhs.ptr;
-        }
+	/*
+		Overloaded addition assignment operator.
+		Pushes a given value to the back of the array.
 
-        Iterator &operator+=(difference_type n)
-        {
-            ptr += n;
+		@param <const value_type &value>: Element to append.
 
-            return *this;
-        }
+		@return <Array &>: Reference to allow for modification.
+	*/
+	vector &operator+=(const value_type &value)
+	{
+		push_back(value);
 
-        Iterator &operator-=(difference_type n)
-        {
-            ptr -= n;
+		return *this;
+	}
 
-            return *this;
-        }
+	bool operator==(const vector &rhs) const
+	{
+		return container == rhs.container && cap == rhs.cap &&
+			sz == rhs.sz;
+	}
 
-        reference operator[](difference_type n) const
-        {
-            return *(ptr + n);
-        }
+	bool operator!=(const vector &rhs) const
+	{
+		return container != rhs.container && cap != rhs.cap &&
+			sz != rhs.sz;
+	}
 
-        reference operator[](difference_type n)
-        {
-            return *(ptr + n);
-        }
+	/*
+		Overloaded addition operator.
+		Concatenates two arrays together.
 
-    private:
-        pointer ptr;
-    };
+		@param <const Array &lhs>: Left array to concatenate.
+		@param <const Array &rhs>: Right array to concatenate.
 
-    using value_type = T;
-    using reference = value_type &;
-    using const_reference = const reference;
-    using pointer = T *;
-    using iterator = Iterator<false>;
-    using const_iterator = Iterator<true>;
-    using reverse_iterator = std::reverse_iterator<iterator>;
-    using const_reverse_iterator = std::reverse_iterator<const_iterator>;
-    using difference_type = std::ptrdiff_t;
-    using size_type = int;
+		@return <Array>: New array with left and right arrays
+			concatenated.
+	*/
+	friend vector operator+(const vector &lhs, const vector &rhs)
+	{
+		vector newArray;
 
-    vector(int size = 0);
-    vector(const vector &other);
-    ~vector();
+		for (size_type i = 0; i < lhs.sz; ++i)
+		{
+			newArray.push_back(lhs.At(i));
+		}
 
-    const T operator[](int index) const;
-    T &operator[](int index);
-    T &at(int index);                       
-    const T at(int index) const;             
-    const T &front() const;                                       
-    T &front();
-    const T &back() const;                                        
-    T &back();
+		for (size_type i = 0; i < rhs.sz; ++i)
+		{
+			newArray.push_back(rhs.At(i));
+		}
 
-    iterator begin();
-    const_iterator begin() const;
-    const_iterator cbegin() const;
-    reverse_iterator rbegin();
-    const_reverse_iterator crbegin() const;
-    iterator end();
-    const_iterator end() const;
-    const_iterator cend() const;
-    reverse_iterator rend();
-    const_reverse_iterator crend() const;
+		return newArray;
+	}
 
-    vector &operator+=(const T &item);                      
-    void push_back(const T &item);                        
-    void pop_back();                                        
+	/*
+		Overloading of insertion operator to print contents of Array class.
 
-    void insert(int pos, const T &item);    
-    void erase(int erase_index);           
-    int index_of(const T &item);                       
+		@param <ostream &os>: Ostream object to modify
+		@param <const Array &arr>: Class to display contents of.
 
-    void set_size(int size);                
-    void set_capacity(int capacity);      
-    int size() const { return sz; }             
-    int capacity() const { return cap; }        
+		@return <ostream &>: Returns a reference to the original ostream object
+			to allow for chaining.
+	*/
+	friend std::ostream &operator<<(std::ostream &os, const vector &arr)
+	{
+		for (size_type i = 0; i < arr.size(); ++i)
+		{
+			os << arr.At(i) << " ";
+		}
 
-    bool empty() const;                             
-    void swap(vector &v);
-    void clear();
-
-    template <class U>
-    friend std::ostream &operator<<(std::ostream &outs, const vector<U> &_a);
-
-    bool operator==(const vector<T> &_a);
-    bool operator!=(const vector<T> &_a);
-
-    vector &operator=(const vector &rhs);
+		return os;
+	}
 
 private:
-    int sz;
-    int cap;
-    T *data;
+	void Resize();
+	void Copy(const char *source, char *destination, const char *srcEnd);
+	void ShiftLeft(pointer start, const value_type *end);
+	void ShiftRight(const value_type *start, pointer end);
+
+	pointer Container() const;
+
+	char *container;
+	size_type cap;
+	size_type sz;
 };
-
+	
 /*
-    @summary: Overloaded constructor that takes in a size.
-
-    @param <int size>: Size to set vector to.
+	Default constructor to member variables.
 */
-template<typename T>
-inline vector<T>::vector(int size)
-    :   sz(0), cap(1), data(nullptr)
+template <typename T>
+inline vector<T>::vector()
+	: sz(0), cap(0), container(nullptr)
 {
-    if (size)
-    {
-        cap = size;
-        set_size(size);
-    }
-    else
-    {
-        data = allocate(data, cap);
-    }
+
 }
 
 /*
-    @summary: Copy-constructor.
+	Overloaded constructor to initialize array with elements.
 
-    @param <const Vector &other>: Other vector to copy.
+	@param <const initializer_list<T> &il>: Initializer_list object
+		to take in elements to add to array.
 */
-template<typename T>
-inline vector<T>::vector(const vector &other)
-    :   sz(other.sz), cap(other.cap), data(allocate(data, cap))
+template <typename T>
+inline vector<T>::vector(const std::initializer_list<T> &il)
+	: sz(0), cap(0), container(nullptr)
 {
-    copy_list(data, other.data, sz);
+	for (const auto &i : il)
+	{
+		push_back(i);
+	}
 }
 
 /*
-    @summary: Destructor, cleans up data.
+	Overloaded constructor to create an Array object with a
+	defined sz.
+
+	@param <const size_type &sz>: Used to initialize
+		array sz.
 */
-template<typename T>
+template <typename T>
+inline vector<T>::vector(const size_type &sz)
+	: sz(0), cap(0)
+{
+	value_type value;
+
+	for (size_type i = 0; i < sz; ++i)
+	{
+		push_back(value);
+	}
+}
+
+/*
+	Copy constructor.
+
+	@param <const Array &rhs>: Other instance of Array to
+		be copied from.
+*/
+template <typename T>
+inline vector<T>::vector(const vector &rhs)
+	: sz(rhs.sz), cap(rhs.cap),
+	container(new char[sizeof(T) * rhs.cap])
+{
+	//copy elements from rhs array
+	char *rhsContainerEnd = rhs.container + (sizeof(T) * rhs.sz);
+
+	Copy(rhs.container, container, rhsContainerEnd);
+}
+
+/*
+	Move Constructor.
+
+	@param <Array &&rhs>: Rvalue reference.
+*/
+template <typename T>
+inline vector<T>::vector(vector &&rhs) noexcept
+	: sz(rhs.sz), cap(rhs.cap),
+	container(rhs.container)
+{
+	rhs.sz = 0;
+	rhs.cap = 0;
+	rhs.container = nullptr;
+}
+
+/*
+	Destructor to clean up dynamically allocated memory.
+*/
+template <typename T>
 inline vector<T>::~vector()
 {
-    delete[] data;
+	delete[] container;
 }
 
 /*
-    @summary: Overloaded subscript operator that retrieves
-        element at given location.
+	Accessor to retrieve sz of array.
 
-    @param <int index>: Index to retrieve element.
-
-    @return <const T>: Returns a copy of the element at index.
+	@return <size_type>: Return sz of array.
 */
-template<typename T>
-inline const T vector<T>::operator[](int index) const
+template <typename T>
+inline typename vector<T>::size_type vector<T>::size() const
 {
-    if (index >= sz)
-    {
-        throw std::out_of_range("Index was out of range");
-    }
-
-    T *location = data + index;
-
-    return *location;
+	return sz;
 }
 
 /*
-    @summary: Overloaded subscript operator that retrieves
-        element at given location.
+	Sets the sz of the array.
+	Default values will be added when the sz is
+	increased. If sz is < current sz, remove values
+	from back.
 
-    @param <int index>: Index to retrieve element.
-
-    @return <T &>: Returns a reference to the element at index.
+	@param <const size_type &sz>: Value to set sz to.
 */
-template<typename T>
-inline T &vector<T>::operator[](int index)
+template <typename T>
+inline void vector<T>::size(const size_type &sz)
 {
-    if (index >= sz)
-    {
-        throw std::out_of_range("Index was out of range");
-    }
+	value_type value;
 
-    T *location = data + index;
+	size_type newSize = abs(int(this->sz - sz));
 
-    return *location;
+	if (sz > this->sz)
+	{
+		for (size_type i = 0; i < newSize; ++i)
+		{
+			push_back(value);
+		}
+	}
+	else if (sz < this->sz)
+	{
+		for (size_type i = 0; i < newSize; ++i)
+		{
+			pop_back();
+		}
+	}
 }
 
 /*
-    @summary: Retrieves the element at the given index. If invalid
-        argument is given, assert.
+	Sets the capacity of the array.
+	Space will be allocated accordingly.
+	You cannot set your capacity below the current sz.
 
-    @param <int index>: Index to retrieve element.
-
-    @return <T &>: Returns a reference to the element at index.
+	@param <const size_type &capacity>: Value to set capacity.
 */
-template<typename T>
-inline T &vector<T>::at(int index)
+template <typename T>
+inline void vector<T>::capacity(const size_type &capacity)
 {
-    if (index >= sz)
-    {
-        throw std::out_of_range("Index was out of range");
-    }
+	if (capacity >= sz)
+	{
+		this->cap = capacity;
 
-    T *location = data + index;
+		char *temp = new char[sizeof(T) * this->cap];
 
-    return *location;
+		char *containerEnd = container + (sizeof(T) * sz);
+		//copy original elements to temp array
+		Copy(container, temp, containerEnd);
+
+		delete[] container;
+
+		container = temp;
+	}
+	else
+	{
+		throw std::invalid_argument(
+			"Capacity cannot be less than sz.");
+	}
 }
 
 /*
-    @summary: Retrieves the element at the given index. If invalid
-        argument is given, assert.
+	Accessor to retrieve capacity of array.
 
-    @param <int index>: Index to retrieve element.
-
-    @return <const T>: Returns a copy to the element at index.
+	@return <size_type>: Return capacity of array.
 */
-template<typename T>
-inline const T vector<T>::at(int index) const
+template <typename T>
+inline typename vector<T>::size_type vector<T>::capacity() const
 {
-    if (index >= sz)
-    {
-        throw std::out_of_range("Index was out of range");
-    }
-
-    T *location = data + index;
-
-    return *location;
+	return cap;
 }
 
-/*
-    @summary: Retrieves the first element.
-
-    @return <const T &>: Returns a reference to the first element.
-*/
 template<typename T>
-inline const T &vector<T>::front() const
+inline typename vector<T>::size_type vector<T>::max_size() const
 {
-    return at(0);
+	return 1000000000;
 }
 
 /*
-    @summary: Retrieves the element the last element.
+	Returns the element at specified index.
 
-    @return <T &>: Returns a reference to the last element.
+	@param <const int &index>: Indicates which index to iterate
+		to.
+
+	@return <reference >: Return element at index, throws out of range error
+		if invalid index is given.
 */
-template<typename T>
-inline T &vector<T>::front()
+template <typename T>
+inline typename vector<T>::reference vector<T>::at(const size_type &index)
 {
-    return at(0);
+	if (index >= sz)
+	{
+		throw std::out_of_range(
+			"Error: Accessing out of range index at index: "
+			+ std::to_string(index));
+	}
+
+	pointer element = Container() + index;
+
+	return *element;
 }
 
 /*
-    @summary: Retrieves the element the last element.
+	Returns the element at specified index.
 
-    @return <const T &>: Returns a reference to the last element.
+	@param <const int &index>: Indicates which index to iterate
+		to.
+
+	@return <const value_type & const>: Return element at index,
+		throws out of range error if invalid index is given.
+		Does not allow for modification.
 */
-template<typename T>
-inline const T &vector<T>::back() const
+template <typename T>
+inline const typename vector<T>::value_type &vector<T>::at(const size_type &index) const
 {
-    return at(sz - 1);
+	if (index >= sz)
+	{
+		throw std::out_of_range(
+			"Error: Accessing out of range index at index: "
+			+ std::to_string(index));
+	}
+
+	pointer element = Container() + index;
+
+	return *element;
 }
 
 /*
-    @summary: Retrieves the element the last element.
+	Appends a value to the back of the array.
 
-    @return <T &>: Returns a reference to the last element.
+	@param <const value_type &value>: Element to append to array.
 */
-template<typename T>
-inline T &vector<T>::back()
+template <typename T>
+inline void vector<T>::push_back(const value_type &value)
 {
-    return at(sz - 1);
+	Resize();
+
+	pointer location = Container() + sz++;
+	new (location) T(value);
 }
 
 /*
-    @summary: Iterator to the beginning of the list.
-
-    @return <vector<T>::iterator>: The iterator.
+	Removes the last element in the array.
 */
-template<typename T>
-inline typename vector<T>::iterator vector<T>::begin()
-{
-    return iterator(data);
-}
-
-/*
-    @summary: Iterator to the beginning of the list.
-
-    @return <vector<T>::iterator>: The iterator.
-*/
-template<typename T>
-inline typename vector<T>::const_iterator vector<T>::begin() const
-{
-    return const_iterator(data);
-}
-
-/*
-    @summary: Iterator to the beginning of the list.
-
-    @return <vector<T>::const_iterator>: The iterator.
-*/
-template<typename T>
-inline typename vector<T>::const_iterator vector<T>::cbegin() const
-{
-    return const_iterator(data);
-}
-
-/*
-    @summary: Iterator to the beginning of the list.
-
-    @return <vector<T>::reverse_iterator>: The iterator.
-*/
-template<typename T>
-inline typename vector<T>::reverse_iterator vector<T>::rbegin()
-{
-    return reverse_iterator(data);
-}
-
-/*
-    @summary: Iterator to the beginning of the list.
-
-    @return <vector<T>::const_reverse_iterator>: The iterator.
-*/
-template<typename T>
-inline typename vector<T>::const_reverse_iterator vector<T>::crbegin() const
-{
-    return const_reverse_iterator(data);
-}
-
-/*
-    @summary: Iterator to the end of the list.
-
-    @return <vector<T>::iterator>: The iterator.
-*/
-template<typename T>
-inline typename vector<T>::iterator vector<T>::end()
-{
-    return iterator(data + sz);
-}
-
-/*
-    @summary: Iterator to the end of the list.
-
-    @return <vector<T>::iterator>: The iterator.
-*/
-template<typename T>
-inline typename vector<T>::const_iterator vector<T>::end() const
-{
-    return const_iterator(data + sz);
-}
-
-/*
-    @summary: Iterator to the end of the list.
-
-    @return <vector<T>::const_iterator>: The iterator.
-*/
-template<typename T>
-inline typename vector<T>::const_iterator vector<T>::cend() const
-{
-    return const_iterator(data + sz);
-}
-
-/*
-    @summary: Iterator to the end of the list.
-
-    @return <vector<T>::reverse_iterator>: The iterator.
-*/
-template<typename T>
-inline typename vector<T>::reverse_iterator vector<T>::rend()
-{
-    return reverse_iterator(data + sz);
-}
-
-/*
-    @summary: Iterator to the end of the list.
-
-    @return <vector<T>::const_reverse_iterator>: The iterator.
-*/
-template<typename T>
-inline typename vector<T>::const_reverse_iterator vector<T>::crend() const
-{
-    return const_reverse_iterator(data + sz);
-}
-
-
-/*
-    @summary: Appends an item to the container. Resizes
-        the container if sz >= cap.
-
-    @param <const T &item>: Item to to append.
-*/
-template<typename T>
-inline vector<T> &vector<T>::operator+=(const T &item)
-{
-    push_back(item);
-}
-
-/*
-    @summary: Appends an item to the container. Resizes
-        the container if sz >= cap.
-
-    @param <const T &item>: Item to to append.
-*/
-template<typename T>
-inline void vector<T>::push_back(const T &item)
-{
-    data = add_entry(data, item, sz, cap);
-}
-
-/*
-    @summary: Removes an item from the container.
-
-    @return <T>: Returns the popped item.
-*/
-template<typename T>
+template <typename T>
 inline void vector<T>::pop_back()
 {
-    remove_last(data, sz, cap);
+	if (sz > 0)
+	{
+		--sz;
+	}
+
+	Resize();
 }
 
 /*
-    @summary: Inserts an item to the container. Resizes the container
-        if sz >= cap.
+	Remove element at specified index.
 
-    @param <int pos>: Position to insert to.
-    @param <const T &item>: Item to insert.
+	@param <const int &index>: Index of element to be
+		removed.
 */
-template<typename T>
-inline void vector<T>::insert(int pos, const T &item)
+template <typename T>
+inline void vector<T>::erase(const size_type &index)
 {
-    if (pos >= sz)
-    {
-        push_back(item);
-    }
-    else
-    {
-        if (sz >= cap)
-        {
-            set_capacity(cap * 2);
-        }
+	//bounds checking
+	if (index >= sz || index < 0)
+	{
+		throw std::out_of_range(
+			"Error: Accessing out of range index at index: "
+			+ std::to_string(index));
+	}
 
-        //shift elements right and insert at pos
-        T *location = data + pos;
-        shift_right((data + sz++) - 1, location);
-        *location = item;
-    }
+	pointer start = Container() + index;
+	pointer end = Container() + sz;
+	//shift elements left
+	ShiftLeft(start, end);
+
+	//remove last element
+	pop_back();
 }
 
 /*
-    @summary: Erases the item at given index. If index >= size of vector,
-        pop_back is used.
+	Inserts a value at specified index.
 
-    @param <int erase_index>: Index of item to erase.
+	@param <const size_type &index>: Index to insert.
+	@param <const value_type &value>: Value to insert.
 */
-template<typename T>
-inline void vector<T>::erase(int erase_index)
+template <typename T>
+inline void vector<T>::insert(const size_type &index, const value_type &value)
 {
-    if (erase_index >= sz)
-    {
-        pop_back();
-    }
-    else
-    {
-        T *location = data + erase_index;
-        shift_left(location, data + sz--);
-    }
+	Resize();
+
+	if (index > sz)
+	{
+		push_back(value);
+	}
+	else
+	{
+		pointer start = Container() + index;
+		pointer end = Container() + sz;
+
+		ShiftRight(start, end);
+
+		pointer location = Container() + index;
+		*location = value;
+
+		++sz;
+	}
 }
 
 /*
-    @summary: Gets the index of the given item.
+	Gets the first index of a given value.
 
-    @param <const T &item>: Item to get the index of.
+	@param <const value_type &value>: Value to search for.
 
-    @return <int>: Returns index of the item.
+	@return <int>: Index of the found value, else -1.
 */
-template<typename T>
-inline int vector<T>::index_of(const T &item)
+template <typename T>
+inline int vector<T>::index_of(const value_type &value)
 {
-    int index = -1;
+	pointer walker = Container();
 
-    search_entry(data, item, sz, index);
+	for (size_type i = 0; i < sz; ++i, ++walker)
+	{
+		if (*walker == value)
+		{
+			return i;
+		}
+	}
 
-    return index;
+	return -1;
 }
 
 /*
-    @summary: Sets the size of the container.
+	Gets the element at the front.
 
-    @param <int size>: Value to set size to.
+	@return <reference >: Reference to allow for modification.
 */
-template<typename T>
-inline void vector<T>::set_size(int size)
+template <typename T>
+inline typename vector<T>::reference vector<T>::front()
 {
-    while (size >= cap)
-    {
-        set_capacity(cap * 2);
-    }
-
-    sz = size;
+	return *Container();
 }
 
 /*
-    @summary: Sets the capacity of the container.
+	Gets the element at the front.
 
-    @param <int capacity>: Value to set capacity to.
+	@return <const value_type & const>: Does not allow for modification.
 */
-template<typename T>
-inline void vector<T>::set_capacity(int capacity)
+template <typename T>
+inline const typename vector<T>::value_type &vector<T>::front() const
 {
-    if (capacity > sz)
-    {
-        cap = capacity;
-
-        T *newData = nullptr;
-
-        newData = allocate(newData, cap);
-        copy_list(newData, data, sz);
-
-        delete[] data;
-
-        data = newData;
-    }
+	return *Container();
 }
 
 /*
-    @summary: Checks if container is empty.
+	Get element at the back.
 
-    @return <bool>: If container is empty return true, else false.
+	@return <reference >: Reference to allow for modification.
 */
+template <typename T>
+inline typename vector<T>::reference vector<T>::back()
+{
+	return *(Container() + sz - 1);
+}
+
+/*
+	Get element at the back.
+
+	@return <const value_type & const>: Reference to allow for modification.
+*/
+template <typename T>
+inline const typename vector<T>::value_type &vector<T>::back() const
+{
+	return *(Container() + sz - 1);
+}
+
+/*
+	Clears the array and calls the destructor for every element
+	in the array.
+*/
+template <typename T>
+inline void vector<T>::clear()
+{
+	while (sz > 0)
+	{
+		pop_back();
+	}
+}
+
+/*
+	Custom Swap function that swaps current class variables with
+	other class.
+
+	@param <Array &other>: Other class to Swap with.
+*/
+template <typename T>
+inline void vector<T>::swap(vector &other)
+{
+	std::swap(sz, other.sz);
+	std::swap(cap, other.cap);
+	std::swap(container, other.container);
+}
+
 template<typename T>
 inline bool vector<T>::empty() const
 {
-    return sz == 0;
+	return sz <= 0;
 }
 
 /*
-    @summary: Overloaded insertion operator to print contents of
-        the container.
+	Overloaded subscript operator.
 
-    @param <ostream &outs>: ostream object to insert into.
-    @param <const Vector<U> &_a>: Container to print.
+	@param <const int &index>: Specifies the index of the element
+		to return.
 
-    @return <ostream &>: The ostream object that was inserted into.
-*/
-template<class U>
-inline std::ostream &operator<<(std::ostream &outs, const vector<U> &_a)
-{
-    for (int i = 0; i < _a.sz; ++i)
-    {
-        outs << _a.at(i) << " ";
-    }
-
-    return outs;
-}
-
-/*
-    @summary: Overloaded equality operator. First checks if sz and cap
-        are the same, if they are checks if the contents are the same.
-
-    @param <const Vector<T> &_a>: Container to compare to.
-
-    @return <bool>: If they are the same, return true, else false.
+	@return <reference >: value_type reference to allow for assignment.
 */
 template <typename T>
-inline bool vector<T>::operator==(const vector<T> &_a)
+inline typename vector<T>::reference vector<T>::operator[](const unsigned int &index)
 {
-    if (sz != _a.sz || cap != _a.cap)
-    {
-        return false;
-    }
+	pointer element = Container() + index;
 
-    for (int i = 0; i < sz; ++i)
-    {
-        if (at(i) != _a.at(i))
-        {
-            return false;
-        }
-    }
-
-    return true;
+	return *element;
 }
 
 /*
-    @summary: Overloaded inequality operator. First checks if sz and cap
-        are the same, if they are checks if the contents are the same.
-
-    @param <const Vector<T> &_a>: Container to compare to.
-
-    @return <bool>: If they are not the same, return true, else false.
+	Increases capacity by a factor of 2 if sz >= capacity and
+	decreases capacity by a factor of 2 if sz <= capacity / 4.
+	When the array is grown or shrunk, the elements are copied over.
 */
-template<typename T>
-inline bool vector<T>::operator!=(const vector<T> &_a)
+template <typename T>
+inline void vector<T>::Resize()
 {
-    if (sz != _a.sz || cap != _a.cap)
-    {
-        return true;
-    }
+	if ((sz <= cap / 4) && cap > 1)
+	{
+		cap /= 2;
+	}
+	else if (sz >= cap)
+	{
+		if (!cap)
+		{
+			cap = 1;
+		}
+		else
+		{
+			cap *= 2;
+		}
+	}
+	else
+	{
+		return;
+	}
 
-    for (int i = 0; i < sz; ++i)
-    {
-        if (at(i) != _a.at(i))
-        {
-            return true;
-        }
-    }
+	char *temp = new char[sizeof(T) * cap];
 
-    return false;
+	char *containerEnd = container + (sizeof(T) * sz);
+	//copy original elements to temp array
+	Copy(container, temp, containerEnd);
+
+	delete[] container;
+
+	container = temp;
 }
 
 /*
-    @summary: Overloaded assignment operator. Makes deep copy of rhs object.
+	Copies elements from source array to destination array.
 
-    @param <const Vector<T> &rhs>: Container to copy.
-
-    @return <Vector<T> &>: Returns reference to this.
+	@param <char *source>: Source array to copy from.
+	@param <char *destination>: Destination array to copy to.
+	@param <const int &sz>: size of the source array.
 */
-template<typename T>
-inline vector<T> &vector<T>::operator=(const vector &rhs)
+template <typename T>
+inline void vector<T>::Copy(const char *source, char *destination, const char *srcEnd)
 {
-    vector temp(rhs);
-    swap(temp);
-
-    return *this;
+	for (const char *i = source; i != srcEnd; ++i)
+	{
+		*destination++ = *i;
+	}
 }
 
 /*
-    @summary: Function to swap contents of two vectors
+	Shifts elements from starting index to the end of array left.
 
-    @param <const Vector<T> &v>: Container to copy.
+	@param <const int &startingIndex>: Index to start from.
 */
-template<typename T>
-inline void vector<T>::swap(vector &v)
+template <typename T>
+inline void vector<T>::ShiftLeft(pointer start, const value_type *end)
 {
-    std::swap(sz, v.sz);
-    std::swap(cap, v.cap);
-    std::swap(data, v.data);
+	for (pointer curr = start, next = curr + 1; curr != end - 1; ++curr, ++next)
+	{
+		*curr = *next;
+	}
 }
 
 /*
-    @summary: Clears the entire vector.
+	Shifts elements from the end of the array to the starting index
+	right.
+
+	@param <const int &startingIndex>: Index to start from.
 */
-template<typename T>
-inline void vector<T>::clear()
+template <typename T>
+inline void vector<T>::ShiftRight(const value_type *start, pointer end)
 {
-    while (sz) { pop_back(); }
+	for (pointer curr = end - 1, next = end; curr != start - 1; --curr, --next)
+	{
+		*next = *curr;
+	}
+}
+
+/*
+	Returns a container pointer casted to pointer .
+*/
+template <typename T>
+inline typename vector<T>::pointer vector<T>::Container() const
+{
+	return reinterpret_cast<pointer>(container);
 }

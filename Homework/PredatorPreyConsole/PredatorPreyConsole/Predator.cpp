@@ -16,7 +16,7 @@
 */
 Predator::Predator(const Settings &settings, const Location &location,
 	char icon)
-	: Creature(settings, location, icon), currEnergy(settings.startEnergy)
+	: Creature(settings, location, icon), eatStep(0)
 {
 	SetType(Type::Predator);
 }
@@ -44,15 +44,11 @@ void Predator::Move(Grid &grid)
 	if (!prey.empty())
 	{
 		index = Utility::RandomNumber(0, prey.size() - 1);
+		delete grid.GetGrid(prey[index]);
+		MoveTo(grid, prey[index]);
+		eatStep = 0;
 
-		if (prey[index].row != -1)
-		{
-			delete grid.GetGrid(prey[index]);
-			MoveTo(grid, prey[index]);
-			
-			if (currEnergy < settings.maxEnergy)
-				++currEnergy;
-		}
+		SetMoved(true);
 	}
 	else
 	{
@@ -61,11 +57,10 @@ void Predator::Move(Grid &grid)
 		if (!blank.empty())
 		{
 			index = Utility::RandomNumber(0, blank.size() - 1);
+			MoveTo(grid, blank[index]);
 
-			if (blank[index].row != -1)
-				MoveTo(grid, blank[index]);
-
-			--currEnergy;
+			++eatStep;
+			SetMoved(true);
 		}
 	}
 }
@@ -95,12 +90,8 @@ void Predator::Breed(Grid &grid)
 			if (!blank.empty())
 			{
 				index = Utility::RandomNumber(0, blank.size() - 1);
-
-				if (blank[index].row != -1)
-				{
-					grid.SetGrid(new Predator(settings, blank[index]), blank[index]);
-					SetBreedStep(0);
-				}
+				grid.SetGrid(new Predator(settings, blank[index]), blank[index]);
+				SetBreedStep(0);
 			}
 		}
 	}
@@ -114,7 +105,7 @@ void Predator::Breed(Grid &grid)
 */
 bool Predator::Kill(Grid &grid)
 {
-	if (currEnergy < settings.startEnergy)
+	if (eatStep >= settings.maxEatStep)
 	{
 		grid.SetGrid(nullptr, GetCurrPos());
 		delete this;

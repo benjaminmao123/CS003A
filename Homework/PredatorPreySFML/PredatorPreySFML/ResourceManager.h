@@ -3,7 +3,8 @@
 #include <string>
 #include <SFML\Graphics.hpp>
 #include <utility>
-#include <unordered_map>
+
+#include "HashMap.h"
 
 #include "Resource.h"
 
@@ -22,7 +23,7 @@ namespace bme
 		T *Get(int id);
 
 	private:
-		std::unordered_map<std::string, Resource *> resources;
+		unordered_map<std::string, Resource *> resources;
 	};
 }
 

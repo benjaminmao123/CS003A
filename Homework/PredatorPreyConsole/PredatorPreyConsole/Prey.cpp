@@ -35,9 +35,8 @@ void Prey::Move(Grid &grid)
 	if (!blank.empty())
 	{
 		index = Utility::RandomNumber(0, blank.size() - 1);
-
-		if (blank[index].row != -1)
-			MoveTo(grid, blank[index]);
+		MoveTo(grid, blank[index]);
+		SetMoved(true);
 	}
 }
 
@@ -66,12 +65,8 @@ void Prey::Breed(Grid &grid)
 			if (!blank.empty())
 			{
 				index = Utility::RandomNumber(0, blank.size() - 1);
-
-				if (blank[index].row != -1)
-				{
-					grid.SetGrid(new Prey(settings, blank[index]), blank[index]);
-					SetBreedStep(0);
-				}
+				grid.SetGrid(new Prey(settings, blank[index]), blank[index]);
+				SetBreedStep(0);
 			}
 		}
 	}

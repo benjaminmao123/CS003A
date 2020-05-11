@@ -1,4 +1,5 @@
 #include <string>
+#include <iostream>
 
 #include "Engine.h"
 #include "Scene.h"
@@ -6,16 +7,14 @@
 #include "GameObject.h"
 #include "PointRenderer.h"
 
-using namespace bme;
-
-class TestScene : public Scene
+class TestScene : public bme::Scene
 {
 public:
-	TestScene(Context &context)
+	TestScene(bme::Context &context)
 		: Scene(context)
 	{
-		go = new GameObject(GetContext(), sf::Vector2f(50, 50), std::string("GameObject 0"));
-		go->AddComponent<PointRenderer>();
+		go = new bme::GameObject(GetContext(), sf::Vector2f(50, 50), std::string("GameObject0"));
+		go->AddComponent<bme::PointRenderer>();
 		AddGameObject(go);
 	}
 
@@ -23,15 +22,15 @@ public:
 	{
 		Scene::Start();
 
-		PointRenderer *pr = go->GetComponent<PointRenderer>();
+		bme::PointRenderer *pr = go->GetComponent<bme::PointRenderer>();
 
 		if (pr)
 			pr->GetPoint().setFillColor(sf::Color::Red);
 	}
 
 private:
-	GameObject *go;
-	GameObject *t;
+	bme::GameObject *go;
+	bme::GameObject *t;
 };
 
 class Application
@@ -52,7 +51,7 @@ public:
 	}
 
 private:
-	Engine engine;
+	bme::Engine engine;
 };
 
 int main()

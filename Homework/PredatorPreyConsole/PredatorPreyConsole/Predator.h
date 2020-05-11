@@ -14,5 +14,5 @@ public:
     virtual bool Kill(Grid &grid) override;
 	
 private:
-	int currEnergy;
+	int eatStep;
 };

@@ -236,9 +236,9 @@ bme::GameObject *bme::GameObject::InstantiateHelper(const GameObject *object) co
 	{
 		clone = new GameObject(context);
 
-		for (int i = 0; i < object->children.size(); ++i)
+		for (const auto &go : object->children)
 		{
-			GameObject *child = InstantiateHelper(object->children[i]);
+			GameObject *child = InstantiateHelper(go);
 			child->parent = clone;
 			clone->children.push_back(child);
 		}
@@ -248,9 +248,4 @@ bme::GameObject *bme::GameObject::InstantiateHelper(const GameObject *object) co
 	}
 
 	return clone;
-}
-
-bme::GameObject *bme::GameObject::InstantiateHelper(const GameObject *object, GameObject *parent) const
-{
-	return nullptr;
 }

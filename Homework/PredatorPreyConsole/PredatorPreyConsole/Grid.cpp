@@ -137,10 +137,7 @@ void Grid::Move()
 
 			if (IsOccupied(loc) && !c->HasMoved() && 
 				c->GetType() == Type::Predator)
-			{
 				c->Move(*this);
-				c->SetMoved(true);
-			}
 		}
 	}
 
@@ -153,10 +150,7 @@ void Grid::Move()
 
 			if (IsOccupied(loc) && !c->HasMoved() &&
 				c->GetType() == Type::Prey)
-			{
 				c->Move(*this);
-				c->SetMoved(true);
-			}
 		}
 	}
 }

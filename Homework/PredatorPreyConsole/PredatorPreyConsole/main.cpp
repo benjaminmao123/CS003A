@@ -46,7 +46,7 @@ void Test()
 
 		grid.Step();
 
-		Utility::ClearConsole();
+		//Utility::ClearConsole();
 		std::cout << grid << std::endl;
 	}
 }

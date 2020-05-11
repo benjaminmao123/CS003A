@@ -2,7 +2,7 @@
 
 #include <SFML\Graphics.hpp>
 
-#include "Vector.h"
+#include "vector.h"
 
 namespace bme
 {
@@ -57,7 +57,6 @@ namespace bme
 
 	private:
 		GameObject *InstantiateHelper(const GameObject *object) const;
-		GameObject *InstantiateHelper(const GameObject *object, GameObject *parent) const;
 
 		template <typename T>
 		T *GetComponentInParent(const GameObject *parent);
@@ -128,9 +127,9 @@ namespace bme
 
 		if (parent)
 		{
-			for (int i = 0; i < parent->components.size(); ++i)
+			for (const auto &c : parent->components)
 			{
-				component = dynamic_cast<T *>(parent->components[i]);
+				component = dynamic_cast<T *>(c);
 
 				if (component)
 					return component;
@@ -149,17 +148,17 @@ namespace bme
 
 		if (!object->children.empty())
 		{
-			for (int i = 0; i < object->children.size(); ++i)
+			for (const auto &go : object->children)
 			{
-				for (int j = 0; j < object->children[i]->components.size(); ++j)
+				for (const auto &c : go->components)
 				{
-					component = dynamic_cast<T *>(object->children[i]->components[j]);
+					component = dynamic_cast<T *>(c);
 
 					if (component)
 						return component;
 				}
 
-				component = GetComponentInChildren<T>(object->children[i]);
+				component = GetComponentInChildren<T>(go);
 			}
 		}
 

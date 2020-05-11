@@ -163,6 +163,9 @@
     <ClCompile Include="Scene.cpp" />
     <ClCompile Include="SceneManager.cpp" />
     <ClCompile Include="Selectable.cpp" />
+    <ClCompile Include="State.cpp" />
+    <ClCompile Include="StateMachine.cpp" />
+    <ClCompile Include="StateTransition.cpp" />
     <ClCompile Include="TextObject.cpp" />
     <ClCompile Include="TextRenderer.cpp" />
     <ClCompile Include="TextureResource.cpp" />
@@ -181,7 +184,9 @@
     <ClInclude Include="EventHandler.h" />
     <ClInclude Include="FontResource.h" />
     <ClInclude Include="GameObject.h" />
+    <ClInclude Include="HashMap.h" />
     <ClInclude Include="InputManager.h" />
+    <ClInclude Include="List.h" />
     <ClInclude Include="PointRenderer.h" />
     <ClInclude Include="Renderer2D.h" />
     <ClInclude Include="Resource.h" />
@@ -189,6 +194,10 @@
     <ClInclude Include="Scene.h" />
     <ClInclude Include="SceneManager.h" />
     <ClInclude Include="Selectable.h" />
+    <ClInclude Include="State.h" />
+    <ClInclude Include="StateCondition.h" />
+    <ClInclude Include="StateMachine.h" />
+    <ClInclude Include="StateTransition.h" />
     <ClInclude Include="TextObject.h" />
     <ClInclude Include="TextRenderer.h" />
     <ClInclude Include="TextureResource.h" />

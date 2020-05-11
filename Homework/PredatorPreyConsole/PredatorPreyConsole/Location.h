@@ -12,6 +12,16 @@
 
 struct Location
 {
+    bool operator==(const Location &rhs) const
+    {
+        return row == rhs.row && col == rhs.col;
+    }
+
+    bool operator!=(const Location &rhs) const
+    {
+        return row != rhs.row && col != rhs.col;
+    }
+
     void SetLocation(int row, int col)
     {
         this->row = row;
