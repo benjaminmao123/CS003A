@@ -25,14 +25,22 @@ int main()
 
 void Test()
 {
-	Settings settings(20);
+	Settings settings(22);
 	settings.preyBreedRate = 3;
 	settings.predBreedRate = 8;
+	bool clear = false;
 
 	Grid grid(settings);
 	grid.FillGrid();
 
 	std::string input;
+
+	char userInput = '\0';
+	std::cout << "Enable Clear Console? (y/n): ";
+	std::cin >> userInput;
+
+	if (userInput == 'y') clear = true;
+	std::cin.ignore();
 	std::cout << grid << std::endl;
 
 	while (true)
@@ -46,7 +54,8 @@ void Test()
 
 		grid.Step();
 
-		//Utility::ClearConsole();
+		if (clear) Utility::ClearConsole();
+
 		std::cout << grid << std::endl;
 	}
 }
