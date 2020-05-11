@@ -38,7 +38,7 @@ Predator::Predator(const Settings &settings, const Location &location,
 */
 void Predator::Move(Grid &grid)
 {
-	vector<Location> prey = FindPreyAdjacent(grid);
+	vector<Location> prey = FindCreatureAdjacent(grid, Type::Prey);
 	int index = 0;
 
 	if (!prey.empty())

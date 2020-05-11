@@ -187,7 +187,7 @@ vector<Location> Creature::FindBlankAdjacent(const Grid &grid)
 
 	@param <const Grid &grid>: The grid object.
 */
-vector<Location> Creature::FindPredatorAdjacent(const Grid &grid)
+vector<Location> Creature::FindCreatureAdjacent(const Grid &grid, Type type)
 {
 	vector<Location> location;
 
@@ -198,32 +198,7 @@ vector<Location> Creature::FindPredatorAdjacent(const Grid &grid)
 			Location loc{ currPos.row + row, currPos.col + col };
 
 			if (grid.IsOccupied(loc) && 
-				grid.GetGrid(loc)->GetType() == Type::Predator)
-				location.push_back(loc);
-		}
-	}
-
-	return location;
-}
-
-/*
-	@summary: Generates a list of spots occupied by
-		prey adjacent to creature.
-
-	@param <const Grid &grid>: The grid object.
-*/
-vector<Location> Creature::FindPreyAdjacent(const Grid &grid)
-{
-	vector<Location> location;
-
-	for (int row = -1; row <= 1; ++row)
-	{
-		for (int col = -2; col <= 2; ++col)
-		{
-			Location loc{ currPos.row + row, currPos.col + col };
-
-			if (grid.IsOccupied(loc) &&
-				grid.GetGrid(loc)->GetType() == Type::Prey)
+				grid.GetGrid(loc)->GetType() == type)
 				location.push_back(loc);
 		}
 	}
