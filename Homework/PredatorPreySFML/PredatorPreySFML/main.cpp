@@ -1,11 +1,7 @@
 #include <string>
 #include <iostream>
 
-#include "Engine.h"
-#include "Scene.h"
-#include "Context.h"
-#include "GameObject.h"
-#include "PointRenderer.h"
+#include "BMEngine.h"
 
 class TestScene : public bme::Scene
 {
@@ -14,7 +10,7 @@ public:
 		: Scene(context)
 	{
 		go = new bme::GameObject(GetContext(), sf::Vector2f(50, 50), std::string("GameObject0"));
-		go->AddComponent<bme::PointRenderer>();
+		go->AddComponent<bme::Point>();
 		AddGameObject(go);
 	}
 
@@ -22,7 +18,7 @@ public:
 	{
 		Scene::Start();
 
-		bme::PointRenderer *pr = go->GetComponent<bme::PointRenderer>();
+		bme::Point *pr = go->GetComponent<bme::Point>();
 
 		if (pr)
 			pr->GetPoint().setFillColor(sf::Color::Red);
@@ -30,7 +26,6 @@ public:
 
 private:
 	bme::GameObject *go;
-	bme::GameObject *t;
 };
 
 class Application

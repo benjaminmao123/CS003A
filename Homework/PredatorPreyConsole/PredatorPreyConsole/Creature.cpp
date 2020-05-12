@@ -9,6 +9,7 @@
 
 #include <random>
 #include <algorithm>
+#include <iostream>
 
 #include "Creature.h"
 #include "Grid.h"
