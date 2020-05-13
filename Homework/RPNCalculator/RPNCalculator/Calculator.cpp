@@ -10,6 +10,7 @@
 #include "Division.h"
 #include "LeftParenthesis.h"
 #include "RightParenthesis.h"
+#include "Exponent.h"
 
 /*
 	@summary: Default constructor. Initializes
@@ -23,12 +24,14 @@ Calculator::Calculator()
 	validOpsChar.push_back('/');
 	validOpsChar.push_back('(');
 	validOpsChar.push_back(')');
+	validOpsChar.push_back('^');
 	validOpsString.push_back("+");
 	validOpsString.push_back("-");
 	validOpsString.push_back("*");
 	validOpsString.push_back("/");
 	validOpsString.push_back("(");
 	validOpsString.push_back(")");
+	validOpsString.push_back("^");
 }
 
 /*
@@ -72,13 +75,9 @@ void Calculator::Run()
 			std::getline(std::cin, input);
 
 			if (!ParseExpression())
-			{
 				std::cout << "Error: Enter a correct expression." << std::endl;
-			}
 			else
-			{
-				std::cout << "Result: " << result.top()->Evaluate() << std::endl;
-			}
+				Print();
 			break;
 		default:
 			break;
@@ -99,13 +98,9 @@ bool Calculator::ParseExpression()
 	Clear();
 
 	if (FormatInput() && ParseInput())
-	{
 		Evaluate();
-	}
 	else
-	{
 		return false;
-	}
 
 	return true;
 }
@@ -124,9 +119,7 @@ bool Calculator::FormatInput()
 	for (auto it = input.begin(); it != input.end(); ++it)
 	{
 		if (!isdigit(*it) && (validOpsChar.index_of(*it) == -1) && *it != '.' && *it != ' ')
-		{
 			return false;
-		}
 
 		if (validOpsChar.index_of(*it) != -1)
 		{
@@ -145,7 +138,7 @@ bool Calculator::FormatInput()
 */
 bool Calculator::ParseInput()
 {
-	stack<Operator *> operators;
+	stack<Token *> tokens;
 
 	std::istringstream iss(input);
 	std::string temp;
@@ -154,48 +147,49 @@ bool Calculator::ParseInput()
 	{
 		if (validOpsString.index_of(temp) != -1)
 		{
-			Operator *op = nullptr;
+			Token *token = nullptr;
 
-			if (temp == "+") op = new Addition();
-			else if (temp == "-") op = new Subtraction();
-			else if (temp == "*") op = new Multiplication();
-			else if (temp == "/") op = new Division();
-			else if (temp == "(") op = new LeftParenthesis();
-			else if (temp == ")") op = new RightParenthesis();
+			if (temp == "+") token = new Addition();
+			else if (temp == "-") token = new Subtraction();
+			else if (temp == "*") token = new Multiplication();
+			else if (temp == "/") token = new Division();
+			else if (temp == "(") token = new LeftParenthesis();
+			else if (temp == ")") token = new RightParenthesis();
+			else if (temp == "^") token = new Exponent();
 
-			if (op)
+			if (token)
 			{
-				if (!operators.empty())
+				if (!tokens.empty())
 				{
-					if (op->TokenString() != "(" && op->TokenString() != ")")
+					if (token->TokenString() != "(" && token->TokenString() != ")")
 					{
-						if (op->Precendence() <= operators.top()->Precendence())
+						Operator *op = dynamic_cast<Operator *>(token);
+						Operator *top = dynamic_cast<Operator *>(tokens.top());
+
+						if (op && top)
 						{
-							while (!operators.empty() && operators.top()->TokenString() != "(")
+							if (op->Precedence() <= top->Precedence())
 							{
-								postfix.push(operators.pop());
+								while (!tokens.empty() && tokens.top()->TokenString() != "(")
+									postfix.push(tokens.pop());
 							}
 						}
 					}
-					else if (op->TokenString() == ")")
+					else if (token->TokenString() == ")")
 					{
-						while (!operators.empty() && operators.top()->TokenString() != "(")
-						{
-							postfix.push(operators.pop());
-						}
+						while (!tokens.empty() && tokens.top()->TokenString() != "(")
+							postfix.push(tokens.pop());
 
-						if (!operators.empty() && operators.top()->TokenString() == "(")
+						if (!tokens.empty() && tokens.top()->TokenString() == "(")
 						{
-							delete operators.top();
-							operators.pop();
+							delete tokens.top();
+							tokens.pop();
 						}
 					}
 				}
 
-				if (op->TokenString() != ")")
-				{
-					operators.push(op);
-				}
+				if (token->TokenString() != ")")
+					tokens.push(token);
 			}
 		}
 		else
@@ -205,18 +199,14 @@ bool Calculator::ParseInput()
 		}
 	}
 
-	if (!operators.empty())
+	if (!tokens.empty())
 	{
-		if (operators.top()->TokenString() == "(" || operators.top()->TokenString() == ")")
-		{
+		if (tokens.top()->TokenString() == "(" || tokens.top()->TokenString() == ")")
 			return false;
-		}
 	}
 
-	while (!operators.empty())
-	{
-		postfix.push(operators.pop());
-	}
+	while (!tokens.empty())
+		postfix.push(tokens.pop());
 
 	return true;
 }
@@ -226,7 +216,7 @@ bool Calculator::ParseInput()
 */
 void Calculator::Evaluate()
 {
-	for (auto &i : postfix)
+	for (const auto &i : postfix)
 	{
 		if (validOpsString.index_of(i->TokenString()) != -1)
 		{
@@ -239,6 +229,7 @@ void Calculator::Evaluate()
 			else if (i->TokenString() == "-") op = new Subtraction();
 			else if (i->TokenString() == "*") op = new Multiplication();
 			else if (i->TokenString() == "/") op = new Division();
+			else if (i->TokenString() == "^") op = new Exponent();
 
 			op->Left(left->Evaluate());
 			op->Right(right->Evaluate());
@@ -246,9 +237,7 @@ void Calculator::Evaluate()
 			result.push(op);
 		}
 		else
-		{
 			result.push(i);
-		}
 	}
 }
 
@@ -276,4 +265,14 @@ void Calculator::Clear()
 
 	result.swap(s);
 	result.push(new Operand());
+}
+
+void Calculator::Print() const
+{
+	std::cout << "Postfix: ";
+	for (auto &i : postfix)
+		std::cout << i->TokenString() << " ";
+	std::cout << std::endl;
+
+	std::cout << "Result: " << result.top()->Evaluate() << std::endl;
 }

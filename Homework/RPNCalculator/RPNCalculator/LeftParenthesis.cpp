@@ -15,7 +15,6 @@
 */
 LeftParenthesis::LeftParenthesis()
 {
-	Precedence(0);
 	TokenString("(");
 }
 

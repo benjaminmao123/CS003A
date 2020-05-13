@@ -9,7 +9,7 @@ public:
 	Operator(const Operand &lhs = Operand(), const Operand &rhs = Operand());
 	virtual double Evaluate() = 0;
 	
-	int Precendence() const;
+	int Precedence() const;
 	const Operand &Left() const;
 	void Left(double value);
 	const Operand &Right() const;

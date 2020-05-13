@@ -2,6 +2,7 @@
 #include <iostream>
 
 #include "BMEngine.h"
+#include "Movement.h"
 
 class TestScene : public bme::Scene
 {
@@ -11,6 +12,7 @@ public:
 	{
 		go = new bme::GameObject(GetContext(), sf::Vector2f(50, 50), std::string("GameObject0"));
 		go->AddComponent<bme::Point>();
+		go->AddComponent<Movement>();
 		AddGameObject(go);
 	}
 

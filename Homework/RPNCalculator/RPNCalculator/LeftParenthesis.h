@@ -2,7 +2,7 @@
 
 #include "Operator.h"
 
-class LeftParenthesis : public Operator
+class LeftParenthesis : public Token
 {
 public:
 	LeftParenthesis();

@@ -141,6 +141,7 @@
     <ClCompile Include="Addition.cpp" />
     <ClCompile Include="Calculator.cpp" />
     <ClCompile Include="Division.cpp" />
+    <ClCompile Include="Exponent.cpp" />
     <ClCompile Include="LeftParenthesis.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Multiplication.cpp" />
@@ -155,6 +156,7 @@
     <ClInclude Include="ArrayLibrary.h" />
     <ClInclude Include="Calculator.h" />
     <ClInclude Include="Division.h" />
+    <ClInclude Include="Exponent.h" />
     <ClInclude Include="IteratedList.h" />
     <ClInclude Include="LeftParenthesis.h" />
     <ClInclude Include="LinkedListLibrary.h" />

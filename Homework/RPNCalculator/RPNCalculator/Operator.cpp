@@ -27,7 +27,7 @@ Operator::Operator(const Operand &lhs, const Operand &rhs)
 
     @return <int>: The precedence member.
 */
-int Operator::Precendence() const
+int Operator::Precedence() const
 {	
 	return precedence;
 }
