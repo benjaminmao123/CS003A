@@ -6,7 +6,7 @@
 #define DLLEXPORT __declspec(dllimport)  
 #endif
 
-#include <SFML\System.hpp>
+#include <SFML\Graphics.hpp>
 
 namespace bme
 {

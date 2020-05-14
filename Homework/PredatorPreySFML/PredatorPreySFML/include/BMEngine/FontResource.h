@@ -6,20 +6,21 @@
 #define DLLEXPORT __declspec(dllimport)  
 #endif
 
-#include <SFML\Audio.hpp>
+#include <SFML\Graphics.hpp>
+#include <string>
 
 #include "Resource.h"
 
 namespace bme
 {
-	class DLLEXPORT SoundResource : public Resource
+	class DLLEXPORT FontResource : public Resource
 	{
 	public:
 		virtual bool Load(const std::string &path) override;
 
-		const sf::SoundBuffer &Get() const;
-
+		const sf::Font &Get() const;
+		
 	private:
-		sf::SoundBuffer buffer;
+		sf::Font font;
 	};
 }

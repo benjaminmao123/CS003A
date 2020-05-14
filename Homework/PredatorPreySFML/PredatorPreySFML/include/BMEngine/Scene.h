@@ -25,11 +25,15 @@ namespace bme
 		DLLEXPORT virtual void LateUpdate();
 		DLLEXPORT virtual void Render();
 
-		DLLEXPORT void AddGameObject(GameObject *gameObject);
+		DLLEXPORT void AddGameObject(GameObject *object);
 		DLLEXPORT Context &GetContext();
 
 	private:
+		void AddRenderable(GameObject *object);
+		void AddRenderableChildren(GameObject *object);
+
 		Context &context;
 		std::vector<GameObject *> gameObjects;
+		std::vector<GameObject *> renderables;
 	};
 }

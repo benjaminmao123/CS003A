@@ -7,9 +7,9 @@
 #endif
 
 #include <SFML\Audio.hpp>
+#include <string>
 
 #include "Component.h"
-#include "ResourceManager.h"
 
 namespace bme
 {

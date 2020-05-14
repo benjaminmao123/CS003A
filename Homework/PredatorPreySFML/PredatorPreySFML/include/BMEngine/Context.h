@@ -24,7 +24,7 @@ namespace bme
 
 		sf::RenderWindow &GetWindow();
 		SceneManager &GetSceneManager();
-		const TimeManager &GetTime() const;
+		const TimeManager &GetTimeManager() const;
 		InputManager &GetInputManager();
 		ResourceManager &GetResourceManager();
 

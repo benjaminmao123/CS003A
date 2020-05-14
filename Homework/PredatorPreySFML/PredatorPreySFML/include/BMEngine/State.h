@@ -6,9 +6,8 @@
 #define DLLEXPORT __declspec(dllimport)  
 #endif
 
+#include <vector>
 #include <string>
-
-#include "Vector.h"
 
 namespace bme
 {
@@ -34,6 +33,6 @@ namespace bme
 		std::string name;
 		int id;
 		static int nextID;
-		vector<StateTransition> transitions;
+		std::vector<StateTransition> transitions;
 	};
 }

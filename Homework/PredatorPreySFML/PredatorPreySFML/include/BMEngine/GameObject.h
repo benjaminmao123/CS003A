@@ -7,8 +7,8 @@
 #endif
 
 #include <SFML\Graphics.hpp>
-
-#include "Vector.h"
+#include <string>
+#include <vector>
 
 namespace bme
 {
@@ -37,8 +37,9 @@ namespace bme
 
 		void AddChild(GameObject *object);
 		GameObject *GetChild(const std::string &name);
-		static GameObject *Instantiate(const GameObject *object);
-		static GameObject *Instantiate(const GameObject *object, GameObject *parent);
+		static GameObject *Instantiate(GameObject *object);
+		static GameObject *Instantiate(GameObject *object, GameObject *parent);
+		static void Destroy(GameObject *&object, float waitTime = 0);
 
 		template <typename T>
 		T *GetComponent();
@@ -57,20 +58,22 @@ namespace bme
 		void SetIsEnabled(bool state);
 		const std::string &GetName() const;
 		void SetName(const std::string &name);
+		const std::vector<GameObject *> &GetChildren() const;
 
 	protected:
 		Context &GetContext();
 
 	private:
-		GameObject *InstantiateHelper(const GameObject *object) const;
+		static GameObject *InstantiateHelper(GameObject *object);
+		static void DestroyHelper(GameObject *&object, float waitTime = 0);
 
 		template <typename T>
 		T *GetComponentInParent(const GameObject *parent);
 		template <typename T>
 		T *GetComponentInChildren(const GameObject *object);
 
-		vector<Component *> components;
-		vector<GameObject *> children;
+		std::vector<Component *> components;
+		std::vector<GameObject *> children;
 		Context &context;
 		GameObject *parent;
 		sf::Transform transform;
@@ -82,14 +85,20 @@ namespace bme
 		static int nextID;
 	};
 	
+	/// <summary>
+	///		Retrieves the Component of the given type.
+	/// </summary>
+	///	<returns>
+	///		Pointer to the retrieved Component.
+	///	</returns>
 	template<typename T>
 	inline T *GameObject::GetComponent()
 	{
 		T *component = nullptr;
 
-		for (const auto &i : components)
+		for (const auto &c : components)
 		{
-			component = dynamic_cast<T *>(i);
+			component = dynamic_cast<T *>(c);
 
 			if (component)
 				break;
@@ -98,27 +107,50 @@ namespace bme
 		return component;
 	}
 	
+	/// <summary>
+	///		Recursively Retrieves the Component of the given 
+	///		type in parent.
+	/// </summary>
+	///	<returns>
+	///		Pointer to the retrieved Component.
+	///	</returns>
 	template<typename T>
 	inline T *GameObject::GetComponentInParent()
 	{
 		return GetComponentInParent<T>(this);
 	}
 	
+	/// <summary>
+	///		Recursively Retrieves the Component of the given 
+	///		type in children.
+	/// </summary>
+	///	<returns>
+	///		Pointer to the retrieved Component.
+	///	</returns>
 	template<typename T>
 	inline T *GameObject::GetComponentInChildren()
 	{
 		return GetComponentInChildren<T>(this);
 	}
 	
+	/// <summary>
+	///		Adds a Component to the GameObject and returns
+	///		the Component. Throws an error if a duplicate exists.
+	/// </summary>
+	/// <param name="...types">
+	///		Takes an arbitrary amount of arguments.
+	///	<returns>
+	///		Pointer to the added Component.
+	///	</returns>
 	template<typename T, typename ...Types>
 	inline T *GameObject::AddComponent(Types & ...types)
 	{
 		static_assert(std::is_base_of<Component, T>::value,
 			"T must derive from component!");
 
-		for (const auto &i : components)
+		for (const auto &c : components)
 		{
-			if (dynamic_cast<T *>(i))
+			if (dynamic_cast<T *>(c))
 				throw std::invalid_argument("Component already exists!");
 		}
 
@@ -128,6 +160,15 @@ namespace bme
 		return component;
 	}
 	
+	/// <summary>
+	///		Helper function that retrieves a Component in the 
+	///		parent GameObject 
+	/// </summary>
+	/// <param name="parent">
+	///		The parent GameObject.
+	///	<returns>
+	///		Pointer to the retrieved Component.
+	///	</returns>
 	template<typename T>
 	inline T *GameObject::GetComponentInParent(const GameObject *parent)
 	{
@@ -149,6 +190,15 @@ namespace bme
 		return component;
 	}
 	
+	/// <summary>
+	///		Helper function that retrieves a Component in the 
+	///		children GameObjects.
+	/// </summary>
+	/// <param name="object">
+	///		The child GameObject.
+	///	<returns>
+	///		Pointer to the retrieved Component.
+	///	</returns>
 	template<typename T>
 	inline T *GameObject::GetComponentInChildren(const GameObject *object)
 	{

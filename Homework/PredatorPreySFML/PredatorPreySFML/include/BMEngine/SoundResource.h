@@ -12,14 +12,14 @@
 
 namespace bme
 {
-	class DLLEXPORT TextureResource : public Resource
+	class DLLEXPORT SoundResource : public Resource
 	{
 	public:
 		virtual bool Load(const std::string &path) override;
 
-		const sf::Texture &Get() const;
+		const sf::SoundBuffer &Get() const;
 
 	private:
-		sf::Texture texture;
+		sf::SoundBuffer buffer;
 	};
 }

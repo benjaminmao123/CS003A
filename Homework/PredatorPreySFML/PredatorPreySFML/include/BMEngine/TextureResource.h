@@ -7,19 +7,20 @@
 #endif
 
 #include <SFML\Graphics.hpp>
+#include <string>
 
 #include "Resource.h"
 
 namespace bme
 {
-	class DLLEXPORT FontResource : public Resource
+	class DLLEXPORT TextureResource : public Resource
 	{
 	public:
 		virtual bool Load(const std::string &path) override;
 
-		const sf::Font &Get() const;
-		
+		const sf::Texture &Get() const;
+
 	private:
-		sf::Font font;
+		sf::Texture texture;
 	};
 }

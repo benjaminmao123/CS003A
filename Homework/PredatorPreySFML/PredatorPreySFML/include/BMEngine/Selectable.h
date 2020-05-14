@@ -16,6 +16,7 @@ namespace bme
 	{
 	public:
 		Selectable();
+		virtual ~Selectable();
 
 		void SetNormalColor(const sf::Color &color);
 		void SetPressedColor(const sf::Color &color);

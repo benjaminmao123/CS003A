@@ -19,20 +19,20 @@ namespace bme
 		Component(GameObject *owner, Context &context);
 		virtual ~Component();
 
-		virtual void Awake();
-		virtual void Start();
+		void OnAwake();
+		void OnStart();
 		virtual void Update();
 		virtual void LateUpdate();
-		virtual void Render();
 		virtual Component *Clone(GameObject *owner) = 0;
 
 		bool GetIsEnabled() const;
 		void SetIsEnabled(bool state);
-		bool IsAwakeCalled() const;
-		bool IsStartCalled() const;
 		int GetExecutionOrder() const;
 
 	protected:
+		virtual void Awake();
+		virtual void Start();
+
 		void SetExecutionOrder(int value);
 		GameObject *GetOwner();
 		sf::Transformable &GetTransformable();

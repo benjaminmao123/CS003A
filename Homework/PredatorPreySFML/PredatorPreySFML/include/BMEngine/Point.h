@@ -15,12 +15,14 @@ namespace bme
 	class DLLEXPORT Point : public Renderer2D
 	{
 	public:
-		Point(GameObject *owner, Context &context);
+		Point(GameObject *owner, Context &context, int zOrder = 0);
 
-		virtual void Render() override;
 		virtual Point *Clone(GameObject *owner) override;
 
 		sf::CircleShape &GetPoint();
+
+	protected:
+		virtual void Render() override;
 
 	private:
 		sf::CircleShape point;
