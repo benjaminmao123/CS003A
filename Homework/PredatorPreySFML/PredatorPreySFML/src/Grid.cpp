@@ -61,9 +61,9 @@ void Grid::FillGrid()
 			Creature *&c = grid[row][col];
 
 			if (!col || col == settings.maxCols - 1)
-				c = new Wall(settings, Location{ row, col }, 'Z');
+				c = new Wall(settings, Location{ row, col });
 			else if (!row || row == settings.maxRows - 1)
-				c = new Wall(settings, Location{ row, col }, 'Z');
+				c = new Wall(settings, Location{ row, col });
 		}
 	}
 
@@ -253,6 +253,24 @@ bool Grid::IsOccupied(const Location &loc) const
 void Grid::SetGrid(Creature *creature, const Location &loc)
 {
 	grid[loc.row][loc.col] = creature;
+}
+
+void Grid::Draw(sf::RenderWindow &window) const
+{
+	for (int row = 0; row < settings.maxRows; ++row)
+	{
+		for (int col = 0; col < settings.maxCols; ++col)
+		{
+			Location loc{ row, col };
+
+			if (IsOccupied(loc))
+			{
+				Creature *c = grid[row][col];
+				c->setPosition(col * 16, row * 16);
+				c->draw(window, c->getTransform());
+			}
+		}
+	}
 }
 
 /*

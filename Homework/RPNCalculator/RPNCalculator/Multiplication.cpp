@@ -18,6 +18,7 @@ Multiplication::Multiplication(const Operand &lhs, const Operand &rhs)
 {
 	Precedence(2);
 	TokenString("*");
+    SetTokenType(TokenType::Mult);
 }
 
 /*

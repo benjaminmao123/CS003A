@@ -16,6 +16,7 @@
 LeftParenthesis::LeftParenthesis()
 {
 	TokenString("(");
+    SetTokenType(TokenType::LParenth);
 }
 
 /*

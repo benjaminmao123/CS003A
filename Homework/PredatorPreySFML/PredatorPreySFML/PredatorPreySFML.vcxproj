@@ -19,13 +19,34 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="include\MainScene.h" />
-    <ClInclude Include="include\Movement.h" />
+    <ClInclude Include="include\animate.h" />
+    <ClInclude Include="include\ArrayLibrary.h" />
+    <ClInclude Include="include\constants.h" />
+    <ClInclude Include="include\Creature.h" />
+    <ClInclude Include="include\Grid.h" />
+    <ClInclude Include="include\Location.h" />
+    <ClInclude Include="include\Predator.h" />
+    <ClInclude Include="include\Prey.h" />
+    <ClInclude Include="include\random.h" />
+    <ClInclude Include="include\Settings.h" />
+    <ClInclude Include="include\sidebar.h" />
+    <ClInclude Include="include\system.h" />
+    <ClInclude Include="include\Utility.h" />
+    <ClInclude Include="include\Vector.h" />
+    <ClInclude Include="include\Wall.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\animate.cpp" />
+    <ClCompile Include="src\Creature.cpp" />
+    <ClCompile Include="src\Grid.cpp" />
     <ClCompile Include="src\main.cpp" />
-    <ClCompile Include="src\MainScene.cpp" />
-    <ClCompile Include="src\Movement.cpp" />
+    <ClCompile Include="src\Predator.cpp" />
+    <ClCompile Include="src\Prey.cpp" />
+    <ClCompile Include="src\random.cpp" />
+    <ClCompile Include="src\sidebar.cpp" />
+    <ClCompile Include="src\system.cpp" />
+    <ClCompile Include="src\Utility.cpp" />
+    <ClCompile Include="src\Wall.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
@@ -108,13 +129,13 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(ProjectDir)\include;$(ProjectDir)\include\BMEngine;$(ProjectDir)\include\BMEngine\SFML;$(ProjectDir)\include\BMEngine\SFML;$(ProjectDir)\include\BMEngine;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)\include\SFML;$(ProjectDir)\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>$(ProjectDir)\lib;%(ProjectDir)\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>$(ProjectDir)\lib\sfml-audio-d.lib;$(ProjectDir)\lib\sfml-graphics-d.lib;$(ProjectDir)\lib\sfml-main-d.lib;$(ProjectDir)\lib\sfml-network-d.lib;$(ProjectDir)\lib\sfml-system-d.lib;$(ProjectDir)\lib\sfml-window-d.lib;$(ProjectDir)\lib\BMEngine-d.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>$(ProjectDir)\lib\sfml-audio-d.lib;$(ProjectDir)\lib\sfml-graphics-d.lib;$(ProjectDir)\lib\sfml-main-d.lib;$(ProjectDir)\lib\sfml-network-d.lib;$(ProjectDir)\lib\sfml-system-d.lib;$(ProjectDir)\lib\sfml-window-d.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -141,7 +162,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(ProjectDir)\include;$(ProjectDir)\include\BMEngine;$(ProjectDir)\include\BMEngine\SFML;$(ProjectDir)\include\SFML;$(ProjectDir)\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)\include;$(ProjectDir)\include\SFML</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>

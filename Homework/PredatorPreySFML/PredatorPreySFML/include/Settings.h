@@ -14,7 +14,7 @@
 struct Settings
 {
     Settings(int rows)
-        : maxRows(std::max(20, rows)), maxCols(maxRows)
+        : maxRows(std::max(20, rows)), maxCols(maxRows * 2 - 1)
     {
 
     }

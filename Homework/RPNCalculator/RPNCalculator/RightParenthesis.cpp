@@ -16,6 +16,7 @@
 RightParenthesis::RightParenthesis()
 {
 	TokenString(")");
+    SetTokenType(TokenType::RParenth);
 }
 
 /*

@@ -1,35 +1,31 @@
-#include <string>
+/*
+ * Author: Benjamin Mao
+ * Project: Predator/Prey
+ * Purpose: Entry point to the Grid class.
+ *
+ * Notes: None.
+ */
+
 #include <iostream>
-#include <SFML\Graphics.hpp>
+#include <string>
+#include <cstdlib>
 
-#include "BMEngine.h"
-#include "MainScene.h"
+#include "Settings.h"
+#include "Utility.h"
+#include "animate.h"
 
-class Application
-{
-public:
-	Application(int32_t width, int32_t height, 
-				const std::string &name, const sf::Color &color)
-		: engine(width, height, name, color)
-	{
-
-	}
-
-	void Start()
-	{
-		engine.AddScene(new MainScene(engine.GetContext()));
-
-		engine.Start();
-	}
-
-private:
-	bme::Engine engine;
-};
+void Test();
 
 int main()
 {
-	Application app(800, 600, "Predator and Prey", sf::Color::Black);
-	app.Start();
+	Test();
 
 	return 0;
+}
+
+void Test()
+{
+	animate game;
+	game.run();
+	cout << endl << endl << "------ MAIN EXITING --------------------------" << endl;
 }

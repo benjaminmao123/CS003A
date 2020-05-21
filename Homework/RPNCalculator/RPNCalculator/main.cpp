@@ -9,7 +9,7 @@
 
 #include <iostream>
 
-#include "Calculator.h"
+#include "ShuntingYard.h"
 
 void Test();
 
@@ -22,6 +22,33 @@ int main()
 
 void Test()
 {
-    Calculator calc;
-    calc.Run();
+	char menuInput = '\0';
+	std::string input;
+	ShuntingYard sy;
+
+	while (menuInput != 'x')
+	{
+		std::cout << "[E]xpression E[x]it: ";
+		std::cin >> menuInput;
+		menuInput = tolower(menuInput);
+
+		switch (menuInput)
+		{
+		case 'e':
+			std::cin.ignore(1000, '\n');
+			std::cout << "Enter an infix string: ";
+			std::getline(std::cin, input);
+
+			sy.SetInput(input);
+
+			if (!sy.ParseExpression())
+				std::cout << "Error: Enter a correct expression." << std::endl;
+			else
+				std::cout << sy;
+		default:
+			break;
+		}
+
+		std::cout << std::endl;
+	}
 }

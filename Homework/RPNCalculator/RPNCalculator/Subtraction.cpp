@@ -18,6 +18,7 @@ Subtraction::Subtraction(const Operand &lhs, const Operand &rhs)
 {
 	Precedence(1);
 	TokenString("-");
+    SetTokenType(TokenType::Sub);
 }
 
 /*

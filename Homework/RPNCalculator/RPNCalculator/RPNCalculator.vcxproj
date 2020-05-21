@@ -99,6 +99,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>$(ProjectDir)\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -129,6 +130,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>$(ProjectDir)\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -138,23 +140,9 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Addition.cpp" />
-    <ClCompile Include="Calculator.cpp" />
-    <ClCompile Include="Division.cpp" />
-    <ClCompile Include="Exponent.cpp" />
-    <ClCompile Include="LeftParenthesis.cpp" />
-    <ClCompile Include="main.cpp" />
-    <ClCompile Include="Multiplication.cpp" />
-    <ClCompile Include="Operand.cpp" />
-    <ClCompile Include="Operator.cpp" />
-    <ClCompile Include="RightParenthesis.cpp" />
-    <ClCompile Include="Subtraction.cpp" />
-    <ClCompile Include="Token.cpp" />
-  </ItemGroup>
-  <ItemGroup>
     <ClInclude Include="Addition.h" />
     <ClInclude Include="ArrayLibrary.h" />
-    <ClInclude Include="Calculator.h" />
+    <ClInclude Include="ShuntingYard.h" />
     <ClInclude Include="Division.h" />
     <ClInclude Include="Exponent.h" />
     <ClInclude Include="IteratedList.h" />
@@ -172,6 +160,20 @@
     <ClInclude Include="Vector.h" />
     <ClInclude Include="z_output.h" />
     <ClInclude Include="z_work_report.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Addition.cpp" />
+    <ClCompile Include="ShuntingYard.cpp" />
+    <ClCompile Include="Division.cpp" />
+    <ClCompile Include="Exponent.cpp" />
+    <ClCompile Include="LeftParenthesis.cpp" />
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="Multiplication.cpp" />
+    <ClCompile Include="Operand.cpp" />
+    <ClCompile Include="Operator.cpp" />
+    <ClCompile Include="RightParenthesis.cpp" />
+    <ClCompile Include="Subtraction.cpp" />
+    <ClCompile Include="Token.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

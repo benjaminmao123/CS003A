@@ -9,7 +9,6 @@
 
 #include <random>
 #include <algorithm>
-#include <iostream>
 
 #include "Creature.h"
 #include "Grid.h"
@@ -19,11 +18,11 @@
 		Initializes creature settings and location.
 */
 Creature::Creature(const Settings &settings, const Location &location,
-	char icon)
+	sf::Shape *icon, const sf::Color &color)
 	: currPos(location), type(Type::None), hasMoved(false), 
 	breedStep(0), settings(settings), icon(icon)
 {
-
+	icon->setFillColor(color);
 }
 
 /*
@@ -66,6 +65,11 @@ void Creature::Breed(Grid &grid)
 bool Creature::Kill(Grid &grid)
 {
 	return false;
+}
+
+void Creature::draw(sf::RenderTarget &target, sf::RenderStates states) const
+{
+	target.draw(*icon, states);
 }
 
 /*
@@ -114,7 +118,7 @@ void Creature::SetMoved(bool state)
 
 	@return <char>: Icon of the creature.
 */
-char Creature::GetIcon() const
+const sf::Shape *Creature::GetIcon() const
 {
 	return icon;
 }
