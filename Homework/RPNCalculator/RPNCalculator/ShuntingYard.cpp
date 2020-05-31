@@ -156,7 +156,7 @@ bool ShuntingYard::ToPostfix()
 						}
 					}
 
-				if (token->GetTokenType() == TokenType::RParenth)
+				if (token->GetTokenType() != TokenType::RParenth)
 					tokens.push(token);
 			}
 		}

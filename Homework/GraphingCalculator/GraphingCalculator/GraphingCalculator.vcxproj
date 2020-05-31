@@ -19,34 +19,51 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="include\animate.h" />
+    <ClInclude Include="include\Animate.h" />
     <ClInclude Include="include\ArrayLibrary.h" />
-    <ClInclude Include="include\constants.h" />
-    <ClInclude Include="include\Creature.h" />
-    <ClInclude Include="include\Grid.h" />
-    <ClInclude Include="include\Location.h" />
-    <ClInclude Include="include\Predator.h" />
-    <ClInclude Include="include\Prey.h" />
-    <ClInclude Include="include\random.h" />
-    <ClInclude Include="include\Settings.h" />
-    <ClInclude Include="include\sidebar.h" />
-    <ClInclude Include="include\system.h" />
+    <ClInclude Include="include\Constants.h" />
+    <ClInclude Include="include\Event.h" />
+    <ClInclude Include="include\EventHandler.h" />
+    <ClInclude Include="include\Function.h" />
+    <ClInclude Include="include\Graph.h" />
+    <ClInclude Include="include\InputManager.h" />
+    <ClInclude Include="include\IteratedList.h" />
+    <ClInclude Include="include\LinkedListLibrary.h" />
+    <ClInclude Include="include\Operand.h" />
+    <ClInclude Include="include\Operator.h" />
+    <ClInclude Include="include\Plot.h" />
+    <ClInclude Include="include\Queue.h" />
+    <ClInclude Include="include\RPN.h" />
+    <ClInclude Include="include\ShuntingYard.h" />
+    <ClInclude Include="include\Sidebar.h" />
+    <ClInclude Include="include\Stack.h" />
+    <ClInclude Include="include\System.h" />
+    <ClInclude Include="include\Token.h" />
+    <ClInclude Include="include\Tokenizer.h" />
+    <ClInclude Include="include\UIObjects.h" />
     <ClInclude Include="include\Utility.h" />
     <ClInclude Include="include\Vector.h" />
-    <ClInclude Include="include\Wall.h" />
+    <ClInclude Include="include\z_work_report.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\animate.cpp" />
-    <ClCompile Include="src\Creature.cpp" />
-    <ClCompile Include="src\Grid.cpp" />
+    <ClCompile Include="src\Animate.cpp" />
+    <ClCompile Include="src\Event.cpp" />
+    <ClCompile Include="src\EventHandler.cpp" />
+    <ClCompile Include="src\Function.cpp" />
+    <ClCompile Include="src\Graph.cpp" />
+    <ClCompile Include="src\InputManager.cpp" />
     <ClCompile Include="src\main.cpp" />
-    <ClCompile Include="src\Predator.cpp" />
-    <ClCompile Include="src\Prey.cpp" />
-    <ClCompile Include="src\random.cpp" />
-    <ClCompile Include="src\sidebar.cpp" />
-    <ClCompile Include="src\system.cpp" />
+    <ClCompile Include="src\Operand.cpp" />
+    <ClCompile Include="src\Operator.cpp" />
+    <ClCompile Include="src\Plot.cpp" />
+    <ClCompile Include="src\RPN.cpp" />
+    <ClCompile Include="src\ShuntingYard.cpp" />
+    <ClCompile Include="src\Sidebar.cpp" />
+    <ClCompile Include="src\System.cpp" />
+    <ClCompile Include="src\Token.cpp" />
+    <ClCompile Include="src\Tokenizer.cpp" />
+    <ClCompile Include="src\UIObjects.cpp" />
     <ClCompile Include="src\Utility.cpp" />
-    <ClCompile Include="src\Wall.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
@@ -130,6 +147,7 @@
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>$(ProjectDir)\include\SFML;$(ProjectDir)\include;$(ProjectDir)\include\SFML;$(ProjectDir)\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -170,6 +188,7 @@
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>$(ProjectDir)\lib;</AdditionalLibraryDirectories>
+      <AdditionalDependencies>sfml-audio.lib;sfml-graphics.lib;sfml-main.lib;sfml-network.lib;sfml-system.lib;sfml-window.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

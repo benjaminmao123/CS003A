@@ -1,0 +1,8 @@
+cos(p/2)
+2*p*x
+p*x
+4*x
+sin(p/x)
+e^(2*x)
+e^x
+ln(e)
