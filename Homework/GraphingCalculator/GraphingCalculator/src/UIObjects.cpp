@@ -1,7 +1,5 @@
 #include "UIObjects.h"
 
-#include <iostream>
-
 Text::Text()
 	: hAlign(HAlign::Center),
 	vAlign(VAlign::Middle), rect(0, 0, 100, 100)
