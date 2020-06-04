@@ -17,7 +17,8 @@ enum class Command
 	PAN_LEFT,
 	PAN_RIGHT,
 	PAN_UP,
-	PAN_DOWN
+	PAN_DOWN,
+	RESET
 };
 
 class System

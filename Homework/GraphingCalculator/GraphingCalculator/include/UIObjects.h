@@ -4,6 +4,7 @@
 
 #include "Event.h"
 #include "EventHandler.h"
+#include "InputManager.h"
 
 enum class HAlign
 {
@@ -45,6 +46,7 @@ protected:
 	void SetIsSelected(bool state);
 	virtual void OnClick();
 	EventHandler &GetOnClickEvents();
+	InputManager input;
 
 private:
 	virtual void CheckSelection(sf::RenderWindow &window) = 0;
@@ -66,6 +68,7 @@ public:
 
 	void Update();
 	void Load(const std::string &path);
+	void Load(const sf::Font &font);
 	sf::Text &GetText();
 	sf::FloatRect &GetRect();
 	void SetPosition(float x, float y);
@@ -95,6 +98,7 @@ public:
 
 	void Update();
 	void Load(const std::string &texturePath, const std::string &fontPath);
+	void Load(sf::Texture *texture, const sf::Font &font);
 	sf::RectangleShape &GetFrame();
 	void Render(sf::RenderWindow &window);
 	Text &GetLabel();
@@ -123,6 +127,7 @@ public:
 	void Render(sf::RenderWindow &window);
 
 	void Load(const std::string &texturePath, const std::string &fontPath);
+	void Load(sf::Texture *texture, const sf::Font &font);
 	void SetOutlineColor(const sf::Color &color);
 	void SetOutlineThickness(const float value);
 	void SetSize(const sf::Vector2f &size);

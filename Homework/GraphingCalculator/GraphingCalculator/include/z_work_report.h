@@ -9,7 +9,7 @@
     Bugs    : features that are implemented are bug-free.
 
     Reflections:
-        I thought this was a fun exercise to learn about
+        I thought this was a fun final project to learn about
         inheritance in C++. The program was fun to make
         and showed the relationships between each class
         in the hierarchy. It was also fun to work with

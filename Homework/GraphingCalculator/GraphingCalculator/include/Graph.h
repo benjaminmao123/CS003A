@@ -14,7 +14,7 @@ struct GraphInformation
 		float scaleX = scale.x;
 		float scaleY = scale.y;
 
-		if ((domainX.x == domainX.y) || (domainY.x == domainY.y))
+		if ((domainX.x >= domainX.y) || (domainY.x >= domainY.y))
 		{
 			domainX = oldDomainX;
 			domainY = oldDomainY;
@@ -40,9 +40,15 @@ struct GraphInformation
 		domainY = dom;
 	}
 
+	void SetOrigin(const sf::Vector2f &pos)
+	{
+		origin = pos;
+	}
+
 	std::string equation;
 	sf::Vector2f dimensions;
 	sf::Vector2f origin;
+	sf::Vector2f originalOrigin;
 	sf::Vector2f domainX;
 	sf::Vector2f domainY;
 	const sf::Vector2f originalDomainX;

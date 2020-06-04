@@ -5,8 +5,10 @@
 #include "Operator.h"
 #include "Function.h"
 
-Tokenizer::Tokenizer(const vector<std::string> &validTokens)
-	: validTokens(validTokens)
+Tokenizer::Tokenizer(const vector<std::string> &validTokens,
+	const vector<std::string> &validOperators)
+	: validTokens(validTokens), validOperands(validOperators),
+	error(ErrorState::NONE)
 {
 	
 }
@@ -49,7 +51,8 @@ vector<Token *> Tokenizer::Tokenize(const std::string &input, double xVal)
 			}
 			catch (const std::invalid_argument &)
 			{
-				value = 0.0;
+				error = ErrorState::INVALID_INPUT;
+				return tokens;
 			}
 
 			token = new Number(value);
@@ -61,9 +64,15 @@ vector<Token *> Tokenizer::Tokenize(const std::string &input, double xVal)
 	return tokens;
 }
 
+ErrorState Tokenizer::GetErrorState() const
+{
+	return error;
+}
+
 std::string Tokenizer::SpaceInput(const std::string &input) const
 {
 	std::string spacedInput = input;
+	char prevToken = 'a';
 
 	for (auto it = spacedInput.begin(); it != spacedInput.end(); ++it)
 	{
@@ -71,15 +80,22 @@ std::string Tokenizer::SpaceInput(const std::string &input) const
 		{
 			if (*it == '-')
 			{
-				if (!isdigit(*(it + 1)))
+				if (!isdigit(prevToken))
 				{
-					it = spacedInput.insert(it, ' ');
-					++it;
-					it = spacedInput.insert(it + 1, ' ');
+					if (validOperands.index_of(std::string(1, prevToken)) != -1)
+					{
+						prevToken = *it;
+
+						it = spacedInput.insert(it, ' ');
+						++it;
+						it = spacedInput.insert(it + 1, ' ');
+					}
 				}
 			}
 			else
 			{
+				prevToken = *it;
+
 				it = spacedInput.insert(it, ' ');
 				++it;
 				it = spacedInput.insert(it + 1, ' ');

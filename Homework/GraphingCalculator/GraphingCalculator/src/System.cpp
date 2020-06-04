@@ -92,34 +92,32 @@ void System::Step(Command command, GraphInformation &info, float deltaTime)
 	{
 		info.SetDomainX(sf::Vector2f(info.domainX.x - panSpeed * deltaTime, 
 			info.domainX.y - panSpeed * deltaTime));
-		info.domainX.x -= panSpeed * deltaTime;
-		info.domainX.y -= panSpeed * deltaTime;
 		break;
 	}
 	case Command::PAN_RIGHT:
 	{
 		info.SetDomainX(sf::Vector2f(info.domainX.x + panSpeed * deltaTime,
 			info.domainX.y + panSpeed * deltaTime));
-		info.domainX.x += panSpeed * deltaTime;
-		info.domainX.y += panSpeed * deltaTime;
 		break;
 	}
 	case Command::PAN_UP:
 	{
 		info.SetDomainY(sf::Vector2f(info.domainY.x + panSpeed * deltaTime,
 			info.domainY.y + panSpeed * deltaTime));
-		info.domainY.x += panSpeed * deltaTime;
-		info.domainY.y += panSpeed * deltaTime;
 		break;
 	}
 	case Command::PAN_DOWN:
 	{
 		info.SetDomainY(sf::Vector2f(info.domainY.x - panSpeed * deltaTime,
 			info.domainY.y - panSpeed * deltaTime));
-		info.domainY.x -= panSpeed * deltaTime;
-		info.domainY.y -= panSpeed * deltaTime;
 		break;
 	}
+	case Command::RESET:
+		info.SetDomainX(info.originalDomainX);
+		info.SetDomainY(info.originalDomainY);
+		info.SetOrigin(info.originalOrigin);
+		info.scale = info.CalculateScale();
+		break;
 	default:
 		break;
 	}
@@ -133,9 +131,9 @@ void System::Step(Command command, GraphInformation &info, float deltaTime)
 }
 
 void System::Draw(sf::RenderWindow &window) 
-{
+{	
 	graph.Draw(window);
-	
+
 	if (toggleInput)
 		functionInputField.Render(window);
 }

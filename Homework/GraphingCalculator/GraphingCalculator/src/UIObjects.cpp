@@ -2,115 +2,6 @@
 
 #include <iostream>
 
-Button::Button()
-	: frame(sf::Vector2f(100, 100))
-{
-	frame.setFillColor(GetNormalColor());
-}
-
-void Button::Update()
-{
-	ComputeBounds();
-	text.SetSize(bounds.width, bounds.height);
-	text.SetPosition(frame.getPosition());
-	text.Update();
-}
-
-void Button::Render(sf::RenderWindow &window)
-{
-	if (GetIsInteractable())
-	{
-		frame.setFillColor(GetNormalColor());
-		CheckSelection(window);
-	}
-	else
-		frame.setFillColor(GetDisabledColor());
-
-	window.draw(frame);
-	text.Render(window);
-}
-
-Text &Button::GetLabel()
-{
-	return text;
-}
-
-sf::Vector2f Button::GetSize() const
-{
-	return sf::Vector2f(bounds.width, bounds.height);
-}
-
-void Button::SetSize(const sf::Vector2f &dims)
-{
-	frame.setSize(dims);
-	bounds.width = dims.x;
-	bounds.height = dims.y;
-}
-
-void Button::SetSize(float x, float y)
-{
-	frame.setSize(sf::Vector2f(x, y));
-	bounds.width = x;
-	bounds.height = y;
-}
-
-void Button::SetPosition(const sf::Vector2f &pos)
-{
-	frame.setPosition(pos);
-	bounds.left = pos.x;
-	bounds.top = pos.y;
-}
-
-void Button::SetPosition(float x, float y)
-{
-	frame.setPosition(x, y);
-	bounds.left = x;
-	bounds.top = y;
-}
-
-void Button::CheckSelection(sf::RenderWindow &window)
-{
-	ComputeBounds();
-
-	sf::Vector2f mousePosition = sf::Vector2f(
-		float(sf::Mouse::getPosition(window).x),
-		float(sf::Mouse::getPosition(window).y));
-
-	if (bounds.contains(mousePosition))
-	{
-		frame.setFillColor(GetHighlightedColor());
-
-		if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
-			frame.setFillColor(GetPressedColor());
-
-		if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
-			OnClick();
-	}
-}
-
-void Button::Load(const std::string &texturePath, const std::string &fontPath)
-{
-	if (texturePath != "")
-		if (texture.loadFromFile(texturePath))
-			frame.setTexture(&texture);
-
-	if (fontPath != "")
-		text.Load(fontPath);
-}
-
-sf::RectangleShape &Button::GetFrame()
-{
-	return frame;
-}
-
-void Button::ComputeBounds()
-{
-	bounds.left = frame.getPosition().x;
-	bounds.top = frame.getPosition().y;
-	bounds.width = frame.getSize().x;
-	bounds.height = frame.getSize().y;
-}
-
 Text::Text()
 	: hAlign(HAlign::Center),
 	vAlign(VAlign::Middle), rect(0, 0, 100, 100)
@@ -137,6 +28,11 @@ void Text::Load(const std::string &path)
 {
 	if (font.loadFromFile(path))
 		text.setFont(font);
+}
+
+void Text::Load(const sf::Font &font)
+{
+	text.setFont(font);
 }
 
 sf::Text &Text::GetText()
@@ -334,6 +230,122 @@ void Selectable::SetIsSelected(bool state)
 	isSelected = true;
 }
 
+Button::Button()
+	: frame(sf::Vector2f(100, 100))
+{
+	frame.setFillColor(GetNormalColor());
+}
+
+void Button::Update()
+{
+	ComputeBounds();
+	text.SetSize(bounds.width, bounds.height);
+	text.SetPosition(frame.getPosition());
+	text.Update();
+}
+
+void Button::Render(sf::RenderWindow &window)
+{
+	if (GetIsInteractable())
+	{
+		frame.setFillColor(GetNormalColor());
+		CheckSelection(window);
+	}
+	else
+		frame.setFillColor(GetDisabledColor());
+
+	window.draw(frame);
+	text.Render(window);
+}
+
+Text &Button::GetLabel()
+{
+	return text;
+}
+
+sf::Vector2f Button::GetSize() const
+{
+	return sf::Vector2f(bounds.width, bounds.height);
+}
+
+void Button::SetSize(const sf::Vector2f &dims)
+{
+	frame.setSize(dims);
+	bounds.width = dims.x;
+	bounds.height = dims.y;
+}
+
+void Button::SetSize(float x, float y)
+{
+	frame.setSize(sf::Vector2f(x, y));
+	bounds.width = x;
+	bounds.height = y;
+}
+
+void Button::SetPosition(const sf::Vector2f &pos)
+{
+	frame.setPosition(pos);
+	bounds.left = pos.x;
+	bounds.top = pos.y;
+}
+
+void Button::SetPosition(float x, float y)
+{
+	frame.setPosition(x, y);
+	bounds.left = x;
+	bounds.top = y;
+}
+
+void Button::CheckSelection(sf::RenderWindow &window)
+{
+	ComputeBounds();
+
+	sf::Vector2f mousePosition = sf::Vector2f(
+		float(input.GetMousePosition(window).x),
+		float(input.GetMousePosition(window).y));
+
+	if (bounds.contains(mousePosition))
+	{
+		frame.setFillColor(GetHighlightedColor());
+
+		if (input.GetMouseButton(sf::Mouse::Left))
+			frame.setFillColor(GetPressedColor());
+
+		if (input.GetMouseButton(sf::Mouse::Left))
+			OnClick();
+	}
+}
+
+void Button::Load(const std::string &texturePath, const std::string &fontPath)
+{
+	if (texturePath != "")
+		if (texture.loadFromFile(texturePath))
+			frame.setTexture(&texture);
+
+	if (fontPath != "")
+		text.Load(fontPath);
+}
+
+void Button::Load(sf::Texture *texture, const sf::Font &font)
+{
+	if (texture)
+		frame.setTexture(texture);
+	text.Load(font);
+}
+
+sf::RectangleShape &Button::GetFrame()
+{
+	return frame;
+}
+
+void Button::ComputeBounds()
+{
+	bounds.left = frame.getPosition().x;
+	bounds.top = frame.getPosition().y;
+	bounds.width = frame.getSize().x;
+	bounds.height = frame.getSize().y;
+}
+
 InputField::InputField()
 	: isSelected(false), currentString("")
 {
@@ -374,6 +386,13 @@ void InputField::Load(const std::string &texturePath, const std::string &fontPat
 
 	if (fontPath != "")
 		text.Load(fontPath);
+}
+
+void InputField::Load(sf::Texture *texture, const sf::Font &font)
+{
+	if (texture)
+		field.setTexture(texture);
+	text.Load(font);
 }
 
 void InputField::SetOutlineColor(const sf::Color &color)
@@ -478,8 +497,8 @@ void InputField::CheckSelection(sf::RenderWindow &window)
 	ComputeBounds();
 
 	sf::Vector2f mousePosition = sf::Vector2f(
-		(float)sf::Mouse::getPosition(window).x,
-		(float)sf::Mouse::getPosition(window).y);
+		(float)input.GetMousePosition(window).x,
+		(float)input.GetMousePosition(window).y);
 
 	if (bounds.contains(mousePosition))
 	{
@@ -487,17 +506,17 @@ void InputField::CheckSelection(sf::RenderWindow &window)
 		{
 			field.setFillColor(GetHighlightedColor());
 
-			if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
+			if (input.GetMouseButton(sf::Mouse::Left))
 				field.setFillColor(GetPressedColor());
 
-			if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
+			if (input.GetMouseButton(sf::Mouse::Left))
 				if (!isSelected)
 					OnSelect();
 		}
 	}
 	else
 		if (isSelected)
-			if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
+			if (input.GetMouseButton(sf::Mouse::Left))
 				OnDeselect();
 		else
 			field.setFillColor(GetNormalColor());
@@ -519,7 +538,7 @@ void InputField::GetInput(sf::Uint32 unicode)
 
 		OnValueChanged();
 
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Enter))
+		if (input.GetKey(sf::Keyboard::Enter))
 			OnEndEdit();
 	}
 }

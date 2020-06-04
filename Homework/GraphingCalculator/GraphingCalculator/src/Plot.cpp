@@ -51,12 +51,18 @@ Plot::Plot(GraphInformation &info)
 	validTokens.push_back("cos");
 	validTokens.push_back("e");
 	validTokens.push_back("p");
+
+	validOperands.push_back("x");
+	validOperands.push_back("(");
+	validOperands.push_back(")");
+	validOperands.push_back("e");
+	validOperands.push_back("p");
 }
 
 vector<sf::Vector2f> Plot::operator()()
 {
 	ShuntingYard sy;
-	Tokenizer tokenizer(validTokens);
+	Tokenizer tokenizer(validTokens, validOperands);
 	RPN rpn(validTokens);
 	CoordinateTranslation ct(info);
 
@@ -66,7 +72,12 @@ vector<sf::Vector2f> Plot::operator()()
 
 	for (double x = info.domainX.x; x <= info.domainX.y; x += increment)
 	{
-		postfix = sy.ToPostfix(tokenizer.Tokenize(info.equation, x));
+		vector<Token *> tokens = tokenizer.Tokenize(info.equation, x);
+
+		if (tokenizer.GetErrorState() != ErrorState::NONE)
+			return points;
+
+		postfix = sy.ToPostfix(tokens);
 
 		if (sy.GetErrorState() != ErrorState::NONE)
 		{

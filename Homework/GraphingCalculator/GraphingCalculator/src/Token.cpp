@@ -10,7 +10,8 @@
 #include "Token.h"
 
 Token::Token()
-    : tokenType(TokenType::NONE), baseTokenType(TokenType::NONE)
+    : tokenType(TokenType::NONE), baseTokenType(TokenType::NONE),
+    numArgs(0)
 {
 
 }
@@ -36,6 +37,11 @@ TokenType Token::GetBaseTokenType() const
 	return baseTokenType;
 }
 
+unsigned int Token::GetNumArgs() const
+{
+    return numArgs;
+}
+
 /*
 	@summary: Setter for tokenString.
 
@@ -59,6 +65,11 @@ void Token::SetTokenType(TokenType type)
 void Token::SetBaseTokenType(TokenType type)
 {
     baseTokenType = type;
+}
+
+void Token::SetNumArgs(unsigned int num)
+{
+    numArgs = num;
 }
 
 /*

@@ -43,6 +43,7 @@
     <ClInclude Include="include\UIObjects.h" />
     <ClInclude Include="include\Utility.h" />
     <ClInclude Include="include\Vector.h" />
+    <ClInclude Include="include\z_output.h" />
     <ClInclude Include="include\z_work_report.h" />
   </ItemGroup>
   <ItemGroup>

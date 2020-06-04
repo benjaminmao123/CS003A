@@ -34,4 +34,5 @@ private:
 	GraphInformation &info;
 	queue<Token *> postfix;
 	vector<std::string> validTokens;
+	vector<std::string> validOperands;
 };

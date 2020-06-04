@@ -73,10 +73,13 @@ Token *RPN::Evaluate(const queue<Token *> &postfix)
 			}
 			case TokenType::SIN:
 			{
-				Token *arg = static_cast<Operand *>(result.pop());
-
 				vector<Token *> args;
-				args.push_back(arg);
+
+				for (unsigned int i = 0; i < token->GetNumArgs(); ++i)
+				{
+					Token *arg = static_cast<Operand *>(result.pop());
+					args.push_back(arg);
+				}
 
 				Operator *op = new Sin(args);
 				result.push(op);
@@ -84,10 +87,13 @@ Token *RPN::Evaluate(const queue<Token *> &postfix)
 			}
 			case TokenType::TAN:
 			{
-				Token *arg = static_cast<Operand *>(result.pop());
-
 				vector<Token *> args;
-				args.push_back(arg);
+
+				for (unsigned int i = 0; i < token->GetNumArgs(); ++i)
+				{
+					Token *arg = static_cast<Operand *>(result.pop());
+					args.push_back(arg);
+				}
 
 				Operator *op = new Tan(args);
 				result.push(op);
@@ -95,10 +101,13 @@ Token *RPN::Evaluate(const queue<Token *> &postfix)
 			}
 			case TokenType::LN:
 			{
-				Token *arg = static_cast<Operand *>(result.pop());
-
 				vector<Token *> args;
-				args.push_back(arg);
+
+				for (unsigned int i = 0; i < token->GetNumArgs(); ++i)
+				{
+					Token *arg = static_cast<Operand *>(result.pop());
+					args.push_back(arg);
+				}
 
 				Operator *op = new Ln(args);
 				result.push(op);
@@ -112,10 +121,13 @@ Token *RPN::Evaluate(const queue<Token *> &postfix)
 			}
 			case TokenType::COS:
 			{
-				Token *arg = static_cast<Operand *>(result.pop());
-
 				vector<Token *> args;
-				args.push_back(arg);
+
+				for (unsigned int i = 0; i < token->GetNumArgs(); ++i)
+				{
+					Token *arg = static_cast<Operand *>(result.pop());
+					args.push_back(arg);
+				}
 
 				Operator *op = new Cos(args);
 				result.push(op);

@@ -13,11 +13,17 @@ Sidebar::Sidebar(GraphInformation &info)
 Sidebar::Sidebar(GraphInformation &info, float left, float width)
 	: _left(left), _width(width), info(info)
 {
+	if (!font.loadFromFile("arial.ttf"))
+	{
+		std::cout << "Failed to load font" << std::endl;
+		exit(-1);
+	}
+
 	rect.setFillColor(sf::Color(105, 105, 105));
 	rect.setPosition(sf::Vector2f(left, 0));
 	rect.setSize(sf::Vector2f(width, SCREEN_HEIGHT));
 	
-	title.Load("assets/fonts/arial.ttf");
+	title.Load(font);
 	title.GetText().setCharacterSize(20);
 	title.SetPosition(SCREEN_WIDTH - SIDE_BAR, 0);
 	title.SetSize(SIDE_BAR, SCREEN_HEIGHT / 9);
@@ -27,7 +33,7 @@ Sidebar::Sidebar(GraphInformation &info, float left, float width)
 
 	float y = title.GetSize().y + ((SCREEN_HEIGHT / 9) - (SCREEN_HEIGHT / 10));
 
-	std::ifstream ifs("assets/history.txt");
+	std::ifstream ifs("history.txt");
 
 	if (!ifs.is_open())
 	{
@@ -44,7 +50,7 @@ Sidebar::Sidebar(GraphInformation &info, float left, float width)
 		historyButton->SetPosition(SCREEN_WIDTH - SIDE_BAR, y);
 		historyButton->SetHighlightedColor(sf::Color::Blue);
 		historyButton->SetPressedColor(sf::Color::Cyan);
-		historyButton->Load("", "assets/fonts/arial.ttf");
+		historyButton->Load(nullptr, font);
 		historyButton->GetLabel().GetText().setCharacterSize(20);
 		historyButton->GetLabel().SetText(line);
 		historyButton->GetLabel().GetText().setFillColor(sf::Color::Red);
@@ -57,7 +63,7 @@ Sidebar::Sidebar(GraphInformation &info, float left, float width)
 
 Sidebar::~Sidebar()
 {
-	std::ofstream ofs("assets/history.txt", std::ios::out | std::ios::trunc);
+	std::ofstream ofs("history.txt", std::ios::out | std::ios::trunc);
 
 	if (!ofs.is_open())
 	{

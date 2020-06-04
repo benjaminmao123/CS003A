@@ -18,6 +18,6 @@ public:
 private:
 	Token *Evaluate(const queue<Token *> &postfix);
 
-	vector<std::string> validTokens;
+	const vector<std::string> &validTokens;
 	stack<Token *> result;
 };

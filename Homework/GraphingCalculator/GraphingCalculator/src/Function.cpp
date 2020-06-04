@@ -26,6 +26,7 @@ Sin::Sin()
 {
     SetTokenType(TokenType::SIN);
     SetTokenString("sin");
+    SetNumArgs(1);
 }
 
 Sin::Sin(const vector<Token *> &args)
@@ -33,6 +34,7 @@ Sin::Sin(const vector<Token *> &args)
 {
 	SetTokenType(TokenType::SIN);
 	SetTokenString("sin");
+    SetNumArgs(1);
 }
 
 double Sin::Evaluate() const
@@ -44,6 +46,7 @@ Tan::Tan()
 {
     SetTokenType(TokenType::TAN);
     SetTokenString("tan");
+    SetNumArgs(1);
 }
 
 Tan::Tan(const vector<Token *> &args)
@@ -51,6 +54,7 @@ Tan::Tan(const vector<Token *> &args)
 {
     SetTokenType(TokenType::TAN);
     SetTokenString("tan");
+    SetNumArgs(1);
 }
 
 double Tan::Evaluate() const
@@ -62,6 +66,7 @@ Ln::Ln()
 {
     SetTokenType(TokenType::LN);
     SetTokenString("ln");
+    SetNumArgs(1);
 }
 
 Ln::Ln(const vector<Token *> &args)
@@ -69,6 +74,7 @@ Ln::Ln(const vector<Token *> &args)
 {
     SetTokenType(TokenType::LN);
     SetTokenString("ln");
+    SetNumArgs(1);
 }
 
 double Ln::Evaluate() const
@@ -80,6 +86,7 @@ Cos::Cos()
 {
     SetTokenType(TokenType::COS);
     SetTokenString("cos");
+    SetNumArgs(1);
 }
 
 Cos::Cos(const vector<Token *> &args)
@@ -87,6 +94,7 @@ Cos::Cos(const vector<Token *> &args)
 {
     SetTokenType(TokenType::COS);
     SetTokenString("cos");
+    SetNumArgs(1);
 }
 
 double Cos::Evaluate() const

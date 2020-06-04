@@ -1,0 +1,8 @@
+sin(x)
+(sin(x))^2
+sin(x^2)
+sin(x)
+ln(x)
+e^x
+cos(x)
+tanx^2

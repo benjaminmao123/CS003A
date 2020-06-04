@@ -34,6 +34,7 @@ public:
 	const std::string &GetTokenString() const;
 	TokenType GetTokenType() const;
 	TokenType GetBaseTokenType() const;
+	unsigned int GetNumArgs() const;
 	
 	friend std::ostream &operator<<(std::ostream &os, const Token &rhs);
 
@@ -41,11 +42,13 @@ protected:
 	void SetTokenString(const std::string &str);
 	void SetTokenType(TokenType type);
 	void SetBaseTokenType(TokenType type);
+	void SetNumArgs(unsigned int num);
 
 private:
 	std::string tokenString;
 	TokenType tokenType;
 	TokenType baseTokenType;
+	unsigned int numArgs;
 };
 
 class LeftParenthesis : public Token

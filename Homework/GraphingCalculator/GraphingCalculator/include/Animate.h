@@ -29,13 +29,17 @@ private:
 	Command command;                  
 	Text functionLabel;
 	InputField functionInputField;
-	InputManager inputManager;
+	InputManager input;
 	sf::RectangleShape xAxis;
 	sf::RectangleShape yAxis;
 	sf::Text functionName;
 	sf::Font font;
 	sf::CircleShape mousePointer;
 	sf::Text coordinates;
+	sf::Text resetText;
+	sf::Text zoomText;
+	sf::Text panText;
+	sf::Text inputText;
 };
 
 #endif // GAME_H

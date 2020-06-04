@@ -107,3 +107,13 @@ bool InputManager::GetMouseButtonUp(sf::Mouse::Button button)
 	return false;
 }
 
+const sf::Vector2i InputManager::GetMousePosition(const sf::RenderWindow &window) const
+{
+	return sf::Mouse::getPosition(window);
+}
+
+const sf::Vector2f InputManager::GetMousePositionWorld(const sf::RenderWindow &window) const
+{
+	return window.mapPixelToCoords(GetMousePosition(window));
+}
+

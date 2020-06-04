@@ -22,8 +22,9 @@ struct ButtonEvent : public Event
 	virtual void Invoke() override
 	{
 		info.equation = button->GetLabel().GetText().getString();
-		info.domainX = info.originalDomainX;
-		info.domainY = info.originalDomainY;
+		info.SetDomainX(info.originalDomainX);
+		info.SetDomainY(info.originalDomainY);
+		info.SetOrigin(info.originalOrigin);
 		info.scale = info.CalculateScale();
 	}
 
@@ -48,6 +49,7 @@ private:
 	Text title;
 	Button *historyButton;
 	GraphInformation &info;
+	sf::Font font;
 
 	float _left;
 	float _width;

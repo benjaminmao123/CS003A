@@ -12,9 +12,10 @@ Animate::Animate()
 	window(sf::VideoMode((unsigned int)SCREEN_WIDTH, (unsigned int)SCREEN_HEIGHT), "Graphing Calculator"),
 	info
 	{
-		"sin(p/2)", 
+		"-9", 
 		sf::Vector2f(SCREEN_WIDTH - SIDE_BAR, SCREEN_HEIGHT), 
-		sf::Vector2f(0, 0), 
+		sf::Vector2f(0, 0),
+		sf::Vector2f(0, 0),
 		sf::Vector2f(-5, 5),
 		sf::Vector2f(-5, 5),
 		sf::Vector2f(-5, 5),
@@ -22,15 +23,18 @@ Animate::Animate()
 		sf::Vector2f(-5, 5),
 		sf::Vector2f(-5, 5),
 		sf::Vector2f(info.CalculateScale()), 
-		100,
+		500,
 		ErrorState::NONE
 	}, 
 	command(Command::NONE), xAxis(sf::Vector2f(INT_MAX, 2)),
 	yAxis(sf::Vector2f(2, INT_MAX)), mousePointer(4)
 {
+	if (!font.loadFromFile("arial.ttf"))
+		std::cout << "Warning: Failed to load font." << std::endl;
+
 	functionInputField.SetSize(GRAPH_WIDTH / 2, GRAPH_HEIGHT / 16);
 	functionInputField.GetField().setPosition(GRAPH_WIDTH / 2.5, 0);
-	functionInputField.Load("", "assets/fonts/arial.ttf");
+	functionInputField.Load(nullptr, font);
 	functionInputField.SetHighlightedColor(sf::Color::Blue);
 	functionInputField.GetText().GetText().setFillColor(sf::Color::Red);
 
@@ -38,9 +42,6 @@ Animate::Animate()
 	xAxis.setPosition(GRAPH_CENTER_X, GRAPH_CENTER_Y);
 	yAxis.setOrigin(yAxis.getSize().x / 2, yAxis.getSize().y / 2);
 	yAxis.setPosition(GRAPH_CENTER_X, GRAPH_CENTER_Y);
-
-	if (!font.loadFromFile("assets/fonts/arial.ttf"))
-		std::cout << "Warning: Failed to load font." << std::endl;
 
 	functionName.setFont(font);
 	functionName.setCharacterSize(20);
@@ -53,6 +54,31 @@ Animate::Animate()
 	coordinates.setFont(font);
 	coordinates.setCharacterSize(20);
 	coordinates.setStyle(sf::Text::Bold);
+	coordinates.setString("(0, 0)");
+
+	resetText.setFont(font);
+	resetText.setCharacterSize(20);
+	resetText.setStyle(sf::Text::Bold);
+	resetText.setString("Reset: [R]");
+	resetText.setPosition(0, (resetText.getCharacterSize() / 2) + coordinates.getCharacterSize());
+
+	zoomText.setFont(font);
+	zoomText.setCharacterSize(20);
+	zoomText.setStyle(sf::Text::Bold);
+	zoomText.setString("Zoom In/Out: [Comma, Period]");
+	zoomText.setPosition(0, resetText.getPosition().y + resetText.getCharacterSize());
+
+	panText.setFont(font);
+	panText.setCharacterSize(20);
+	panText.setStyle(sf::Text::Bold);
+	panText.setString("Pan: [Arrow Keys]");
+	panText.setPosition(0, zoomText.getPosition().y + coordinates.getCharacterSize());
+
+	inputText.setFont(font);
+	inputText.setCharacterSize(20);
+	inputText.setStyle(sf::Text::Bold);
+	inputText.setString("Input: [Enter]");
+	inputText.setPosition(0, panText.getPosition().y + coordinates.getCharacterSize());
 }
 
 void Animate::Update(float deltaTime)
@@ -77,6 +103,10 @@ void Animate::Render()
 	system.Draw(window);
 	window.draw(functionName);
 	window.draw(coordinates);
+	window.draw(resetText);
+	window.draw(zoomText);
+	window.draw(panText);
+	window.draw(inputText);
 	sidebar.Draw(window);
 	window.draw(mousePointer);
 
@@ -87,20 +117,22 @@ void Animate::SetCommand()
 {
 	command = Command::NONE;
 
-	if (inputManager.GetKeyDown(sf::Keyboard::Enter))
+	if (input.GetKeyDown(sf::Keyboard::Enter))
 		command = Command::EQUATION;
-	if (inputManager.GetKeyDown(sf::Keyboard::Comma))
+	if (input.GetKeyDown(sf::Keyboard::Comma))
 		command = Command::ZOOM_IN;
-	if (inputManager.GetKeyDown(sf::Keyboard::Period))
+	if (input.GetKeyDown(sf::Keyboard::Period))
 		command = Command::ZOOM_OUT;
-	if (inputManager.GetKey(sf::Keyboard::Left))
+	if (input.GetKey(sf::Keyboard::Left))
 		command = Command::PAN_LEFT;
-	if (inputManager.GetKey(sf::Keyboard::Right))
+	if (input.GetKey(sf::Keyboard::Right))
 		command = Command::PAN_RIGHT;
-	if (inputManager.GetKey(sf::Keyboard::Up))
+	if (input.GetKey(sf::Keyboard::Up))
 		command = Command::PAN_UP;
-	if (inputManager.GetKey(sf::Keyboard::Down))
+	if (input.GetKey(sf::Keyboard::Down))
 		command = Command::PAN_DOWN;
+	if (input.GetKeyDown(sf::Keyboard::R))
+		command = Command::RESET;
 }
 
 void Animate::ProcessEvents()

@@ -20,6 +20,7 @@ Operator::Operator(Token *lhs, Token *rhs)
     : lhs(lhs), rhs(rhs), precedence(0)
 {
     SetBaseTokenType(TokenType::OPERATOR);
+    SetNumArgs(2);
 }
 
 /*
