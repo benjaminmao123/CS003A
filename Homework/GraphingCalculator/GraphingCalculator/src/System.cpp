@@ -49,12 +49,9 @@ void System::Step(Command command, GraphInformation &info, float deltaTime)
 				if (info.error == ErrorState::NONE)
 				{
 					for (unsigned int i = sidebar.items.size() - 1; i > 0; --i)
-					{
-						sidebar.items[i]->GetLabel().GetText().setString(
-							sidebar.items[i - 1]->GetLabel().GetText().getString());
-					}
+						sidebar.items[i]->SetLabel(sidebar.items[i - 1]->GetLabel());
 
-					sidebar.items[0]->GetLabel().GetText().setString(info.equation);
+					sidebar.items[0]->SetLabel(info.equation);
 				}
 				else
 					info.equation = "INVALID EQUATION";

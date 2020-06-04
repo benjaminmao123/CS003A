@@ -21,7 +21,7 @@ struct ButtonEvent : public Event
 
 	virtual void Invoke() override
 	{
-		info.equation = button->GetLabel().GetText().getString();
+		info.equation = button->GetLabel();
 		info.SetDomainX(info.originalDomainX);
 		info.SetDomainY(info.originalDomainY);
 		info.SetOrigin(info.originalOrigin);

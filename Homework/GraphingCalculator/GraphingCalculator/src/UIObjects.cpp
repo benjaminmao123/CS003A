@@ -17,9 +17,24 @@ void Text::Render(sf::RenderWindow &window)
 	window.draw(text);
 }
 
-const std::string &Text::GetString() const
+std::string Text::GetString() const
 {
-	return text.getString();
+	return text.getString().toAnsiString();
+}
+
+void Text::SetColor(const sf::Color &color)
+{
+	text.setFillColor(color);
+}
+
+void Text::SetCharacterSize(float size)
+{
+	text.setCharacterSize(size);
+}
+
+void Text::SetStyle(sf::Text::Style style)
+{
+	text.setStyle(style);
 }
 
 void Text::Load(const std::string &path)
@@ -31,16 +46,6 @@ void Text::Load(const std::string &path)
 void Text::Load(const sf::Font &font)
 {
 	text.setFont(font);
-}
-
-sf::Text &Text::GetText()
-{
-	return text;
-}
-
-sf::FloatRect &Text::GetRect()
-{
-	return rect;
 }
 
 void Text::SetPosition(float x, float y)
@@ -79,7 +84,7 @@ sf::Vector2f Text::GetSize() const
 	return sf::Vector2f(rect.width, rect.height);
 }
 
-void Text::SetText(const std::string &str)
+void Text::SetString(const std::string &str)
 {
 	text.setString(str);
 }
@@ -256,14 +261,19 @@ void Button::Render(sf::RenderWindow &window)
 	text.Render(window);
 }
 
-Text &Button::GetLabel()
+std::string Button::GetLabel() const
 {
-	return text;
+	return text.GetString();
 }
 
-sf::Vector2f Button::GetSize() const
+const sf::Vector2f &Button::GetSize() const
 {
-	return sf::Vector2f(bounds.width, bounds.height);
+	return frame.getSize();
+}
+
+const sf::Vector2f &Button::GetPosition() const
+{
+	return frame.getPosition();
 }
 
 void Button::SetSize(const sf::Vector2f &dims)
@@ -292,6 +302,21 @@ void Button::SetPosition(float x, float y)
 	frame.setPosition(x, y);
 	bounds.left = x;
 	bounds.top = y;
+}
+
+void Button::SetTextColor(const sf::Color &color)
+{
+	text.SetColor(color);
+}
+
+void Button::SetLabelFontSize(float size)
+{
+	text.SetCharacterSize(size);
+}
+
+void Button::SetLabel(const std::string &string)
+{
+	text.SetString(string);
 }
 
 void Button::CheckSelection(sf::RenderWindow &window)
@@ -331,11 +356,6 @@ void Button::Load(sf::Texture *texture, const sf::Font &font)
 	text.Load(font);
 }
 
-sf::RectangleShape &Button::GetFrame()
-{
-	return frame;
-}
-
 void Button::ComputeBounds()
 {
 	bounds.left = frame.getPosition().x;
@@ -349,7 +369,7 @@ InputField::InputField()
 {
 	field.setSize(sf::Vector2f(100, 100));
 	field.setFillColor(GetNormalColor());
-	text.GetText().setString(currentString);
+	text.SetString(currentString);
 }
 
 void InputField::Update()
@@ -406,8 +426,7 @@ void InputField::SetOutlineThickness(const float value)
 void InputField::SetSize(const sf::Vector2f &size)
 {
 	field.setSize(size);
-	text.GetRect().width = size.x;
-	text.GetRect().height = size.y;
+	text.SetSize(size);
 }
 
 void InputField::SetSize(const float width, const float height)
@@ -416,25 +435,35 @@ void InputField::SetSize(const float width, const float height)
 	text.SetSize(width, height);
 }
 
+void InputField::SetPosition(const sf::Vector2f &pos)
+{
+	field.setPosition(pos);
+}
+
+void InputField::SetPosition(float x, float y)
+{
+	field.setPosition(x, y);
+}
+
 const sf::Vector2f &InputField::GetSize() const
 {
 	return field.getSize();
 }
 
-void InputField::SetCurrentString(const sf::String &string)
+const sf::Vector2f &InputField::GetPosition() const
+{
+	return field.getPosition();
+}
+
+void InputField::SetCurrentString(const std::string &string)
 {
 	currentString = string;
-	text.GetText().setString(currentString);
+	text.SetString(currentString);
 }
 
-const std::string &InputField::GetCurrentString() const
+std::string InputField::GetCurrentString() const
 {
 	return currentString;
-}
-
-sf::RectangleShape &InputField::GetField()
-{
-	return field;
 }
 
 void InputField::AddOnSelectEvent(Event *event)
@@ -532,7 +561,7 @@ void InputField::GetInput(sf::Uint32 unicode)
 		else
 			currentString += unicode;
 
-		text.GetText().setString(currentString);
+		text.SetString(currentString);
 
 		OnValueChanged();
 
@@ -541,18 +570,13 @@ void InputField::GetInput(sf::Uint32 unicode)
 	}
 }
 
-Text &InputField::GetText()
-{
-	return text;
-}
-
 void InputField::Clear()
 {
 	currentString = "";
-	text.GetText().setString("");
+	text.SetString("");
 }
 
-void InputField::SetText(const std::string &str)
+void InputField::SetTextColor(const sf::Color &color)
 {
-	text.SetText(str);
+	text.SetColor(color);
 }

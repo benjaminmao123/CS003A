@@ -24,12 +24,12 @@ Sidebar::Sidebar(GraphInformation &info, float left, float width)
 	rect.setSize(sf::Vector2f(width, SCREEN_HEIGHT));
 	
 	title.Load(font);
-	title.GetText().setCharacterSize(20);
+	title.SetCharacterSize(20);
 	title.SetPosition(SCREEN_WIDTH - SIDE_BAR, 0);
 	title.SetSize(SIDE_BAR, SCREEN_HEIGHT / 9);
-	title.GetText().setString("History");
-	title.GetText().setFillColor(sf::Color::Yellow);
-	title.GetText().setStyle(sf::Text::Bold);
+	title.SetString("History");
+	title.SetColor(sf::Color::Yellow);
+	title.SetStyle(sf::Text::Bold);
 
 	float y = title.GetSize().y + ((SCREEN_HEIGHT / 9) - (SCREEN_HEIGHT / 10));
 
@@ -51,9 +51,9 @@ Sidebar::Sidebar(GraphInformation &info, float left, float width)
 		historyButton->SetHighlightedColor(sf::Color::Blue);
 		historyButton->SetPressedColor(sf::Color::Cyan);
 		historyButton->Load(nullptr, font);
-		historyButton->GetLabel().GetText().setCharacterSize(20);
-		historyButton->GetLabel().SetText(line);
-		historyButton->GetLabel().GetText().setFillColor(sf::Color::Red);
+		historyButton->SetLabelFontSize(20);
+		historyButton->SetLabel(line);
+		historyButton->SetTextColor(sf::Color::Red);
 		Event *event = new ButtonEvent(info, historyButton);
 		historyButton->AddEvent(event);
 		items.push_back(historyButton);
@@ -72,7 +72,7 @@ Sidebar::~Sidebar()
 	}
 
 	for (const auto &i : items)
-		ofs << std::string(i->GetLabel().GetText().getString() + "\n");
+		ofs << std::string(i->GetLabel() + "\n");
 
 	for (auto &i : items)
 		delete i;

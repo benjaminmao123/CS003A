@@ -33,10 +33,10 @@ Animate::Animate()
 		std::cout << "Warning: Failed to load font." << std::endl;
 
 	functionInputField.SetSize(GRAPH_WIDTH / 2, GRAPH_HEIGHT / 16);
-	functionInputField.GetField().setPosition(GRAPH_WIDTH / 2.5, 0);
+	functionInputField.SetPosition(GRAPH_WIDTH / 2.5, 0);
 	functionInputField.Load(nullptr, font);
 	functionInputField.SetHighlightedColor(sf::Color::Blue);
-	functionInputField.GetText().GetText().setFillColor(sf::Color::Red);
+	functionInputField.SetTextColor(sf::Color::Red);
 
 	xAxis.setOrigin(xAxis.getSize().x / 2, xAxis.getSize().y / 2);
 	xAxis.setPosition(GRAPH_CENTER_X, GRAPH_CENTER_Y);

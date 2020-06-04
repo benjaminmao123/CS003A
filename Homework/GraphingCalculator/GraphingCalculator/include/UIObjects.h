@@ -69,17 +69,18 @@ public:
 	void Update();
 	void Load(const std::string &path);
 	void Load(const sf::Font &font);
-	sf::Text &GetText();
-	sf::FloatRect &GetRect();
 	void SetPosition(float x, float y);
 	void SetPosition(const sf::Vector2f &pos);
 	void SetSize(float width, float height);
 	void SetSize(const sf::Vector2f &dims);
 	sf::Vector2f GetPosition() const;
 	sf::Vector2f GetSize() const;
-	void SetText(const std::string &str);
+	void SetString(const std::string &str);
 	void Render(sf::RenderWindow &window);
-	const std::string &GetString() const;
+	std::string GetString() const;
+	void SetColor(const sf::Color &color);
+	void SetCharacterSize(float size);
+	void SetStyle(sf::Text::Style style);
 
 private:
 	void AlignText();
@@ -99,14 +100,17 @@ public:
 	void Update();
 	void Load(const std::string &texturePath, const std::string &fontPath);
 	void Load(sf::Texture *texture, const sf::Font &font);
-	sf::RectangleShape &GetFrame();
 	void Render(sf::RenderWindow &window);
-	Text &GetLabel();
-	sf::Vector2f GetSize() const;
+	std::string GetLabel() const;
+	const sf::Vector2f &GetSize() const;
+	const sf::Vector2f &GetPosition() const;
 	void SetSize(const sf::Vector2f &dims);
 	void SetSize(float x, float y);
 	void SetPosition(const sf::Vector2f &pos);
 	void SetPosition(float x, float y);
+	void SetTextColor(const sf::Color &color);
+	void SetLabelFontSize(float size);
+	void SetLabel(const std::string &string);
 
 private:
 	void ComputeBounds();
@@ -132,14 +136,15 @@ public:
 	void SetOutlineThickness(const float value);
 	void SetSize(const sf::Vector2f &size);
 	void SetSize(const float width, const float height);
+	void SetPosition(const sf::Vector2f &pos);
+	void SetPosition(float x, float y);
 	const sf::Vector2f &GetSize() const;
-	void SetCurrentString(const sf::String &string);
-	const std::string &GetCurrentString() const;
-	sf::RectangleShape &GetField();
+	const sf::Vector2f &GetPosition() const;
+	void SetCurrentString(const std::string &string);
+	std::string GetCurrentString() const;
 	void GetInput(sf::Uint32 unicode);
-	Text &GetText();
 	void Clear();
-	void SetText(const std::string &str);
+	void SetTextColor(const sf::Color &color);
 
 	void AddOnSelectEvent(Event *event);
 	void AddDeselectEvent(Event *event);
