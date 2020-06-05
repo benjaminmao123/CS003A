@@ -38,7 +38,7 @@ Sidebar::Sidebar(GraphInformation &info, float left, float width)
 	if (!ifs.is_open())
 	{
 		std::cout << "Failed to open history.txt" << std::endl;
-		exit(-1);
+		std::ofstream ofs("history.txt");
 	}
 
 	std::string line;
