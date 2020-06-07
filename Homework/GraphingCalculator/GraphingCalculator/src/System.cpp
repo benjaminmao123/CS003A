@@ -7,14 +7,20 @@
 #include "Plot.h"
 #include "ShuntingYard.h"
 
-System::System(GraphInformation &info, InputField &functionInputField,
+System::System(GraphInformation &info, InputField &field,
 	sf::RectangleShape &xAxis, sf::RectangleShape &yAxis,
 	Sidebar &sidebar)
-	: info(info), graph(info), functionInputField(functionInputField),
+	: info(info), graph(info), field(field),
 	zoomFactor(0.0625f), panSpeed(10.f), xAxis(xAxis), yAxis(yAxis),
 	toggleInput(false), sidebar(sidebar)
 {
 
+}
+
+void System::InitEvents()
+{
+	field.AddOnSelectEvent(new InputFieldSelectEvent(toggleInput));
+	field.AddDeselectEvent(new InputFieldDeselectEvent(info, toggleInput, field, graph, sidebar));
 }
 
 void System::Step(Command command, GraphInformation &info, float deltaTime)
@@ -26,40 +32,7 @@ void System::Step(Command command, GraphInformation &info, float deltaTime)
 	{
 	case Command::EQUATION:
 		if (!toggleInput)
-		{
-			toggleInput = true;
-			functionInputField.OnSelect();
-		}
-		else
-		{
-			std::string input = functionInputField.GetCurrentString();
-			input.erase(std::remove(input.begin(), input.end(), ' '), input.end());
-			input.erase(std::remove(input.begin(), input.end(), '\n'), input.end());
-			input.erase(std::remove(input.begin(), input.end(), '\r'), input.end());
-
-			if (!input.empty())
-			{
-				info.equation = input;
-				info.domainX = info.originalDomainX;
-				info.domainY = info.originalDomainY;
-				info.scale = info.CalculateScale();
-
-				graph.Update();
-
-				if (info.error == ErrorState::NONE)
-				{
-					for (unsigned int i = sidebar.items.size() - 1; i > 0; --i)
-						sidebar.items[i]->SetLabel(sidebar.items[i - 1]->GetLabel());
-
-					sidebar.items[0]->SetLabel(info.equation);
-				}
-				else
-					info.equation = "INVALID EQUATION";
-			}
-
-			toggleInput = false;
-			functionInputField.Clear();
-		}
+			field.OnSelect();
 		break;
 	case Command::ZOOM_IN:
 	{
@@ -120,7 +93,7 @@ void System::Step(Command command, GraphInformation &info, float deltaTime)
 	}
 
 	graph.Update();
-	functionInputField.Update();
+	field.Update();
 
 	sf::Vector2f zero = ct(sf::Vector2f(0, 0));
 	xAxis.setPosition(zero);
@@ -132,5 +105,5 @@ void System::Draw(sf::RenderWindow &window)
 	graph.Draw(window);
 
 	if (toggleInput)
-		functionInputField.Render(window);
+		field.Render(window);
 }

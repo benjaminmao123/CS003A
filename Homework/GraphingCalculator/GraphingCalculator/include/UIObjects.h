@@ -41,10 +41,10 @@ public:
 	bool GetIsSelected() const;
 	void AddEvent(Event *event);
 	void RemoveEvent(Event *event);
+	virtual void OnClick();
 
 protected:
 	void SetIsSelected(bool state);
-	virtual void OnClick();
 	EventHandler &GetOnClickEvents();
 	InputManager input;
 

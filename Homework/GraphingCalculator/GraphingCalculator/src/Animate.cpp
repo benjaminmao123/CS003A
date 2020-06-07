@@ -8,11 +8,11 @@
 #include "ShuntingYard.h"
 
 Animate::Animate()
-	: system(info, functionInputField, xAxis, yAxis, sidebar), sidebar(info, WORK_PANEL, SIDE_BAR),
+	: system(info, field, xAxis, yAxis, sidebar), sidebar(info, WORK_PANEL, SIDE_BAR),
 	window(sf::VideoMode((unsigned int)SCREEN_WIDTH, (unsigned int)SCREEN_HEIGHT), "Graphing Calculator"),
 	info
 	{
-		"-9", 
+		"0", 
 		sf::Vector2f(SCREEN_WIDTH - SIDE_BAR, SCREEN_HEIGHT), 
 		sf::Vector2f(0, 0),
 		sf::Vector2f(0, 0),
@@ -32,11 +32,13 @@ Animate::Animate()
 	if (!font.loadFromFile("arial.ttf"))
 		std::cout << "Warning: Failed to load font." << std::endl;
 
-	functionInputField.SetSize(GRAPH_WIDTH / 2, GRAPH_HEIGHT / 16);
-	functionInputField.SetPosition(GRAPH_WIDTH / 2.5, 0);
-	functionInputField.Load(nullptr, font);
-	functionInputField.SetHighlightedColor(sf::Color::Blue);
-	functionInputField.SetTextColor(sf::Color::Red);
+	field.SetSize(GRAPH_WIDTH / 2, GRAPH_HEIGHT / 16);
+	field.SetPosition(GRAPH_WIDTH / 2.5, 0);
+	field.Load(nullptr, font);
+	field.SetHighlightedColor(sf::Color::Blue);
+	field.SetTextColor(sf::Color::Red);
+
+	system.InitEvents();
 
 	xAxis.setOrigin(xAxis.getSize().x / 2, xAxis.getSize().y / 2);
 	xAxis.setPosition(GRAPH_CENTER_X, GRAPH_CENTER_Y);
@@ -117,7 +119,7 @@ void Animate::SetCommand()
 {
 	command = Command::NONE;
 
-	if (input.GetKeyDown(sf::Keyboard::Enter))
+	if (input.GetKeyDown(sf::Keyboard::Tab))
 		command = Command::EQUATION;
 	if (input.GetKeyDown(sf::Keyboard::Comma))
 		command = Command::ZOOM_IN;
@@ -147,7 +149,7 @@ void Animate::ProcessEvents()
 			window.close();
 			break;
 		case sf::Event::TextEntered:
-			functionInputField.GetInput(event.text.unicode);
+			field.GetInput(event.text.unicode);
 			break;
 		default:
 			break;

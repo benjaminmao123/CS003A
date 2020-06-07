@@ -12,5 +12,7 @@ const float GRAPH_CENTER_X = (SCREEN_WIDTH - SIDE_BAR) / 2;
 const float GRAPH_CENTER_Y = SCREEN_HEIGHT / 2;
 const float GRAPH_WIDTH = SCREEN_WIDTH - SIDE_BAR;
 const float GRAPH_HEIGHT = SCREEN_HEIGHT;
+const int NUM_FUNCTIONS = 8;
+const int NUM_SIDEBAR_ITEMS = 9;
 
 #endif // CONSTANTS_H

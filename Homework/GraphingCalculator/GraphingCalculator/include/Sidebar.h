@@ -11,9 +11,9 @@
 #include "Event.h"
 #include "Stack.h"
 
-struct ButtonEvent : public Event
+struct ButtonOnClickEvent : public Event
 {
-	ButtonEvent(GraphInformation &info, Button *button)
+	ButtonOnClickEvent(GraphInformation &info, Button *button)
 		: info(info), button(button)
 	{
 
@@ -41,6 +41,7 @@ public:
 
 	void Draw(sf::RenderWindow &window);
 	void Update();
+	void AddFunction(const std::string& name);
 
 	std::vector<Button *> items;
 

@@ -7,6 +7,8 @@
 #include "Graph.h"
 #include "UIObjects.h"
 #include "Sidebar.h"
+#include "Event.h"
+#include "Constants.h"
 
 enum class Command
 {
@@ -21,20 +23,101 @@ enum class Command
 	RESET
 };
 
+struct InputFieldDeselectEvent : public Event
+{
+	InputFieldDeselectEvent(GraphInformation& info, bool& toggleInput,
+						  InputField& functionInputField, Graph& graph, Sidebar& sidebar) :
+		info(info), toggleInput(toggleInput), functionInputField(functionInputField),
+		graph(graph), sidebar(sidebar)
+	{
+
+	}
+
+	virtual void Invoke() override
+	{
+		std::string input = functionInputField.GetCurrentString();
+		input.erase(std::remove(input.begin(), input.end(), ' '), input.end());
+		input.erase(std::remove(input.begin(), input.end(), '\n'), input.end());
+		input.erase(std::remove(input.begin(), input.end(), '\r'), input.end());
+
+		if (!input.empty())
+		{
+			info.equation = input;
+			info.domainX = info.originalDomainX;
+			info.domainY = info.originalDomainY;
+			info.scale = info.CalculateScale();
+
+			graph.Update();
+
+			if (info.error == ErrorState::NONE)
+			{
+				bool isDuplicate = false;
+
+				for (unsigned int i = 0; i < sidebar.items.size(); ++i)
+				{
+					if (sidebar.items[i]->GetLabel() == info.equation)
+					{
+						isDuplicate = true;
+						break;
+					}
+				}
+
+				if (!isDuplicate && (sidebar.items.size() >= NUM_FUNCTIONS))
+				{
+					for (unsigned int i = sidebar.items.size() - 1; i > 0; --i)
+						sidebar.items[i]->SetLabel(sidebar.items[i - 1]->GetLabel());
+
+					sidebar.items[0]->SetLabel(info.equation);
+				}
+				else if (!isDuplicate)
+					sidebar.AddFunction(info.equation);
+			}
+			else
+				info.equation = "INVALID EQUATION";
+		}
+
+		toggleInput = false;
+		functionInputField.Clear();
+	}
+
+	GraphInformation& info;
+	bool& toggleInput;
+	InputField& functionInputField;
+	Graph& graph;
+	Sidebar& sidebar;
+};
+
+struct InputFieldSelectEvent : public Event
+{
+	InputFieldSelectEvent(bool &toggleInput) :
+		toggleInput(toggleInput)
+	{
+
+	}
+
+	virtual void Invoke() override
+	{
+		toggleInput = true;
+	}
+
+	bool& toggleInput;
+};
+
 class System
 {
 public:
-	System(GraphInformation &info, InputField &functionInputField,
+	System(GraphInformation &info, InputField &field,
 		sf::RectangleShape &xAxis, sf::RectangleShape &yAxis,
 		Sidebar &sidebar);
 
+	void InitEvents();
 	void Step(Command command, GraphInformation &info, float deltaTime);
 	void Draw(sf::RenderWindow &window);
 
 private:
 	GraphInformation &info;
 	Graph graph;
-	InputField &functionInputField;
+	InputField &field;
 	float zoomFactor;
 	float panSpeed;
 	sf::RectangleShape &xAxis;

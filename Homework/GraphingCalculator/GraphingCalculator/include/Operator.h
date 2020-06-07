@@ -9,6 +9,11 @@ class Operator : public Token
 {
 public:
 	Operator(Token *lhs = nullptr, Token *rhs = nullptr);
+	virtual ~Operator()
+	{
+		delete lhs;
+		delete rhs;
+	}
 	
 	virtual double Evaluate() const = 0;
 

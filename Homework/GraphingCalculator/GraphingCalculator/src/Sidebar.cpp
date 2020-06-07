@@ -31,8 +31,6 @@ Sidebar::Sidebar(GraphInformation &info, float left, float width)
 	title.SetColor(sf::Color::Yellow);
 	title.SetStyle(sf::Text::Bold);
 
-	float y = title.GetSize().y + ((SCREEN_HEIGHT / 9) - (SCREEN_HEIGHT / 10));
-
 	std::ifstream ifs("history.txt");
 
 	if (!ifs.is_open())
@@ -44,21 +42,10 @@ Sidebar::Sidebar(GraphInformation &info, float left, float width)
 	std::string line;
 
 	while (std::getline(ifs, line))
-	{
-		historyButton = new Button();
-		historyButton->SetSize(sf::Vector2f(SIDE_BAR, (SCREEN_HEIGHT / 10)));
-		historyButton->SetPosition(SCREEN_WIDTH - SIDE_BAR, y);
-		historyButton->SetHighlightedColor(sf::Color::Blue);
-		historyButton->SetPressedColor(sf::Color::Cyan);
-		historyButton->Load(nullptr, font);
-		historyButton->SetLabelFontSize(20);
-		historyButton->SetLabel(line);
-		historyButton->SetTextColor(sf::Color::Red);
-		Event *event = new ButtonEvent(info, historyButton);
-		historyButton->AddEvent(event);
-		items.push_back(historyButton);
-		y += historyButton->GetSize().y + ((SCREEN_HEIGHT / 9) - historyButton->GetSize().y);
-	}
+		AddFunction(line);
+
+	if (!items.empty())
+		items[0]->OnClick();
 }
 
 Sidebar::~Sidebar()
@@ -71,11 +58,11 @@ Sidebar::~Sidebar()
 		exit(-1);
 	}
 
-	for (const auto &i : items)
+	for (auto& i : items)
+	{
 		ofs << std::string(i->GetLabel() + "\n");
-
-	for (auto &i : items)
 		delete i;
+	}
 }
 
 void Sidebar::Draw(sf::RenderWindow &window) 
@@ -83,7 +70,7 @@ void Sidebar::Draw(sf::RenderWindow &window)
 	window.draw(rect);
 	title.Render(window);
 
-	for (const auto &i : items)
+	for (auto &i : items)
 		i->Render(window);
 }
 
@@ -93,4 +80,31 @@ void Sidebar::Update()
 		i->Update();
 
 	title.Update();
+}
+
+void Sidebar::AddFunction(const std::string& name)
+{
+	float y = 0;
+	
+	if (items.empty())
+		y = title.GetSize().y + ((SCREEN_HEIGHT / NUM_SIDEBAR_ITEMS) - 
+								 (SCREEN_HEIGHT / (NUM_SIDEBAR_ITEMS + 1)));
+	else
+	{
+		Button* prevButton = items[items.size() - 1];
+		y += prevButton->GetPosition().y + prevButton->GetSize().y + 
+			((SCREEN_HEIGHT / NUM_SIDEBAR_ITEMS) - prevButton->GetSize().y);
+	}
+
+	historyButton = new Button();
+	historyButton->SetSize(sf::Vector2f(SIDE_BAR, (SCREEN_HEIGHT / (NUM_SIDEBAR_ITEMS + 1))));
+	historyButton->SetHighlightedColor(sf::Color::Blue);
+	historyButton->SetPressedColor(sf::Color::Cyan);
+	historyButton->Load(nullptr, font);
+	historyButton->SetLabelFontSize(20);
+	historyButton->SetLabel(name);
+	historyButton->SetPosition(SCREEN_WIDTH - SIDE_BAR, y);
+	historyButton->SetTextColor(sf::Color::Red);
+	historyButton->AddEvent(new ButtonOnClickEvent(info, historyButton));
+	items.push_back(historyButton);
 }

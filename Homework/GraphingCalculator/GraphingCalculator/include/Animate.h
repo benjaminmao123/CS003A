@@ -28,7 +28,7 @@ private:
 	System system;                   
 	Command command;                  
 	Text functionLabel;
-	InputField functionInputField;
+	InputField field;
 	InputManager input;
 	sf::RectangleShape xAxis;
 	sf::RectangleShape yAxis;

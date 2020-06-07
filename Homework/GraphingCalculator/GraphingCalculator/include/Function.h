@@ -9,6 +9,11 @@ class Function : public Operator
 public:
 	Function();
 	Function(const vector<Token *> &args);
+	virtual ~Function()
+	{
+		for (auto& i : operands)
+			delete i;
+	}
 
 	virtual double Evaluate() const  = 0;
 
