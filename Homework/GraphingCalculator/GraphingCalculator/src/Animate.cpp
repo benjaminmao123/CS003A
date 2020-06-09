@@ -23,20 +23,22 @@ Animate::Animate()
 		sf::Vector2f(-5, 5),
 		sf::Vector2f(-5, 5),
 		sf::Vector2f(info.CalculateScale()), 
-		500,
-		ErrorState::NONE
+		500
 	}, 
 	command(Command::NONE), xAxis(sf::Vector2f(INT_MAX, 2)),
-	yAxis(sf::Vector2f(2, INT_MAX)), mousePointer(4)
+	yAxis(sf::Vector2f(2, INT_MAX)), mousePointer(4), toggleHelp(false)
 {
 	if (!font.loadFromFile("arial.ttf"))
 		std::cout << "Warning: Failed to load font." << std::endl;
 
 	field.SetSize(GRAPH_WIDTH / 2, GRAPH_HEIGHT / 16);
-	field.SetPosition(GRAPH_WIDTH / 2.5, 0);
+	field.SetPosition(GRAPH_CENTER_X / 2, GRAPH_CENTER_Y - field.GetSize().y / 2);
 	field.Load(nullptr, font);
+	field.SetNormalColor(sf::Color(80, 50, 140));
+	field.SetSelectedColor(sf::Color(80, 50, 140));
 	field.SetHighlightedColor(sf::Color::Blue);
-	field.SetTextColor(sf::Color::Red);
+	field.SetTextFillColor(sf::Color(135, 135, 57));
+	field.SetOutlineThickness(1.f);
 
 	system.InitEvents();
 
@@ -67,13 +69,13 @@ Animate::Animate()
 	zoomText.setFont(font);
 	zoomText.setCharacterSize(20);
 	zoomText.setStyle(sf::Text::Bold);
-	zoomText.setString("Zoom In/Out: [Comma, Period]");
+	zoomText.setString("Zoom In/Out: [Mouse Scroll Up/Down]");
 	zoomText.setPosition(0, resetText.getPosition().y + resetText.getCharacterSize());
 
 	panText.setFont(font);
 	panText.setCharacterSize(20);
 	panText.setStyle(sf::Text::Bold);
-	panText.setString("Pan: [Arrow Keys]");
+	panText.setString("Pan: [W, A, S, D]");
 	panText.setPosition(0, zoomText.getPosition().y + coordinates.getCharacterSize());
 
 	inputText.setFont(font);
@@ -81,6 +83,24 @@ Animate::Animate()
 	inputText.setStyle(sf::Text::Bold);
 	inputText.setString("Input: [Enter]");
 	inputText.setPosition(0, panText.getPosition().y + coordinates.getCharacterSize());
+
+	inputText.setFont(font);
+	inputText.setCharacterSize(20);
+	inputText.setStyle(sf::Text::Bold);
+	inputText.setString("Input: [Enter]");
+	inputText.setPosition(0, panText.getPosition().y + coordinates.getCharacterSize());
+
+	deleteText.setFont(font);
+	deleteText.setCharacterSize(20);
+	deleteText.setStyle(sf::Text::Bold);
+	deleteText.setString("Delete History: [Right Click]");
+	deleteText.setPosition(0, inputText.getPosition().y + coordinates.getCharacterSize());
+
+	helpText.setFont(font);
+	helpText.setCharacterSize(20);
+	helpText.setStyle(sf::Text::Bold);
+	helpText.setString("Help: [H]");
+	helpText.setPosition(0, deleteText.getPosition().y + coordinates.getCharacterSize());
 }
 
 void Animate::Update(float deltaTime)
@@ -94,6 +114,7 @@ void Animate::Update(float deltaTime)
 	mousePointer.setPosition(sf::Vector2f(sf::Mouse::getPosition(window)));
 	sf::Vector2f graphCoords = ct.ScreenPointToCartesian(mousePointer.getPosition());
 	coordinates.setString("(" + std::to_string(graphCoords.x) + ", " + std::to_string(graphCoords.y) + ")");
+	input.Update();
 }
 
 void Animate::Render() 
@@ -105,10 +126,18 @@ void Animate::Render()
 	system.Draw(window);
 	window.draw(functionName);
 	window.draw(coordinates);
-	window.draw(resetText);
-	window.draw(zoomText);
-	window.draw(panText);
-	window.draw(inputText);
+
+	if (toggleHelp)
+	{
+		window.draw(resetText);
+		window.draw(zoomText);
+		window.draw(panText);
+		window.draw(inputText);
+		window.draw(deleteText);
+	}
+
+	window.draw(helpText);
+
 	sidebar.Draw(window);
 	window.draw(mousePointer);
 
@@ -119,22 +148,30 @@ void Animate::SetCommand()
 {
 	command = Command::NONE;
 
-	if (input.GetKeyDown(sf::Keyboard::Tab))
+	if (input.GetKeyDown(sf::Keyboard::Enter))
 		command = Command::EQUATION;
-	if (input.GetKeyDown(sf::Keyboard::Comma))
-		command = Command::ZOOM_IN;
-	if (input.GetKeyDown(sf::Keyboard::Period))
-		command = Command::ZOOM_OUT;
-	if (input.GetKey(sf::Keyboard::Left))
-		command = Command::PAN_LEFT;
-	if (input.GetKey(sf::Keyboard::Right))
-		command = Command::PAN_RIGHT;
-	if (input.GetKey(sf::Keyboard::Up))
-		command = Command::PAN_UP;
-	if (input.GetKey(sf::Keyboard::Down))
-		command = Command::PAN_DOWN;
-	if (input.GetKeyDown(sf::Keyboard::R))
-		command = Command::RESET;
+
+	if (!system.toggleInput)
+	{
+		if (input.GetMouseWheelData().delta > 0)
+			command = Command::ZOOM_IN;
+		if (input.GetMouseWheelData().delta < 0)
+			command = Command::ZOOM_OUT;
+		if (input.GetKey(sf::Keyboard::W))
+			command = Command::PAN_UP;
+		if (input.GetKey(sf::Keyboard::A))
+			command = Command::PAN_LEFT;
+		if (input.GetKey(sf::Keyboard::S))
+			command = Command::PAN_DOWN;
+		if (input.GetKey(sf::Keyboard::D))
+			command = Command::PAN_RIGHT;
+		if (input.GetKeyDown(sf::Keyboard::R))
+			command = Command::RESET;
+		if (input.GetKeyDown(sf::Keyboard::H))
+			toggleHelp = !toggleHelp;
+		if (input.GetMouseButtonDown(sf::Mouse::Right))
+			command = Command::DELETE;
+	}
 }
 
 void Animate::ProcessEvents()
@@ -150,6 +187,9 @@ void Animate::ProcessEvents()
 			break;
 		case sf::Event::TextEntered:
 			field.GetInput(event.text.unicode);
+			break;
+		case sf::Event::MouseWheelMoved:
+			input.SetMouseWheelData(event);
 			break;
 		default:
 			break;

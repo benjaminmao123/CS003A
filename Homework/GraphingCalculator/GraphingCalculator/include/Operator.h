@@ -8,11 +8,11 @@
 class Operator : public Token
 {
 public:
-	Operator(Token *lhs = nullptr, Token *rhs = nullptr);
+	Operator(double lhs = 0.0, double rhs = 0.0);
 	virtual ~Operator()
 	{
-		delete lhs;
-		delete rhs;
+		//delete lhs;
+		//delete rhs;
 	}
 	
 	virtual double Evaluate() const = 0;
@@ -20,20 +20,20 @@ public:
 	int GetPrecedence() const;
 
 protected:
-	const Token *GetLeftOperand() const;
-	const Token *GetRightOperand() const;
+	double GetLeftOperand() const;
+	double GetRightOperand() const;
 	void SetPrecedence(int precedence);
 
 private:
-	Token *lhs;
-	Token *rhs;
+	double lhs;
+	double rhs;
 	int precedence;
 };
 
 class Addition : public Operator
 {
 public:
-	Addition(Token *lhs = nullptr, Token *rhs = nullptr);
+	Addition(double lhs = 0.0, double rhs = 0.0);
 
 	virtual double Evaluate() const override;
 };
@@ -41,7 +41,7 @@ public:
 class Subtraction : public Operator
 {
 public:
-	Subtraction(Token *lhs = nullptr, Token *rhs = nullptr);
+	Subtraction(double lhs = 0.0, double rhs = 0.0);
 
 	virtual double Evaluate() const override;
 };
@@ -49,7 +49,7 @@ public:
 class Multiplication : public Operator
 {
 public:
-	Multiplication(Token *lhs = nullptr, Token *rhs = nullptr);
+	Multiplication(double lhs = 0.0, double rhs = 0.0);
 
 	virtual double Evaluate() const override;
 };
@@ -57,7 +57,7 @@ public:
 class Division : public Operator
 {
 public:
-	Division(Token *lhs = nullptr, Token *rhs = nullptr);
+	Division(double lhs = 0.0, double rhs = 0.0);
 
 	virtual double Evaluate() const override;
 };
@@ -65,7 +65,15 @@ public:
 class Exponent : public Operator
 {
 public:
-	Exponent(Token *lhs = nullptr, Token *rhs = nullptr);
+	Exponent(double lhs = 0.0, double rhs = 0.0);
+
+	virtual double Evaluate() const override;
+};
+
+class Comma : public Operator
+{
+public:
+	Comma();
 
 	virtual double Evaluate() const override;
 };

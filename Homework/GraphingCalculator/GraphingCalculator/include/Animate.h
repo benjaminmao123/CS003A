@@ -40,6 +40,9 @@ private:
 	sf::Text zoomText;
 	sf::Text panText;
 	sf::Text inputText;
+	sf::Text deleteText;
+	sf::Text helpText;
+	bool toggleHelp;
 };
 
 #endif // GAME_H

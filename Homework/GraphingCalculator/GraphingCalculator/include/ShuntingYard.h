@@ -15,25 +15,12 @@ enum class ShuntingState
 	EXPECT_OPERATOR
 };
 
-enum class ErrorState
-{
-	NONE,
-	INVALID_OPERAND,
-	INVALID_PARENTHESIS,
-	INVALID_OPERATOR,
-	INVALID_INPUT
-};
-
 class ShuntingYard
 {
 public:
-	ShuntingYard();
 	queue<Token *> ToPostfix(const vector<Token *> &infix);
 
-	ErrorState GetErrorState() const;
-
 private:
-	ErrorState errorState;
 	std::string input;
 	std::string output;
 };

@@ -21,7 +21,10 @@ enum class TokenType
 	FUNC,
 	OPERATOR,
 	OPERAND,
-	COS
+	COS,
+	MAX,
+	LOG,
+	COMMA
 };
 
 class Token

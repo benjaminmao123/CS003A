@@ -18,7 +18,7 @@ RPN::~RPN()
 /*
 	@summary: Evaluates the postfix expression.
 */
-Token *RPN::Evaluate(const queue<Token *> &postfix)
+double RPN::Evaluate(const queue<Token *> &postfix)
 {
 	for (const auto &token : postfix)
 	{
@@ -31,7 +31,7 @@ Token *RPN::Evaluate(const queue<Token *> &postfix)
 				Token *right = static_cast<Operand *>(result.pop());
 				Token *left = static_cast<Operand *>(result.pop());
 
-				Operator *op = new Addition(left, right);
+				Operator *op = new Addition(left->Evaluate(), right->Evaluate());
 				result.push(op);
 				break;
 			}
@@ -40,7 +40,7 @@ Token *RPN::Evaluate(const queue<Token *> &postfix)
 				Token *right = static_cast<Operand *>(result.pop());
 				Token *left = static_cast<Operand *>(result.pop());
 
-				Operator *op = new Subtraction(left, right);
+				Operator *op = new Subtraction(left->Evaluate(), right->Evaluate());
 				result.push(op);
 				break;
 			}
@@ -49,7 +49,7 @@ Token *RPN::Evaluate(const queue<Token *> &postfix)
 				Token *right = static_cast<Operand *>(result.pop());
 				Token *left = static_cast<Operand *>(result.pop());
 
-				Operator *op = new Multiplication(left, right);
+				Operator *op = new Multiplication(left->Evaluate(), right->Evaluate());
 				result.push(op);
 				break;
 			}
@@ -58,7 +58,7 @@ Token *RPN::Evaluate(const queue<Token *> &postfix)
 				Token *right = static_cast<Operand *>(result.pop());
 				Token *left = static_cast<Operand *>(result.pop());
 
-				Operator *op = new Division(left, right);
+				Operator *op = new Division(left->Evaluate(), right->Evaluate());
 				result.push(op);
 				break;
 			}
@@ -67,18 +67,18 @@ Token *RPN::Evaluate(const queue<Token *> &postfix)
 				Token *right = static_cast<Operand *>(result.pop());
 				Token *left = static_cast<Operand *>(result.pop());
 
-				Operator *op = new Exponent(left, right);
+				Operator *op = new Exponent(left->Evaluate(), right->Evaluate());
 				result.push(op);
 				break;
 			}
 			case TokenType::SIN:
 			{
-				vector<Token *> args;
+				vector<double> args;
 
 				for (unsigned int i = 0; i < token->GetNumArgs(); ++i)
 				{
 					Token *arg = static_cast<Operand *>(result.pop());
-					args.push_back(arg);
+					args.push_back(arg->Evaluate());
 				}
 
 				Operator *op = new Sin(args);
@@ -87,12 +87,12 @@ Token *RPN::Evaluate(const queue<Token *> &postfix)
 			}
 			case TokenType::TAN:
 			{
-				vector<Token *> args;
+				vector<double> args;
 
 				for (unsigned int i = 0; i < token->GetNumArgs(); ++i)
 				{
-					Token *arg = static_cast<Operand *>(result.pop());
-					args.push_back(arg);
+					Token* arg = static_cast<Operand*>(result.pop());
+					args.push_back(arg->Evaluate());
 				}
 
 				Operator *op = new Tan(args);
@@ -101,12 +101,12 @@ Token *RPN::Evaluate(const queue<Token *> &postfix)
 			}
 			case TokenType::LN:
 			{
-				vector<Token *> args;
+				vector<double> args;
 
 				for (unsigned int i = 0; i < token->GetNumArgs(); ++i)
 				{
-					Token *arg = static_cast<Operand *>(result.pop());
-					args.push_back(arg);
+					Token* arg = static_cast<Operand*>(result.pop());
+					args.push_back(arg->Evaluate());
 				}
 
 				Operator *op = new Ln(args);
@@ -121,16 +121,45 @@ Token *RPN::Evaluate(const queue<Token *> &postfix)
 			}
 			case TokenType::COS:
 			{
-				vector<Token *> args;
+				vector<double> args;
 
 				for (unsigned int i = 0; i < token->GetNumArgs(); ++i)
 				{
-					Token *arg = static_cast<Operand *>(result.pop());
-					args.push_back(arg);
+					Token* arg = static_cast<Operand*>(result.pop());
+					args.push_back(arg->Evaluate());
 				}
 
 				Operator *op = new Cos(args);
 				result.push(op);
+				break;
+			}
+			case TokenType::MAX:
+			{
+				vector<double> args;
+
+				for (unsigned int i = 0; i < token->GetNumArgs(); ++i)
+				{
+					Token* arg = static_cast<Operand*>(result.pop());
+					args.push_back(arg->Evaluate());
+				}
+
+				Operator* op = new Max(args);
+				result.push(op);
+				break;
+			}
+			case TokenType::LOG:
+			{
+				vector<double> args;
+
+				for (unsigned int i = 0; i < token->GetNumArgs(); ++i)
+				{
+					Token* arg = static_cast<Operand*>(result.pop());
+					args.push_back(arg->Evaluate());
+				}
+
+				Operator* op = new Log(args);
+				result.push(op);
+				break;
 			}
 			default:
 				break;
@@ -143,10 +172,10 @@ Token *RPN::Evaluate(const queue<Token *> &postfix)
 		}
 	}
 
-	return result.top();
+	return result.top()->Evaluate();
 }
 
-Token *RPN::operator()(const queue<Token *> &postfix)
+double RPN::operator()(const queue<Token *> &postfix)
 {
 	return Evaluate(postfix);
 }

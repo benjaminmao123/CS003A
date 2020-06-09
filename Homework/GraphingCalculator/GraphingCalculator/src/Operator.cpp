@@ -16,7 +16,7 @@
     @param <const Operand &lhs>: The left hand argument.
     @param <const Operand &rhs>: The right hand argument.
 */
-Operator::Operator(Token *lhs, Token *rhs)
+Operator::Operator(double lhs, double rhs)
     : lhs(lhs), rhs(rhs), precedence(0)
 {
     SetBaseTokenType(TokenType::OPERATOR);
@@ -38,7 +38,7 @@ int Operator::GetPrecedence() const
 
     @return <const Operand &>: The left Operand.
 */
-const Token *Operator::GetLeftOperand() const
+double Operator::GetLeftOperand() const
 {
 	return lhs;
 }
@@ -48,7 +48,7 @@ const Token *Operator::GetLeftOperand() const
 
     @return <const Operand &>: The right Operand.
 */
-const Token *Operator::GetRightOperand() const
+double Operator::GetRightOperand() const
 {
 	return rhs;
 }
@@ -67,7 +67,7 @@ void Operator::SetPrecedence(int precedence)
     @summary: Default constructor. Takes default arguments.
         Initializes precedence and tokenString.
 */
-Addition::Addition(Token *lhs, Token *rhs)
+Addition::Addition(double lhs, double rhs)
     : Operator(lhs, rhs)
 {
     SetPrecedence(1);
@@ -80,14 +80,14 @@ Addition::Addition(Token *lhs, Token *rhs)
 */
 double Addition::Evaluate() const
 {
-    return GetLeftOperand()->Evaluate() + GetRightOperand()->Evaluate();
+    return GetLeftOperand() + GetRightOperand();
 }
 
 /*
     @summary: Default constructor. Takes default arguments.
         Initializes precedence and tokenString.
 */
-Subtraction::Subtraction(Token *lhs, Token *rhs)
+Subtraction::Subtraction(double lhs, double rhs)
     : Operator(lhs, rhs)
 {
     SetPrecedence(1);
@@ -100,14 +100,14 @@ Subtraction::Subtraction(Token *lhs, Token *rhs)
 */
 double Subtraction::Evaluate() const
 {
-    return GetLeftOperand()->Evaluate() - GetRightOperand()->Evaluate();
+    return GetLeftOperand()- GetRightOperand();
 }
 
 /*
     @summary: Default constructor. Takes default arguments.
         Initializes precedence and tokenString.
 */
-Multiplication::Multiplication(Token *lhs, Token *rhs)
+Multiplication::Multiplication(double lhs, double rhs)
     : Operator(lhs, rhs)
 {
     SetPrecedence(2);
@@ -120,14 +120,14 @@ Multiplication::Multiplication(Token *lhs, Token *rhs)
 */
 double Multiplication::Evaluate() const
 {
-    return GetLeftOperand()->Evaluate() * GetRightOperand()->Evaluate();
+    return GetLeftOperand() * GetRightOperand();
 }
 
 /*
     @summary: Default constructor. Takes default arguments.
         Initializes precedence and tokenString.
 */
-Division::Division(Token *lhs, Token *rhs)
+Division::Division(double lhs, double rhs)
     : Operator(lhs, rhs)
 {
     SetPrecedence(2);
@@ -140,9 +140,9 @@ Division::Division(Token *lhs, Token *rhs)
 */
 double Division::Evaluate() const
 {
-    if (!GetRightOperand()->Evaluate()) return 0;
+    if (!GetRightOperand()) return 0;
 
-    return GetLeftOperand()->Evaluate() / GetRightOperand()->Evaluate();
+    return GetLeftOperand() / GetRightOperand();
 }
 
 /*
@@ -151,7 +151,7 @@ double Division::Evaluate() const
     @param <const Operand &lhs>: The left operand.
     @param <const Operand &rhs>: The right operand.
 */
-Exponent::Exponent(Token *lhs, Token *rhs)
+Exponent::Exponent(double lhs, double rhs)
     : Operator(lhs, rhs)
 {
     SetPrecedence(3);
@@ -164,5 +164,17 @@ Exponent::Exponent(Token *lhs, Token *rhs)
 */
 double Exponent::Evaluate() const
 {
-    return pow(GetLeftOperand()->Evaluate(), GetRightOperand()->Evaluate());
+    return pow(GetLeftOperand(), GetRightOperand());
+}
+
+Comma::Comma()
+{
+    SetPrecedence(100);
+    SetTokenString(",");
+    SetTokenType(TokenType::COMMA);
+}
+
+double Comma::Evaluate() const
+{
+    return 0.0;
 }

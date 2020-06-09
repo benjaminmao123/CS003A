@@ -4,8 +4,7 @@
 #include "Tokenizer.h"
 #include "RPN.h"
 #include "Graph.h"
-
-#include <iostream>
+#include "Error.h"
 
 CoordinateTranslation::CoordinateTranslation(GraphInformation &info)
 	: info(info)
@@ -51,6 +50,9 @@ Plot::Plot(GraphInformation &info)
 	validTokens.push_back("cos");
 	validTokens.push_back("e");
 	validTokens.push_back("p");
+	validTokens.push_back(",");
+	validTokens.push_back("log");
+	validTokens.push_back("max");
 
 	validOperands.push_back("x");
 	validOperands.push_back("(");
@@ -61,6 +63,8 @@ Plot::Plot(GraphInformation &info)
 
 vector<sf::Vector2f> Plot::operator()()
 {
+	Error::errorState = ErrorState::NONE;
+
 	ShuntingYard sy;
 	Tokenizer tokenizer(validTokens, validOperands);
 	RPN rpn(validTokens);
@@ -74,26 +78,26 @@ vector<sf::Vector2f> Plot::operator()()
 	{
 		vector<Token *> tokens = tokenizer.Tokenize(info.equation, x);
 
-		if (tokenizer.GetErrorState() != ErrorState::NONE)
+		if (Error::errorState != ErrorState::NONE)
 			return points;
 
 		postfix = sy.ToPostfix(tokens);
 
-		if (sy.GetErrorState() != ErrorState::NONE)
-		{
-			info.error = sy.GetErrorState();
+		if (Error::errorState != ErrorState::NONE)
 			return points;
-		}
 
 		try
 		{
-			sf::Vector2f screenPoints = ct(sf::Vector2f((float)x, (float)rpn(postfix)->Evaluate()));
+			sf::Vector2f screenPoints = ct(sf::Vector2f((float)x, (float)rpn(postfix)));
 			points.push_back(screenPoints);
 		}
 		catch (const std::invalid_argument &)
 		{
 			continue;
 		}
+
+		for (auto& i : postfix)
+			delete i;
 	}
 
 	return points;

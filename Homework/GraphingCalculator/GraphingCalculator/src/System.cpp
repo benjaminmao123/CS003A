@@ -11,7 +11,7 @@ System::System(GraphInformation &info, InputField &field,
 	sf::RectangleShape &xAxis, sf::RectangleShape &yAxis,
 	Sidebar &sidebar)
 	: info(info), graph(info), field(field),
-	zoomFactor(0.0625f), panSpeed(10.f), xAxis(xAxis), yAxis(yAxis),
+	zoomFactor(0.0225f), panSpeed(10.f), xAxis(xAxis), yAxis(yAxis),
 	toggleInput(false), sidebar(sidebar)
 {
 
@@ -26,13 +26,14 @@ void System::InitEvents()
 void System::Step(Command command, GraphInformation &info, float deltaTime)
 {
 	static CoordinateTranslation ct(info);
-	info.error = ErrorState::NONE;
 
 	switch (command)
 	{
 	case Command::EQUATION:
 		if (!toggleInput)
 			field.OnSelect();
+		else
+			toggleInput = false;
 		break;
 	case Command::ZOOM_IN:
 	{
@@ -87,6 +88,22 @@ void System::Step(Command command, GraphInformation &info, float deltaTime)
 		info.SetDomainY(info.originalDomainY);
 		info.SetOrigin(info.originalOrigin);
 		info.scale = info.CalculateScale();
+		break;
+	case Command::DELETE:
+		for (auto it = sidebar.items.begin(); it != sidebar.items.end(); ++it)
+		{
+			if ((*it)->GetIsHighlighted())
+			{
+				Button* button = *it;
+				sidebar.items.erase(it);
+				delete button;
+				break;
+			}
+		}
+
+		sidebar.Save();
+		sidebar.Clear();
+		sidebar.Load();
 		break;
 	default:
 		break;

@@ -13,10 +13,10 @@ public:
 	RPN(const vector<std::string> &validTokens);
 	~RPN();
 
-	Token *operator()(const queue<Token *> &postfix);
+	double operator()(const queue<Token *> &postfix);
 
 private:
-	Token *Evaluate(const queue<Token *> &postfix);
+	double Evaluate(const queue<Token *> &postfix);
 
 	const vector<std::string> &validTokens;
 	stack<Token *> result;

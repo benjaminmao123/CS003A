@@ -1,8 +1,13 @@
 #include "InputManager.h"
-
+#include <iostream>
 InputManager::InputManager()
 {
 
+}
+
+void InputManager::Update()
+{
+	ResetMouseWheelData();
 }
 
 bool InputManager::GetKeyDown(sf::Keyboard::Key key)
@@ -115,5 +120,24 @@ const sf::Vector2i InputManager::GetMousePosition(const sf::RenderWindow &window
 const sf::Vector2f InputManager::GetMousePositionWorld(const sf::RenderWindow &window) const
 {
 	return window.mapPixelToCoords(GetMousePosition(window));
+}
+
+const WheelData& InputManager::GetMouseWheelData() const
+{
+	return wheelData;
+}
+
+void InputManager::SetMouseWheelData(const sf::Event& event)
+{
+	wheelData.delta = event.mouseWheel.delta;
+	wheelData.x = event.mouseWheel.x;
+	wheelData.y = event.mouseWheel.y;
+}
+
+void InputManager::ResetMouseWheelData()
+{
+	wheelData.delta = 0;
+	wheelData.x = 0;
+	wheelData.y = 0;
 }
 

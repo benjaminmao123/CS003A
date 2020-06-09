@@ -9,6 +9,7 @@
 #include "Sidebar.h"
 #include "Event.h"
 #include "Constants.h"
+#include "Error.h"
 
 enum class Command
 {
@@ -20,7 +21,8 @@ enum class Command
 	PAN_RIGHT,
 	PAN_UP,
 	PAN_DOWN,
-	RESET
+	RESET,
+	DELETE
 };
 
 struct InputFieldDeselectEvent : public Event
@@ -49,13 +51,13 @@ struct InputFieldDeselectEvent : public Event
 
 			graph.Update();
 
-			if (info.error == ErrorState::NONE)
+			if (Error::errorState == ErrorState::NONE)
 			{
 				bool isDuplicate = false;
 
-				for (unsigned int i = 0; i < sidebar.items.size(); ++i)
+				for (auto& i : sidebar.items)
 				{
-					if (sidebar.items[i]->GetLabel() == info.equation)
+					if (i->GetText() == info.equation)
 					{
 						isDuplicate = true;
 						break;
@@ -65,18 +67,17 @@ struct InputFieldDeselectEvent : public Event
 				if (!isDuplicate && (sidebar.items.size() >= NUM_FUNCTIONS))
 				{
 					for (unsigned int i = sidebar.items.size() - 1; i > 0; --i)
-						sidebar.items[i]->SetLabel(sidebar.items[i - 1]->GetLabel());
+						sidebar.items[i]->SetText(sidebar.items[i - 1]->GetText());
 
-					sidebar.items[0]->SetLabel(info.equation);
+					sidebar.items[0]->SetText(info.equation);
 				}
 				else if (!isDuplicate)
 					sidebar.AddFunction(info.equation);
 			}
 			else
-				info.equation = "INVALID EQUATION";
+				info.equation = Error::GetErrorMessage();
 		}
 
-		toggleInput = false;
 		functionInputField.Clear();
 	}
 
@@ -114,6 +115,8 @@ public:
 	void Step(Command command, GraphInformation &info, float deltaTime);
 	void Draw(sf::RenderWindow &window);
 
+	bool toggleInput;
+
 private:
 	GraphInformation &info;
 	Graph graph;
@@ -122,7 +125,6 @@ private:
 	float panSpeed;
 	sf::RectangleShape &xAxis;
 	sf::RectangleShape &yAxis;
-	bool toggleInput;
 	Sidebar &sidebar;
 };
 

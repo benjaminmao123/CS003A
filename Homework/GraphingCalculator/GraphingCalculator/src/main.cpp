@@ -6,6 +6,10 @@
  * Notes: None.
  */
 
+#ifdef _DEBUG
+    #include <vld.h>
+#endif
+
 #include "Animate.h"
 
 int main()

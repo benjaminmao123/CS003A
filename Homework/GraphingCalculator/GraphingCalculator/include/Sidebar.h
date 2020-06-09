@@ -21,7 +21,7 @@ struct ButtonOnClickEvent : public Event
 
 	virtual void Invoke() override
 	{
-		info.equation = button->GetLabel();
+		info.equation = button->GetText();
 		info.SetDomainX(info.originalDomainX);
 		info.SetDomainY(info.originalDomainY);
 		info.SetOrigin(info.originalOrigin);
@@ -38,6 +38,10 @@ public:
 	Sidebar(GraphInformation &info);
 	Sidebar(GraphInformation &info, float left, float width);
 	~Sidebar();
+
+	void Save();
+	void Load();
+	void Clear();
 
 	void Draw(sf::RenderWindow &window);
 	void Update();

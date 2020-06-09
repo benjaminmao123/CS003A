@@ -1,4 +1,5 @@
 #include <cmath>
+#include <algorithm>
 
 #include "Function.h"
 
@@ -8,7 +9,7 @@ Function::Function()
     SetBaseTokenType(TokenType::FUNC);
 }
 
-Function::Function(const vector<Token *> &args)
+Function::Function(const vector<double> &args)
 {
     SetPrecedence(100);
     SetBaseTokenType(TokenType::FUNC);
@@ -17,7 +18,7 @@ Function::Function(const vector<Token *> &args)
         operands.push_back(arg);
 }
 
-const Token *Function::GetOperand(int idx) const
+double Function::GetOperand(int idx) const
 {
     return operands.at(idx);
 }
@@ -29,7 +30,7 @@ Sin::Sin()
     SetNumArgs(1);
 }
 
-Sin::Sin(const vector<Token *> &args)
+Sin::Sin(const vector<double> &args)
     : Function(args)
 {
 	SetTokenType(TokenType::SIN);
@@ -39,7 +40,7 @@ Sin::Sin(const vector<Token *> &args)
 
 double Sin::Evaluate() const
 {
-	return sin(GetOperand(0)->Evaluate());
+	return sin(GetOperand(0));
 }
 
 Tan::Tan()
@@ -49,7 +50,7 @@ Tan::Tan()
     SetNumArgs(1);
 }
 
-Tan::Tan(const vector<Token *> &args)
+Tan::Tan(const vector<double> &args)
     : Function(args)
 {
     SetTokenType(TokenType::TAN);
@@ -59,7 +60,7 @@ Tan::Tan(const vector<Token *> &args)
 
 double Tan::Evaluate() const
 {
-    return tan(GetOperand(0)->Evaluate());
+    return tan(GetOperand(0));
 }
 
 Ln::Ln()
@@ -69,7 +70,7 @@ Ln::Ln()
     SetNumArgs(1);
 }
 
-Ln::Ln(const vector<Token *> &args)
+Ln::Ln(const vector<double> &args)
     : Function(args)
 {
     SetTokenType(TokenType::LN);
@@ -79,7 +80,7 @@ Ln::Ln(const vector<Token *> &args)
 
 double Ln::Evaluate() const
 {
-    return log(GetOperand(0)->Evaluate());
+    return log(GetOperand(0));
 }
 
 Cos::Cos()
@@ -89,7 +90,7 @@ Cos::Cos()
     SetNumArgs(1);
 }
 
-Cos::Cos(const vector<Token *> &args)
+Cos::Cos(const vector<double> &args)
     : Function(args)
 {
     SetTokenType(TokenType::COS);
@@ -99,5 +100,51 @@ Cos::Cos(const vector<Token *> &args)
 
 double Cos::Evaluate() const
 {
-    return cos(GetOperand(0)->Evaluate());
+    return cos(GetOperand(0));
+}
+
+Max::Max()
+{
+    SetTokenType(TokenType::MAX);
+    SetTokenString("max");
+    SetNumArgs(2);
+}
+
+Max::Max(const vector<double>& args)
+    : Function(args)
+{
+    SetTokenType(TokenType::MAX);
+    SetTokenString("max");
+    SetNumArgs(2);
+}
+
+double Max::Evaluate() const
+{
+    return std::max(GetOperand(0), GetOperand(1));
+}
+
+Log::Log()
+{
+    SetTokenType(TokenType::LOG);
+    SetTokenString("log");
+    SetNumArgs(2);
+}
+
+Log::Log(const vector<double>& args)
+    : Function(args)
+{
+    SetTokenType(TokenType::LOG);
+    SetTokenString("log");
+    SetNumArgs(2);
+}
+
+double Log::Evaluate() const
+{
+    double numerator = std::log(GetOperand(0));
+    double denominator = std::log(GetOperand(1));
+
+    if (!denominator)
+        return 0;
+
+    return numerator / denominator;
 }

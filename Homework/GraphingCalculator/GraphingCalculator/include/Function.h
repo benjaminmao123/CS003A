@@ -8,26 +8,26 @@ class Function : public Operator
 {
 public:
 	Function();
-	Function(const vector<Token *> &args);
+	Function(const vector<double>& args);
 	virtual ~Function()
 	{
-		for (auto& i : operands)
-			delete i;
+		//for (auto& i : operands)
+		//	delete i;
 	}
 
-	virtual double Evaluate() const  = 0;
+	virtual double Evaluate() const = 0;
 
-	const Token *GetOperand(int idx) const;
+	double GetOperand(int idx) const;
 
 private:
-	vector<Token *> operands;
+	vector<double> operands;
 };
 
 class Sin : public Function
 {
 public:
 	Sin();
-	Sin(const vector<Token *> &args);
+	Sin(const vector<double>& args);
 
 	virtual double Evaluate() const override;
 };
@@ -36,7 +36,7 @@ class Tan : public Function
 {
 public:
 	Tan();
-	Tan(const vector<Token *> &args);
+	Tan(const vector<double>& args);
 
 	virtual double Evaluate() const override;
 };
@@ -45,16 +45,34 @@ class Ln : public Function
 {
 public:
 	Ln();
-	Ln(const vector<Token *> &args);
+	Ln(const vector<double>& args);
 
 	virtual double Evaluate() const override;
 };
 
 class Cos : public Function
 {
-public :
+public:
 	Cos();
-	Cos(const vector<Token *> &args);
+	Cos(const vector<double>& args);
+
+	virtual double Evaluate() const override;
+};
+
+class Max : public Function
+{
+public:
+	Max();
+	Max(const vector<double>& args);
+
+	virtual double Evaluate() const override;
+};
+
+class Log : public Function
+{
+public:
+	Log();
+	Log(const vector<double>& args);
 
 	virtual double Evaluate() const override;
 };

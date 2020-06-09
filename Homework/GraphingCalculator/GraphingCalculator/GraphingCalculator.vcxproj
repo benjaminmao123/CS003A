@@ -22,6 +22,7 @@
     <ClInclude Include="include\Animate.h" />
     <ClInclude Include="include\ArrayLibrary.h" />
     <ClInclude Include="include\Constants.h" />
+    <ClInclude Include="include\Error.h" />
     <ClInclude Include="include\Event.h" />
     <ClInclude Include="include\EventHandler.h" />
     <ClInclude Include="include\Function.h" />
@@ -48,6 +49,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Animate.cpp" />
+    <ClCompile Include="src\Error.cpp" />
     <ClCompile Include="src\Event.cpp" />
     <ClCompile Include="src\EventHandler.cpp" />
     <ClCompile Include="src\Function.cpp" />
@@ -147,14 +149,14 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(ProjectDir)\include\SFML;$(ProjectDir)\include;$(ProjectDir)\include\SFML;$(ProjectDir)\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)\include\vld;$(ProjectDir)\include\SFML;$(ProjectDir)\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>$(ProjectDir)\lib;%(ProjectDir)\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>$(ProjectDir)\lib\sfml-audio-d.lib;$(ProjectDir)\lib\sfml-graphics-d.lib;$(ProjectDir)\lib\sfml-main-d.lib;$(ProjectDir)\lib\sfml-network-d.lib;$(ProjectDir)\lib\sfml-system-d.lib;$(ProjectDir)\lib\sfml-window-d.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>$(ProjectDir)\lib\vld.lib;$(ProjectDir)\lib\sfml-audio-d.lib;$(ProjectDir)\lib\sfml-graphics-d.lib;$(ProjectDir)\lib\sfml-main-d.lib;$(ProjectDir)\lib\sfml-network-d.lib;$(ProjectDir)\lib\sfml-system-d.lib;$(ProjectDir)\lib\sfml-window-d.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">

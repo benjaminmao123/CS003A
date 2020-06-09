@@ -57,7 +57,6 @@ struct GraphInformation
 	sf::Vector2f oldDomainY;
 	sf::Vector2f scale;
 	int numPoints;
-	ErrorState error;
 };
 
 class Graph

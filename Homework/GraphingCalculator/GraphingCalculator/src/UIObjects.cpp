@@ -1,5 +1,120 @@
 #include "UIObjects.h"
 
+Selectable::Selectable()
+	: normalColor(sf::Color::White), highlightedColor(sf::Color::White),
+	pressedColor(sf::Color::White), selectedColor(sf::Color::White),
+	disabledColor(sf::Color::White), isInteractable(true),
+	isSelected(false), isHighlighted(false)
+{
+
+}
+
+Selectable::~Selectable()
+{
+
+}
+
+void Selectable::SetNormalColor(const sf::Color& color)
+{
+	normalColor = color;
+}
+
+void Selectable::SetPressedColor(const sf::Color& color)
+{
+	pressedColor = color;
+}
+
+void Selectable::SetHighlightedColor(const sf::Color& color)
+{
+	highlightedColor = color;
+}
+
+void Selectable::SetSelectedColor(const sf::Color& color)
+{
+	selectedColor = color;
+}
+
+void Selectable::SetDisabledColor(const sf::Color& color)
+{
+	disabledColor = color;
+}
+
+void Selectable::SetIsInteractable(bool state)
+{
+	isInteractable = state;
+}
+
+const sf::Color& Selectable::GetNormalColor() const
+{
+	return normalColor;
+}
+
+const sf::Color& Selectable::GetPressedColor() const
+{
+	return pressedColor;
+}
+
+const sf::Color& Selectable::GetHighlightedColor() const
+{
+	return highlightedColor;
+}
+
+const sf::Color& Selectable::GetSelectedColor() const
+{
+	return selectedColor;
+}
+
+const sf::Color& Selectable::GetDisabledColor() const
+{
+	return disabledColor;
+}
+
+bool Selectable::GetIsInteractable() const
+{
+	return isInteractable;
+}
+
+bool Selectable::GetIsSelected() const
+{
+	return isSelected;
+}
+
+bool Selectable::GetIsHighlighted() const
+{
+	return isHighlighted;
+}
+
+void Selectable::AddEvent(Event* event)
+{
+	onClickEvents += event;
+}
+
+void Selectable::RemoveEvent(Event* event)
+{
+	onClickEvents -= event;
+}
+
+void Selectable::OnClick()
+{
+	SetIsHighlighted(false);
+	onClickEvents.Invoke();
+}
+
+EventHandler& Selectable::GetOnClickEvents()
+{
+	return onClickEvents;
+}
+
+void Selectable::SetIsSelected(bool state)
+{
+	isSelected = true;
+}
+
+void Selectable::SetIsHighlighted(bool state)
+{
+	isHighlighted = state;
+}
+
 Text::Text()
 	: hAlign(HAlign::Center),
 	vAlign(VAlign::Middle), rect(0, 0, 100, 100)
@@ -17,35 +132,35 @@ void Text::Render(sf::RenderWindow &window)
 	window.draw(text);
 }
 
-std::string Text::GetString() const
-{
-	return text.getString().toAnsiString();
-}
-
-void Text::SetColor(const sf::Color &color)
-{
-	text.setFillColor(color);
-}
-
-void Text::SetCharacterSize(float size)
-{
-	text.setCharacterSize(size);
-}
-
-void Text::SetStyle(sf::Text::Style style)
-{
-	text.setStyle(style);
-}
-
-void Text::Load(const std::string &path)
+void Text::Load(const std::string& path)
 {
 	if (font.loadFromFile(path))
 		text.setFont(font);
 }
 
-void Text::Load(const sf::Font &font)
+void Text::Load(const sf::Font& font)
 {
 	text.setFont(font);
+}
+
+void Text::SetFillColor(const sf::Color &color)
+{
+	text.setFillColor(color);
+}
+
+void Text::SetOutlineColor(const sf::Color& color)
+{
+	text.setOutlineColor(color);
+}
+
+void Text::SetOutlineThickness(float thickness)
+{
+	text.setOutlineThickness(thickness);
+}
+
+float Text::GetOutlineThickness() const
+{
+	return text.getOutlineThickness();
 }
 
 void Text::SetPosition(float x, float y)
@@ -62,6 +177,11 @@ void Text::SetPosition(const sf::Vector2f &pos)
 	rect.top = pos.y;
 }
 
+sf::Vector2f Text::GetPosition() const
+{
+	return sf::Vector2f(rect.left, rect.top);
+}
+
 void Text::SetSize(float width, float height)
 {
 	rect.width = width;
@@ -74,19 +194,34 @@ void Text::SetSize(const sf::Vector2f &dims)
 	rect.width = dims.y;
 }
 
-sf::Vector2f Text::GetPosition() const
-{
-	return sf::Vector2f(rect.left, rect.top);
-}
-
 sf::Vector2f Text::GetSize() const
 {
 	return sf::Vector2f(rect.width, rect.height);
 }
 
+void Text::SetCharacterSize(unsigned int size)
+{
+	text.setCharacterSize(size);
+}
+
+unsigned int Text::GetCharacterSize() const
+{
+	return text.getCharacterSize();
+}
+
+void Text::SetStyle(sf::Text::Style style)
+{
+	text.setStyle(style);
+}
+
 void Text::SetString(const std::string &str)
 {
 	text.setString(str);
+}
+
+std::string Text::GetString() const
+{
+	return text.getString().toAnsiString();
 }
 
 void Text::AlignText()
@@ -129,110 +264,6 @@ void Text::AlignText()
 	}
 }
 
-Selectable::Selectable()
-	: normalColor(sf::Color::White), highlightedColor(sf::Color::White),
-	pressedColor(sf::Color::White), selectedColor(sf::Color::White),
-	disabledColor(sf::Color::White), isInteractable(true),
-	isSelected(false)
-{
-
-}
-
-Selectable::~Selectable()
-{
-
-}
-
-void Selectable::SetNormalColor(const sf::Color &color)
-{
-	normalColor = color;
-}
-
-void Selectable::SetPressedColor(const sf::Color &color)
-{
-	pressedColor = color;
-}
-
-void Selectable::SetHighlightedColor(const sf::Color &color)
-{
-	highlightedColor = color;
-}
-
-void Selectable::SetSelectedColor(const sf::Color &color)
-{
-	selectedColor = color;
-}
-
-void Selectable::SetDisabledColor(const sf::Color &color)
-{
-	disabledColor = color;
-}
-
-void Selectable::SetIsInteractable(bool state)
-{
-	isInteractable = state;
-}
-
-const sf::Color &Selectable::GetNormalColor() const
-{
-	return normalColor;
-}
-
-const sf::Color &Selectable::GetPressedColor() const
-{
-	return pressedColor;
-}
-
-const sf::Color &Selectable::GetHighlightedColor() const
-{
-	return highlightedColor;
-}
-
-const sf::Color &Selectable::GetSelectedColor() const
-{
-	return selectedColor;
-}
-
-const sf::Color &Selectable::GetDisabledColor() const
-{
-	return disabledColor;
-}
-
-bool Selectable::GetIsInteractable() const
-{
-	return isInteractable;
-}
-
-bool Selectable::GetIsSelected() const
-{
-	return isSelected;
-}
-
-void Selectable::AddEvent(Event *event)
-{
-	onClickEvents += event;
-}
-
-void Selectable::RemoveEvent(Event *event)
-{
-	onClickEvents -= event;
-}
-
-void Selectable::OnClick()
-{
-	onClickEvents.Invoke();
-}
-
-EventHandler &Selectable::GetOnClickEvents()
-{
-	return onClickEvents;
-}
-
-void Selectable::SetIsSelected(bool state)
-{
-	isSelected = true;
-}
-
 Button::Button()
 	: frame(sf::Vector2f(100, 100))
 {
@@ -261,19 +292,39 @@ void Button::Render(sf::RenderWindow &window)
 	text.Render(window);
 }
 
-std::string Button::GetLabel() const
+void Button::SetOutlineColor(const sf::Color& color)
 {
-	return text.GetString();
+	frame.setOutlineColor(color);
 }
 
-const sf::Vector2f &Button::GetSize() const
+void Button::SetTextFillColor(const sf::Color& color)
 {
-	return frame.getSize();
+	text.SetFillColor(color);
 }
 
-const sf::Vector2f &Button::GetPosition() const
+void Button::SetTextOutlineColor(const sf::Color& color)
 {
-	return frame.getPosition();
+	text.SetFillColor(color);
+}
+
+void Button::SetOutlineThickness(float thickness)
+{
+	frame.setOutlineThickness(thickness);
+}
+
+float Button::GetOutlineThickness() const
+{
+	return frame.getOutlineThickness();
+}
+
+void Button::SetTextOutlineThickness(float thickness)
+{
+	text.SetOutlineThickness(thickness);
+}
+
+float Button::GetTextOutlineThickness() const
+{
+	return text.GetOutlineThickness();
 }
 
 void Button::SetSize(const sf::Vector2f &dims)
@@ -290,6 +341,11 @@ void Button::SetSize(float x, float y)
 	bounds.height = y;
 }
 
+const sf::Vector2f& Button::GetSize() const
+{
+	return frame.getSize();
+}
+
 void Button::SetPosition(const sf::Vector2f &pos)
 {
 	frame.setPosition(pos);
@@ -304,19 +360,34 @@ void Button::SetPosition(float x, float y)
 	bounds.top = y;
 }
 
-void Button::SetTextColor(const sf::Color &color)
+const sf::Vector2f& Button::GetPosition() const
 {
-	text.SetColor(color);
+	return frame.getPosition();
 }
 
-void Button::SetLabelFontSize(float size)
+void Button::SetTextCharacterSize(unsigned int size)
 {
 	text.SetCharacterSize(size);
 }
 
-void Button::SetLabel(const std::string &string)
+unsigned int Button::GetTextCharacterSize() const
+{
+	return text.GetCharacterSize();
+}
+
+void Button::SetTextStyle(sf::Text::Style style)
+{
+	text.SetStyle(style);
+}
+
+void Button::SetText(const std::string &string)
 {
 	text.SetString(string);
+}
+
+std::string Button::GetText() const
+{
+	return text.GetString();
 }
 
 void Button::CheckSelection(sf::RenderWindow &window)
@@ -327,9 +398,12 @@ void Button::CheckSelection(sf::RenderWindow &window)
 		float(input.GetMousePosition(window).x),
 		float(input.GetMousePosition(window).y));
 
+	SetIsHighlighted(false);
+
 	if (bounds.contains(mousePosition))
 	{
 		frame.setFillColor(GetHighlightedColor());
+		SetIsHighlighted(true);
 
 		if (input.GetMouseButton(sf::Mouse::Left))
 			frame.setFillColor(GetPressedColor());
@@ -413,14 +487,44 @@ void InputField::Load(sf::Texture *texture, const sf::Font &font)
 	text.Load(font);
 }
 
+void InputField::SetFillColor(const sf::Color& color)
+{
+	field.setFillColor(color);
+}
+
 void InputField::SetOutlineColor(const sf::Color &color)
 {
 	field.setOutlineColor(color);
 }
 
-void InputField::SetOutlineThickness(const float value)
+void InputField::SetTextFillColor(const sf::Color& color)
+{
+	text.SetFillColor(color);
+}
+
+void InputField::SetTextOutlineColor(const sf::Color& color)
+{
+	text.SetOutlineColor(color);
+}
+
+void InputField::SetOutlineThickness(float value)
 {
 	field.setOutlineThickness(value);
+}
+
+float InputField::GetOutlineThickness() const
+{
+	return field.getOutlineThickness();
+}
+
+void InputField::SetTextOutlineThickness(float value)
+{
+	text.SetOutlineThickness(value);
+}
+
+float InputField::GetTextOutlineThickness() const
+{
+	return text.GetOutlineThickness();
 }
 
 void InputField::SetSize(const sf::Vector2f &size)
@@ -429,10 +533,15 @@ void InputField::SetSize(const sf::Vector2f &size)
 	text.SetSize(size);
 }
 
-void InputField::SetSize(const float width, const float height)
+void InputField::SetSize(float width, float height)
 {
 	field.setSize(sf::Vector2f(width, height));
 	text.SetSize(width, height);
+}
+
+const sf::Vector2f& InputField::GetSize() const
+{
+	return field.getSize();
 }
 
 void InputField::SetPosition(const sf::Vector2f &pos)
@@ -445,14 +554,24 @@ void InputField::SetPosition(float x, float y)
 	field.setPosition(x, y);
 }
 
-const sf::Vector2f &InputField::GetSize() const
-{
-	return field.getSize();
-}
-
 const sf::Vector2f &InputField::GetPosition() const
 {
 	return field.getPosition();
+}
+
+void InputField::SetTextCharacterSize(unsigned int value)
+{
+	text.SetCharacterSize(value);
+}
+
+unsigned int InputField::GetTextCharacterSize() const
+{
+	return text.GetCharacterSize();
+}
+
+void InputField::SetTextStyle(sf::Text::Style style)
+{
+	text.SetStyle(style);
 }
 
 void InputField::SetCurrentString(const std::string &string)
@@ -464,6 +583,33 @@ void InputField::SetCurrentString(const std::string &string)
 std::string InputField::GetCurrentString() const
 {
 	return currentString;
+}
+
+void InputField::GetInput(sf::Uint32 unicode)
+{
+	if (isSelected)
+	{
+		if (unicode == 8 || unicode == 127)
+		{
+			if (currentString.size() > 0)
+				currentString.erase(currentString.size() - 1);
+		}
+		else
+			currentString += unicode;
+
+		text.SetString(currentString);
+
+		OnValueChanged();
+
+		if (input.GetKey(sf::Keyboard::Enter))
+			OnEndEdit();
+	}
+}
+
+void InputField::Clear()
+{
+	currentString = "";
+	text.SetString("");
 }
 
 void InputField::AddOnSelectEvent(Event *event)
@@ -537,46 +683,19 @@ void InputField::CheckSelection(sf::RenderWindow &window)
 				field.setFillColor(GetPressedColor());
 
 			if (input.GetMouseButton(sf::Mouse::Left))
+			{
 				if (!isSelected)
 					OnSelect();
+			}
 		}
 	}
 	else
 		if (isSelected)
+		{
 			if (input.GetMouseButton(sf::Mouse::Left))
 				OnDeselect();
+		}
 		else
 			field.setFillColor(GetNormalColor());
 }
 
-void InputField::GetInput(sf::Uint32 unicode)
-{
-	if (isSelected)
-	{
-		if (unicode == 8 || unicode == 127)
-		{
-			if (currentString.size() > 0)
-				currentString.erase(currentString.size() - 1);
-		}
-		else
-			currentString += unicode;
-
-		text.SetString(currentString);
-
-		OnValueChanged();
-
-		if (input.GetKey(sf::Keyboard::Enter))
-			OnEndEdit();
-	}
-}
-
-void InputField::Clear()
-{
-	currentString = "";
-	text.SetString("");
-}
-
-void InputField::SetTextColor(const sf::Color &color)
-{
-	text.SetColor(color);
-}
