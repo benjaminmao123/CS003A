@@ -12,15 +12,15 @@
 
 	@return <bool>: True if parse was successful, else false.
 */
-vector<token_ptr> ShuntingYard::ToPostfix(const vector<token_ptr>& infix)
+vector<Token*> ShuntingYard::ToPostfix(vector<Token*>& infix)
 {
 	ShuntingState state = ShuntingState::EXPECT_OPERAND;
 	Error::errorState = ErrorState::NONE;
 
-	stack<token_ptr> tokens;
-	vector<token_ptr> postfix;
+	stack<Token*> tokens;
+	vector<Token*> postfix;
 
-	for (const auto& token : infix)
+	for (auto& token : infix)
 	{
 		if (token)
 		{
@@ -29,8 +29,11 @@ vector<token_ptr> ShuntingYard::ToPostfix(const vector<token_ptr>& infix)
 			case TokenType::OPERAND:
 				if (state != ShuntingState::EXPECT_OPERAND)
 				{
-					Error::errorState = ErrorState::INVALID_OPERAND;
-					return vector<token_ptr>();
+					for (auto& i : infix)
+						delete i;
+
+					Error::errorState = ErrorState::EXPECT_OPERATOR;
+					return vector<Token*>();
 				}
 
 				postfix.push_back(token);
@@ -39,14 +42,17 @@ vector<token_ptr> ShuntingYard::ToPostfix(const vector<token_ptr>& infix)
 			case TokenType::FUNC:
 				if (state != ShuntingState::EXPECT_OPERAND)
 				{
-					Error::errorState = ErrorState::INVALID_OPERAND;
-					return vector<token_ptr>();
+					for (auto& i : infix)
+						delete i;
+
+					Error::errorState = ErrorState::EXPECT_OPERATOR;
+					return vector<Token*>();
 				}
 
 				if (!tokens.empty())
 				{
-					operator_ptr op = std::dynamic_pointer_cast<Operator>(token);
-					operator_ptr top = std::dynamic_pointer_cast<Operator>(tokens.top());
+					Operator* op = dynamic_cast<Operator*>(token);
+					Operator* top = dynamic_cast<Operator*>(tokens.top());
 
 					if (op && top)
 					{
@@ -67,8 +73,11 @@ vector<token_ptr> ShuntingYard::ToPostfix(const vector<token_ptr>& infix)
 			case TokenType::OPERATOR:
 				if (state != ShuntingState::EXPECT_OPERATOR)
 				{
-					Error::errorState = ErrorState::INVALID_OPERATOR;
-					return vector<token_ptr>();
+					for (auto& i : infix)
+						delete i;
+
+					Error::errorState = ErrorState::EXPECT_OPERAND;
+					return vector<Token*>();
 				}
 
 				switch (token->GetTokenType())
@@ -83,15 +92,21 @@ vector<token_ptr> ShuntingYard::ToPostfix(const vector<token_ptr>& infix)
 
 					if (tokens.top()->GetTokenType() != TokenType::L_PARENTH)
 					{
-						Error::errorState = ErrorState::INVALID_ARGUMENT_SEPARATOR;
-						return vector<token_ptr>();
+						for (auto& i : infix)
+							delete i;
+
+						Error::errorState = ErrorState::EXPECT_OPERAND;
+						return vector<Token*>();
 					}
+
+					delete token;
+					token = nullptr;
 					break;
 				default:
 					if (!tokens.empty())
 					{
-						operator_ptr op = std::dynamic_pointer_cast<Operator>(token);
-						operator_ptr top = std::dynamic_pointer_cast<Operator>(tokens.top());
+						Operator* op = dynamic_cast<Operator*>(token);
+						Operator* top = dynamic_cast<Operator*>(tokens.top());
 
 						if (op && top)
 						{
@@ -115,46 +130,70 @@ vector<token_ptr> ShuntingYard::ToPostfix(const vector<token_ptr>& infix)
 				break;
 			}
 
-			switch (token->GetTokenType())
+			if (token)
 			{
-			case TokenType::L_PARENTH:
-				if (state != ShuntingState::EXPECT_OPERAND)
+				switch (token->GetTokenType())
 				{
-					Error::errorState = ErrorState::INVALID_OPERAND;
-					return vector<token_ptr>();
+				case TokenType::L_PARENTH:
+					if (state != ShuntingState::EXPECT_OPERAND)
+					{
+						for (auto& i : infix)
+							delete i;
+
+						Error::errorState = ErrorState::EXPECT_OPERATOR;
+						return vector<Token*>();
+					}
+
+					tokens.push(token);
+					state = ShuntingState::EXPECT_OPERAND;
+					break;
+				case TokenType::R_PARENTH:
+					if (state != ShuntingState::EXPECT_OPERATOR)
+					{
+						for (auto& i : infix)
+							delete i;
+
+						Error::errorState = ErrorState::EXPECT_OPERAND;
+						return vector<Token*>();
+					}
+
+					while (!tokens.empty() &&
+						   tokens.top()->GetTokenType() != TokenType::L_PARENTH)
+					{
+						postfix.push_back(tokens.top());
+						tokens.pop();
+					}
+
+					if (!tokens.empty() &&
+						tokens.top()->GetTokenType() == TokenType::L_PARENTH)
+					{
+						for (auto& i : infix)
+							if (i == tokens.top())
+							{
+								delete i;
+								i = nullptr;
+								break;
+							}
+
+						tokens.pop();
+					}
+
+					delete token;
+					token = nullptr;
+					state = ShuntingState::EXPECT_OPERATOR;
+					break;
 				}
-
-				tokens.push(token);
-				state = ShuntingState::EXPECT_OPERAND;
-				break;
-			case TokenType::R_PARENTH:
-				if (state != ShuntingState::EXPECT_OPERATOR)
-				{
-					Error::errorState = ErrorState::INVALID_OPERAND;
-					return vector<token_ptr>();
-				}
-
-				while (!tokens.empty() &&
-					   tokens.top()->GetTokenType() != TokenType::L_PARENTH)
-				{
-					postfix.push_back(tokens.top());
-					tokens.pop();
-				}
-
-				if (!tokens.empty() &&
-					tokens.top()->GetTokenType() == TokenType::L_PARENTH)
-					tokens.pop();
-
-				state = ShuntingState::EXPECT_OPERATOR;
-				break;
 			}
 		}
 	}
 
 	if (state == ShuntingState::EXPECT_OPERAND)
 	{
-		Error::errorState = ErrorState::INVALID_OPERATOR;
-		return vector<token_ptr>();
+		for (auto& i : infix)
+			delete i;
+
+		Error::errorState = ErrorState::EXPECT_OPERAND;
+		return vector<Token*>();
 	}
 
 	while (!tokens.empty())
@@ -162,8 +201,11 @@ vector<token_ptr> ShuntingYard::ToPostfix(const vector<token_ptr>& infix)
 		if (tokens.top()->GetTokenType() == TokenType::L_PARENTH ||
 			tokens.top()->GetTokenType() == TokenType::R_PARENTH)
 		{
-			Error::errorState = ErrorState::INVALID_PARENTHESIS;
-			return vector<token_ptr>();
+			for (auto& i : infix)
+				delete i;
+
+			Error::errorState = ErrorState::EXPECT_PARENTHESIS;
+			return vector<Token*>();
 		}
 
 		postfix.push_back(tokens.top());

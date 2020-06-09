@@ -13,7 +13,7 @@
 
 struct ButtonOnClickEvent : public Event
 {
-	ButtonOnClickEvent(GraphInformation &info, const button_ptr &button)
+	ButtonOnClickEvent(GraphInformation &info, Button* button)
 		: info(info), button(button)
 	{
 
@@ -29,7 +29,7 @@ struct ButtonOnClickEvent : public Event
 	}
 
 	GraphInformation &info;
-	button_ptr button;
+	Button* button;
 };
 
 class Sidebar
@@ -47,12 +47,12 @@ public:
 	void Update();
 	void AddFunction(const std::string& name);
 
-	vector<button_ptr> items;
+	vector<Button*> items;
 
 private:
 	sf::RectangleShape rect;            //sidebar rectangle     
 	Text title;
-	button_ptr historyButton;
+	Button* historyButton;
 	GraphInformation &info;
 	sf::Font font;
 

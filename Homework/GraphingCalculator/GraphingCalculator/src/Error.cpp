@@ -16,17 +16,21 @@ namespace Error
 		case ErrorState::INVALID_INPUT:
 			message = "INVALID INPUT";
 			break;
-		case ErrorState::INVALID_OPERAND:
-			message = "INVALID OPERAND";
+		case ErrorState::EXPECT_OPERAND:
+			message = "EXPECTED OPERAND";
 			break;
-		case ErrorState::INVALID_OPERATOR:
-			message = "INVALID OPERATOR";
+		case ErrorState::EXPECT_OPERATOR:
+			message = "EXPECTED OPERATOR";
 			break;
-		case ErrorState::INVALID_PARENTHESIS:
-			message = "INVALID PARENTHESIS";
+		case ErrorState::EXPECT_PARENTHESIS:
+			message = "EXPECTED PARENTHESIS";
 			break;
-		case ErrorState::INVALID_ARGUMENT_SEPARATOR:
-			message = "INVALID ARGUMENT SEPARATOR";
+		case ErrorState::EXPECT_ARGUMENT_SEPARATOR:
+			message = "EXPECTED ARGUMENT SEPARATOR";
+			break;
+		case ErrorState::EXPECTED_ARGUMENT:
+			message = "EXPECTED ARGUMENT";
+			break;
 		default:
 			break;
 		}

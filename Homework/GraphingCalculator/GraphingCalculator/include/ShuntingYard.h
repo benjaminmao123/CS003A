@@ -20,7 +20,7 @@ enum class ShuntingState
 class ShuntingYard
 {
 public:
-	vector<token_ptr> ToPostfix(const vector<token_ptr> &infix);
+	vector<Token*> ToPostfix(vector<Token*> &infix);
 
 private:
 	std::string input;

@@ -25,8 +25,8 @@ Animate::Animate()
 		sf::Vector2f(info.CalculateScale()), 
 		500
 	}, 
-	command(Command::NONE), xAxis(sf::Vector2f(INT_MAX, 2)),
-	yAxis(sf::Vector2f(2, INT_MAX)), mousePointer(4), toggleHelp(false)
+	command(Command::NONE), xAxis(sf::Vector2f((float)INT_MAX, 2.0f)),
+	yAxis(sf::Vector2f(2.0f, (float)INT_MAX)), mousePointer(4), toggleHelp(false)
 {
 	if (!font.loadFromFile("arial.ttf"))
 		std::cout << "Warning: Failed to load font." << std::endl;
@@ -64,7 +64,7 @@ Animate::Animate()
 	resetText.setCharacterSize(20);
 	resetText.setStyle(sf::Text::Bold);
 	resetText.setString("Reset: [R]");
-	resetText.setPosition(0, (resetText.getCharacterSize() / 2) + coordinates.getCharacterSize());
+	resetText.setPosition(0, (resetText.getCharacterSize() / 2) + (float)coordinates.getCharacterSize());
 
 	zoomText.setFont(font);
 	zoomText.setCharacterSize(20);

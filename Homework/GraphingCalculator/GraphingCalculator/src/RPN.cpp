@@ -2,6 +2,7 @@
 
 #include "Operator.h"
 #include "Function.h"
+#include "Error.h"
 
 RPN::RPN(const vector<std::string> &validTokens)
 	: validTokens(validTokens)
@@ -9,81 +10,96 @@ RPN::RPN(const vector<std::string> &validTokens)
 
 }
 
+RPN::~RPN()
+{
+	for (auto& i : result)
+		delete i;
+}
+
 /*
 	@summary: Evaluates the postfix expression.
 */
-double RPN::Evaluate(const vector<token_ptr > &postfix)
+double RPN::Evaluate(vector<Token*> &postfix)
 {
-	for (const auto &token : postfix)
+	for (auto &token : postfix)
 	{
-		bool exists = false;
-
-		for (const auto& i : validTokens)
-			if (i == token->GetTokenString())
-				exists = true;
-
-		if (exists)
+		if (validTokens.index_of(token->GetTokenString()) != -1) 
 		{
 			switch (token->GetTokenType())
 			{
 			case TokenType::ADD:
 			{
-				token_ptr right = std::static_pointer_cast<Operand>(result.top());
+				Token* right = static_cast<Operand*>(result.top());
 				result.pop();
 
-				token_ptr left = std::static_pointer_cast<Operand>(result.top());
+				Token* left = static_cast<Operand*>(result.top());
 				result.pop();
 
-				operator_ptr op = std::make_shared<Addition>(left->Evaluate(), right->Evaluate());
+				Operator* op = new Addition(left->Evaluate(), right->Evaluate());
 				result.push(op);
+
+				delete right;
+				delete left;
 				break;
 			}
 			case TokenType::SUB:
 			{
-				token_ptr right = std::static_pointer_cast<Operand>(result.top());
+				Token* right = static_cast<Operand*>(result.top());
 				result.pop();
 
-				token_ptr left = std::static_pointer_cast<Operand>(result.top());
+				Token* left = static_cast<Operand*>(result.top());
 				result.pop();
 
-				operator_ptr op = std::make_shared<Subtraction>(left->Evaluate(), right->Evaluate());
+				Operator* op = new Subtraction(left->Evaluate(), right->Evaluate());
 				result.push(op);
+
+				delete right;
+				delete left;
 				break;
 			}
 			case TokenType::MULT:
 			{
-				token_ptr right = std::static_pointer_cast<Operand>(result.top());
+				Token* right = static_cast<Operand*>(result.top());
 				result.pop();
 
-				token_ptr left = std::static_pointer_cast<Operand>(result.top());
+				Token* left = static_cast<Operand*>(result.top());
 				result.pop();
 
-				operator_ptr op = std::make_shared<Multiplication>(left->Evaluate(), right->Evaluate());
+				Operator* op = new Multiplication(left->Evaluate(), right->Evaluate());
 				result.push(op);
+
+				delete right;
+				delete left;
 				break;
 			}
 			case TokenType::DIV:
 			{
-				token_ptr right = std::static_pointer_cast<Operand>(result.top());
+				Token* right = static_cast<Operand*>(result.top());
 				result.pop();
 
-				token_ptr left = std::static_pointer_cast<Operand>(result.top());
+				Token* left = static_cast<Operand*>(result.top());
 				result.pop();
 
-				operator_ptr op = std::make_shared<Division>(left->Evaluate(), right->Evaluate());
+				Operator* op = new Division(left->Evaluate(), right->Evaluate());
 				result.push(op);
+
+				delete right;
+				delete left;
 				break;
 			}
 			case TokenType::EXP:
 			{
-				token_ptr right = std::static_pointer_cast<Operand>(result.top());
+				Token* right = static_cast<Operand*>(result.top());
 				result.pop();
 
-				token_ptr left = std::static_pointer_cast<Operand>(result.top());
+				Token* left = static_cast<Operand*>(result.top());
 				result.pop();
 
-				operator_ptr op = std::make_shared<Exponent>(left->Evaluate(), right->Evaluate());
+				Operator* op = new Exponent(left->Evaluate(), right->Evaluate());
 				result.push(op);
+
+				delete right;
+				delete left;
 				break;
 			}
 			case TokenType::SIN:
@@ -92,12 +108,27 @@ double RPN::Evaluate(const vector<token_ptr > &postfix)
 
 				for (unsigned int i = 0; i < token->GetNumArgs(); ++i)
 				{
-					token_ptr arg = std::static_pointer_cast<Operand>(result.top());
-					result.pop();
-					args.push_back(arg->Evaluate());
+					try
+					{
+						Token* arg = static_cast<Operand*>(result.top());
+						result.pop();
+						args.push_back(arg->Evaluate());
+						delete arg;
+					}
+					catch (std::out_of_range&)
+					{
+						for (auto& i : postfix)
+						{
+							delete i;
+							i = nullptr;
+						}
+
+						Error::errorState = ErrorState::EXPECTED_ARGUMENT;
+						return 0.0;
+					}
 				}
 
-				operator_ptr op = std::make_shared<Sin>(args);
+				Operator* op = new Sin(args);
 				result.push(op);
 				break;
 			}
@@ -107,12 +138,27 @@ double RPN::Evaluate(const vector<token_ptr > &postfix)
 
 				for (unsigned int i = 0; i < token->GetNumArgs(); ++i)
 				{
-					token_ptr arg = std::static_pointer_cast<Operand>(result.top());
-					result.pop();
-					args.push_back(arg->Evaluate());
+					try
+					{
+						Token* arg = static_cast<Operand*>(result.top());
+						result.pop();
+						args.push_back(arg->Evaluate());
+						delete arg;
+					}
+					catch (std::out_of_range&)
+					{
+						for (auto& i : postfix)
+						{
+							delete i;
+							i = nullptr;
+						}
+
+						Error::errorState = ErrorState::EXPECTED_ARGUMENT;
+						return 0.0;
+					}
 				}
 
-				operator_ptr op = std::make_shared<Tan>(args);
+				Operator* op = new Tan(args);
 				result.push(op);
 				break;
 			}
@@ -122,18 +168,33 @@ double RPN::Evaluate(const vector<token_ptr > &postfix)
 
 				for (unsigned int i = 0; i < token->GetNumArgs(); ++i)
 				{
-					token_ptr arg = std::static_pointer_cast<Operand>(result.top());
-					result.pop();
-					args.push_back(arg->Evaluate());
+					try
+					{
+						Token* arg = static_cast<Operand*>(result.top());
+						result.pop();
+						args.push_back(arg->Evaluate());
+						delete arg;
+					}
+					catch (std::out_of_range&)
+					{
+						for (auto& i : postfix)
+						{
+							delete i;
+							i = nullptr;
+						}
+
+						Error::errorState = ErrorState::EXPECTED_ARGUMENT;
+						return 0.0;
+					}
 				}
 
-				operator_ptr op = std::make_shared<Ln>(args);
+				Operator* op = new Ln(args);
 				result.push(op);
 				break;
 			}
 			case TokenType::VAR:
 			{
-				token_ptr mToken = std::make_shared<Variable>(token->GetTokenString(), token->Evaluate());
+				Token* mToken = new Variable(token->GetTokenString(), token->Evaluate());
 				result.push(mToken);
 				break;
 			}
@@ -143,12 +204,27 @@ double RPN::Evaluate(const vector<token_ptr > &postfix)
 
 				for (unsigned int i = 0; i < token->GetNumArgs(); ++i)
 				{
-					token_ptr arg = std::static_pointer_cast<Operand>(result.top());
-					result.pop();
-					args.push_back(arg->Evaluate());
+					try
+					{
+						Token* arg = static_cast<Operand*>(result.top());
+						result.pop();
+						args.push_back(arg->Evaluate());
+						delete arg;
+					}
+					catch (std::out_of_range&)
+					{
+						for (auto& i : postfix)
+						{
+							delete i;
+							i = nullptr;
+						}
+
+						Error::errorState = ErrorState::EXPECTED_ARGUMENT;
+						return 0.0;
+					}
 				}
 
-				operator_ptr op = std::make_shared<Cos>(args);
+				Operator* op = new Cos(args);
 				result.push(op);
 				break;
 			}
@@ -158,12 +234,27 @@ double RPN::Evaluate(const vector<token_ptr > &postfix)
 
 				for (unsigned int i = 0; i < token->GetNumArgs(); ++i)
 				{
-					token_ptr arg = std::static_pointer_cast<Operand>(result.top());
-					result.pop();
-					args.push_back(arg->Evaluate());
+					try
+					{
+						Token* arg = static_cast<Operand*>(result.top());
+						result.pop();
+						args.push_back(arg->Evaluate());
+						delete arg;
+					}
+					catch (std::out_of_range&)
+					{
+						for (auto& i : postfix)
+						{
+							delete i;
+							i = nullptr;
+						}
+
+						Error::errorState = ErrorState::EXPECTED_ARGUMENT;
+						return 0.0;
+					}
 				}
 
-				operator_ptr op = std::make_shared<Max>(args);
+				Operator* op = new Max(args);
 				result.push(op);
 				break;
 			}
@@ -173,12 +264,27 @@ double RPN::Evaluate(const vector<token_ptr > &postfix)
 
 				for (unsigned int i = 0; i < token->GetNumArgs(); ++i)
 				{
-					token_ptr arg = std::static_pointer_cast<Operand>(result.top());
-					result.pop();
-					args.push_back(arg->Evaluate());
+					try
+					{
+						Token* arg = static_cast<Operand*>(result.top());
+						result.pop();
+						args.push_back(arg->Evaluate());
+						delete arg;
+					}
+					catch (std::out_of_range&)
+					{
+						for (auto& i : postfix)
+						{
+							delete i;
+							i = nullptr;
+						}
+
+						Error::errorState = ErrorState::EXPECTED_ARGUMENT;
+						return 0.0;
+					}
 				}
 
-				operator_ptr op = std::make_shared<Log>(args);
+				Operator* op = new Log(args);
 				result.push(op);
 				break;
 			}
@@ -188,15 +294,18 @@ double RPN::Evaluate(const vector<token_ptr > &postfix)
 		}
 		else
 		{
-			token_ptr mToken = std::make_shared<Number>(token->Evaluate());
+			Token* mToken = new Number(token->Evaluate());
 			result.push(mToken);
 		}
+
+		delete token;
+		token = nullptr;
 	}
 
 	return result.top()->Evaluate();
 }
 
-double RPN::operator()(const vector<token_ptr > &postfix)
+double RPN::operator()(vector<Token* > &postfix)
 {
 	return Evaluate(postfix);
 }

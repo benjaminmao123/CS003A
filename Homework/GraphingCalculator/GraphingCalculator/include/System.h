@@ -66,7 +66,7 @@ struct InputFieldDeselectEvent : public Event
 
 				if (!isDuplicate && (sidebar.items.size() >= NUM_FUNCTIONS))
 				{
-					for (unsigned int i = sidebar.items.size() - 1; i > 0; --i)
+					for (size_t i = sidebar.items.size() - 1; i > 0; --i)
 						sidebar.items[i]->SetText(sidebar.items[i - 1]->GetText());
 
 					sidebar.items[0]->SetText(info.equation);

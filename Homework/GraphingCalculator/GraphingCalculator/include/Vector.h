@@ -48,7 +48,7 @@ public:
         container.pop_back();
     }
 
-    int index_of(const T& item)
+    int index_of(const T& item) const
     {
         for (int i = 0; i < container.size(); ++i)
         {

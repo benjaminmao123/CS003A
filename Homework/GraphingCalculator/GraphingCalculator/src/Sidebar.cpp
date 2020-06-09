@@ -40,6 +40,9 @@ Sidebar::Sidebar(GraphInformation &info, float left, float width)
 Sidebar::~Sidebar()
 {
 	Save();
+
+	for (auto& i : items)
+		delete i;
 }
 
 void Sidebar::Save()
@@ -108,13 +111,13 @@ void Sidebar::AddFunction(const std::string& name)
 								 (SCREEN_HEIGHT / (NUM_SIDEBAR_ITEMS + 1)));
 	else
 	{
-		const button_ptr &prevButton = items[items.size() - 1];
+		Button* prevButton = items[items.size() - 1];
 
 		y += prevButton->GetPosition().y + prevButton->GetSize().y + 
 			((SCREEN_HEIGHT / NUM_SIDEBAR_ITEMS) - prevButton->GetSize().y);
 	}
 
-	historyButton = std::make_shared<Button>();
+	historyButton = new Button;
 	historyButton->SetSize(sf::Vector2f(SIDE_BAR - BUTTON_X_PADDING,
 										(SCREEN_HEIGHT / (NUM_SIDEBAR_ITEMS + 1))));
 	historyButton->SetNormalColor(sf::Color(80, 50, 140));

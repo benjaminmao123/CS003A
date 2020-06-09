@@ -61,6 +61,11 @@ Plot::Plot(GraphInformation &info)
 	validOperands.push_back("p");
 }
 
+Plot::~Plot()
+{
+
+}
+
 vector<sf::Vector2f> Plot::operator()()
 {
 	Error::errorState = ErrorState::NONE;
@@ -76,7 +81,7 @@ vector<sf::Vector2f> Plot::operator()()
 
 	for (double x = info.domainX.x; x <= info.domainX.y; x += increment)
 	{
-		vector<token_ptr> tokens = tokenizer.Tokenize(info.equation, x);
+		vector<Token*> tokens = tokenizer.Tokenize(info.equation, x);
 
 		if (Error::errorState != ErrorState::NONE)
 			return points;
@@ -88,7 +93,12 @@ vector<sf::Vector2f> Plot::operator()()
 
 		try
 		{
-			sf::Vector2f screenPoints = ct(sf::Vector2f((float)x, (float)rpn(postfix)));
+			float y = rpn(postfix);
+
+			if (Error::errorState != ErrorState::NONE)
+				return points;
+
+			sf::Vector2f screenPoints = ct(sf::Vector2f((float)x, (float)y));
 			points.push_back(screenPoints);
 		}
 		catch (const std::invalid_argument &)

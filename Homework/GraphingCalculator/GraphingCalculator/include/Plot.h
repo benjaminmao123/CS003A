@@ -30,12 +30,13 @@ class Plot
 {
 public:
 	Plot(GraphInformation &info);
+	~Plot();
 
 	vector<sf::Vector2f> operator()();
 
 private:
 	GraphInformation &info;
-	vector<token_ptr> postfix;
+	vector<Token*> postfix;
 	vector<std::string> validTokens;
 	vector<std::string> validOperands;
 };

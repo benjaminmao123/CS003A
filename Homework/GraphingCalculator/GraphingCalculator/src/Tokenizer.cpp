@@ -14,42 +14,37 @@ Tokenizer::Tokenizer(const vector<std::string> &validTokens,
 	
 }
 
-vector<token_ptr> Tokenizer::Tokenize(const std::string &input, double xVal)
+vector<Token*> Tokenizer::Tokenize(const std::string &input, double xVal)
 {
 	std::string newInput = SpaceInput(input);
 	std::istringstream iss(newInput);
-	vector<token_ptr> tokens;
 	std::string temp;
+
+	vector<Token*> tokens;
 
 	while (iss >> temp)
 	{
-		token_ptr token = nullptr;
+		Token* token = nullptr;
 
-		bool exists = false;
-
-		for (const auto& i : validTokens)
-			if (i == temp)
-				exists = true;
-
-		if (exists)
+		if (validTokens.index_of(temp) != -1)
 		{
-			if (temp == "+") token = std::make_shared<Addition>();
-			if (temp == "-") token = std::make_shared<Subtraction>();
-			if (temp == "*") token = std::make_shared<Multiplication>();
-			if (temp == "/") token = std::make_shared<Division>();
-			if (temp == "^") token = std::make_shared<Exponent>();
-			if (temp == "(") token = std::make_shared<LeftParenthesis>();
-			if (temp == ")") token = std::make_shared<RightParenthesis>();
-			if (temp == "x") token = std::make_shared<Variable>(temp, xVal);
-			if (temp == "sin") token = std::make_shared<Sin>();
-			if (temp == "tan") token = std::make_shared<Tan>();
-			if (temp == "ln") token = std::make_shared<Ln>();
-			if (temp == "cos") token = std::make_shared<Cos>();
-			if (temp == "e") token = std::make_shared<Variable>(temp, e);
-			if (temp == "p") token = std::make_shared<Variable>(temp, pi);
-			if (temp == ",") token = std::make_shared<Comma>();
-			if (temp == "log") token = std::make_shared<Log>();
-			if (temp == "max") token = std::make_shared<Max>();;
+			if (temp == "+") token = new Addition;
+			else if (temp == "-") token = new Subtraction;
+			else if (temp == "*") token = new Multiplication;
+			else if (temp == "/") token = new Division;
+			else if (temp == "^") token = new Exponent;
+			else if (temp == "(") token = new LeftParenthesis;
+			else if (temp == ")") token = new RightParenthesis;
+			else if (temp == "x") token = new Variable(temp, xVal);
+			else if (temp == "sin") token = new Sin;
+			else if (temp == "tan") token = new Tan;
+			else if (temp == "ln") token = new Ln;
+			else if (temp == "cos") token = new Cos;
+			else if (temp == "e") token = new Variable(temp, e);
+			else if (temp == "p") token = new Variable(temp, pi);
+			else if (temp == ",") token = new Comma;
+			else if (temp == "log") token = new Log;
+			else if (temp == "max") token = new Max;
 		}
 		else
 		{
@@ -62,10 +57,14 @@ vector<token_ptr> Tokenizer::Tokenize(const std::string &input, double xVal)
 			catch (const std::invalid_argument &)
 			{
 				Error::errorState = ErrorState::INVALID_INPUT;
-				return tokens;
+
+				for (auto& i : tokens)
+					delete i;
+
+				return vector<Token*>();
 			}
 
-			token = std::make_shared<Number>(value);
+			token = new Number(value);
 		}
 
 		tokens.push_back(token);
@@ -77,31 +76,19 @@ vector<token_ptr> Tokenizer::Tokenize(const std::string &input, double xVal)
 std::string Tokenizer::SpaceInput(const std::string &input) const
 {
 	std::string spacedInput = input;
-	char prevToken = 'a';
+	auto prevIt = spacedInput.begin();
 
 	for (auto it = spacedInput.begin(); it != spacedInput.end(); ++it)
 	{
-		bool exists = false;
-
-		for (const auto& i : validTokens)
-			if (i == std::string(1, *it))
-				exists = true;
-
-		if (exists)
+		if (validTokens.index_of(std::string(1, *it)) != -1)
 		{
 			if (*it == '-')
 			{
-				if (!isdigit(prevToken))
+				if (!isdigit(*prevIt))
 				{
-					exists = false;
-
-					for (const auto& i : validTokens)
-						if (i == std::string(1, prevToken))
-							exists = true;
-
-					if (exists)
+					if (validTokens.index_of(std::string(1, *prevIt)) != -1)
 					{
-						prevToken = *it;
+						prevIt = it;
 
 						it = spacedInput.insert(it, ' ');
 						++it;
@@ -111,16 +98,18 @@ std::string Tokenizer::SpaceInput(const std::string &input) const
 			}
 			else
 			{
-				prevToken = *it;
-
-				if (*it == 'x' && !isalpha(prevToken))
+				if (*it == 'x' && !isalpha(*prevIt))
 				{
+					prevIt = it;
+
 					it = spacedInput.insert(it, ' ');
 					++it;
 					it = spacedInput.insert(it + 1, ' ');
 				}
 				else if (*it != 'x')
 				{
+					prevIt = it;
+
 					it = spacedInput.insert(it, ' ');
 					++it;
 					it = spacedInput.insert(it + 1, ' ');
