@@ -4,16 +4,16 @@
 #include <SFML/Graphics.hpp>
 #include <iostream>
 #include <string>
-#include <vector>
 
 #include "UIObjects.h"
 #include "Graph.h"
 #include "Event.h"
 #include "Stack.h"
+#include "Vector.h"
 
 struct ButtonOnClickEvent : public Event
 {
-	ButtonOnClickEvent(GraphInformation &info, Button *button)
+	ButtonOnClickEvent(GraphInformation &info, const button_ptr &button)
 		: info(info), button(button)
 	{
 
@@ -29,7 +29,7 @@ struct ButtonOnClickEvent : public Event
 	}
 
 	GraphInformation &info;
-	Button *button;
+	button_ptr button;
 };
 
 class Sidebar
@@ -47,12 +47,12 @@ public:
 	void Update();
 	void AddFunction(const std::string& name);
 
-	std::vector<Button *> items;
+	vector<button_ptr> items;
 
 private:
 	sf::RectangleShape rect;            //sidebar rectangle     
 	Text title;
-	Button *historyButton;
+	button_ptr historyButton;
 	GraphInformation &info;
 	sf::Font font;
 

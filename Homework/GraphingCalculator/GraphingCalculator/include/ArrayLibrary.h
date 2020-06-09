@@ -144,6 +144,7 @@ T *reallocate(T *list, const int size, const int capacity)
 
 	//copy elements from the old list to the new list
 	copy_list(newList, list, size);
+	delete[] list;
 
 	return newList;
 }

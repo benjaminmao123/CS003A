@@ -154,7 +154,7 @@
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
-      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <GenerateDebugInformation>DebugFull</GenerateDebugInformation>
       <AdditionalLibraryDirectories>$(ProjectDir)\lib;%(ProjectDir)\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>$(ProjectDir)\lib\vld.lib;$(ProjectDir)\lib\sfml-audio-d.lib;$(ProjectDir)\lib\sfml-graphics-d.lib;$(ProjectDir)\lib\sfml-main-d.lib;$(ProjectDir)\lib\sfml-network-d.lib;$(ProjectDir)\lib\sfml-system-d.lib;$(ProjectDir)\lib\sfml-window-d.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>

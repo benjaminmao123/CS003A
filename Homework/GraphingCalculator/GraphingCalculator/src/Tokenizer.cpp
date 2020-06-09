@@ -14,36 +14,42 @@ Tokenizer::Tokenizer(const vector<std::string> &validTokens,
 	
 }
 
-vector<Token *> Tokenizer::Tokenize(const std::string &input, double xVal)
+vector<token_ptr> Tokenizer::Tokenize(const std::string &input, double xVal)
 {
 	std::string newInput = SpaceInput(input);
 	std::istringstream iss(newInput);
-	vector<Token *> tokens;
+	vector<token_ptr> tokens;
 	std::string temp;
 
 	while (iss >> temp)
 	{
-		Token *token = nullptr;
+		token_ptr token = nullptr;
 
-		if (validTokens.index_of(temp) != -1)
+		bool exists = false;
+
+		for (const auto& i : validTokens)
+			if (i == temp)
+				exists = true;
+
+		if (exists)
 		{
-			if (temp == "+") token = new Addition();
-			if (temp == "-") token = new Subtraction();
-			if (temp == "*") token = new Multiplication();
-			if (temp == "/") token = new Division();
-			if (temp == "^") token = new Exponent();
-			if (temp == "(") token = new LeftParenthesis();
-			if (temp == ")") token = new RightParenthesis();
-			if (temp == "x") token = new Variable(temp, xVal);
-			if (temp == "sin") token = new Sin();
-			if (temp == "tan") token = new Tan();
-			if (temp == "ln") token = new Ln();
-			if (temp == "cos") token = new Cos();
-			if (temp == "e") token = new Variable(temp, e);
-			if (temp == "p") token = new Variable(temp, pi);
-			if (temp == ",") token = new Comma();
-			if (temp == "log") token = new Log();
-			if (temp == "max") token = new Max();
+			if (temp == "+") token = std::make_shared<Addition>();
+			if (temp == "-") token = std::make_shared<Subtraction>();
+			if (temp == "*") token = std::make_shared<Multiplication>();
+			if (temp == "/") token = std::make_shared<Division>();
+			if (temp == "^") token = std::make_shared<Exponent>();
+			if (temp == "(") token = std::make_shared<LeftParenthesis>();
+			if (temp == ")") token = std::make_shared<RightParenthesis>();
+			if (temp == "x") token = std::make_shared<Variable>(temp, xVal);
+			if (temp == "sin") token = std::make_shared<Sin>();
+			if (temp == "tan") token = std::make_shared<Tan>();
+			if (temp == "ln") token = std::make_shared<Ln>();
+			if (temp == "cos") token = std::make_shared<Cos>();
+			if (temp == "e") token = std::make_shared<Variable>(temp, e);
+			if (temp == "p") token = std::make_shared<Variable>(temp, pi);
+			if (temp == ",") token = std::make_shared<Comma>();
+			if (temp == "log") token = std::make_shared<Log>();
+			if (temp == "max") token = std::make_shared<Max>();;
 		}
 		else
 		{
@@ -59,7 +65,7 @@ vector<Token *> Tokenizer::Tokenize(const std::string &input, double xVal)
 				return tokens;
 			}
 
-			token = new Number(value);
+			token = std::make_shared<Number>(value);
 		}
 
 		tokens.push_back(token);
@@ -75,13 +81,25 @@ std::string Tokenizer::SpaceInput(const std::string &input) const
 
 	for (auto it = spacedInput.begin(); it != spacedInput.end(); ++it)
 	{
-		if (validTokens.index_of(std::string(1, *it)) != -1)
+		bool exists = false;
+
+		for (const auto& i : validTokens)
+			if (i == std::string(1, *it))
+				exists = true;
+
+		if (exists)
 		{
 			if (*it == '-')
 			{
 				if (!isdigit(prevToken))
 				{
-					if (validOperands.index_of(std::string(1, prevToken)) != -1)
+					exists = false;
+
+					for (const auto& i : validTokens)
+						if (i == std::string(1, prevToken))
+							exists = true;
+
+					if (exists)
 					{
 						prevToken = *it;
 

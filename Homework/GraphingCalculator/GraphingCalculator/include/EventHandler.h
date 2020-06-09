@@ -1,6 +1,7 @@
 #pragma once
 
 #include <vector>
+#include <memory>
 
 class Event;
 
@@ -13,9 +14,9 @@ public:
 
 	void Invoke();
 		
-	EventHandler &operator+=(Event *event);
-	EventHandler &operator-=(Event *event);
+	EventHandler &operator+=(const std::shared_ptr<Event> &event);
+	EventHandler &operator-=(const std::shared_ptr<Event> &event);
 
 private:
-	std::vector<Event *> events;
+	std::vector<std::shared_ptr<Event>> events;
 };

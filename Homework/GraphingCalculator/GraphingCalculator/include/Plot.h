@@ -2,10 +2,13 @@
 
 #include <string>
 #include <SFML\Graphics.hpp>
+#include <vector>
+#include <queue>
 
 #include "Vector.h"
 #include "Queue.h"
 #include "Token.h"
+#include "Constants.h"
 
 struct GraphInformation;
 
@@ -32,7 +35,7 @@ public:
 
 private:
 	GraphInformation &info;
-	queue<Token *> postfix;
+	vector<token_ptr> postfix;
 	vector<std::string> validTokens;
 	vector<std::string> validOperands;
 };

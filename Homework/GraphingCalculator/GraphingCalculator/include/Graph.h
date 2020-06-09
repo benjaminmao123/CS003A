@@ -2,6 +2,7 @@
 
 #include <SFML\Graphics.hpp>
 #include <string>
+#include <vector>
 
 #include "Vector.h"
 #include "Plot.h"

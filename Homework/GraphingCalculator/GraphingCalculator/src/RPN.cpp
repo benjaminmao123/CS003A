@@ -9,65 +9,80 @@ RPN::RPN(const vector<std::string> &validTokens)
 
 }
 
-RPN::~RPN()
-{
-	for (auto &i : result)
-		delete i;
-}
-
 /*
 	@summary: Evaluates the postfix expression.
 */
-double RPN::Evaluate(const queue<Token *> &postfix)
+double RPN::Evaluate(const vector<token_ptr > &postfix)
 {
 	for (const auto &token : postfix)
 	{
-		if (validTokens.index_of(token->GetTokenString()) != -1)
+		bool exists = false;
+
+		for (const auto& i : validTokens)
+			if (i == token->GetTokenString())
+				exists = true;
+
+		if (exists)
 		{
 			switch (token->GetTokenType())
 			{
 			case TokenType::ADD:
 			{
-				Token *right = static_cast<Operand *>(result.pop());
-				Token *left = static_cast<Operand *>(result.pop());
+				token_ptr right = std::static_pointer_cast<Operand>(result.top());
+				result.pop();
 
-				Operator *op = new Addition(left->Evaluate(), right->Evaluate());
+				token_ptr left = std::static_pointer_cast<Operand>(result.top());
+				result.pop();
+
+				operator_ptr op = std::make_shared<Addition>(left->Evaluate(), right->Evaluate());
 				result.push(op);
 				break;
 			}
 			case TokenType::SUB:
 			{
-				Token *right = static_cast<Operand *>(result.pop());
-				Token *left = static_cast<Operand *>(result.pop());
+				token_ptr right = std::static_pointer_cast<Operand>(result.top());
+				result.pop();
 
-				Operator *op = new Subtraction(left->Evaluate(), right->Evaluate());
+				token_ptr left = std::static_pointer_cast<Operand>(result.top());
+				result.pop();
+
+				operator_ptr op = std::make_shared<Subtraction>(left->Evaluate(), right->Evaluate());
 				result.push(op);
 				break;
 			}
 			case TokenType::MULT:
 			{
-				Token *right = static_cast<Operand *>(result.pop());
-				Token *left = static_cast<Operand *>(result.pop());
+				token_ptr right = std::static_pointer_cast<Operand>(result.top());
+				result.pop();
 
-				Operator *op = new Multiplication(left->Evaluate(), right->Evaluate());
+				token_ptr left = std::static_pointer_cast<Operand>(result.top());
+				result.pop();
+
+				operator_ptr op = std::make_shared<Multiplication>(left->Evaluate(), right->Evaluate());
 				result.push(op);
 				break;
 			}
 			case TokenType::DIV:
 			{
-				Token *right = static_cast<Operand *>(result.pop());
-				Token *left = static_cast<Operand *>(result.pop());
+				token_ptr right = std::static_pointer_cast<Operand>(result.top());
+				result.pop();
 
-				Operator *op = new Division(left->Evaluate(), right->Evaluate());
+				token_ptr left = std::static_pointer_cast<Operand>(result.top());
+				result.pop();
+
+				operator_ptr op = std::make_shared<Division>(left->Evaluate(), right->Evaluate());
 				result.push(op);
 				break;
 			}
 			case TokenType::EXP:
 			{
-				Token *right = static_cast<Operand *>(result.pop());
-				Token *left = static_cast<Operand *>(result.pop());
+				token_ptr right = std::static_pointer_cast<Operand>(result.top());
+				result.pop();
 
-				Operator *op = new Exponent(left->Evaluate(), right->Evaluate());
+				token_ptr left = std::static_pointer_cast<Operand>(result.top());
+				result.pop();
+
+				operator_ptr op = std::make_shared<Exponent>(left->Evaluate(), right->Evaluate());
 				result.push(op);
 				break;
 			}
@@ -77,11 +92,12 @@ double RPN::Evaluate(const queue<Token *> &postfix)
 
 				for (unsigned int i = 0; i < token->GetNumArgs(); ++i)
 				{
-					Token *arg = static_cast<Operand *>(result.pop());
+					token_ptr arg = std::static_pointer_cast<Operand>(result.top());
+					result.pop();
 					args.push_back(arg->Evaluate());
 				}
 
-				Operator *op = new Sin(args);
+				operator_ptr op = std::make_shared<Sin>(args);
 				result.push(op);
 				break;
 			}
@@ -91,11 +107,12 @@ double RPN::Evaluate(const queue<Token *> &postfix)
 
 				for (unsigned int i = 0; i < token->GetNumArgs(); ++i)
 				{
-					Token* arg = static_cast<Operand*>(result.pop());
+					token_ptr arg = std::static_pointer_cast<Operand>(result.top());
+					result.pop();
 					args.push_back(arg->Evaluate());
 				}
 
-				Operator *op = new Tan(args);
+				operator_ptr op = std::make_shared<Tan>(args);
 				result.push(op);
 				break;
 			}
@@ -105,17 +122,18 @@ double RPN::Evaluate(const queue<Token *> &postfix)
 
 				for (unsigned int i = 0; i < token->GetNumArgs(); ++i)
 				{
-					Token* arg = static_cast<Operand*>(result.pop());
+					token_ptr arg = std::static_pointer_cast<Operand>(result.top());
+					result.pop();
 					args.push_back(arg->Evaluate());
 				}
 
-				Operator *op = new Ln(args);
+				operator_ptr op = std::make_shared<Ln>(args);
 				result.push(op);
 				break;
 			}
 			case TokenType::VAR:
 			{
-				Token *mToken = new Variable(token->GetTokenString(), token->Evaluate());
+				token_ptr mToken = std::make_shared<Variable>(token->GetTokenString(), token->Evaluate());
 				result.push(mToken);
 				break;
 			}
@@ -125,11 +143,12 @@ double RPN::Evaluate(const queue<Token *> &postfix)
 
 				for (unsigned int i = 0; i < token->GetNumArgs(); ++i)
 				{
-					Token* arg = static_cast<Operand*>(result.pop());
+					token_ptr arg = std::static_pointer_cast<Operand>(result.top());
+					result.pop();
 					args.push_back(arg->Evaluate());
 				}
 
-				Operator *op = new Cos(args);
+				operator_ptr op = std::make_shared<Cos>(args);
 				result.push(op);
 				break;
 			}
@@ -139,11 +158,12 @@ double RPN::Evaluate(const queue<Token *> &postfix)
 
 				for (unsigned int i = 0; i < token->GetNumArgs(); ++i)
 				{
-					Token* arg = static_cast<Operand*>(result.pop());
+					token_ptr arg = std::static_pointer_cast<Operand>(result.top());
+					result.pop();
 					args.push_back(arg->Evaluate());
 				}
 
-				Operator* op = new Max(args);
+				operator_ptr op = std::make_shared<Max>(args);
 				result.push(op);
 				break;
 			}
@@ -153,11 +173,12 @@ double RPN::Evaluate(const queue<Token *> &postfix)
 
 				for (unsigned int i = 0; i < token->GetNumArgs(); ++i)
 				{
-					Token* arg = static_cast<Operand*>(result.pop());
+					token_ptr arg = std::static_pointer_cast<Operand>(result.top());
+					result.pop();
 					args.push_back(arg->Evaluate());
 				}
 
-				Operator* op = new Log(args);
+				operator_ptr op = std::make_shared<Log>(args);
 				result.push(op);
 				break;
 			}
@@ -167,7 +188,7 @@ double RPN::Evaluate(const queue<Token *> &postfix)
 		}
 		else
 		{
-			Token *mToken = new Number(token->Evaluate());
+			token_ptr mToken = std::make_shared<Number>(token->Evaluate());
 			result.push(mToken);
 		}
 	}
@@ -175,7 +196,7 @@ double RPN::Evaluate(const queue<Token *> &postfix)
 	return result.top()->Evaluate();
 }
 
-double RPN::operator()(const queue<Token *> &postfix)
+double RPN::operator()(const vector<token_ptr > &postfix)
 {
 	return Evaluate(postfix);
 }

@@ -40,9 +40,6 @@ Sidebar::Sidebar(GraphInformation &info, float left, float width)
 Sidebar::~Sidebar()
 {
 	Save();
-
-	for (auto& i : items)
-		delete i;
 }
 
 void Sidebar::Save()
@@ -70,7 +67,7 @@ void Sidebar::Load()
 	}
 
 	std::string line;
-	std::vector<std::string> temp;
+	vector<std::string> temp;
 
 	while (std::getline(ifs, line))
 		temp.push_back(line);
@@ -82,10 +79,7 @@ void Sidebar::Load()
 void Sidebar::Clear()
 {
 	while (!items.empty())
-	{
-		delete items.back();
 		items.pop_back();
-	}
 }
 
 void Sidebar::Draw(sf::RenderWindow &window) 
@@ -114,13 +108,13 @@ void Sidebar::AddFunction(const std::string& name)
 								 (SCREEN_HEIGHT / (NUM_SIDEBAR_ITEMS + 1)));
 	else
 	{
-		Button* prevButton = items[items.size() - 1];
+		const button_ptr &prevButton = items[items.size() - 1];
 
 		y += prevButton->GetPosition().y + prevButton->GetSize().y + 
 			((SCREEN_HEIGHT / NUM_SIDEBAR_ITEMS) - prevButton->GetSize().y);
 	}
 
-	historyButton = new Button();
+	historyButton = std::make_shared<Button>();
 	historyButton->SetSize(sf::Vector2f(SIDE_BAR - BUTTON_X_PADDING,
 										(SCREEN_HEIGHT / (NUM_SIDEBAR_ITEMS + 1))));
 	historyButton->SetNormalColor(sf::Color(80, 50, 140));
@@ -131,7 +125,7 @@ void Sidebar::AddFunction(const std::string& name)
 	historyButton->SetTextFillColor(sf::Color(30, 30, 55));
 	historyButton->SetTextStyle(sf::Text::Bold);
 	historyButton->SetPosition(SCREEN_WIDTH - SIDE_BAR + (BUTTON_X_PADDING / 2), y);
-	historyButton->AddEvent(new ButtonOnClickEvent(info, historyButton));
+	historyButton->AddEvent(std::make_shared<ButtonOnClickEvent>(info, historyButton));
 	items.push_back(historyButton);
 
 	if (items.size() > 1)

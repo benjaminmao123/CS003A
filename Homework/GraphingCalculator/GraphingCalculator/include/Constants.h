@@ -1,3 +1,9 @@
+#include <memory>
+
+#include "Operator.h"
+#include "Token.h"
+#include "UIObjects.h"
+
 #ifndef CONSTANTS_H
 #define CONSTANTS_H
 
@@ -18,4 +24,8 @@ const float BUTTON_X_PADDING = 8;
 const double e = 2.71828;
 const double pi = 3.14159;
 
+using token_ptr = typename std::shared_ptr<Token>;
+using operator_ptr = typename std::shared_ptr<Operator>;
+using button_ptr = typename std::shared_ptr<Button>;
+ 
 #endif // CONSTANTS_H

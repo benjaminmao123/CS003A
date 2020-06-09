@@ -76,7 +76,7 @@ vector<sf::Vector2f> Plot::operator()()
 
 	for (double x = info.domainX.x; x <= info.domainX.y; x += increment)
 	{
-		vector<Token *> tokens = tokenizer.Tokenize(info.equation, x);
+		vector<token_ptr> tokens = tokenizer.Tokenize(info.equation, x);
 
 		if (Error::errorState != ErrorState::NONE)
 			return points;
@@ -95,9 +95,6 @@ vector<sf::Vector2f> Plot::operator()()
 		{
 			continue;
 		}
-
-		for (auto& i : postfix)
-			delete i;
 	}
 
 	return points;
