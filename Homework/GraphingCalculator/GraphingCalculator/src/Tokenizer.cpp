@@ -14,6 +14,11 @@ Tokenizer::Tokenizer(const vector<std::string> &validTokens,
 	
 }
 
+vector<Token*> Tokenizer::operator()(const std::string& input, double xVal)
+{
+	return Tokenize(input, xVal);
+}
+
 vector<Token*> Tokenizer::Tokenize(const std::string &input, double xVal)
 {
 	std::string newInput = SpaceInput(input);

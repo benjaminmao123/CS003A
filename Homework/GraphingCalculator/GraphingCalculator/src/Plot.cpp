@@ -81,12 +81,12 @@ vector<sf::Vector2f> Plot::operator()()
 
 	for (double x = info.domainX.x; x <= info.domainX.y; x += increment)
 	{
-		vector<Token*> tokens = tokenizer.Tokenize(info.equation, x);
+		vector<Token*> tokens = tokenizer(info.equation, x);
 
 		if (Error::errorState != ErrorState::NONE)
 			return points;
 
-		postfix = sy.ToPostfix(tokens);
+		postfix = sy(tokens);
 
 		if (Error::errorState != ErrorState::NONE)
 			return points;

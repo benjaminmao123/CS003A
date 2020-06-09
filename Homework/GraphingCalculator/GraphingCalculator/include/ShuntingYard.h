@@ -20,9 +20,11 @@ enum class ShuntingState
 class ShuntingYard
 {
 public:
-	vector<Token*> ToPostfix(vector<Token*> &infix);
+	vector<Token*> operator()(vector<Token*>& infix);
 
 private:
+	vector<Token*> ToPostfix(vector<Token*>& infix);
+
 	std::string input;
 	std::string output;
 };

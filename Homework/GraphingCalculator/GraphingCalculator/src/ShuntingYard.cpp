@@ -214,3 +214,8 @@ vector<Token*> ShuntingYard::ToPostfix(vector<Token*>& infix)
 
 	return postfix;
 }
+
+vector<Token*> ShuntingYard::operator()(vector<Token*>& infix)
+{
+	return ToPostfix(infix);
+}
