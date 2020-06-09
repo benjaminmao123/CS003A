@@ -41,8 +41,8 @@ public:
 	bool GetIsInteractable() const;
 	bool GetIsSelected() const;
 	bool GetIsHighlighted() const;
-	void AddEvent(const std::shared_ptr<Event>& event);
-	void RemoveEvent(const std::shared_ptr<Event>& event);
+	void AddEvent(Event* event);
+	void RemoveEvent(Event* event);
 	virtual void OnClick();
 
 protected:
@@ -196,10 +196,10 @@ public:
 	void GetInput(sf::Uint32 unicode);
 	void Clear();
 
-	void AddOnSelectEvent(const std::shared_ptr<Event>& event);
-	void AddDeselectEvent(const std::shared_ptr<Event>& event);
-	void AddOnValueChangedEvent(const std::shared_ptr<Event>& event);
-	void AddOnEndEditEvent(const std::shared_ptr<Event>& event);
+	void AddOnSelectEvent(Event* event);
+	void AddDeselectEvent(Event* event);
+	void AddOnValueChangedEvent(Event* event);
+	void AddOnEndEditEvent(Event* event);
 
 	void OnSelect();
 	void OnDeselect();

@@ -75,14 +75,17 @@ void Sidebar::Load()
 	while (std::getline(ifs, line))
 		temp.push_back(line);
 
-	for (int i = temp.size() - 1; i >= 0; --i)
+	for (int i = (int)temp.size() - 1; i >= 0; --i)
 		AddFunction(temp[i]);
 }
 
 void Sidebar::Clear()
 {
 	while (!items.empty())
+	{
+		delete items.back();
 		items.pop_back();
+	}
 }
 
 void Sidebar::Draw(sf::RenderWindow &window) 
@@ -128,11 +131,11 @@ void Sidebar::AddFunction(const std::string& name)
 	historyButton->SetTextFillColor(sf::Color(30, 30, 55));
 	historyButton->SetTextStyle(sf::Text::Bold);
 	historyButton->SetPosition(SCREEN_WIDTH - SIDE_BAR + (BUTTON_X_PADDING / 2), y);
-	historyButton->AddEvent(std::make_shared<ButtonOnClickEvent>(info, historyButton));
+	historyButton->AddEvent(new ButtonOnClickEvent(info, historyButton));
 	items.push_back(historyButton);
 
 	if (items.size() > 1)
-		for (unsigned int i = items.size() - 1; i > 0; --i)
+		for (size_t i = items.size() - 1; i > 0; --i)
 			items[i]->SetText(items[i - 1]->GetText());
 
 	items[0]->SetText(name);

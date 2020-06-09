@@ -5,11 +5,7 @@
  *
  * Notes: None.
  */
-
-#ifdef _DEBUG
-    #include <vld.h>
-#endif
-
+#include <vld.h>
 #include "Animate.h"
 
 int main()

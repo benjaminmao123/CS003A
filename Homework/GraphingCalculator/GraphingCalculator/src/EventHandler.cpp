@@ -14,7 +14,8 @@ EventHandler::EventHandler(const EventHandler& other)
 
 EventHandler::~EventHandler()
 {
-
+	for (auto& e : events)
+		delete e;
 }
 
 void EventHandler::Invoke()
@@ -23,7 +24,7 @@ void EventHandler::Invoke()
 		e->Invoke();
 }
 
-EventHandler& EventHandler::operator+=(const std::shared_ptr<Event>& event)
+EventHandler& EventHandler::operator+=(Event* event)
 {
 	for (const auto& e : events)
 	{
@@ -36,7 +37,7 @@ EventHandler& EventHandler::operator+=(const std::shared_ptr<Event>& event)
 	return *this;
 }
 
-EventHandler& EventHandler::operator-=(const std::shared_ptr<Event>& event)
+EventHandler& EventHandler::operator-=(Event* event)
 {
 	int index = 0;
 

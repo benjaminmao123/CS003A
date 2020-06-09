@@ -20,8 +20,8 @@ System::System(GraphInformation &info, InputField &field,
 
 void System::InitEvents()
 {
-	field.AddOnSelectEvent(std::make_shared<InputFieldSelectEvent>(toggleInput));
-	field.AddDeselectEvent(std::make_shared<InputFieldDeselectEvent>(info, toggleInput, field, graph, sidebar));
+	field.AddOnSelectEvent(new InputFieldSelectEvent(toggleInput));
+	field.AddDeselectEvent(new InputFieldDeselectEvent(info, toggleInput, field, graph, sidebar));
 }
 
 void System::Step(Command command, GraphInformation &info, float deltaTime)
@@ -95,7 +95,9 @@ void System::Step(Command command, GraphInformation &info, float deltaTime)
 		{
 			if ((*it)->GetIsHighlighted())
 			{
+				Button* button = *it;
 				sidebar.items.erase(it);
+				delete button;
 				break;
 			}
 		}

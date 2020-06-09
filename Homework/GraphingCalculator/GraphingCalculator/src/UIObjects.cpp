@@ -84,12 +84,12 @@ bool Selectable::GetIsHighlighted() const
 	return isHighlighted;
 }
 
-void Selectable::AddEvent(const std::shared_ptr<Event>& event)
+void Selectable::AddEvent(Event* event)
 {
 	onClickEvents += event;
 }
 
-void Selectable::RemoveEvent(const std::shared_ptr<Event>& event)
+void Selectable::RemoveEvent(Event* event)
 {
 	onClickEvents -= event;
 }
@@ -612,22 +612,22 @@ void InputField::Clear()
 	text.SetString("");
 }
 
-void InputField::AddOnSelectEvent(const std::shared_ptr<Event>& event)
+void InputField::AddOnSelectEvent(Event* event)
 {
 	onSelectEvents += event;
 }
 
-void InputField::AddDeselectEvent(const std::shared_ptr<Event> &event)
+void InputField::AddDeselectEvent(Event* event)
 {
 	onDeselectEvents += event;
 }
 
-void InputField::AddOnValueChangedEvent(const std::shared_ptr<Event>& event)
+void InputField::AddOnValueChangedEvent(Event* event)
 {
 	onValueChangedEvents += event;
 }
 
-void InputField::AddOnEndEditEvent(const std::shared_ptr<Event>& event)
+void InputField::AddOnEndEditEvent(Event* event)
 {
 	onEndEditEvents += event;
 }

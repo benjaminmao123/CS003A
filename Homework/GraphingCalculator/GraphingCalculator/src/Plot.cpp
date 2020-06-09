@@ -93,12 +93,12 @@ vector<sf::Vector2f> Plot::operator()()
 
 		try
 		{
-			float y = rpn(postfix);
+			float y = (float)rpn(postfix);
 
 			if (Error::errorState != ErrorState::NONE)
 				return points;
 
-			sf::Vector2f screenPoints = ct(sf::Vector2f((float)x, (float)y));
+			sf::Vector2f screenPoints = ct(sf::Vector2f((float)x, y));
 			points.push_back(screenPoints);
 		}
 		catch (const std::invalid_argument &)

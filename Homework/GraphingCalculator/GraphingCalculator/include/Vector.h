@@ -114,6 +114,16 @@ public:
         return container.cend();
     }
 
+    T& back()
+    {
+        return container.back();
+    }
+
+    const T& back() const
+    {
+        return container.back();
+    }
+
 private:
     std::vector<T> container;
 };
