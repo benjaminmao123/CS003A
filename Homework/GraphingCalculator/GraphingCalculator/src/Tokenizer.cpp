@@ -7,31 +7,31 @@
 #include "Error.h"
 #include "Constants.h"
 
-Tokenizer::Tokenizer(const vector<std::string> &validTokens,
-	const vector<std::string> &validOperators)
+Tokenizer::Tokenizer(const Vector<std::string> &validTokens,
+	const Vector<std::string> &validOperators)
 	: validTokens(validTokens), validOperands(validOperators)
 {
 	
 }
 
-vector<Token*> Tokenizer::operator()(const std::string& input, double xVal)
+Vector<Token*> Tokenizer::operator()(const std::string& input, double xVal)
 {
 	return Tokenize(input, xVal);
 }
 
-vector<Token*> Tokenizer::Tokenize(const std::string &input, double xVal)
+Vector<Token*> Tokenizer::Tokenize(const std::string &input, double xVal)
 {
 	std::string newInput = SpaceInput(input);
 	std::istringstream iss(newInput);
 	std::string temp;
 
-	vector<Token*> tokens;
+	Vector<Token*> tokens;
 
 	while (iss >> temp)
 	{
 		Token* token = nullptr;
 
-		if (validTokens.index_of(temp) != -1)
+		if (validTokens.IndexOf(temp) != -1)
 		{
 			if (temp == "+") token = new Addition;
 			else if (temp == "-") token = new Subtraction;
@@ -46,7 +46,7 @@ vector<Token*> Tokenizer::Tokenize(const std::string &input, double xVal)
 			else if (temp == "ln") token = new Ln;
 			else if (temp == "cos") token = new Cos;
 			else if (temp == "e") token = new Variable(temp, e);
-			else if (temp == "p") token = new Variable(temp, pi);
+			else if (temp == "pi") token = new Variable(temp, pi);
 			else if (temp == ",") token = new Comma;
 			else if (temp == "log") token = new Log;
 			else if (temp == "max") token = new Max;
@@ -66,13 +66,13 @@ vector<Token*> Tokenizer::Tokenize(const std::string &input, double xVal)
 				for (auto& i : tokens)
 					delete i;
 
-				return vector<Token*>();
+				return Vector<Token*>();
 			}
 
 			token = new Number(value);
 		}
 
-		tokens.push_back(token);
+		tokens.PushBack(token);
 	}
 
 	return tokens;
@@ -85,13 +85,13 @@ std::string Tokenizer::SpaceInput(const std::string &input) const
 
 	for (auto it = spacedInput.begin(); it != spacedInput.end(); ++it)
 	{
-		if (validTokens.index_of(std::string(1, *it)) != -1)
+		if (validTokens.IndexOf(std::string(1, *it)) != -1)
 		{
 			if (*it == '-')
 			{
 				if (!isdigit(*prevIt))
 				{
-					if (validTokens.index_of(std::string(1, *prevIt)) != -1)
+					if (validTokens.IndexOf(std::string(1, *prevIt)) != -1)
 					{
 						prevIt = it;
 

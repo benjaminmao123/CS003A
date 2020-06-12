@@ -10,15 +10,15 @@
 class Tokenizer
 {
 public:
-	Tokenizer(const vector<std::string> &validTokens,
-		const vector<std::string> &validOperators);
+	Tokenizer(const Vector<std::string> &validTokens,
+		const Vector<std::string> &validOperators);
 
-	vector<Token*> operator()(const std::string& input, double xVal = 0.0);
+	Vector<Token*> operator()(const std::string& input, double xVal = 0.0);
 
 private:
-	vector<Token*> Tokenize(const std::string& input, double xVal = 0);
+	Vector<Token*> Tokenize(const std::string& input, double xVal = 0);
 	std::string SpaceInput(const std::string &input) const;
 
-	const vector<std::string> &validTokens;
-	const vector<std::string> &validOperands;
+	const Vector<std::string> &validTokens;
+	const Vector<std::string> &validOperands;
 };

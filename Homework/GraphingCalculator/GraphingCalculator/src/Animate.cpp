@@ -28,7 +28,7 @@ Animate::Animate()
 	command(Command::NONE), xAxis(sf::Vector2f((float)INT_MAX, 2.0f)),
 	yAxis(sf::Vector2f(2.0f, (float)INT_MAX)), mousePointer(4), toggleHelp(false)
 {
-	if (!font.loadFromFile("arial.ttf"))
+	if (!font.loadFromFile("assets/fonts/arial.ttf"))
 		std::cout << "Warning: Failed to load font." << std::endl;
 
 	field.SetSize(GRAPH_WIDTH / 2, GRAPH_HEIGHT / 16);
@@ -36,7 +36,8 @@ Animate::Animate()
 	field.Load(nullptr, font);
 	field.SetNormalColor(sf::Color(80, 50, 140));
 	field.SetSelectedColor(sf::Color(80, 50, 140));
-	field.SetHighlightedColor(sf::Color::Blue);
+	field.SetHighlightedColor(sf::Color(135, 135, 57));
+	field.SetPressedColor(sf::Color(52, 55, 39));
 	field.SetTextFillColor(sf::Color(135, 135, 57));
 	field.SetOutlineThickness(1.f);
 
@@ -60,11 +61,23 @@ Animate::Animate()
 	coordinates.setStyle(sf::Text::Bold);
 	coordinates.setString("(0, 0)");
 
+	domainText.setFont(font);
+	domainText.setCharacterSize(20);
+	domainText.setStyle(sf::Text::Bold);
+	domainText.setString("Domain X: [-5, 5]\nDomain Y: [-5, 5]");
+	domainText.setPosition(0, coordinates.getPosition().y + domainText.getCharacterSize());
+
+	helpText.setFont(font);
+	helpText.setCharacterSize(20);
+	helpText.setStyle(sf::Text::Bold);
+	helpText.setString("Toggle Help: [H]");
+	helpText.setPosition(0, domainText.getLocalBounds().height + domainText.getCharacterSize());
+
 	resetText.setFont(font);
 	resetText.setCharacterSize(20);
 	resetText.setStyle(sf::Text::Bold);
 	resetText.setString("Reset: [R]");
-	resetText.setPosition(0, (resetText.getCharacterSize() / 2) + (float)coordinates.getCharacterSize());
+	resetText.setPosition(0, (helpText.getPosition().y + helpText.getCharacterSize()) * 2);
 
 	zoomText.setFont(font);
 	zoomText.setCharacterSize(20);
@@ -76,31 +89,25 @@ Animate::Animate()
 	panText.setCharacterSize(20);
 	panText.setStyle(sf::Text::Bold);
 	panText.setString("Pan: [W, A, S, D]");
-	panText.setPosition(0, zoomText.getPosition().y + coordinates.getCharacterSize());
+	panText.setPosition(0, zoomText.getPosition().y + zoomText.getCharacterSize());
 
 	inputText.setFont(font);
 	inputText.setCharacterSize(20);
 	inputText.setStyle(sf::Text::Bold);
 	inputText.setString("Input: [Enter]");
-	inputText.setPosition(0, panText.getPosition().y + coordinates.getCharacterSize());
-
-	inputText.setFont(font);
-	inputText.setCharacterSize(20);
-	inputText.setStyle(sf::Text::Bold);
-	inputText.setString("Input: [Enter]");
-	inputText.setPosition(0, panText.getPosition().y + coordinates.getCharacterSize());
+	inputText.setPosition(0, panText.getPosition().y + panText.getCharacterSize());
 
 	deleteText.setFont(font);
 	deleteText.setCharacterSize(20);
 	deleteText.setStyle(sf::Text::Bold);
 	deleteText.setString("Delete History: [Right Click]");
-	deleteText.setPosition(0, inputText.getPosition().y + coordinates.getCharacterSize());
+	deleteText.setPosition(0, inputText.getPosition().y + inputText.getCharacterSize());
 
-	helpText.setFont(font);
-	helpText.setCharacterSize(20);
-	helpText.setStyle(sf::Text::Bold);
-	helpText.setString("Help: [H]");
-	helpText.setPosition(0, deleteText.getPosition().y + coordinates.getCharacterSize());
+	multiText.setFont(font);
+	multiText.setCharacterSize(20);
+	multiText.setStyle(sf::Text::Bold);
+	multiText.setString("Graph/Remove Multiple Functions: [Middle Click]");
+	multiText.setPosition(0, deleteText.getPosition().y + deleteText.getCharacterSize());
 }
 
 void Animate::Update(float deltaTime)
@@ -114,6 +121,8 @@ void Animate::Update(float deltaTime)
 	mousePointer.setPosition(sf::Vector2f(sf::Mouse::getPosition(window)));
 	sf::Vector2f graphCoords = ct.ScreenPointToCartesian(mousePointer.getPosition());
 	coordinates.setString("(" + std::to_string(graphCoords.x) + ", " + std::to_string(graphCoords.y) + ")");
+	domainText.setString("Domain X: [" + std::to_string(info.domainX.x) + ", " + std::to_string(info.domainX.y) + 
+						 "]\nDomain Y: [" + std::to_string(info.domainY.x) + ", " + std::to_string(info.domainY.y) + "]");
 	input.Update();
 }
 
@@ -126,6 +135,7 @@ void Animate::Render()
 	system.Draw(window);
 	window.draw(functionName);
 	window.draw(coordinates);
+	window.draw(domainText);
 
 	if (toggleHelp)
 	{
@@ -134,6 +144,7 @@ void Animate::Render()
 		window.draw(panText);
 		window.draw(inputText);
 		window.draw(deleteText);
+		window.draw(multiText);
 	}
 
 	window.draw(helpText);
@@ -171,6 +182,8 @@ void Animate::SetCommand()
 			toggleHelp = !toggleHelp;
 		if (input.GetMouseButtonDown(sf::Mouse::Right))
 			command = Command::DELETE;
+		if (input.GetMouseButtonDown(sf::Mouse::Middle))
+			command = Command::ADD_MULTI;
 	}
 }
 

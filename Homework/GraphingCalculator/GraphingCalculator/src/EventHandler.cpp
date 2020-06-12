@@ -32,7 +32,7 @@ EventHandler& EventHandler::operator+=(Event* event)
 			return *this;
 	}
 
-	events.push_back(event);
+	events.PushBack(event);
 
 	return *this;
 }
@@ -45,7 +45,7 @@ EventHandler& EventHandler::operator-=(Event* event)
 	{
 		if (e == event)
 		{
-			events.erase(events.begin() + index);
+			events.Remove(events.begin() + index);
 			break;
 		}
 

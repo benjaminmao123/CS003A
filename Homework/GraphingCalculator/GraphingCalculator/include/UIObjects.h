@@ -98,6 +98,9 @@ public:
 	void SetString(const std::string &str);
 	std::string GetString() const;
 
+	void SetHorizontalAlign(HAlign hAlign);
+	void SetVerticalAlign(VAlign vAlign);
+
 private:
 	void AlignText();
 
@@ -144,6 +147,9 @@ public:
 
 	void SetText(const std::string& string);
 	std::string GetText() const;
+
+	void SetTextHorizontalAlign(HAlign hAlign);
+	void SetTextVerticalAlign(VAlign vAlign);
 
 private:
 	void ComputeBounds();
@@ -192,6 +198,9 @@ public:
 
 	void SetCurrentString(const std::string &string);
 	std::string GetCurrentString() const;
+
+	void SetTextHorizontalAlign(HAlign hAlign);
+	void SetTextVerticalAlign(VAlign vAlign);
 
 	void GetInput(sf::Uint32 unicode);
 	void Clear();

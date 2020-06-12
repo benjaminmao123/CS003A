@@ -47,7 +47,7 @@ public:
 	void Update();
 	void AddFunction(const std::string& name);
 
-	vector<Button*> items;
+	Vector<Button*> items;
 
 private:
 	sf::RectangleShape rect;            //sidebar rectangle     

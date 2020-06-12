@@ -68,9 +68,12 @@ public:
 	void Update();
 	void Draw(sf::RenderWindow &window);
 
+	Vector<std::string> equations;
+
 private:
 	GraphInformation &info;
 	Plot plot;
-	vector<sf::Vector2f> points;
+	Vector<Vector<sf::Vector2f>> points;
 	sf::CircleShape circle;
+	Vector<sf::Color> colors;
 };

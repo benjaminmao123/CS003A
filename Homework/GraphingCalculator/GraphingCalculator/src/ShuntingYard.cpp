@@ -12,13 +12,13 @@
 
 	@return <bool>: True if parse was successful, else false.
 */
-vector<Token*> ShuntingYard::ToPostfix(vector<Token*>& infix)
+Vector<Token*> ShuntingYard::ToPostfix(Vector<Token*>& infix)
 {
 	ShuntingState state = ShuntingState::EXPECT_OPERAND;
 	Error::errorState = ErrorState::NONE;
 
 	stack<Token*> tokens;
-	vector<Token*> postfix;
+	Vector<Token*> postfix;
 
 	for (auto& token : infix)
 	{
@@ -33,10 +33,10 @@ vector<Token*> ShuntingYard::ToPostfix(vector<Token*>& infix)
 						delete i;
 
 					Error::errorState = ErrorState::EXPECT_OPERATOR;
-					return vector<Token*>();
+					return Vector<Token*>();
 				}
 
-				postfix.push_back(token);
+				postfix.PushBack(token);
 				state = ShuntingState::EXPECT_OPERATOR;
 				break;
 			case TokenType::FUNC:
@@ -46,7 +46,7 @@ vector<Token*> ShuntingYard::ToPostfix(vector<Token*>& infix)
 						delete i;
 
 					Error::errorState = ErrorState::EXPECT_OPERATOR;
-					return vector<Token*>();
+					return Vector<Token*>();
 				}
 
 				if (!tokens.empty())
@@ -61,7 +61,7 @@ vector<Token*> ShuntingYard::ToPostfix(vector<Token*>& infix)
 								   tokens.top()->GetTokenType() != TokenType::L_PARENTH)
 							{
 
-								postfix.push_back(tokens.top());
+								postfix.PushBack(tokens.top());
 								tokens.pop();
 							}
 					}
@@ -77,7 +77,7 @@ vector<Token*> ShuntingYard::ToPostfix(vector<Token*>& infix)
 						delete i;
 
 					Error::errorState = ErrorState::EXPECT_OPERAND;
-					return vector<Token*>();
+					return Vector<Token*>();
 				}
 
 				switch (token->GetTokenType())
@@ -86,7 +86,7 @@ vector<Token*> ShuntingYard::ToPostfix(vector<Token*>& infix)
 					while (!tokens.empty() &&
 						   tokens.top()->GetTokenType() != TokenType::L_PARENTH)
 					{
-						postfix.push_back(tokens.top());
+						postfix.PushBack(tokens.top());
 						tokens.pop();
 					}
 
@@ -96,7 +96,7 @@ vector<Token*> ShuntingYard::ToPostfix(vector<Token*>& infix)
 							delete i;
 
 						Error::errorState = ErrorState::EXPECT_OPERAND;
-						return vector<Token*>();
+						return Vector<Token*>();
 					}
 
 					delete token;
@@ -114,7 +114,7 @@ vector<Token*> ShuntingYard::ToPostfix(vector<Token*>& infix)
 								while (!tokens.empty() &&
 									   tokens.top()->GetTokenType() != TokenType::L_PARENTH)
 								{
-									postfix.push_back(tokens.top());
+									postfix.PushBack(tokens.top());
 									tokens.pop();
 								}
 						}
@@ -141,7 +141,7 @@ vector<Token*> ShuntingYard::ToPostfix(vector<Token*>& infix)
 							delete i;
 
 						Error::errorState = ErrorState::EXPECT_OPERATOR;
-						return vector<Token*>();
+						return Vector<Token*>();
 					}
 
 					tokens.push(token);
@@ -154,13 +154,13 @@ vector<Token*> ShuntingYard::ToPostfix(vector<Token*>& infix)
 							delete i;
 
 						Error::errorState = ErrorState::EXPECT_OPERAND;
-						return vector<Token*>();
+						return Vector<Token*>();
 					}
 
 					while (!tokens.empty() &&
 						   tokens.top()->GetTokenType() != TokenType::L_PARENTH)
 					{
-						postfix.push_back(tokens.top());
+						postfix.PushBack(tokens.top());
 						tokens.pop();
 					}
 
@@ -193,7 +193,7 @@ vector<Token*> ShuntingYard::ToPostfix(vector<Token*>& infix)
 			delete i;
 
 		Error::errorState = ErrorState::EXPECT_OPERAND;
-		return vector<Token*>();
+		return Vector<Token*>();
 	}
 
 	while (!tokens.empty())
@@ -205,17 +205,17 @@ vector<Token*> ShuntingYard::ToPostfix(vector<Token*>& infix)
 				delete i;
 
 			Error::errorState = ErrorState::EXPECT_PARENTHESIS;
-			return vector<Token*>();
+			return Vector<Token*>();
 		}
 
-		postfix.push_back(tokens.top());
+		postfix.PushBack(tokens.top());
 		tokens.pop();
 	}
 
 	return postfix;
 }
 
-vector<Token*> ShuntingYard::operator()(vector<Token*>& infix)
+Vector<Token*> ShuntingYard::operator()(Vector<Token*>& infix)
 {
 	return ToPostfix(infix);
 }

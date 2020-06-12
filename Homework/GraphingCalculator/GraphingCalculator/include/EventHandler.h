@@ -17,5 +17,5 @@ public:
 	EventHandler& operator-=(Event* event);
 
 private:
-	vector<Event*> events;
+	Vector<Event*> events;
 };

@@ -36,29 +36,29 @@ sf::Vector2f CoordinateTranslation::operator()(const sf::Vector2f &point) const
 Plot::Plot(GraphInformation &info)
 	: info(info)
 {
-	validTokens.push_back("+");
-	validTokens.push_back("-");
-	validTokens.push_back("*");
-	validTokens.push_back("/");
-	validTokens.push_back("^");
-	validTokens.push_back("(");
-	validTokens.push_back(")");
-	validTokens.push_back("x");
-	validTokens.push_back("sin");
-	validTokens.push_back("tan");
-	validTokens.push_back("ln");
-	validTokens.push_back("cos");
-	validTokens.push_back("e");
-	validTokens.push_back("p");
-	validTokens.push_back(",");
-	validTokens.push_back("log");
-	validTokens.push_back("max");
+	validTokens.PushBack("+");
+	validTokens.PushBack("-");
+	validTokens.PushBack("*");
+	validTokens.PushBack("/");
+	validTokens.PushBack("^");
+	validTokens.PushBack("(");
+	validTokens.PushBack(")");
+	validTokens.PushBack("x");
+	validTokens.PushBack("sin");
+	validTokens.PushBack("tan");
+	validTokens.PushBack("ln");
+	validTokens.PushBack("cos");
+	validTokens.PushBack("e");
+	validTokens.PushBack("pi");
+	validTokens.PushBack(",");
+	validTokens.PushBack("log");
+	validTokens.PushBack("max");
 
-	validOperands.push_back("x");
-	validOperands.push_back("(");
-	validOperands.push_back(")");
-	validOperands.push_back("e");
-	validOperands.push_back("p");
+	validOperands.PushBack("x");
+	validOperands.PushBack("(");
+	validOperands.PushBack(")");
+	validOperands.PushBack("e");
+	validOperands.PushBack("p");
 }
 
 Plot::~Plot()
@@ -66,7 +66,7 @@ Plot::~Plot()
 
 }
 
-vector<sf::Vector2f> Plot::operator()()
+Vector<sf::Vector2f> Plot::operator()()
 {
 	Error::errorState = ErrorState::NONE;
 
@@ -75,13 +75,13 @@ vector<sf::Vector2f> Plot::operator()()
 	RPN rpn(validTokens);
 	CoordinateTranslation ct(info);
 
-	vector<sf::Vector2f> points;
+	Vector<sf::Vector2f> points;
 
 	double increment = (info.domainX.y - info.domainX.x) / info.numPoints;
 
 	for (double x = info.domainX.x; x <= info.domainX.y; x += increment)
 	{
-		vector<Token*> tokens = tokenizer(info.equation, x);
+		Vector<Token*> tokens = tokenizer(info.equation, x);
 
 		if (Error::errorState != ErrorState::NONE)
 			return points;
@@ -99,7 +99,7 @@ vector<sf::Vector2f> Plot::operator()()
 				return points;
 
 			sf::Vector2f screenPoints = ct(sf::Vector2f((float)x, y));
-			points.push_back(screenPoints);
+			points.PushBack(screenPoints);
 		}
 		catch (const std::invalid_argument &)
 		{

@@ -53,14 +53,14 @@ std::string Utility::mouse_pos_string(sf::RenderWindow &window)
 		")";
 }
 
-vector<std::string> Utility::Tokenize(const std::string &input)
+Vector<std::string> Utility::Tokenize(const std::string &input)
 {
 	std::istringstream iss(input);
-	vector<std::string> tokens;
+	Vector<std::string> tokens;
 	std::string token;
 
 	while (iss >> token)
-		tokens.push_back(token);
+		tokens.PushBack(token);
 
 	return tokens;
 }

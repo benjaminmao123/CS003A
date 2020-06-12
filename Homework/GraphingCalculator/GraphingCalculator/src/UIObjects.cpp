@@ -224,6 +224,16 @@ std::string Text::GetString() const
 	return text.getString().toAnsiString();
 }
 
+void Text::SetHorizontalAlign(HAlign hAlign)
+{
+	this->hAlign = hAlign;
+}
+
+void Text::SetVerticalAlign(VAlign vAlign)
+{
+	this->vAlign = vAlign;
+}
+
 void Text::AlignText()
 {
 	float x, y;
@@ -388,6 +398,16 @@ void Button::SetText(const std::string &string)
 std::string Button::GetText() const
 {
 	return text.GetString();
+}
+
+void Button::SetTextHorizontalAlign(HAlign hAlign)
+{
+	text.SetHorizontalAlign(hAlign);
+}
+
+void Button::SetTextVerticalAlign(VAlign vAlign)
+{
+	text.SetVerticalAlign(vAlign);
 }
 
 void Button::CheckSelection(sf::RenderWindow &window)
@@ -583,6 +603,16 @@ void InputField::SetCurrentString(const std::string &string)
 std::string InputField::GetCurrentString() const
 {
 	return currentString;
+}
+
+void InputField::SetTextHorizontalAlign(HAlign hAlign)
+{
+	text.SetHorizontalAlign(hAlign);
+}
+
+void InputField::SetTextVerticalAlign(VAlign vAlign)
+{
+	text.SetVerticalAlign(vAlign);
 }
 
 void InputField::GetInput(sf::Uint32 unicode)

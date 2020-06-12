@@ -22,7 +22,8 @@ enum class Command
 	PAN_UP,
 	PAN_DOWN,
 	RESET,
-	DELETE
+	DELETE,
+	ADD_MULTI
 };
 
 struct InputFieldDeselectEvent : public Event
@@ -64,9 +65,9 @@ struct InputFieldDeselectEvent : public Event
 					}
 				}
 
-				if (!isDuplicate && (sidebar.items.size() >= NUM_FUNCTIONS))
+				if (!isDuplicate && (sidebar.items.Size() >= NUM_FUNCTIONS))
 				{
-					for (size_t i = sidebar.items.size() - 1; i > 0; --i)
+					for (size_t i = sidebar.items.Size() - 1; i > 0; --i)
 						sidebar.items[i]->SetText(sidebar.items[i - 1]->GetText());
 
 					sidebar.items[0]->SetText(info.equation);

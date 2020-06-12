@@ -1,6 +1,7 @@
 #include "InputManager.h"
 #include <iostream>
-InputManager::InputManager()
+InputManager::InputManager() :
+	buttonPressed(false)
 {
 
 }
@@ -92,18 +93,18 @@ bool InputManager::GetKeyUp(sf::Keyboard::Key key)
 
 bool InputManager::GetMouseButtonUp(sf::Mouse::Button button)
 {
-	static bool keyPressed = false;
+	buttonPressed = false;
 
-	if (!keyPressed)
+	if (!buttonPressed)
 	{
 		if (sf::Mouse::isButtonPressed(button))
-			keyPressed = true;
+			buttonPressed = true;
 	}
 	else
 	{
 		if (!sf::Mouse::isButtonPressed(button))
 		{
-			keyPressed = false;
+			buttonPressed = false;
 
 			return true;
 		}

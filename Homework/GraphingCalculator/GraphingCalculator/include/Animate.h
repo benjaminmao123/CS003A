@@ -43,6 +43,8 @@ private:
 	sf::Text deleteText;
 	sf::Text helpText;
 	bool toggleHelp;
+	sf::Text domainText;
+	sf::Text multiText;
 };
 
 #endif // GAME_H

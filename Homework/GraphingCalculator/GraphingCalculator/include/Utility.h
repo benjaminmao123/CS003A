@@ -10,5 +10,5 @@ namespace Utility
 	int RandomNumber(int start, int end);
 	void ClearConsole();
 	std::string mouse_pos_string(sf::RenderWindow &window);
-	vector<std::string> Tokenize(const std::string &input);
+	Vector<std::string> Tokenize(const std::string &input);
 }

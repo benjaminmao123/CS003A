@@ -9,18 +9,18 @@ Function::Function()
     SetBaseTokenType(TokenType::FUNC);
 }
 
-Function::Function(const vector<double> &args)
+Function::Function(const Vector<double> &args)
 {
     SetPrecedence(100);
     SetBaseTokenType(TokenType::FUNC);
     
     for (const auto &arg : args)
-        operands.push_back(arg);
+        operands.PushBack(arg);
 }
 
 double Function::GetOperand(int idx) const
 {
-    return operands.at(idx);
+    return operands.At(idx);
 }
 
 Sin::Sin()
@@ -30,7 +30,7 @@ Sin::Sin()
     SetNumArgs(1);
 }
 
-Sin::Sin(const vector<double> &args)
+Sin::Sin(const Vector<double> &args)
     : Function(args)
 {
 	SetTokenType(TokenType::SIN);
@@ -50,7 +50,7 @@ Tan::Tan()
     SetNumArgs(1);
 }
 
-Tan::Tan(const vector<double> &args)
+Tan::Tan(const Vector<double> &args)
     : Function(args)
 {
     SetTokenType(TokenType::TAN);
@@ -70,7 +70,7 @@ Ln::Ln()
     SetNumArgs(1);
 }
 
-Ln::Ln(const vector<double> &args)
+Ln::Ln(const Vector<double> &args)
     : Function(args)
 {
     SetTokenType(TokenType::LN);
@@ -90,7 +90,7 @@ Cos::Cos()
     SetNumArgs(1);
 }
 
-Cos::Cos(const vector<double> &args)
+Cos::Cos(const Vector<double> &args)
     : Function(args)
 {
     SetTokenType(TokenType::COS);
@@ -110,7 +110,7 @@ Max::Max()
     SetNumArgs(2);
 }
 
-Max::Max(const vector<double>& args)
+Max::Max(const Vector<double>& args)
     : Function(args)
 {
     SetTokenType(TokenType::MAX);
@@ -130,7 +130,7 @@ Log::Log()
     SetNumArgs(2);
 }
 
-Log::Log(const vector<double>& args)
+Log::Log(const Vector<double>& args)
     : Function(args)
 {
     SetTokenType(TokenType::LOG);

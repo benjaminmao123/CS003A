@@ -32,11 +32,11 @@ public:
 	Plot(GraphInformation &info);
 	~Plot();
 
-	vector<sf::Vector2f> operator()();
+	Vector<sf::Vector2f> operator()();
 
 private:
 	GraphInformation &info;
-	vector<Token*> postfix;
-	vector<std::string> validTokens;
-	vector<std::string> validOperands;
+	Vector<Token*> postfix;
+	Vector<std::string> validTokens;
+	Vector<std::string> validOperands;
 };

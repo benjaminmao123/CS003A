@@ -5,7 +5,7 @@
  *
  * Notes: None.
  */
-#include <vld.h>
+
 #include "Animate.h"
 
 int main()

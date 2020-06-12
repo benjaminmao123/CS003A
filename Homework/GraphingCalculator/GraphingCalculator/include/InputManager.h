@@ -29,4 +29,5 @@ private:
 	void ResetMouseWheelData();
 
 	WheelData wheelData;
+	bool buttonPressed;
 };

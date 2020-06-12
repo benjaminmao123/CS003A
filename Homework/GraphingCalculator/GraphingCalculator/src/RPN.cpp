@@ -4,7 +4,7 @@
 #include "Function.h"
 #include "Error.h"
 
-RPN::RPN(const vector<std::string> &validTokens)
+RPN::RPN(const Vector<std::string> &validTokens)
 	: validTokens(validTokens)
 {
 
@@ -19,13 +19,13 @@ RPN::~RPN()
 /*
 	@summary: Evaluates the postfix expression.
 */
-double RPN::Evaluate(vector<Token*> &postfix)
+double RPN::Evaluate(Vector<Token*> &postfix)
 {
 	for (auto &token : postfix)
 	{
 		if (token)
 		{
-			if (validTokens.index_of(token->GetTokenString()) != -1)
+			if (validTokens.IndexOf(token->GetTokenString()) != -1)
 			{
 				switch (token->GetTokenType())
 				{
@@ -106,7 +106,7 @@ double RPN::Evaluate(vector<Token*> &postfix)
 				}
 				case TokenType::SIN:
 				{
-					vector<double> args;
+					Vector<double> args;
 
 					for (unsigned int i = 0; i < token->GetNumArgs(); ++i)
 					{
@@ -114,7 +114,7 @@ double RPN::Evaluate(vector<Token*> &postfix)
 						{
 							Token* arg = static_cast<Operand*>(result.top());
 							result.pop();
-							args.push_back(arg->Evaluate());
+							args.PushBack(arg->Evaluate());
 							delete arg;
 						}
 						catch (std::out_of_range&)
@@ -136,7 +136,7 @@ double RPN::Evaluate(vector<Token*> &postfix)
 				}
 				case TokenType::TAN:
 				{
-					vector<double> args;
+					Vector<double> args;
 
 					for (unsigned int i = 0; i < token->GetNumArgs(); ++i)
 					{
@@ -144,7 +144,7 @@ double RPN::Evaluate(vector<Token*> &postfix)
 						{
 							Token* arg = static_cast<Operand*>(result.top());
 							result.pop();
-							args.push_back(arg->Evaluate());
+							args.PushBack(arg->Evaluate());
 							delete arg;
 						}
 						catch (std::out_of_range&)
@@ -166,7 +166,7 @@ double RPN::Evaluate(vector<Token*> &postfix)
 				}
 				case TokenType::LN:
 				{
-					vector<double> args;
+					Vector<double> args;
 
 					for (unsigned int i = 0; i < token->GetNumArgs(); ++i)
 					{
@@ -174,7 +174,7 @@ double RPN::Evaluate(vector<Token*> &postfix)
 						{
 							Token* arg = static_cast<Operand*>(result.top());
 							result.pop();
-							args.push_back(arg->Evaluate());
+							args.PushBack(arg->Evaluate());
 							delete arg;
 						}
 						catch (std::out_of_range&)
@@ -202,7 +202,7 @@ double RPN::Evaluate(vector<Token*> &postfix)
 				}
 				case TokenType::COS:
 				{
-					vector<double> args;
+					Vector<double> args;
 
 					for (unsigned int i = 0; i < token->GetNumArgs(); ++i)
 					{
@@ -210,7 +210,7 @@ double RPN::Evaluate(vector<Token*> &postfix)
 						{
 							Token* arg = static_cast<Operand*>(result.top());
 							result.pop();
-							args.push_back(arg->Evaluate());
+							args.PushBack(arg->Evaluate());
 							delete arg;
 						}
 						catch (std::out_of_range&)
@@ -232,7 +232,7 @@ double RPN::Evaluate(vector<Token*> &postfix)
 				}
 				case TokenType::MAX:
 				{
-					vector<double> args;
+					Vector<double> args;
 
 					for (unsigned int i = 0; i < token->GetNumArgs(); ++i)
 					{
@@ -240,7 +240,7 @@ double RPN::Evaluate(vector<Token*> &postfix)
 						{
 							Token* arg = static_cast<Operand*>(result.top());
 							result.pop();
-							args.push_back(arg->Evaluate());
+							args.PushBack(arg->Evaluate());
 							delete arg;
 						}
 						catch (std::out_of_range&)
@@ -262,7 +262,7 @@ double RPN::Evaluate(vector<Token*> &postfix)
 				}
 				case TokenType::LOG:
 				{
-					vector<double> args;
+					Vector<double> args;
 
 					for (unsigned int i = 0; i < token->GetNumArgs(); ++i)
 					{
@@ -270,7 +270,7 @@ double RPN::Evaluate(vector<Token*> &postfix)
 						{
 							Token* arg = static_cast<Operand*>(result.top());
 							result.pop();
-							args.push_back(arg->Evaluate());
+							args.PushBack(arg->Evaluate());
 							delete arg;
 						}
 						catch (std::out_of_range&)
@@ -311,7 +311,7 @@ double RPN::Evaluate(vector<Token*> &postfix)
 	return 0.0;
 }
 
-double RPN::operator()(vector<Token* > &postfix)
+double RPN::operator()(Vector<Token* > &postfix)
 {
 	return Evaluate(postfix);
 }

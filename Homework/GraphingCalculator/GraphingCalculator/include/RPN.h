@@ -12,14 +12,14 @@
 class RPN
 {
 public:
-	RPN(const vector<std::string> &validTokens);
+	RPN(const Vector<std::string> &validTokens);
 	~RPN();
 
-	double operator()(vector<Token*> &postfix);
+	double operator()(Vector<Token*> &postfix);
 
 private:
-	double Evaluate(vector<Token*> &postfix);
+	double Evaluate(Vector<Token*> &postfix);
 
-	const vector<std::string> &validTokens;
+	const Vector<std::string> &validTokens;
 	stack<Token*> result;
 };

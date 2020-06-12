@@ -95,8 +95,17 @@ void System::Step(Command command, GraphInformation &info, float deltaTime)
 		{
 			if ((*it)->GetIsHighlighted())
 			{
+				for (auto gIt = graph.equations.begin(); gIt != graph.equations.end(); ++gIt)
+				{
+					if (*gIt == (*it)->GetText())
+					{
+						graph.equations.Remove(gIt);
+						break;
+					}
+				}
+
 				Button* button = *it;
-				sidebar.items.erase(it);
+				sidebar.items.Remove(it);
 				delete button;
 				break;
 			}
@@ -105,6 +114,34 @@ void System::Step(Command command, GraphInformation &info, float deltaTime)
 		sidebar.Save();
 		sidebar.Clear();
 		sidebar.Load();
+		break;
+	case Command::ADD_MULTI:
+		for (auto it = sidebar.items.begin(); it != sidebar.items.end(); ++it)
+		{
+			if ((*it)->GetIsHighlighted())
+			{
+				bool valid = true;
+				auto gIt = graph.equations.begin();
+
+				std::string eq = (*it)->GetText();
+
+				for (; gIt != graph.equations.end(); ++gIt)
+				{
+					if (eq == *gIt)
+					{
+						valid = false;
+						break;
+					}
+				}
+
+				if (valid && info.equation != eq)
+					graph.equations.PushBack(eq);
+				else if (!valid && info.equation != eq)
+					graph.equations.Remove(gIt);
+
+				break;
+			}
+		}
 		break;
 	default:
 		break;

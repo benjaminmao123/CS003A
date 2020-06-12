@@ -13,7 +13,7 @@ Sidebar::Sidebar(GraphInformation &info)
 Sidebar::Sidebar(GraphInformation &info, float left, float width)
 	: _left(left), _width(width), info(info), historyButton(nullptr)
 {
-	if (!font.loadFromFile("arial.ttf"))
+	if (!font.loadFromFile("assets/fonts/arial.ttf"))
 	{
 		std::cout << "Failed to load font" << std::endl;
 		exit(-1);
@@ -24,7 +24,7 @@ Sidebar::Sidebar(GraphInformation &info, float left, float width)
 	rect.setSize(sf::Vector2f(width, SCREEN_HEIGHT));
 	
 	title.Load(font);
-	title.SetCharacterSize(20);
+	title.SetCharacterSize(25);
 	title.SetPosition(SCREEN_WIDTH - SIDE_BAR, 0);
 	title.SetSize(SIDE_BAR, SCREEN_HEIGHT / 9);
 	title.SetString("History");
@@ -33,7 +33,7 @@ Sidebar::Sidebar(GraphInformation &info, float left, float width)
 
 	Load();
 
-	if (!items.empty())
+	if (!items.IsEmpty())
 		items[0]->OnClick();
 }
 
@@ -47,7 +47,7 @@ Sidebar::~Sidebar()
 
 void Sidebar::Save()
 {
-	std::ofstream ofs("history.txt", std::ios::out | std::ios::trunc);
+	std::ofstream ofs("assets/history.txt", std::ios::out | std::ios::trunc);
 
 	if (!ofs.is_open())
 	{
@@ -61,30 +61,30 @@ void Sidebar::Save()
 
 void Sidebar::Load()
 {
-	std::ifstream ifs("history.txt");
+	std::ifstream ifs("assets/history.txt");
 
 	if (!ifs.is_open())
 	{
 		std::cout << "Failed to open history.txt" << std::endl;
-		std::ofstream ofs("history.txt");
+		std::ofstream ofs("assets/history.txt");
 	}
 
 	std::string line;
-	vector<std::string> temp;
+	Vector<std::string> temp;
 
 	while (std::getline(ifs, line))
-		temp.push_back(line);
+		temp.PushBack(line);
 
-	for (int i = (int)temp.size() - 1; i >= 0; --i)
+	for (int i = (int)temp.Size() - 1; i >= 0; --i)
 		AddFunction(temp[i]);
 }
 
 void Sidebar::Clear()
 {
-	while (!items.empty())
+	while (!items.IsEmpty())
 	{
-		delete items.back();
-		items.pop_back();
+		delete items.Back();
+		items.PopBack();
 	}
 }
 
@@ -109,12 +109,12 @@ void Sidebar::AddFunction(const std::string& name)
 {
 	float y = 0;
 	
-	if (items.empty())
+	if (items.IsEmpty())
 		y = title.GetSize().y + ((SCREEN_HEIGHT / NUM_SIDEBAR_ITEMS) - 
 								 (SCREEN_HEIGHT / (NUM_SIDEBAR_ITEMS + 1)));
 	else
 	{
-		Button* prevButton = items[items.size() - 1];
+		Button* prevButton = items[items.Size() - 1];
 
 		y += prevButton->GetPosition().y + prevButton->GetSize().y + 
 			((SCREEN_HEIGHT / NUM_SIDEBAR_ITEMS) - prevButton->GetSize().y);
@@ -132,10 +132,10 @@ void Sidebar::AddFunction(const std::string& name)
 	historyButton->SetTextStyle(sf::Text::Bold);
 	historyButton->SetPosition(SCREEN_WIDTH - SIDE_BAR + (BUTTON_X_PADDING / 2), y);
 	historyButton->AddEvent(new ButtonOnClickEvent(info, historyButton));
-	items.push_back(historyButton);
+	items.PushBack(historyButton);
 
-	if (items.size() > 1)
-		for (size_t i = items.size() - 1; i > 0; --i)
+	if (items.Size() > 1)
+		for (size_t i = items.Size() - 1; i > 0; --i)
 			items[i]->SetText(items[i - 1]->GetText());
 
 	items[0]->SetText(name);
