@@ -12,15 +12,58 @@
 #include <iostream>
 #include <cassert>
 
-#include "Node.h"
+template <typename ITEM_TYPE>
+struct node
+{
+public:
+    /*
+        @summary: Default constructor for node. Initializes item to default
+            value and next to nullptr.
+    */
+    node()
+        : _item(), next(nullptr)
+    {
 
-//Linked List General Functions:
+    }
+
+    /*
+        @summary: Overloaded constructor. Initializes item to a given item and
+            next to nullptr.
+
+        @param <const ITEM_TYPE &item>: Item to initialize member variable.
+    */
+    node(const ITEM_TYPE& item)
+        : _item(item), next(nullptr)
+    {
+
+    }
+
+    /*
+        @summary: Overloaded insertion operator to print contents of node.
+
+        @param <std::ostream &outs>: The ostream object.
+        @param <const node<T> &printMe>: The node to print.
+
+        @return <std::ostream &>: ostream reference.
+    */
+    friend std::ostream& operator<<(std::ostream& outs, const node<ITEM_TYPE>& printMe)
+    {
+        outs << printMe._item;
+
+        return outs;
+    }
+
+    ITEM_TYPE _item;
+    node* next;
+};
+
+ //Linked List General Functions:
 template <typename ITEM_TYPE>
 void PrintList(const node<ITEM_TYPE> *head);
 
 template <typename ITEM_TYPE>
 void PrintList_backwards(const node<ITEM_TYPE> *head,       //recursive fun! :)
-    const int depth);                                       
+    const int depth);
 
 template <typename ITEM_TYPE>
 node<ITEM_TYPE> *SearchList(node<ITEM_TYPE> *head,          //return ptr to key or NULL
@@ -97,11 +140,11 @@ inline void PrintList(const node<ITEM_TYPE> *head)
         {
             if (!i->next)
             {
-                cout << i->_item << "->|||";
+                cout << *i << "->|||";
             }
             else
             {
-                cout << i->_item << "->";
+                cout << *i << "->";
             }
         }
     }
@@ -128,11 +171,11 @@ inline void PrintList_backwards(const node<ITEM_TYPE> *head, const int depth)
 
         if (!depth)
         {
-            cout << head->_item;
+            cout << *head;
         }
         else
         {
-            cout << head->_item << "<-";
+            cout << *head << "<-";
         }
     }
     else
@@ -172,7 +215,7 @@ inline node<ITEM_TYPE> *SearchList(node<ITEM_TYPE> *head, const ITEM_TYPE &key)
     @return <node<ITEM_TYPE> *>: The node that was inserted.
 */
 template<typename ITEM_TYPE>
-inline node<ITEM_TYPE> *InsertHead(node<ITEM_TYPE> *&head, 
+inline node<ITEM_TYPE> *InsertHead(node<ITEM_TYPE> *&head,
     const ITEM_TYPE &insertThis)
 {
     node<ITEM_TYPE> *newNode = new node<ITEM_TYPE>(insertThis);
@@ -197,7 +240,7 @@ inline node<ITEM_TYPE> *InsertHead(node<ITEM_TYPE> *&head,
     @return <node<ITEM_TYPE> *>: The node that was inserted.
 */
 template<typename ITEM_TYPE>
-inline node<ITEM_TYPE> *InsertAfter(node<ITEM_TYPE> *&head, 
+inline node<ITEM_TYPE> *InsertAfter(node<ITEM_TYPE> *&head,
     node<ITEM_TYPE> *afterThis, const ITEM_TYPE &insertThis)
 {
     node<ITEM_TYPE> *newNode = nullptr;
@@ -241,7 +284,7 @@ inline node<ITEM_TYPE> *InsertAfter(node<ITEM_TYPE> *&head,
     @return <node<ITEM_TYPE> *>: The node that was inserted.
 */
 template<typename ITEM_TYPE>
-inline node<ITEM_TYPE> *InsertBefore(node<ITEM_TYPE> *&head, 
+inline node<ITEM_TYPE> *InsertBefore(node<ITEM_TYPE> *&head,
     const node<ITEM_TYPE> *beforeThis, const ITEM_TYPE &insertThis)
 {
     node<ITEM_TYPE> *newNode = nullptr;
@@ -279,7 +322,7 @@ inline node<ITEM_TYPE> *InsertBefore(node<ITEM_TYPE> *&head,
     @return <node<ITEM_TYPE> *>: The previous node of the given node.
 */
 template<typename ITEM_TYPE>
-inline node<ITEM_TYPE> *PreviousNode(node<ITEM_TYPE> *head, 
+inline node<ITEM_TYPE> *PreviousNode(node<ITEM_TYPE> *head,
     const node<ITEM_TYPE> *prevToThis)
 {
     node<ITEM_TYPE> *prev = nullptr;
@@ -424,7 +467,7 @@ inline ITEM_TYPE &At(node<ITEM_TYPE> *head, const int pos)
     @return <node<ITEM_TYPE> *>: The node that was inserted.
 */
 template<typename ITEM_TYPE>
-inline node<ITEM_TYPE> *InsertSorted(node<ITEM_TYPE> *&head, 
+inline node<ITEM_TYPE> *InsertSorted(node<ITEM_TYPE> *&head,
     const ITEM_TYPE &item, const bool ascending)
 {
     node<ITEM_TYPE> *newNode = nullptr;
@@ -481,21 +524,26 @@ inline node<ITEM_TYPE> *InsertSorted(node<ITEM_TYPE> *&head,
     @return <node<ITEM_TYPE> *>: The node that was inserted.
 */
 template<typename ITEM_TYPE>
-inline node<ITEM_TYPE> *InsertSorted_and_add(node<ITEM_TYPE> *&head, 
+inline node<ITEM_TYPE> *InsertSorted_and_add(node<ITEM_TYPE> *&head,
     const ITEM_TYPE &item, const bool ascending)
 {
-    node<ITEM_TYPE> *mNode = SearchList(head, item);
-
-    if (mNode)
+    if (head)
     {
-        mNode->_item += item;
-    }
-    else
-    {
-        mNode = InsertSorted(head, item, ascending);
+        node<ITEM_TYPE> *mNode = SearchList(head, item);
+
+        if (mNode)
+        {
+            mNode->_item += item;
+        }
+        else
+        {
+            mNode = InsertSorted(head, item, ascending);
+        }
+
+        return mNode;
     }
 
-    return mNode;
+    return nullptr;
 }
 
 /*
@@ -508,7 +556,7 @@ inline node<ITEM_TYPE> *InsertSorted_and_add(node<ITEM_TYPE> *&head,
     @return <node<ITEM_TYPE> *>: The node that was inserted.
 */
 template<typename ITEM_TYPE>
-inline node<ITEM_TYPE> *WhereThisGoes(node<ITEM_TYPE> *head, 
+inline node<ITEM_TYPE> *WhereThisGoes(node<ITEM_TYPE> *head,
     const ITEM_TYPE &item, const bool ascending)
 {
     if (head)
@@ -540,7 +588,7 @@ inline node<ITEM_TYPE> *WhereThisGoes(node<ITEM_TYPE> *head,
     @summary: Returns the last node in the list.
 
     @param <node<ITEM_TYPE> *head>: The head of the list.
-    
+
     @return <node<ITEM_TYPE> *>: The last node in the list.
 */
 template<typename ITEM_TYPE>

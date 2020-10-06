@@ -1,13 +1,14 @@
 /*
  * Author: Benjamin Mao
- * Project: Stack
- * Purpose: Entry point for stack.
+ * Project: Queue
+ * Purpose: Entry point for queue class.
  *
  * Notes: None.
  */
 
 #include <iostream>
 
+#include "QueueTest.h"
 #include "StackTest.h"
 
 using namespace std;
@@ -26,4 +27,7 @@ void Test()
 	StackTest::TestPush();
 	StackTest::TestPop();
 	StackTest::TestTop();
+	QueueTest::PushTest();
+	QueueTest::PopTest();
+	QueueTest::FrontTest();
 }

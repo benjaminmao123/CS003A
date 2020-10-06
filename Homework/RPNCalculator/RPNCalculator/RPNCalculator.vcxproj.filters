@@ -39,19 +39,10 @@
     <ClInclude Include="Exponent.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="IteratedList.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="LeftParenthesis.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="LinkedListLibrary.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Multiplication.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Node.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Operand.h">
