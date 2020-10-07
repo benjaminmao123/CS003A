@@ -10,53 +10,54 @@
 
 #pragma once
 
-#include <ostream>
-#include <vector>
+#include <iostream>
+
+#include "ArrayLibrary.h"
 
 template <typename T>
-class vector
+class Vector
 {
 public:
     class Iterator
     {
     public:
-        Iterator(T* ptr)
+        Iterator(T *ptr)
             : ptr(ptr)
         {
 
         }
 
-        T& operator*()
+        T &operator*()
         {
             return *ptr;
         }
 
-        const T& operator*() const
+        const T &operator*() const
         {
             return *ptr;
         }
 
-        T* operator->()
+        T *operator->()
         {
             return ptr;
         }
 
-        const T* operator->() const
+        const T *operator->() const
         {
             return ptr;
         }
 
-        friend bool operator==(const Iterator& lhs, const Iterator& rhs)
+        friend bool operator==(const Iterator &lhs, const Iterator &rhs)
         {
             return ptr == rhs.ptr;
         }
 
-        friend bool operator!=(const Iterator& lhs, const Iterator& rhs)
+        friend bool operator!=(const Iterator &lhs, const Iterator &rhs)
         {
             return lhs.ptr != rhs.ptr;
         }
 
-        Iterator& operator++()
+        Iterator &operator++()
         {
             ++ptr;
 
@@ -71,7 +72,7 @@ public:
             return temp;
         }
 
-        Iterator& operator--()
+        Iterator &operator--()
         {
             --ptr;
 
@@ -103,56 +104,56 @@ public:
         }
 
     private:
-        T* ptr;
+        T *ptr;
     };
 
-    vector(int size = 0);
-    vector(const vector& other);
-    ~vector();
+    Vector(int size = 0);
+    Vector(const Vector &other);
+    ~Vector();
 
     const T operator[](int index) const;
-    T& operator[](int index);
-    T& at(int index);
-    const T at(int index) const;
-    const T& front() const;
-    T& front();
-    const T& back() const;
-    T& back();
+    T &operator[](int index);
+    T &at(int index);                       
+    const T at(int index) const;             
+    const T &front() const;                                       
+    T &front();
+    const T &back() const;                                        
+    T &back();
 
     Iterator begin();
     Iterator cbegin() const;
     Iterator end();
     Iterator cend() const;
 
-    vector& operator+=(const T& item);
-    void push_back(const T& item);
-    void pop_back();
+    Vector &operator+=(const T &item);                      
+    void push_back(const T &item);                        
+    void pop_back();                                        
 
-    void insert(int pos, const T& item);
+    void insert(int pos, const T &item);    
     void erase(int erase_index);
-    int index_of(const T& item);
+    int index_of(const T &item);                       
 
-    void set_size(int size);
-    void set_capacity(int capacity);
-    int size() const { return sz; }
-    int capacity() const { return cap; }
+    void set_size(int size);                
+    void set_capacity(int capacity);      
+    int size() const { return sz; }             
+    int capacity() const { return cap; }        
 
-    bool empty() const;
-    void swap(vector& v);
+    bool empty() const;                             
+    void swap(Vector &v);
     void clear();
 
     template <class U>
-    friend std::ostream& operator<<(std::ostream& outs, const vector<U>& _a);
+    friend std::ostream &operator<<(std::ostream &outs, const Vector<U> &_a);
 
-    bool operator==(const vector<T>& _a);
-    bool operator!=(const vector<T>& _a);
+    bool operator==(const Vector<T> &_a);
+    bool operator!=(const Vector<T> &_a);
 
-    vector& operator=(const vector& rhs);
+    Vector &operator=(const Vector &rhs);
 
 private:
     int sz;
     int cap;
-    T* data;
+    T *data;
 };
 
 /*
@@ -161,7 +162,7 @@ private:
     @param <int size>: Size to set vector to.
 */
 template<typename T>
-inline vector<T>::vector(int size)
+inline Vector<T>::Vector(int size)
     : sz(0), cap(1), data(nullptr)
 {
     if (size)
@@ -170,9 +171,7 @@ inline vector<T>::vector(int size)
         set_size(size);
     }
     else
-    {
         data = allocate(data, cap);
-    }
 }
 
 /*
@@ -181,7 +180,7 @@ inline vector<T>::vector(int size)
     @param <const Vector &other>: Other vector to copy.
 */
 template<typename T>
-inline vector<T>::vector(const vector& other)
+inline Vector<T>::Vector(const Vector &other)
     : sz(other.sz), cap(other.cap), data(allocate(data, cap))
 {
     copy_list(data, other.data, sz);
@@ -191,7 +190,7 @@ inline vector<T>::vector(const vector& other)
     @summary: Destructor, cleans up data.
 */
 template<typename T>
-inline vector<T>::~vector()
+inline Vector<T>::~Vector()
 {
     delete[] data;
 }
@@ -205,14 +204,12 @@ inline vector<T>::~vector()
     @return <const T>: Returns a copy of the element at index.
 */
 template<typename T>
-inline const T vector<T>::operator[](int index) const
+inline const T Vector<T>::operator[](int index) const
 {
     if (index >= sz)
-    {
         throw std::out_of_range("Index was out of range");
-    }
 
-    T* location = data + index;
+    T *location = data + index;
 
     return *location;
 }
@@ -226,14 +223,12 @@ inline const T vector<T>::operator[](int index) const
     @return <T &>: Returns a reference to the element at index.
 */
 template<typename T>
-inline T& vector<T>::operator[](int index)
+inline T &Vector<T>::operator[](int index)
 {
     if (index >= sz)
-    {
         throw std::out_of_range("Index was out of range");
-    }
 
-    T* location = data + index;
+    T *location = data + index;
 
     return *location;
 }
@@ -247,14 +242,12 @@ inline T& vector<T>::operator[](int index)
     @return <T &>: Returns a reference to the element at index.
 */
 template<typename T>
-inline T& vector<T>::at(int index)
+inline T &Vector<T>::at(int index)
 {
     if (index >= sz)
-    {
         throw std::out_of_range("Index was out of range");
-    }
 
-    T* location = data + index;
+    T *location = data + index;
 
     return *location;
 }
@@ -268,14 +261,12 @@ inline T& vector<T>::at(int index)
     @return <const T>: Returns a copy to the element at index.
 */
 template<typename T>
-inline const T vector<T>::at(int index) const
+inline const T Vector<T>::at(int index) const
 {
     if (index >= sz)
-    {
         throw std::out_of_range("Index was out of range");
-    }
 
-    T* location = data + index;
+    T *location = data + index;
 
     return *location;
 }
@@ -286,7 +277,7 @@ inline const T vector<T>::at(int index) const
     @return <const T &>: Returns a reference to the first element.
 */
 template<typename T>
-inline const T& vector<T>::front() const
+inline const T &Vector<T>::front() const
 {
     return at(0);
 }
@@ -297,7 +288,7 @@ inline const T& vector<T>::front() const
     @return <T &>: Returns a reference to the last element.
 */
 template<typename T>
-inline T& vector<T>::front()
+inline T &Vector<T>::front()
 {
     return at(0);
 }
@@ -308,7 +299,7 @@ inline T& vector<T>::front()
     @return <const T &>: Returns a reference to the last element.
 */
 template<typename T>
-inline const T& vector<T>::back() const
+inline const T &Vector<T>::back() const
 {
     return at(sz - 1);
 }
@@ -319,7 +310,7 @@ inline const T& vector<T>::back() const
     @return <T &>: Returns a reference to the last element.
 */
 template<typename T>
-inline T& vector<T>::back()
+inline T &Vector<T>::back()
 {
     return at(sz - 1);
 }
@@ -330,7 +321,7 @@ inline T& vector<T>::back()
     @return <vector<T>::Iterator>: The iterator.
 */
 template<typename T>
-inline typename vector<T>::Iterator vector<T>::begin()
+inline typename Vector<T>::Iterator Vector<T>::begin()
 {
     return Iterator(data);
 }
@@ -341,7 +332,7 @@ inline typename vector<T>::Iterator vector<T>::begin()
     @return <vector<T>::Iterator>: The iterator.
 */
 template<typename T>
-inline typename vector<T>::Iterator vector<T>::cbegin() const
+inline typename Vector<T>::Iterator Vector<T>::cbegin() const
 {
     return Iterator(data);
 }
@@ -352,7 +343,7 @@ inline typename vector<T>::Iterator vector<T>::cbegin() const
     @return <vector<T>::Iterator>: The iterator.
 */
 template<typename T>
-inline typename vector<T>::Iterator vector<T>::end()
+inline typename Vector<T>::Iterator Vector<T>::end()
 {
     return Iterator(data + sz);
 }
@@ -363,7 +354,7 @@ inline typename vector<T>::Iterator vector<T>::end()
     @return <vector<T>::Iterator>: The iterator.
 */
 template<typename T>
-inline typename vector<T>::Iterator vector<T>::cend() const
+inline typename Vector<T>::Iterator Vector<T>::cend() const
 {
     return Iterator(data + sz);
 }
@@ -375,7 +366,7 @@ inline typename vector<T>::Iterator vector<T>::cend() const
     @param <const T &item>: Item to to append.
 */
 template<typename T>
-inline vector<T>& vector<T>::operator+=(const T& item)
+inline Vector<T> &Vector<T>::operator+=(const T &item)
 {
     push_back(item);
 }
@@ -387,7 +378,7 @@ inline vector<T>& vector<T>::operator+=(const T& item)
     @param <const T &item>: Item to to append.
 */
 template<typename T>
-inline void vector<T>::push_back(const T& item)
+inline void Vector<T>::push_back(const T &item)
 {
     data = add_entry(data, item, sz, cap);
 }
@@ -398,7 +389,7 @@ inline void vector<T>::push_back(const T& item)
     @return <T>: Returns the popped item.
 */
 template<typename T>
-inline void vector<T>::pop_back()
+inline void Vector<T>::pop_back()
 {
     remove_last(data, sz, cap);
 }
@@ -411,21 +402,17 @@ inline void vector<T>::pop_back()
     @param <const T &item>: Item to insert.
 */
 template<typename T>
-inline void vector<T>::insert(int pos, const T& item)
+inline void Vector<T>::insert(int pos, const T &item)
 {
     if (pos >= sz)
-    {
         push_back(item);
-    }
     else
     {
         if (sz >= cap)
-        {
             set_capacity(cap * 2);
-        }
 
         //shift elements right and insert at pos
-        T* location = data + pos;
+        T *location = data + pos;
         shift_right((data + sz++) - 1, location);
         *location = item;
     }
@@ -438,15 +425,13 @@ inline void vector<T>::insert(int pos, const T& item)
     @param <int erase_index>: Index of item to erase.
 */
 template<typename T>
-inline void vector<T>::erase(int erase_index)
+inline void Vector<T>::erase(int erase_index)
 {
     if (erase_index >= sz)
-    {
         pop_back();
-    }
     else
     {
-        T* location = data + erase_index;
+        T *location = data + erase_index;
         shift_left(location, data + sz--);
     }
 }
@@ -459,7 +444,7 @@ inline void vector<T>::erase(int erase_index)
     @return <int>: Returns index of the item.
 */
 template<typename T>
-inline int vector<T>::index_of(const T& item)
+inline int Vector<T>::index_of(const T &item)
 {
     int index = -1;
 
@@ -474,12 +459,10 @@ inline int vector<T>::index_of(const T& item)
     @param <int size>: Value to set size to.
 */
 template<typename T>
-inline void vector<T>::set_size(int size)
+inline void Vector<T>::set_size(int size)
 {
     while (size >= cap)
-    {
         set_capacity(cap * 2);
-    }
 
     sz = size;
 }
@@ -490,20 +473,12 @@ inline void vector<T>::set_size(int size)
     @param <int capacity>: Value to set capacity to.
 */
 template<typename T>
-inline void vector<T>::set_capacity(int capacity)
+inline void Vector<T>::set_capacity(int capacity)
 {
     if (capacity > sz)
     {
         cap = capacity;
-
-        T* newData = nullptr;
-
-        newData = allocate(newData, cap);
-        copy_list(newData, data, sz);
-
-        delete[] data;
-
-        data = newData;
+        data = reallocate(data, sz, cap);
     }
 }
 
@@ -513,7 +488,7 @@ inline void vector<T>::set_capacity(int capacity)
     @return <bool>: If container is empty return true, else false.
 */
 template<typename T>
-inline bool vector<T>::empty() const
+inline bool Vector<T>::empty() const
 {
     return sz == 0;
 }
@@ -528,12 +503,10 @@ inline bool vector<T>::empty() const
     @return <ostream &>: The ostream object that was inserted into.
 */
 template<class U>
-inline std::ostream& operator<<(std::ostream& outs, const vector<U>& _a)
+inline std::ostream &operator<<(std::ostream &outs, const Vector<U> &_a)
 {
     for (int i = 0; i < _a.sz; ++i)
-    {
         outs << _a.at(i) << " ";
-    }
 
     return outs;
 }
@@ -547,19 +520,15 @@ inline std::ostream& operator<<(std::ostream& outs, const vector<U>& _a)
     @return <bool>: If they are the same, return true, else false.
 */
 template <typename T>
-inline bool vector<T>::operator==(const vector<T>& _a)
+inline bool Vector<T>::operator==(const Vector<T> &_a)
 {
     if (sz != _a.sz || cap != _a.cap)
-    {
         return false;
-    }
 
     for (int i = 0; i < sz; ++i)
     {
         if (at(i) != _a.at(i))
-        {
             return false;
-        }
     }
 
     return true;
@@ -574,19 +543,15 @@ inline bool vector<T>::operator==(const vector<T>& _a)
     @return <bool>: If they are not the same, return true, else false.
 */
 template<typename T>
-inline bool vector<T>::operator!=(const vector<T>& _a)
+inline bool Vector<T>::operator!=(const Vector<T> &_a)
 {
     if (sz != _a.sz || cap != _a.cap)
-    {
         return true;
-    }
 
     for (int i = 0; i < sz; ++i)
     {
         if (at(i) != _a.at(i))
-        {
             return true;
-        }
     }
 
     return false;
@@ -600,9 +565,9 @@ inline bool vector<T>::operator!=(const vector<T>& _a)
     @return <Vector<T> &>: Returns reference to this.
 */
 template<typename T>
-inline vector<T>& vector<T>::operator=(const vector& rhs)
+inline Vector<T> &Vector<T>::operator=(const Vector &rhs)
 {
-    vector temp(rhs);
+    Vector temp(rhs);
     swap(temp);
 
     return *this;
@@ -614,7 +579,7 @@ inline vector<T>& vector<T>::operator=(const vector& rhs)
     @param <const Vector<T> &v>: Container to copy.
 */
 template<typename T>
-inline void vector<T>::swap(vector& v)
+inline void Vector<T>::swap(Vector &v)
 {
     std::swap(sz, v.sz);
     std::swap(cap, v.cap);
@@ -625,128 +590,7 @@ inline void vector<T>::swap(vector& v)
     @summary: Clears the entire vector.
 */
 template<typename T>
-inline void vector<T>::clear()
+inline void Vector<T>::clear()
 {
     while (sz) { pop_back(); }
 }
-
-template <typename T>
-class Vector
-{
-public:
-    using iterator = typename std::vector<T>::iterator;
-    using const_iterator = typename std::vector<T>::const_iterator;
-
-    Vector()
-    {
-
-    }
-
-    Vector(const Vector& other) :
-        container(other.container)
-    {
-
-    }
-
-    Vector& operator=(const Vector& rhs) 
-    {
-        container = rhs.container;
-
-        return *this;
-    }
-
-    void PushBack(const T& item)
-    {
-        container.push_back(item);
-    }
-
-    void PopBack()
-    {
-        container.pop_back();
-    }
-
-    int IndexOf(const T& item) const
-    {
-        for (int i = 0; i < container.size(); ++i)
-        {
-            if (container[i] == item)
-                return i;
-        }
-
-        return -1;
-    }
-
-    bool IsEmpty() const
-    {
-        return container.empty();
-    }
-
-    T& At(size_t idx)
-    {
-        return container.at(idx);
-    }
-
-    const T& At(size_t idx) const
-    {
-        return container.at(idx);
-    }
-
-    size_t Size() const
-    {
-        return container.size();
-    }
-
-    T& operator[](size_t idx)
-    {
-        return container[idx];
-    }
-
-    const T& operator[](size_t idx) const
-    {
-        return container[idx];
-    }
-
-    iterator Remove(const iterator &it)
-    {
-        return container.erase(it);
-    }
-
-    iterator begin()
-    {
-        return container.begin();
-    }
-
-    iterator end()
-    {
-        return container.end();
-    }
-
-    const_iterator begin() const
-    {
-        return container.cbegin();
-    }
-
-    const_iterator end() const
-    {
-        return container.cend();
-    }
-
-    T& Back()
-    {
-        return container.back();
-    }
-
-    const T& Back() const
-    {
-        return container.back();
-    }
-
-    void Clear()
-    {
-        container.clear();
-    }
-
-private:
-    std::vector<T> container;
-};
-
