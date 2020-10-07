@@ -2,7 +2,7 @@
  * Author: Benjamin Mao
  * Project: Queue
  * Purpose: Implementation a FIFO container called
- *		a stack.
+ *		a Stack.
  *
  * Notes: None.
  */
@@ -16,31 +16,31 @@
 #include "IteratedList.h"
 
 template <typename T>
-class queue
+class Queue
 {
 public:
 	class Iterator
 	{
 	public:
-		Iterator() { }
-		Iterator(const typename List<T>::Iterator &it) : listIt(it) { }
+		Iterator() {}
+		Iterator(const typename List<T>::Iterator& it) : listIt(it) {}
 
-		T &operator*()
+		T& operator*()
 		{
 			return *listIt;
 		}
 
-		const T &operator*() const
+		const T& operator*() const
 		{
 			return *listIt;
 		}
 
-		T *operator->()
+		T* operator->()
 		{
 			return listIt.operator->();
 		}
 
-		const T *operator->() const
+		const T* operator->() const
 		{
 			return listIt.operator->();
 		}
@@ -51,19 +51,19 @@ public:
 		}
 
 		//true if left != right
-		bool operator!=(const Iterator &rhs) const
+		bool operator!=(const Iterator& rhs) const
 		{
 			return listIt != rhs.listIt;
 		}
 
 		//true if left == right
-		bool operator==(const Iterator &rhs) const
+		bool operator==(const Iterator& rhs) const
 		{
 			return listIt == rhs.listIt;
 		}
 
 		//member operator: ++it; or ++it = new_value
-		Iterator &operator++()
+		Iterator& operator++()
 		{
 			++listIt;
 
@@ -82,30 +82,30 @@ public:
 		typename List<T>::Iterator listIt;
 	};
 
-	queue();
-	queue(const queue &other);
-	queue &operator=(const queue &rhs);
+	Queue();
+	Queue(const Queue& other);
+	Queue& operator=(const Queue& rhs);
 
-	void push(const T &item);
+	void push(const T& item);
 	T pop();
 
 	Iterator begin() const;
 	Iterator end() const;
 
-	const T &front() const;
-	T &front();
+	const T& front() const;
+	T& front();
 	size_t size() const;
 	bool empty() const;
-	
-	void swap(queue &other) noexcept;
+
+	void swap(Queue& other) noexcept;
 
 	template <typename U>
-	friend std::ostream &operator<<(std::ostream &os, const queue<U> &q);
-	bool operator==(const queue &rhs) const;
-	bool operator!=(const queue &rhs) const;
+	friend std::ostream& operator<<(std::ostream& os, const Queue<U>& q);
+	bool operator==(const Queue& rhs) const;
+	bool operator!=(const Queue& rhs) const;
 
 private:
-	void swap(queue &s1, queue &s2) noexcept;
+	void swap(Queue& s1, Queue& s2) noexcept;
 
 	List<T> list;
 	typename List<T>::Iterator tail;
@@ -115,143 +115,138 @@ private:
 /*
 	@summary: Default constructor, initializes size to 0.
 */
-template<typename T>
-inline queue<T>::queue()
-	: sz(0)
+template <typename T>
+inline Queue<T>::Queue() :
+	sz(0)
 {
-
 }
 
 /*
 	@summary: Copy constructor.
 
-	@param <const queue &other>: queue object to copy.
+	@param <const Queue &other>: Queue object to copy.
 */
-template<typename T>
-inline queue<T>::queue(const queue &other)
-	: sz(other.sz), list(other.list)
+template <typename T>
+inline Queue<T>::Queue(const Queue& other) :
+	sz(other.sz), list(other.list)
 {
-	
 }
 
 /*
 	@summary: Copy assignment operator.
 
-	@param <const queue &rhs>: queue object to copy.
+	@param <const Queue &rhs>: Queue object to copy.
 */
-template<typename T>
-inline queue<T> &queue<T>::operator=(const queue &rhs)
+template <typename T>
+inline Queue<T>& Queue<T>::operator=(const Queue& rhs)
 {
-	queue temp(rhs);
+	Queue temp(rhs);
 	swap(temp);
 
 	return *this;
 }
 
 /*
-	@summary: Adds an item to the back of the queue and increments size.
+	@summary: Adds an item to the back of the Queue and increments size.
 
-	@param <const reference item>: Item to add to the queue.
+	@param <const reference item>: Item to add to the Queue.
 */
-template<typename T>
-inline void queue<T>::push(const T &item)
+template <typename T>
+inline void Queue<T>::push(const T& item)
 {
 	tail = list.InsertAfter(item, tail);
 	++sz;
 }
 
 /*
-	@summary: Removes an item from the top of the queue and decrements size.
+	@summary: Removes an item from the top of the Queue and decrements size.
 */
-template<typename T>
-inline T queue<T>::pop()
+template <typename T>
+inline T Queue<T>::pop()
 {
 	if (empty())
-	{
-		throw std::out_of_range("Queue is empty.");
-	}
+		throw std::out_of_range("Pop called on empty Queue.");
 
-	if (sz == 1) tail = typename List<T>::Iterator(nullptr);
+	T item = *tail;
 
-	T data = list.Delete(list.begin());
+	if (sz == 1)
+		tail = typename List<T>::Iterator(nullptr);
+
+	list.Delete(list.begin());
 	--sz;
 
-	return data;
+	return item;
 }
 
-template<typename T>
-inline typename queue<T>::Iterator queue<T>::begin() const
+template <typename T>
+inline typename Queue<T>::Iterator Queue<T>::begin() const
 {
 	return Iterator(list.begin());
 }
 
-template<typename T>
-inline typename queue<T>::Iterator queue<T>::end() const
+template <typename T>
+inline typename Queue<T>::Iterator Queue<T>::end() const
 {
 	return Iterator(list.end());
 }
 
 /*
-	@summary: Returns the item at the top of the queue.
+	@summary: Returns the item at the top of the Queue.
 
-	@return <const reference>: Reference to the item at the top of the queue.
+	@return <const reference>: Reference to the item at the top of the Queue.
 */
-template<typename T>
-inline const T &queue<T>::front() const
+template <typename T>
+inline const T& Queue<T>::front() const
 {
 	if (empty())
-	{
-		throw std::out_of_range("Front called on empty queue.");
-	}
+		throw std::out_of_range("Front called on empty Queue.");
 
 	return *list.begin();
 }
 
 /*
-	@summary: Returns the item at the front of the queue.
+	@summary: Returns the item at the front of the Queue.
 
-	@return <const reference>: Reference to the item at the top of the queue.
+	@return <const reference>: Reference to the item at the top of the Queue.
 */
-template<typename T>
-inline T &queue<T>::front()
+template <typename T>
+inline T& Queue<T>::front()
 {
 	if (empty())
-	{
-		throw std::out_of_range("Front called on empty queue.");
-	}
+		throw std::out_of_range("Front called on empty Queue.");
 
 	return *list.begin();
 }
 
 /*
-	@summary: Returns the size of the queue.
+	@summary: Returns the size of the Queue.
 
-	@return <size_type>: The size of the queue.
+	@return <size_type>: The size of the Queue.
 */
-template<typename T>
-inline size_t queue<T>::size() const
+template <typename T>
+inline size_t Queue<T>::size() const
 {
 	return sz;
 }
 
 /*
-	@summary: Returns whether queue is empty.
+	@summary: Returns whether Queue is empty.
 
-	@return <bool>: If queue empty return true, else false.
+	@return <bool>: If Queue empty return true, else false.
 */
-template<typename T>
-inline bool queue<T>::empty() const
+template <typename T>
+inline bool Queue<T>::empty() const
 {
 	return sz == 0;
 }
 
 /*
-	@summary: Swaps contents of this queue with another queue.
+	@summary: Swaps contents of this Queue with another Queue.
 
-	@param <queue &other>: queue to swap with.
+	@param <Queue &other>: Queue to swap with.
 */
-template<typename T>
-inline void queue<T>::swap(queue &other) noexcept
+template <typename T>
+inline void Queue<T>::swap(Queue& other) noexcept
 {
 	std::swap(sz, other.sz);
 	std::swap(list, other.list);
@@ -262,17 +257,15 @@ inline void queue<T>::swap(queue &other) noexcept
 	@summary: Equality to check if two stacks are equal.
 		Checks if size is equal, then if contents are equal.
 
-	@param <const queue &rhs>: queue to compare to.
+	@param <const Queue &rhs>: Queue to compare to.
 
 	@return <bool>: True if equal, else false.
 */
-template<typename T>
-inline bool queue<T>::operator==(const queue &rhs) const
+template <typename T>
+inline bool Queue<T>::operator==(const Queue& rhs) const
 {
 	if (sz == rhs.sz)
-	{
 		return list == rhs.list;
-	}
 
 	return false;
 }
@@ -281,17 +274,15 @@ inline bool queue<T>::operator==(const queue &rhs) const
 	@summary: Inequality to check if two stacks are not equal.
 		Checks if size is not equal, then if contents are not equal.
 
-	@param <const queue &rhs>: queue to compare to.
+	@param <const Queue &rhs>: Queue to compare to.
 
 	@return <bool>: True if not equal, else false.
 */
-template<typename T>
-inline bool queue<T>::operator!=(const queue &rhs) const
+template <typename T>
+inline bool Queue<T>::operator!=(const Queue& rhs) const
 {
 	if (sz != rhs.sz)
-	{
 		return true;
-	}
 
 	return list != rhs.list;
 }
@@ -299,11 +290,11 @@ inline bool queue<T>::operator!=(const queue &rhs) const
 /*
 	@summary: Swaps contents of two stacks.
 
-	@param <queue &s1>: first queue to swap.
-	@param <queue &s2>: second queue to swap.
+	@param <Queue &s1>: first Queue to swap.
+	@param <Queue &s2>: second Queue to swap.
 */
-template<typename T>
-inline void queue<T>::swap(queue &s1, queue &s2) noexcept
+template <typename T>
+inline void Queue<T>::swap(Queue& s1, Queue& s2) noexcept
 {
 	std::swap(s1.sz, s2.sz);
 	std::swap(s1.list, s2.list);
@@ -311,20 +302,18 @@ inline void queue<T>::swap(queue &s1, queue &s2) noexcept
 }
 
 /*
-	@summary: Overloaded stream insertion operator to print contents of queue.
+	@summary: Overloaded stream insertion operator to print contents of Queue.
 
 	@param <std::ostream &os>: The ostream object.
-	@param <const queue<U> &q>: queue to print contents of.
+	@param <const Queue<U> &q>: Queue to print contents of.
 
 	@return <std::ostream &>: Reference to the ostream object.
 */
-template<typename U>
-inline std::ostream &operator<<(std::ostream &os, const queue<U> &q)
+template <typename U>
+inline std::ostream& operator<<(std::ostream& os, const Queue<U>& q)
 {
 	for (auto i : q)
-	{
 		os << i << "->";
-	}
 
 	os << "|||";
 

@@ -13,24 +13,24 @@
 using namespace std;
 
 template <typename T>
-void m_union(T *p1, int size1, T *p2, int size2, int &u_size, T *&p3);
+void m_union(T* p1, int size1, T* p2, int size2, int& u_size, T*& p3);
 
 template <typename T>
-void intersection(T *p1, int size1, T *p2, int size2, int &i_size, T *&p3);
+void intersection(T* p1, int size1, T* p2, int size2, int& i_size, T*& p3);
 
 template <typename T>
-void copy(T *src, T *dest, const int &size);
+void copy(T* src, T* dest, int size);
 
-template <typename T> 
-void print(T *p, const int &size);
+template <typename T>
+void print(T* p, int size);
 
 int main()
 {
 
 	int a[] = { 1, 2, 3, 4 };
 	int b[] = { 1, 3, 6, 7, 8 };
-	int *c;
-	int *d;
+	int* c;
+	int* d;
 
 	//get size of arrays
 	const int aSize = sizeof(a) / sizeof(*a);
@@ -45,9 +45,9 @@ int main()
 	cout << endl;
 
 	int iSize = 0;
-	
+
 	intersection(a, aSize, b, bSize, iSize, d);
-	
+
 	cout << "Intersection: ";
 	print(d, iSize);
 	cout << endl;
@@ -72,17 +72,17 @@ int main()
 		elements.
 */
 template<typename T>
-void m_union(T *p1, int size1, T *p2, int size2, int &u_size, T *&p3)
+void m_union(T* p1, int size1, T* p2, int size2, int& u_size, T*& p3)
 {
 	//temporary size of unioned array
 	u_size = size1 + size2;
 
 	//create a temp array to store elements of unioned array
-	T *temp = new T[u_size];
-	T *tempWalker = temp;
+	T* temp = new T[u_size];
+	T* tempWalker = temp;
 
-	T *p1End = p1 + size1;
-	T *p2End = p2 + size2;
+	T* p1End = p1 + size1;
+	T* p2End = p2 + size2;
 
 	//keep iterating if size1 > 0 or size2 > 0
 	while (p1 != p1End || p2 != p2End)
@@ -97,18 +97,14 @@ void m_union(T *p1, int size1, T *p2, int size2, int &u_size, T *&p3)
 				if val p1 > val p2 then advance p2 pointer
 				and decrement size2
 			*/
-			if (*p1 > *p2)
-			{
+			if (*p1 > * p2)
 				*tempWalker++ = *p2++;
-			}
 			/*
 				if val p1 < val p2 then advance p1 pointer
 				and decrement size1
 			*/
 			else if (*p1 < *p2)
-			{
 				*tempWalker++ = *p1++;
-			}
 			/*
 				if val p1 == val p2 then advance both pointers
 				and decrement both size variables and decrement
@@ -124,14 +120,10 @@ void m_union(T *p1, int size1, T *p2, int size2, int &u_size, T *&p3)
 		}
 		//if only size1 > 0 only decrement size1
 		else if (p1 != p1End)
-		{
 			*tempWalker++ = *p1++;
-		}
 		//if only size2 > 0 only decrement size2
 		else if (p2 != p2End)
-		{
 			*tempWalker++ = *p2++;
-		}
 	}
 
 	//create a result array to hold the final unioned arrays
@@ -160,11 +152,11 @@ void m_union(T *p1, int size1, T *p2, int size2, int &u_size, T *&p3)
 		elements.
 */
 template<typename T>
-void intersection(T *p1, int size1, T *p2, int size2, int &i_size, T *&p3)
+void intersection(T* p1, int size1, T* p2, int size2, int& i_size, T*& p3)
 {
 	//create a temp array to store common elements
-	T *temp = new T[size1 + size2];
-	T *tempWalker = temp;
+	T* temp = new T[size1 + size2];
+	T* tempWalker = temp;
 
 	/*
 		this will store the number of common elements.
@@ -173,8 +165,8 @@ void intersection(T *p1, int size1, T *p2, int size2, int &i_size, T *&p3)
 	*/
 	int size = 0;
 
-	T *p1End = p1 + size1;
-	T *p2End = p2 + size2;
+	T* p1End = p1 + size1;
+	T* p2End = p2 + size2;
 
 	while (p1 != p1End && p2 != p2End)
 	{
@@ -182,18 +174,14 @@ void intersection(T *p1, int size1, T *p2, int size2, int &i_size, T *&p3)
 			if val p1 > val p2 advance p2 pointer
 			and decrement size2
 		*/
-		if (*p1 > *p2)
-		{
+		if (*p1 > * p2)
 			++p2;
-		}
 		/*
 			if val p1 < val p2 advance p1 pointer
 			and decrement size1
 		*/
 		else if (*p1 < *p2)
-		{
 			++p1;
-		}
 		/*
 			if val p1 == val p2 advance both pointers,
 			increment size variable and decrement both
@@ -222,14 +210,12 @@ void intersection(T *p1, int size1, T *p2, int size2, int &i_size, T *&p3)
 }
 
 template<typename T>
-void copy(T *src, T *dest, const int &size)
+void copy(T* src, T* dest, int size)
 {
-	T *srcEnd = src + size;
+	T* srcEnd = src + size;
 
-	for (T *i = src; i != srcEnd; ++i, ++dest)
-	{
+	for (T* i = src; i != srcEnd; ++i, ++dest)
 		*dest = *i;
-	}
 }
 
 /*
@@ -239,12 +225,10 @@ void copy(T *src, T *dest, const int &size)
 	@param <const int &size>: Size of the array.
 */
 template <typename T>
-void print(T *p, const int &size)
+void print(T* p, int size)
 {
-	T *pEnd = p + size;
+	T* pEnd = p + size;
 
-	for (T *i = p; i != pEnd; ++i)
-	{
+	for (T* i = p; i != pEnd; ++i)
 		cout << *i << " ";
-	}
 }

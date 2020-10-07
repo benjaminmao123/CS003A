@@ -14,21 +14,21 @@
 #include "Wall.h"
 #include "Utility.h"
 
-/*
-	@summary: Default constructor.
-		Initializes all grid locations to nullptr
-		and settings.
+ /*
+	 @summary: Default constructor.
+		 Initializes all grid locations to nullptr
+		 and settings.
 
-	@param <const Settings &settings>: Simulation settings.
-*/
-Grid::Grid(const Settings &settings)
-	: settings(settings), currentStep(0), predCount(0), preyCount(0)
+	 @param <const Settings &settings>: Simulation settings.
+ */
+Grid::Grid(const Settings& settings) :
+	settings(settings), currentStep(0), predCount(0), preyCount(0)
 {
-	grid = new Creature **[settings.maxRows];
+	grid = new Creature * *[settings.maxRows];
 
 	for (int row = 0; row < settings.maxRows; ++row)
 	{
-		grid[row] = new Creature *[settings.maxCols];
+		grid[row] = new Creature * [settings.maxCols];
 
 		for (int col = 0; col < settings.maxCols; ++col)
 			grid[row][col] = nullptr;
@@ -58,7 +58,7 @@ void Grid::FillGrid()
 	{
 		for (int col = 0; col < settings.maxCols; ++col)
 		{
-			Creature *&c = grid[row][col];
+			Creature*& c = grid[row][col];
 
 			if (!col || col == settings.maxCols - 1)
 				c = new Wall(settings, Location{ row, col }, 'Z');
@@ -98,7 +98,7 @@ void Grid::FillGrid()
 
 /*
 	@summary: Advance on step in the simulation.
-		Calls Breed(), Move(), and Kill(), also 
+		Calls Breed(), Move(), and Kill(), also
 		increments currentStep;
 */
 void Grid::Step()
@@ -130,10 +130,10 @@ void Grid::Move()
 	{
 		for (int col = 0; col < settings.maxCols; ++col)
 		{
-			Creature *c = grid[row][col];
+			Creature* c = grid[row][col];
 			Location loc{ row, col };
 
-			if (IsOccupied(loc) && !c->HasMoved() && 
+			if (IsOccupied(loc) && !c->HasMoved() &&
 				c->GetType() == Type::Predator)
 				c->Move(*this);
 		}
@@ -143,7 +143,7 @@ void Grid::Move()
 	{
 		for (int col = 0; col < settings.maxCols; ++col)
 		{
-			Creature *c = grid[row][col];
+			Creature* c = grid[row][col];
 			Location loc{ row, col };
 
 			if (IsOccupied(loc) && !c->HasMoved() &&
@@ -167,7 +167,7 @@ void Grid::Breed()
 
 			if (IsOccupied(loc))
 			{
-				Creature *c = grid[row][col];
+				Creature* c = grid[row][col];
 
 				c->Breed(*this);
 			}
@@ -177,7 +177,7 @@ void Grid::Breed()
 
 /*
 	@summary: Calls Kill() of each creature object
-		in the deadCreatures vector.
+		in the deadCreatures Vector.
 */
 void Grid::Kill()
 {
@@ -219,7 +219,7 @@ void Grid::Kill()
 
 	@return <const Creature *>: The creature at the location.
 */
-const Creature *Grid::GetGrid(const Location &loc) const
+const Creature* Grid::GetGrid(const Location& loc) const
 {
 	return grid[loc.row][loc.col];
 }
@@ -233,7 +233,7 @@ const Creature *Grid::GetGrid(const Location &loc) const
 
 	@return <bool>: True if it is, false otherwise.
 */
-bool Grid::IsOccupied(const Location &loc) const
+bool Grid::IsOccupied(const Location& loc) const
 {
 	if (loc.row >= settings.maxRows - 1 || loc.col >= settings.maxCols - 1 ||
 		loc.row < 0 || loc.col < 0)
@@ -250,7 +250,7 @@ bool Grid::IsOccupied(const Location &loc) const
 	@param <int row>: Row of grid.
 	@param <int col>: Column of grid.
 */
-void Grid::SetGrid(Creature *creature, const Location &loc)
+void Grid::SetGrid(Creature* creature, const Location& loc)
 {
 	grid[loc.row][loc.col] = creature;
 }
@@ -263,7 +263,7 @@ void Grid::SetGrid(Creature *creature, const Location &loc)
 
 	@return <std::ostream &>: ostream reference.
 */
-std::ostream &operator<<(std::ostream &os, const Grid &g)
+std::ostream& operator<<(std::ostream& os, const Grid& g)
 {
 	os << "Step: " << g.currentStep << std::endl << std::endl;
 
@@ -275,7 +275,7 @@ std::ostream &operator<<(std::ostream &os, const Grid &g)
 
 			if (g.IsOccupied(loc))
 			{
-				Creature *c = g.grid[row][col];
+				Creature* c = g.grid[row][col];
 
 				os << c->GetIcon();
 			}

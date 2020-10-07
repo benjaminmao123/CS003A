@@ -82,9 +82,7 @@ Poly::~Poly()
 Term Poly::operator[](const unsigned int order) const
 {
 	if (order > _order)
-	{
 		throw std::out_of_range("Order out of bounds.");
-	}
 
 	double *coef = _coefs + order;
 
@@ -110,9 +108,7 @@ void Poly::fix_order()
 	for (int i = _order; i > 0; --i)
 	{
 		if (!operator[](i)._coef && i == _order)
-		{
 			--_order;
-		}
 	}
 }
 
@@ -128,16 +124,12 @@ void Poly::fix_order()
 bool operator==(const Poly &lhs, const Poly &rhs)
 {
 	if (lhs._order != rhs._order)
-	{
 		return false;
-	}
 
 	for (unsigned int i = 0; i <= lhs._order; ++i)
 	{
 		if (lhs[i] != rhs[i])
-		{
 			return false;
-		}
 	}
 
 	return true;
@@ -155,16 +147,12 @@ bool operator==(const Poly &lhs, const Poly &rhs)
 bool operator!=(const Poly &lhs, const Poly &rhs)
 {
 	if (lhs._order == rhs._order)
-	{
 		return false;
-	}
 
 	for (unsigned int i = 0; i <= lhs._order; ++i)
 	{
 		if (lhs[i] == rhs[i])
-		{
 			return false;
-		}
 	}
 
 	return true;
@@ -182,17 +170,13 @@ bool operator!=(const Poly &lhs, const Poly &rhs)
 bool operator>(const Poly &lhs, const Poly &rhs)
 {
 	if (lhs._order > rhs._order)
-	{
 		return true;
-	}
 	else if (lhs._order == rhs._order)
 	{
 		for (int i = lhs._order; i >= 0; --i)
 		{
 			if (lhs[i] > rhs[i])
-			{
 				return true;
-			}
 		}
 	}
 
@@ -211,17 +195,13 @@ bool operator>(const Poly &lhs, const Poly &rhs)
 bool operator<(const Poly &lhs, const Poly &rhs)
 {
 	if (lhs._order < rhs._order)
-	{
 		return true;
-	}
 	else if (lhs._order == rhs._order)
 	{
 		for (int i = lhs._order; i >= 0; --i)
 		{
 			if (lhs[i] < rhs[i])
-			{
 				return true;
-			}
 		}
 	}
 
@@ -275,9 +255,7 @@ Poly operator+(const Poly &lhs, const Poly &rhs)
 	Poly result(lhs);
 
 	for (int i = rhs._order; i >= 0; --i)
-	{
 		result = result + rhs[i];
-	}
 
 	return result;
 }
@@ -297,9 +275,7 @@ Poly operator-(const Poly &p)
 	double *end = result._coefs + result._order + 1;
 
 	for (double *i = result._coefs; i != end; ++i)
-	{
 		*i *= -1;
-	}
 
 	return result;
 }
@@ -319,9 +295,7 @@ Poly operator-(const Poly &lhs, const Poly &rhs)
 	Poly temp(-rhs);
 
 	for (int i = temp._order; i >= 0; --i)
-	{
 		result = result + temp[i];
-	}
 
 	result.fix_order();
 
@@ -341,8 +315,8 @@ Poly operator*(const Poly &lhs, const Term &t)
 {
 	Poly result(lhs);
 
-	vector<unsigned int> exps;
-	vector<double> coefs;
+	Vector<unsigned int> exps;
+	Vector<double> coefs;
 
 	for (int i = result._order; i >= 0; --i)
 	{
@@ -385,33 +359,27 @@ Poly operator*(const Poly &lhs, const Term &t)
 */
 Poly operator*(const Poly &lhs, const Poly &rhs)
 {
-	vector<Poly> poly;
+	Vector<Poly> poly;
 
 	if (lhs._order > rhs._order)
 	{
 		Poly temp(lhs);
 
 		for (unsigned int i = 0; i <= rhs._order; ++i)
-		{
 			poly.push_back(temp * rhs[i]);
-		}
 	}
 	else
 	{
 		Poly temp(rhs);
 
 		for (unsigned int i = 0; i <= lhs._order; ++i)
-		{
 			poly.push_back(temp * lhs[i]);
-		}
 	}
 
 	Poly result;
 
 	for (int i = 0; i < poly.size(); ++i)
-	{
 		result = result + poly[i];
-	}
 
 	result.fix_order();
 
@@ -430,9 +398,7 @@ Poly operator*(const Poly &lhs, const Poly &rhs)
 Poly operator/(const Poly &lhs, const Poly &rhs)
 {
 	if ((lhs._order < rhs._order) || !rhs[rhs._order]._coef)
-	{
 		return Poly();
-	}
 
 	Poly dividend = lhs;
 	Poly divisor = rhs;
@@ -504,9 +470,7 @@ std::ostream &operator<<(std::ostream &outs, const Poly &p)
 				std::string temp = oss.str();
 
 				if (p[i]._coef > 0)
-				{
 					temp.erase(temp.begin(), temp.begin() + 3);
-				}
 				else
 				{
 					temp.erase(temp.begin());
@@ -516,16 +480,12 @@ std::ostream &operator<<(std::ostream &outs, const Poly &p)
 				outs << temp;
 			}
 			else
-			{
 				outs << p[i];
-			}
 		}
 		else if (!p[i]._coef)
 		{
 			if (!p._order)
-			{
 				outs << p[i];
-			}
 		}
 	}
 
@@ -586,13 +546,13 @@ std::istream &operator>>(std::istream &ins, Poly &p)
 		}
 	}
 
-	//vector to store coefficients 
-	vector<double> mCoefs;
+	//Vector to store coefficients 
+	Vector<double> mCoefs;
 	/*
-		vector to store the order of each coefficient.
-		this vector will be parallel to mCoefs
+		Vector to store the order of each coefficient.
+		this Vector will be parallel to mCoefs
 	*/
-	vector<int> orders;
+	Vector<int> orders;
 
 	//pass our string into istringstream object
 	std::istringstream iss(input);
@@ -629,7 +589,6 @@ std::istream &operator>>(std::istream &ins, Poly &p)
 	coefs = allocate(coefs, order + 1);
 
 	for (int i = 0; i < mCoefs.size(); ++i)
-	{
 		/*
 			access coefs based on the value of orders[i], and
 			assign it the value of the coefficient at i.
@@ -642,7 +601,6 @@ std::istream &operator>>(std::istream &ins, Poly &p)
 			coefs[2] = 6
 		*/
 		*(coefs + orders[i]) = mCoefs[i];
-	}
 
 	//create poly object with coefs and order
 	Poly p2(coefs, order);

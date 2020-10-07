@@ -1,7 +1,7 @@
 #ifndef SYSTEM_H
 #define SYSTEM_H
 
-#include <vector>
+#include <Vector>
 #include <SFML/Graphics.hpp>
 
 #include "Grid.h"
@@ -18,7 +18,7 @@ public:
 	int GetStep() const;
 
 private:
-	//vector<Particle> system;
+	//Vector<Particle> system;
 	sf::CircleShape shape;
 	sf::Vector2f vel;
 	Settings settings;

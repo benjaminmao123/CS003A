@@ -18,6 +18,19 @@
       <Platform>x64</Platform>
     </ProjectConfiguration>
   </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="code\main.cpp" />
+    <ClCompile Include="code\Polynomial.cpp" />
+    <ClCompile Include="code\Term.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="code\ArrayLibrary.h" />
+    <ClInclude Include="code\Polynomial.h" />
+    <ClInclude Include="code\Term.h" />
+    <ClInclude Include="code\Vector.h" />
+    <ClInclude Include="code\z_output.h" />
+    <ClInclude Include="code\z_work_report.h" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
     <ProjectGuid>{BA5658D4-8B96-4F8D-8A34-3163C9997430}</ProjectGuid>
@@ -137,19 +150,6 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
   </ItemDefinitionGroup>
-  <ItemGroup>
-    <ClCompile Include="main.cpp" />
-    <ClCompile Include="Polynomial.cpp" />
-    <ClCompile Include="Term.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="ArrayLibrary.h" />
-    <ClInclude Include="Polynomial.h" />
-    <ClInclude Include="Term.h" />
-    <ClInclude Include="Vector.h" />
-    <ClInclude Include="z_output.h" />
-    <ClInclude Include="z_work_report.h" />
-  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

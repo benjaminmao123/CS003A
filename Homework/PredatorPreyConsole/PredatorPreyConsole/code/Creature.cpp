@@ -14,13 +14,13 @@
 #include "Creature.h"
 #include "Grid.h"
 
-/*
-	@summary: Default constructor.
-		Initializes creature settings and location.
-*/
-Creature::Creature(const Settings &settings, const Location &location,
-	char icon)
-	: currPos(location), type(Type::None), hasMoved(false), 
+ /*
+	 @summary: Default constructor.
+		 Initializes creature settings and location.
+ */
+Creature::Creature(const Settings& settings, const Location& location,
+				   char icon) :
+	currPos(location), type(Type::None), hasMoved(false),
 	breedStep(0), settings(settings), icon(icon)
 {
 
@@ -36,12 +36,12 @@ Creature::~Creature()
 
 /*
 	@summary: Virtual move function implemented by
-		each child creature class. 
+		each child creature class.
 		Moves the creature to a random adjacent spot.
 
 	@param <Grid &grid>: Grid object to manipulate.
 */
-void Creature::Move(Grid &grid)
+void Creature::Move(Grid& grid)
 {
 
 }
@@ -52,7 +52,7 @@ void Creature::Move(Grid &grid)
 
 	@param <Grid &grid>: Grid object to manipulate.
 */
-void Creature::Breed(Grid &grid)
+void Creature::Breed(Grid& grid)
 {
 
 }
@@ -63,7 +63,7 @@ void Creature::Breed(Grid &grid)
 
 	@param <Grid &grid>: Grid object to manipulate.
 */
-bool Creature::Kill(Grid &grid)
+bool Creature::Kill(Grid& grid)
 {
 	return false;
 }
@@ -84,7 +84,7 @@ Type Creature::GetType() const
 
 	@return <const Location &>: Location object of creature.
 */
-const Location &Creature::GetLocation() const
+const Location& Creature::GetLocation() const
 {
 	return currPos;
 }
@@ -126,7 +126,7 @@ char Creature::GetIcon() const
 	@param <Grid &grid>: The grid object.
 	@param <const Location &dest>: The destination.
 */
-void Creature::MoveTo(Grid &grid, const Location &dest)
+void Creature::MoveTo(Grid& grid, const Location& dest)
 {
 	grid.SetGrid(nullptr, currPos);
 	oldPos.SetLocation(currPos);
@@ -140,9 +140,9 @@ void Creature::MoveTo(Grid &grid, const Location &dest)
 
 	@param <const Grid &grid>: The grid object.
 */
-vector<Location> Creature::FindBlank(const Grid &grid)
+Vector<Location> Creature::FindBlank(const Grid& grid)
 {
-	vector<Location> location;
+	Vector<Location> location;
 
 	for (int row = 0; row < settings.maxRows; ++row)
 	{
@@ -164,9 +164,9 @@ vector<Location> Creature::FindBlank(const Grid &grid)
 
 	@param <const Grid &grid>: The grid object.
 */
-vector<Location> Creature::FindBlankAdjacent(const Grid &grid)
+Vector<Location> Creature::FindBlankAdjacent(const Grid& grid)
 {
-	vector<Location> location;
+	Vector<Location> location;
 
 	for (int row = -1; row <= 1; ++row)
 	{
@@ -188,9 +188,9 @@ vector<Location> Creature::FindBlankAdjacent(const Grid &grid)
 
 	@param <const Grid &grid>: The grid object.
 */
-vector<Location> Creature::FindCreatureAdjacent(const Grid &grid, Type type)
+Vector<Location> Creature::FindCreatureAdjacent(const Grid& grid, Type type)
 {
-	vector<Location> location;
+	Vector<Location> location;
 
 	for (int row = -1; row <= 1; ++row)
 	{
@@ -198,7 +198,7 @@ vector<Location> Creature::FindCreatureAdjacent(const Grid &grid, Type type)
 		{
 			Location loc{ currPos.row + row, currPos.col + col };
 
-			if (grid.IsOccupied(loc) && 
+			if (grid.IsOccupied(loc) &&
 				grid.GetGrid(loc)->GetType() == type)
 				location.push_back(loc);
 		}
@@ -212,7 +212,7 @@ vector<Location> Creature::FindCreatureAdjacent(const Grid &grid, Type type)
 
 	@return <const Location&>: Returns oldPos.
 */
-const Location &Creature::GetOldPos() const
+const Location& Creature::GetOldPos() const
 {
 	return oldPos;
 }
@@ -222,7 +222,7 @@ const Location &Creature::GetOldPos() const
 
 	@return <const Location&>: Returns currPos.
 */
-const Location &Creature::GetCurrPos() const
+const Location& Creature::GetCurrPos() const
 {
 	return currPos;
 }
@@ -243,7 +243,7 @@ int Creature::GetBreedStep() const
 	@param <const Location &loc>: Location to assign
 		to oldPos.
 */
-void Creature::SetOldPos(const Location &loc)
+void Creature::SetOldPos(const Location& loc)
 {
 	oldPos = loc;
 }
@@ -254,7 +254,7 @@ void Creature::SetOldPos(const Location &loc)
 	@param <const Location &loc>: Location to assign
 		to currPos.
 */
-void Creature::SetCurrPos(const Location &loc)
+void Creature::SetCurrPos(const Location& loc)
 {
 	currPos = loc;
 }
@@ -288,7 +288,7 @@ void Creature::SetType(Type type)
 
 	@return <std::ostream &>: ostream object reference.
 */
-std::ostream &operator<<(std::ostream &os, const Creature &c)
+std::ostream& operator<<(std::ostream& os, const Creature& c)
 {
 	os << c.icon;
 

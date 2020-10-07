@@ -3,7 +3,7 @@
 /*
     Features:
         -Not Implemented: None
-        -Implemented: All vector methods are implemented.
+        -Implemented: All Vector methods are implemented.
         -Partly implemented: None
 
     Bugs    : features that are implemented are bug-free.

@@ -10,8 +10,8 @@
 
 #include "MCounter.h"
 
-MCounter::MCounter(const int &maxCount)
-	: count(0), maxCount(maxCount)
+MCounter::MCounter(int maxCount) :
+	count(0), maxCount(maxCount)
 {
 
 }
@@ -23,7 +23,7 @@ int MCounter::Add_1()
 		count += 1;
 
 		return 1;
-	};
+	}
 
 	return 0;
 }

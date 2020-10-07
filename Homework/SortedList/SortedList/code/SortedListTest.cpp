@@ -38,11 +38,9 @@ void SortedListTest::TestDelete()
 	{
 		auto it = list.begin();
 		auto last = list.LastNode();
-		
+
 		while (it != last)
-		{
 			++it;
-		}
 
 		list.Delete(it);
 		cout << list << endl;

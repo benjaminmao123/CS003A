@@ -49,9 +49,7 @@ Term::Term(double coef, int order)
 Term &Term::operator+=(const Term &rhs)
 {
 	if (_exp != rhs._exp)
-	{
 		throw std::invalid_argument("Exponents must be the same.");
-	}
 
 	_coef += rhs._coef;
 
@@ -69,9 +67,7 @@ Term &Term::operator+=(const Term &rhs)
 Term &Term::operator-=(const Term &rhs)
 {
 	if (_exp != rhs._exp)
-	{
 		throw std::invalid_argument("Exponents must be the same.");
-	}
 
 	_coef -= rhs._coef;
 
@@ -121,9 +117,7 @@ Term &Term::operator/=(const Term &rhs)
 bool Term::operator>=(const Term &rhs) const
 {
 	if (_exp == rhs._exp)
-	{
 		return _coef >= rhs._coef;
-	}
 
 	return _exp >= rhs._exp;
 }
@@ -139,9 +133,7 @@ bool Term::operator>=(const Term &rhs) const
 bool Term::operator<=(const Term &rhs) const
 {
 	if (_exp == rhs._exp)
-	{
 		return _coef <= rhs._coef;
-	}
 
 	return _exp <= rhs._exp;
 }
@@ -157,9 +149,7 @@ bool Term::operator<=(const Term &rhs) const
 bool Term::operator>(const Term &rhs) const
 {
 	if (_exp == rhs._exp)
-	{
 		return _coef > rhs._coef;
-	}
 
 	return _exp > rhs._exp;
 }
@@ -175,9 +165,7 @@ bool Term::operator>(const Term &rhs) const
 bool Term::operator<(const Term &rhs) const
 {
 	if (_exp == rhs._exp)
-	{
 		return _coef < rhs._coef;
-	}
 
 	return _exp < rhs._exp;
 }
@@ -235,9 +223,7 @@ Term Term::operator-() const
 Term operator+(const Term &lhs, const Term &rhs)
 {
 	if (lhs._exp != rhs._exp)
-	{
 		throw std::invalid_argument("Exponents must be the same.");
-	}
 
 	Term res(lhs);
 	res += rhs;
@@ -258,9 +244,7 @@ Term operator+(const Term &lhs, const Term &rhs)
 Term operator-(const Term &lhs, const Term &rhs)
 {
 	if (lhs._exp != rhs._exp)
-	{
 		throw std::invalid_argument("Exponents must be the same.");
-	}
 
 	Term res(lhs);
 	res -= rhs;
@@ -317,9 +301,7 @@ Term operator/(const Term &lhs, const Term &rhs)
 std::ostream &operator<<(std::ostream &outs, const Term &t)
 {
 	if (t._coef >= 0)
-	{
 		outs << "+";
-	}
 
 	double coef = round(t._coef * 10) / 10;
 

@@ -10,7 +10,7 @@ public:
         @param <const int &maxCount>: The max count allowed
             before overflow.
     */
-    MCounter(const int &maxCount);
+    MCounter(int maxCount);
 
     //Adds 1 the counter.
     int Add_1();

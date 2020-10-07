@@ -18,6 +18,41 @@
       <Platform>x64</Platform>
     </ProjectConfiguration>
   </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="code\Addition.cpp" />
+    <ClCompile Include="code\Division.cpp" />
+    <ClCompile Include="code\Exponent.cpp" />
+    <ClCompile Include="code\LeftParenthesis.cpp" />
+    <ClCompile Include="code\main.cpp" />
+    <ClCompile Include="code\Multiplication.cpp" />
+    <ClCompile Include="code\Operand.cpp" />
+    <ClCompile Include="code\Operator.cpp" />
+    <ClCompile Include="code\RightParenthesis.cpp" />
+    <ClCompile Include="code\ShuntingYard.cpp" />
+    <ClCompile Include="code\Subtraction.cpp" />
+    <ClCompile Include="code\Token.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="code\Addition.h" />
+    <ClInclude Include="code\ArrayLibrary.h" />
+    <ClInclude Include="code\Division.h" />
+    <ClInclude Include="code\Exponent.h" />
+    <ClInclude Include="code\IteratedList.h" />
+    <ClInclude Include="code\LeftParenthesis.h" />
+    <ClInclude Include="code\LinkedListLibrary.h" />
+    <ClInclude Include="code\Multiplication.h" />
+    <ClInclude Include="code\Operand.h" />
+    <ClInclude Include="code\Operator.h" />
+    <ClInclude Include="code\Queue.h" />
+    <ClInclude Include="code\RightParenthesis.h" />
+    <ClInclude Include="code\ShuntingYard.h" />
+    <ClInclude Include="code\Stack.h" />
+    <ClInclude Include="code\Subtraction.h" />
+    <ClInclude Include="code\Token.h" />
+    <ClInclude Include="code\Vector.h" />
+    <ClInclude Include="code\z_output.h" />
+    <ClInclude Include="code\z_work_report.h" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
     <ProjectGuid>{271ED8FB-7325-471B-9CE5-319434DFF026}</ProjectGuid>
@@ -139,39 +174,6 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
   </ItemDefinitionGroup>
-  <ItemGroup>
-    <ClInclude Include="Addition.h" />
-    <ClInclude Include="ArrayLibrary.h" />
-    <ClInclude Include="ShuntingYard.h" />
-    <ClInclude Include="Division.h" />
-    <ClInclude Include="Exponent.h" />
-    <ClInclude Include="LeftParenthesis.h" />
-    <ClInclude Include="Multiplication.h" />
-    <ClInclude Include="Operand.h" />
-    <ClInclude Include="Operator.h" />
-    <ClInclude Include="Queue.h" />
-    <ClInclude Include="RightParenthesis.h" />
-    <ClInclude Include="Stack.h" />
-    <ClInclude Include="Subtraction.h" />
-    <ClInclude Include="Token.h" />
-    <ClInclude Include="Vector.h" />
-    <ClInclude Include="z_output.h" />
-    <ClInclude Include="z_work_report.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="Addition.cpp" />
-    <ClCompile Include="ShuntingYard.cpp" />
-    <ClCompile Include="Division.cpp" />
-    <ClCompile Include="Exponent.cpp" />
-    <ClCompile Include="LeftParenthesis.cpp" />
-    <ClCompile Include="main.cpp" />
-    <ClCompile Include="Multiplication.cpp" />
-    <ClCompile Include="Operand.cpp" />
-    <ClCompile Include="Operator.cpp" />
-    <ClCompile Include="RightParenthesis.cpp" />
-    <ClCompile Include="Subtraction.cpp" />
-    <ClCompile Include="Token.cpp" />
-  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

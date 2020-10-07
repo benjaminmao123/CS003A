@@ -34,9 +34,9 @@ public:
 
 protected:
 	void MoveTo(Grid &grid, const Location &dest);
-	vector<Location> FindBlank(const Grid &grid);
-	vector<Location> FindBlankAdjacent(const Grid &grid);
-	vector<Location> FindCreatureAdjacent(const Grid &grid, Type type);
+	Vector<Location> FindBlank(const Grid &grid);
+	Vector<Location> FindBlankAdjacent(const Grid &grid);
+	Vector<Location> FindCreatureAdjacent(const Grid &grid, Type type);
 
 	const Location &GetOldPos() const;
 	const Location &GetCurrPos() const;

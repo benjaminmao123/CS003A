@@ -16,8 +16,8 @@ animate::animate()
 	//RenderWindow constructor has a third argumnet to set style
 	//of the window: resize, fullscreen etc.
 
-	//System will be implemented to manage a vector of objects to be animated.
-	//  at that point, the constructor of the System class will take a vector
+	//System will be implemented to manage a Vector of objects to be animated.
+	//  at that point, the constructor of the System class will take a Vector
 	//  of objects created by the animate object.
 	//  animate will
 	window.setFramerateLimit(60);

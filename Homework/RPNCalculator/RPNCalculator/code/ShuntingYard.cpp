@@ -35,15 +35,15 @@ ShuntingYard::ShuntingYard()
 }
 
 /*
-	@summary: Destructor. Cleans up memory 
+	@summary: Destructor. Cleans up memory
 		allocated in postfix/result containers.
 */
 ShuntingYard::~ShuntingYard()
 {
-	for (auto &token : postfix)
+	for (auto& token : postfix)
 		delete token;
 
-	for (auto &token : result)
+	for (auto& token : result)
 		delete token;
 }
 
@@ -52,7 +52,7 @@ ShuntingYard::~ShuntingYard()
 
 	@param <const std::string &infix>: The infix string.
 */
-void ShuntingYard::SetInput(const std::string &infix)
+void ShuntingYard::SetInput(const std::string& infix)
 {
 	input = infix;
 }
@@ -108,7 +108,7 @@ bool ShuntingYard::FormatInput()
 */
 bool ShuntingYard::ToPostfix()
 {
-	stack<Token *> tokens;
+	Stack<Token*> tokens;
 
 	std::istringstream iss(input);
 	std::string temp;
@@ -117,7 +117,7 @@ bool ShuntingYard::ToPostfix()
 	{
 		if (validOpsString.index_of(temp) != -1)
 		{
-			Token *token = nullptr;
+			Token* token = nullptr;
 
 			if (temp == "+") token = new Addition();
 			else if (temp == "-") token = new Subtraction();
@@ -130,25 +130,25 @@ bool ShuntingYard::ToPostfix()
 			if (token)
 			{
 				if (!tokens.empty())
-					if (token->GetTokenType() != TokenType::LParenth && 
+					if (token->GetTokenType() != TokenType::LParenth &&
 						token->GetTokenType() != TokenType::RParenth)
 					{
-						Operator *op = dynamic_cast<Operator *>(token);
-						Operator *top = dynamic_cast<Operator *>(tokens.top());
+						Operator* op = dynamic_cast<Operator*>(token);
+						Operator* top = dynamic_cast<Operator*>(tokens.top());
 
 						if (op && top)
 							if (op->Precedence() <= top->Precedence())
-								while (!tokens.empty() && 
+								while (!tokens.empty() &&
 									   tokens.top()->GetTokenType() != TokenType::LParenth)
 									postfix.push(tokens.pop());
 					}
 					else if (token->GetTokenType() == TokenType::RParenth)
 					{
-						while (!tokens.empty() && 
+						while (!tokens.empty() &&
 							   tokens.top()->GetTokenType() != TokenType::LParenth)
 							postfix.push(tokens.pop());
 
-						if (!tokens.empty() && 
+						if (!tokens.empty() &&
 							tokens.top()->GetTokenType() == TokenType::LParenth)
 						{
 							delete tokens.top();
@@ -168,7 +168,7 @@ bool ShuntingYard::ToPostfix()
 	}
 
 	if (!tokens.empty())
-		if (tokens.top()->GetTokenType() == TokenType::LParenth || 
+		if (tokens.top()->GetTokenType() == TokenType::LParenth ||
 			tokens.top()->GetTokenType() == TokenType::RParenth)
 			return false;
 
@@ -183,14 +183,14 @@ bool ShuntingYard::ToPostfix()
 */
 void ShuntingYard::Evaluate()
 {
-	for (const auto &token : postfix)
+	for (const auto& token : postfix)
 	{
 		if (validOpsString.index_of(token->TokenString()) != -1)
 		{
-			Token *right = result.pop();
-			Token *left = result.pop();
+			Token* right = result.pop();
+			Token* left = result.pop();
 
-			Operator *op = nullptr;
+			Operator* op = nullptr;
 
 			switch (token->GetTokenType())
 			{
@@ -224,21 +224,21 @@ void ShuntingYard::Evaluate()
 }
 
 /*
-	@summary: Clears the postfix, result containers and 
+	@summary: Clears the postfix, result containers and
 		resets the error flag.
 */
 void ShuntingYard::Clear()
 {
-	queue<Token *> q;
+	Queue<Token*> q;
 
-	for (auto &token : postfix)
+	for (auto& token : postfix)
 		delete token;
 
 	postfix.swap(q);
 
-	stack<Token *> s;
+	Stack<Token*> s;
 
-	for (auto &token : result)
+	for (auto& token : result)
 		delete token;
 
 	result.swap(s);
@@ -251,12 +251,12 @@ void ShuntingYard::Clear()
 	@param <std::ostream &os>: The ostream object.
 	@param <const Calculator &rhs>: The object to print.
 */
-std::ostream &operator<<(std::ostream &os, const ShuntingYard &rhs)
+std::ostream& operator<<(std::ostream& os, const ShuntingYard& rhs)
 {
 	os << "Infix: " << rhs.input << std::endl;
 	os << "Postfix: ";
 
-	for (const auto &token : rhs.postfix)
+	for (const auto& token : rhs.postfix)
 		os << token->TokenString() << " ";
 
 	os << std::endl;

@@ -54,7 +54,7 @@ Sidebar::Sidebar(float left, float width) :_left(left), _width(width) {
 	//sb_text.setPosition(sf::Vector2f(10, SCREEN_HEIGHT-sb_text.getLocalBounds().height-5));
 
 	items.push_back("sidebar sample text");
-	//Fill the items vector with empty strings so that we can use [] to read them:
+	//Fill the items Vector with empty strings so that we can use [] to read them:
 	for (int i = 0; i < 30; i++) {
 		items.push_back("");
 	}

@@ -19,15 +19,15 @@ class Token
 {
 public:
 	virtual double Evaluate() = 0;
-	virtual ~Token() { }
+	virtual ~Token() {}
 
-	const std::string &TokenString() const;
+	const std::string& TokenString() const;
 	TokenType GetTokenType() const;
-	
-	friend std::ostream &operator<<(std::ostream &os, const Token &rhs);
+
+	friend std::ostream& operator<<(std::ostream& os, const Token& rhs);
 
 protected:
-	void TokenString(const std::string &str);
+	void TokenString(const std::string& str);
 	void SetTokenType(TokenType type);
 
 private:

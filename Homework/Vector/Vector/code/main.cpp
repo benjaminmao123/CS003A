@@ -26,21 +26,17 @@ int main()
 //test function
 void test()
 {
-	vector<int> test(10);
+	Vector<int> test(10);
 
 	//default constructor and assignment test
 	for (int i = 0; i < 10; ++i)
-	{
 		test[i] = i;
-	}
 
 	cout << test << endl;
 
 	//push_back test
 	for (int i = 10; i < 20; ++i)
-	{
 		test.push_back(i);
-	}
 
 	cout << test << endl;
 

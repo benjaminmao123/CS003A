@@ -15,36 +15,33 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Polynomial.h">
+    <ClInclude Include="code\LinkedListLibrary.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Term.h">
+    <ClInclude Include="code\Polynomial.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="LinkedListLibrary.h">
+    <ClInclude Include="code\SortedList.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Node.h">
+    <ClInclude Include="code\Term.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="SortedList.h">
+    <ClInclude Include="code\z_output.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="z_output.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="z_work_report.h">
+    <ClInclude Include="code\z_work_report.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="main.cpp">
+    <ClCompile Include="code\main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Polynomial.cpp">
+    <ClCompile Include="code\Polynomial.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Term.cpp">
+    <ClCompile Include="code\Term.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

@@ -2,35 +2,35 @@
 
 using namespace std;
 
-bool **init_plane(int *sizes);
+bool** init_plane(int* sizes);
 
-bool reserve(bool **plane, const int seatRow,
-	const int seatCol);
-bool cancel(bool **plane, const int seatRow, const int seatCol);
+bool reserve(bool** plane, int seatRow,
+			 int seatCol);
+bool cancel(bool** plane, int seatRow, int seatCol);
 
 //getters
-int array_size(int *sizes);
-bool index_is_valid(int *sizes, int row, int col);
+int array_size(int* sizes);
+bool index_is_valid(int* sizes, int row, int col);
 
 //2D array functions
 template <class T>
-T **allocate_twod(int *sizes);
+T** allocate_twod(int* sizes);
 
 template<class T>
-void init_twod(T **twod, int *sizes, T init_item);
+void init_twod(T** twod, int* sizes, T init_item);
 
 template<class T>
-T read_twod(T **twod, int row, int col);
+T read_twod(T** twod, int row, int col);
 
 template<class T>
-void write_twod(T **twod, int row, int col, const T &item);
+void write_twod(T** twod, int row, int col, const T& item);
 
 template<class T>
-T &get_twod(T **twod, int row, int col);
+T& get_twod(T** twod, int row, int col);
 
 template <class T>
-ostream &print_twod(T **twod, int *sizes, ostream &outs = cout);
-void print_array(int *a);
+ostream& print_twod(T** twod, int* sizes, ostream& outs = cout);
+void print_array(int* a);
 
 void test();
 
@@ -49,9 +49,9 @@ int main()
 
 	@return <bool **>: The initialized 2D array.
 */
-bool **init_plane(int *sizes)
+bool** init_plane(int* sizes)
 {
-	bool **plane = allocate_twod<bool>(sizes);
+	bool** plane = allocate_twod<bool>(sizes);
 	init_twod(plane, sizes, false);
 
 	return plane;
@@ -62,16 +62,16 @@ bool **init_plane(int *sizes)
 	has already been reserved or not.
 
 	@param <bool **plane>: 2D array representing the plane.
-	@param <const int seatRow>: Row of seat.
-	@param <const int seatCol>: Column of seat.
+	@param <int seatRow>: Row of seat.
+	@param <int seatCol>: Column of seat.
 
 	@return <bool>: True if succeeded, else false.
 */
-bool reserve(bool **plane, const int seatRow, 
-	const int seatCol)
+bool reserve(bool** plane, int seatRow,
+			 int seatCol)
 {
-	bool &seat = get_twod(plane, seatRow, seatCol);
-	
+	bool& seat = get_twod(plane, seatRow, seatCol);
+
 	if (!seat)
 	{
 		seat = true;
@@ -83,18 +83,18 @@ bool reserve(bool **plane, const int seatRow,
 }
 
 /*
-	Cancels a reservation for a plane seat. Checks if 
+	Cancels a reservation for a plane seat. Checks if
 	the seat is occupied or not.
 
 	@param <bool **plane>: 2D array representing the plane.
-	@param <const int seatRow>: Row of the seat.
-	@param <const int seatCol>: Column of the seat.
+	@param <int seatRow>: Row of the seat.
+	@param <int seatCol>: Column of the seat.
 
 	@return <bool>: True if cancel succeeded, else false.
 */
-bool cancel(bool **plane, const int seatRow, const int seatCol)
+bool cancel(bool** plane, int seatRow, int seatCol)
 {
-	bool &seat = get_twod(plane, seatRow, seatCol);
+	bool& seat = get_twod(plane, seatRow, seatCol);
 
 	if (seat)
 	{
@@ -113,14 +113,12 @@ bool cancel(bool **plane, const int seatRow, const int seatCol)
 
 	@return <int>: The size of the array.
 */
-int array_size(int *sizes)
+int array_size(int* sizes)
 {
 	int size = 0;
 
-	for (int *i = sizes; *i != -1; ++i)
-	{
+	for (int* i = sizes; *i != -1; ++i)
 		++size;
-	}
 
 	return size;
 }
@@ -135,16 +133,14 @@ int array_size(int *sizes)
 
 	@return <bool>: Returns true if valid, else false.
 */
-bool index_is_valid(int *sizes, int row, int col)
+bool index_is_valid(int* sizes, int row, int col)
 {
 	if (row < array_size(sizes))
 	{
-		int *sizeLocation = sizes + row;
+		int* sizeLocation = sizes + row;
 
 		if (col < *sizeLocation && col >= 0)
-		{
 			return true;
-		}
 	}
 
 	return false;
@@ -160,21 +156,19 @@ bool index_is_valid(int *sizes, int row, int col)
 		array.
 */
 template<class T>
-T **allocate_twod(int *sizes)
+T** allocate_twod(int* sizes)
 {
 	int row = 0;
 
 	//get the rows of the 2D array
 	int numRows = array_size(sizes);
 
-	T **labs = new T *[numRows];
-	T **labsEnd = labs + numRows;
+	T** labs = new T * [numRows];
+	T** labsEnd = labs + numRows;
 
 	//allocate memory for each row
-	for (T **i = labs; i != labsEnd; ++i)
-	{
+	for (T** i = labs; i != labsEnd; ++i)
 		*i = new T[*sizes++];
-	}
 
 	return labs;
 }
@@ -189,16 +183,14 @@ T **allocate_twod(int *sizes)
 		of the 2D array.
 */
 template<class T>
-void init_twod(T **twod, int *sizes, T init_item)
+void init_twod(T** twod, int* sizes, T init_item)
 {
 	int rowLength = array_size(sizes);
 
 	for (int row = 0; row < rowLength; ++row, ++sizes)
 	{
 		for (int col = 0; col < *sizes; ++col)
-		{
 			write_twod(twod, row, col, init_item);
-		}
 	}
 }
 
@@ -213,7 +205,7 @@ void init_twod(T **twod, int *sizes, T init_item)
 	@return <T>: Returns a copy of the value at the location.
 */
 template<class T>
-T read_twod(T **twod, const int row, const int col)
+T read_twod(T** twod, int row, int col)
 {
 	return *(*(twod + row) + col);
 }
@@ -222,12 +214,12 @@ T read_twod(T **twod, const int row, const int col)
 	Writes to an entry in the 2D array.
 
 	@param <T **twod>: 2D array to write to.
-	@param <const int row>: Row of the array.
-	@param <const int col>: Column of the array.
+	@param <int row>: Row of the array.
+	@param <int col>: Column of the array.
 	@param <const T &item>: Item to insert.
 */
 template<class T>
-void write_twod(T **twod, const int row, const int col, const T &item)
+void write_twod(T** twod, int row, int col, const T& item)
 {
 	*(*(twod + row) + col) = item;
 }
@@ -244,7 +236,7 @@ void write_twod(T **twod, const int row, const int col, const T &item)
 	@return <T &>: Returns a reference to the element.
 */
 template<class T>
-T &get_twod(T **twod, int row, int col)
+T& get_twod(T** twod, int row, int col)
 {
 	return *(*(twod + row) + col);
 }
@@ -256,16 +248,14 @@ T &get_twod(T **twod, int row, int col)
 	@param <int *sizes>: Column lengths of array.
 */
 template<class T>
-ostream &print_twod(T **twod, int *sizes, ostream &outs)
+ostream& print_twod(T** twod, int* sizes, ostream& outs)
 {
 	int rowLength = array_size(sizes);
 
 	for (int row = 0; row < rowLength; ++row, ++sizes)
 	{
 		for (int col = 0; col < *sizes; ++col)
-		{
 			outs << read_twod(twod, row, col) << " ";
-		}
 
 		outs << endl;
 	}
@@ -278,19 +268,17 @@ ostream &print_twod(T **twod, int *sizes, ostream &outs)
 
 	@param <int *a>: Array to print.
 */
-void print_array(int *a)
+void print_array(int* a)
 {
-	for (int *i = a; *i != -1; ++i)
-	{
+	for (int* i = a; *i != -1; ++i)
 		cout << *i << " ";
-	}
 }
 
 //test function
 void test()
 {
 	int plane_sizes[] = { 4, 3, 2, -1 };
-	bool **plane = init_plane(plane_sizes);
+	bool** plane = init_plane(plane_sizes);
 
 	char command = '\0';
 	int seatRow, seatCol;
@@ -353,7 +341,7 @@ void test()
 
 			if (cancel(plane, seatRow, seatCol))
 			{
-				cout << "Success: Your reservation at (" << 
+				cout << "Success: Your reservation at (" <<
 					seatRow << ", " << seatCol << ") has been cancelled." << endl;
 			}
 			else

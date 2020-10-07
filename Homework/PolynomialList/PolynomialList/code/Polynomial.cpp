@@ -43,9 +43,7 @@ Poly::Poly(double term_array[], int order)
 	operator+=(Term());
 
 	for (int i = 0; i < order; ++i)
-	{
 		operator+=(Term(*(term_array + i), i));
-	}
 }
 
 /*
@@ -63,9 +61,7 @@ Poly &Poly::operator+=(const Term &t)
 	const int end = min(t._exp, _order);
 
 	for (int i = start - 1; i > end; --i)
-	{
 		_poly.Insert(Term(0, i));
-	}
 
 	_order = max(t._exp, _order);
 	_poly.Insert(t);
@@ -86,9 +82,7 @@ Poly &Poly::operator+=(const Term &t)
 Poly &Poly::operator*=(const Term &t)
 {
 	for (auto &i : _poly)
-	{
 		i *= t;
-	}
 
 	fix_order();
 
@@ -106,9 +100,7 @@ Poly &Poly::operator*=(const Term &t)
 Poly &Poly::operator+=(const Poly &RHS)
 {
 	for (auto &i : RHS._poly)
-	{
 		operator+=(i);
-	}
 
 	return *this;
 }
@@ -150,9 +142,7 @@ Poly &Poly::operator-=(const Poly &RHS)
 	Poly temp(-RHS);
 	
 	for (auto &i : temp._poly)
-	{
 		operator+=(i);
-	}
 
 	return *this;
 }
@@ -213,9 +203,7 @@ Poly Poly::operator-() const
 	Poly res(*this);
 
 	for (auto &i : res._poly)
-	{
 		i = -i;
-	}
 
 	return res;
 }
@@ -403,9 +391,7 @@ void Poly::fix_order()
 			it = nextIt;
 		}
 		else
-		{
 			++it;
-		}
 	}
 }
 
@@ -430,18 +416,12 @@ std::ostream &operator<<(std::ostream &outs, const Poly &print_me)
 		if (i._coef)
 		{
 			if (i._exp && print_me._poly[idx + 1]._coef)
-			{
 				outs << i << " ";
-			}
 			else
-			{
 				outs << i;
-			}
 		}
 		else if (!print_me._order)
-		{
 			outs << i;
-		}
 
 		++idx;
 	}

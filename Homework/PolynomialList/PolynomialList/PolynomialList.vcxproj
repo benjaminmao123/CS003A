@@ -18,6 +18,19 @@
       <Platform>x64</Platform>
     </ProjectConfiguration>
   </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="code\LinkedListLibrary.h" />
+    <ClInclude Include="code\Polynomial.h" />
+    <ClInclude Include="code\SortedList.h" />
+    <ClInclude Include="code\Term.h" />
+    <ClInclude Include="code\z_output.h" />
+    <ClInclude Include="code\z_work_report.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="code\main.cpp" />
+    <ClCompile Include="code\Polynomial.cpp" />
+    <ClCompile Include="code\Term.cpp" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
     <ProjectGuid>{B6FD7990-A9D3-463F-9E47-E963B7944321}</ProjectGuid>
@@ -137,20 +150,6 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
   </ItemDefinitionGroup>
-  <ItemGroup>
-    <ClInclude Include="LinkedListLibrary.h" />
-    <ClInclude Include="Node.h" />
-    <ClInclude Include="Polynomial.h" />
-    <ClInclude Include="SortedList.h" />
-    <ClInclude Include="Term.h" />
-    <ClInclude Include="z_output.h" />
-    <ClInclude Include="z_work_report.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="main.cpp" />
-    <ClCompile Include="Polynomial.cpp" />
-    <ClCompile Include="Term.cpp" />
-  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

@@ -21,8 +21,8 @@
 
 	@param <const Settings &settings>: Simulation settings.
 */
-Grid::Grid(const Settings &settings)
-	: settings(settings), currentStep(0), predCount(0), preyCount(0)
+Grid::Grid(const Settings &settings) :
+	settings(settings), currentStep(0), predCount(0), preyCount(0)
 {
 	grid = new Creature **[settings.maxRows];
 
@@ -177,7 +177,7 @@ void Grid::Breed()
 
 /*
 	@summary: Calls Kill() of each creature object
-		in the deadCreatures vector.
+		in the deadCreatures Vector.
 */
 void Grid::Kill()
 {

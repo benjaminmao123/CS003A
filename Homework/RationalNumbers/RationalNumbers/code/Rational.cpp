@@ -16,8 +16,8 @@
 /*
 	Default constructor.
 */
-rational::rational()
-	: _n(0), _d(1), _error(0)
+rational::rational() :
+	_n(0), _d(1), _error(0)
 {
 
 }
@@ -29,8 +29,8 @@ rational::rational()
 	@param <int num>: Value to initialize numerator.
 	@param <int denom>: Value to initialize denominator.
 */
-rational::rational(int num, int denom)
-	: _n(num), _d(denom)
+rational::rational(int num, int denom) :
+	_n(num), _d(denom)
 {
 	_error = is_error();
 }
@@ -38,8 +38,8 @@ rational::rational(int num, int denom)
 /*
 	Overloaded constructor to take in whole number.
 */
-rational::rational(int w)
-	: _n(w), _d(1), _error(0)
+rational::rational(int w) :
+	_n(w), _d(1), _error(0)
 {
 
 }
@@ -117,9 +117,7 @@ int rational::error() const
 int rational::is_error() const
 {
 	if (!_d)
-	{
 		return 1;
-	}
 
 	return 0;
 }
@@ -213,18 +211,12 @@ rational operator+(const rational &num1, const rational &num2)
 rational operator-(const rational &num1, const rational &num2)
 {
 	if (num1.is_error())
-	{
 		return num1;
-	}
 	else if (num2.is_error())
-	{
 		return num2;
-	}
 
 	if (!num1._n && !num2._n)
-	{
 		return rational();
-	}
 	else if (!num1._n)
 	{
 		int mGcd = gcd(num2._n, num2._d);
@@ -271,18 +263,12 @@ rational operator-(const rational &num1, const rational &num2)
 rational operator*(const rational &num1, const rational &num2)
 {
 	if (num1.is_error())
-	{
 		return num1;
-	}
 	else if (num2.is_error())
-	{
 		return num2;
-	}
 
 	if (!num1._n || !num2._n)
-	{
 		return rational();
-	}
 
 	int _nNew = num1._n * num2._n;
 	int _dNew = num1._d * num2._d;
@@ -307,18 +293,12 @@ rational operator*(const rational &num1, const rational &num2)
 rational operator/(const rational &num1, const rational &num2)
 {
 	if (num1.is_error())
-	{
 		return num1;
-	}
 	else if (num2.is_error())
-	{
 		return num2;
-	}
 
 	if (!num1._n || !num2._n)
-	{
 		return rational();
-	}
 
 	int _nNew = num1._n * num2._d;
 	int _dNew = num1._d * num2._n;
@@ -345,13 +325,9 @@ rational operator/(const rational &num1, const rational &num2)
 ostream &operator<<(ostream &outs, const rational &num)
 {
 	if (num.is_error())
-	{
 		outs << string("UNDEFINED");
-	}
 	else
-	{
 		outs << num._n << "/" << num._d;
-	}
 
 	return outs;
 }

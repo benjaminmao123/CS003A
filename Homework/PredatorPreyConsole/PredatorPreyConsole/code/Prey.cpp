@@ -10,13 +10,13 @@
 #include "Prey.h"
 #include "Utility.h"
 
-/*
-	@summary: Default constructor.
-		Initializes creature settings and location.
-*/
-Prey::Prey(const Settings &settings, const Location &location,
-	char icon)
-	: Creature(settings, location, icon)
+ /*
+	 @summary: Default constructor.
+		 Initializes creature settings and location.
+ */
+Prey::Prey(const Settings& settings, const Location& location,
+		   char icon) :
+	Creature(settings, location, icon)
 {
 	SetType(Type::Prey);
 }
@@ -27,9 +27,9 @@ Prey::Prey(const Settings &settings, const Location &location,
 
 	@param <Grid &grid>: Grid object to manipulate.
 */
-void Prey::Move(Grid &grid)
+void Prey::Move(Grid& grid)
 {
-	vector<Location> blank = FindBlankAdjacent(grid);
+	Vector<Location> blank = FindBlankAdjacent(grid);
 	int index = 0;
 
 	if (!blank.empty())
@@ -48,7 +48,7 @@ void Prey::Move(Grid &grid)
 
 	@param <Grid &grid>: The Grid object.
 */
-void Prey::Breed(Grid &grid)
+void Prey::Breed(Grid& grid)
 {
 	if (GetBreedStep() >= settings.preyBreedRate)
 	{
@@ -59,7 +59,7 @@ void Prey::Breed(Grid &grid)
 		}
 		else
 		{
-			vector<Location> blank = FindBlankAdjacent(grid);
+			Vector<Location> blank = FindBlankAdjacent(grid);
 			int index = 0;
 
 			if (!blank.empty())

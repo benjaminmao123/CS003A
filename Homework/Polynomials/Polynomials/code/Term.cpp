@@ -69,9 +69,7 @@ bool operator!=(const Term &lhs, const Term &rhs)
 bool operator>(const Term &lhs, const Term &rhs)
 {
 	if (lhs._exp == rhs._exp)
-	{
 		return lhs._coef > rhs._coef;
-	}
 
 	return lhs._exp > rhs._exp;
 }
@@ -89,9 +87,7 @@ bool operator>(const Term &lhs, const Term &rhs)
 bool operator<(const Term &lhs, const Term &rhs)
 {
 	if (lhs._exp == rhs._exp)
-	{
 		return lhs._coef < rhs._coef;
-	}
 
 	return lhs._exp < rhs._exp;
 }
@@ -125,33 +121,23 @@ Term operator/(const Term &lhs, const Term &rhs)
 std::ostream &operator<<(std::ostream &outs, const Term &t)
 {
 	if (t._coef < 0)
-	{
 		outs << " - ";
-	}
 	else if (t._coef > 0)
-	{
 		outs << " + ";
-	}
 
 	if (!t._exp)
-	{
 		outs << abs(t._coef);
-	}
 	else
 	{
 		double coef = abs(t._coef);
 
 		if (coef > 0 && coef != 1)
-		{
 			outs << std::setprecision(1) << std::fixed << coef;
-		}
 
 		outs << "x";
 			
 		if (t._exp > 1)
-		{
 			outs << "^" << t._exp;
-		}
 	}
 
 	return outs;

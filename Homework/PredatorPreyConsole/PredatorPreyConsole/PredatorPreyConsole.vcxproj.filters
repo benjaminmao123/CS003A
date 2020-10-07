@@ -15,63 +15,57 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="main.cpp">
+    <ClCompile Include="code\Creature.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Grid.cpp">
+    <ClCompile Include="code\Grid.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Creature.cpp">
+    <ClCompile Include="code\main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Prey.cpp">
+    <ClCompile Include="code\Predator.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Predator.cpp">
+    <ClCompile Include="code\Prey.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Wall.cpp">
+    <ClCompile Include="code\Utility.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Utility.cpp">
+    <ClCompile Include="code\Wall.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Creature.h">
+    <ClInclude Include="code\Creature.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Grid.h">
+    <ClInclude Include="code\Grid.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Location.h">
+    <ClInclude Include="code\Location.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Predator.h">
+    <ClInclude Include="code\Predator.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Prey.h">
+    <ClInclude Include="code\Prey.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Wall.h">
+    <ClInclude Include="code\Settings.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="ArrayLibrary.h">
+    <ClInclude Include="code\Utility.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Vector.h">
+    <ClInclude Include="code\Wall.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Settings.h">
+    <ClInclude Include="code\z_output.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="z_output.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="z_work_report.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Utility.h">
+    <ClInclude Include="code\z_work_report.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

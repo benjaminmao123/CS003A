@@ -18,6 +18,27 @@
       <Platform>x64</Platform>
     </ProjectConfiguration>
   </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="code\Creature.cpp" />
+    <ClCompile Include="code\Grid.cpp" />
+    <ClCompile Include="code\main.cpp" />
+    <ClCompile Include="code\Predator.cpp" />
+    <ClCompile Include="code\Prey.cpp" />
+    <ClCompile Include="code\Utility.cpp" />
+    <ClCompile Include="code\Wall.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="code\Creature.h" />
+    <ClInclude Include="code\Grid.h" />
+    <ClInclude Include="code\Location.h" />
+    <ClInclude Include="code\Predator.h" />
+    <ClInclude Include="code\Prey.h" />
+    <ClInclude Include="code\Settings.h" />
+    <ClInclude Include="code\Utility.h" />
+    <ClInclude Include="code\Wall.h" />
+    <ClInclude Include="code\z_output.h" />
+    <ClInclude Include="code\z_work_report.h" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
     <ProjectGuid>{884A7686-2D91-46D0-9BD6-2B7ABA238EC3}</ProjectGuid>
@@ -137,29 +158,6 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
   </ItemDefinitionGroup>
-  <ItemGroup>
-    <ClCompile Include="Creature.cpp" />
-    <ClCompile Include="Grid.cpp" />
-    <ClCompile Include="main.cpp" />
-    <ClCompile Include="Predator.cpp" />
-    <ClCompile Include="Prey.cpp" />
-    <ClCompile Include="Utility.cpp" />
-    <ClCompile Include="Wall.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="ArrayLibrary.h" />
-    <ClInclude Include="Creature.h" />
-    <ClInclude Include="Grid.h" />
-    <ClInclude Include="Location.h" />
-    <ClInclude Include="Predator.h" />
-    <ClInclude Include="Prey.h" />
-    <ClInclude Include="Settings.h" />
-    <ClInclude Include="Utility.h" />
-    <ClInclude Include="Vector.h" />
-    <ClInclude Include="Wall.h" />
-    <ClInclude Include="z_output.h" />
-    <ClInclude Include="z_work_report.h" />
-  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

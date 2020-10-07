@@ -2,7 +2,7 @@
  * Author: Benjamin Mao
  * Project: Stack
  * Purpose: Implementation a LIFO container called
- *		a stack.
+ *		a Stack.
  *
  * Notes: None.
  */
@@ -16,31 +16,31 @@
 #include "LinkedListLibrary.h"
 
 template <typename T>
-class stack
+class Stack
 {
 public:
 	class Iterator
 	{
 	public:
-		Iterator() { }
-		Iterator(node<T> *ptr) : ptr(ptr) { };
+		Iterator() {}
+		Iterator(node<T>* ptr) : ptr(ptr) {};
 
-		const T &operator*() const
+		const T& operator*() const
 		{
 			return ptr->_item;
 		}
 
-		T &operator*()
+		T& operator*()
 		{
 			return ptr->_item;
 		}
 
-		const T *operator->() const
+		const T* operator->() const
 		{
 			return &ptr->_item;
 		}
 
-		T *operator->()
+		T* operator->()
 		{
 			return &ptr->_item;
 		}
@@ -52,19 +52,19 @@ public:
 		}
 
 		//true if left != right
-		bool operator!=(const Iterator &rhs) const
+		bool operator!=(const Iterator& rhs) const
 		{
 			return ptr != rhs.ptr;
 		}
 
 		//true if left == right
-		bool operator==(const Iterator &rhs) const
+		bool operator==(const Iterator& rhs) const
 		{
 			return ptr == rhs.ptr;
 		}
 
 		//member operator: ++it; or ++it = new_value
-		Iterator &operator++()
+		Iterator& operator++()
 		{
 			ptr = ptr->next;
 
@@ -80,36 +80,36 @@ public:
 		}
 
 	private:
-		node<T> *ptr;
+		node<T>* ptr;
 	};
 
-	stack();
-	stack(const stack &other);
-	stack &operator=(const stack &rhs);
-	~stack();
+	Stack();
+	Stack(const Stack& other);
+	Stack& operator=(const Stack& rhs);
+	~Stack();
 
-	void push(const T &item);
+	void push(const T& item);
 	T pop();
 
 	Iterator begin() const;
 	Iterator end() const;
 
-	const T &top() const;
-	T &top();
+	const T& top() const;
+	T& top();
 	size_t size() const;
 	bool empty() const;
-	
-	void swap(stack &other) noexcept;
+
+	void swap(Stack& other) noexcept;
 
 	template <typename U>
-	friend std::ostream &operator<<(std::ostream &os, const stack<U> &s);
-	bool operator==(const stack &rhs) const;
-	bool operator!=(const stack &rhs) const;
+	friend std::ostream& operator<<(std::ostream& os, const Stack<U>& s);
+	bool operator==(const Stack& rhs) const;
+	bool operator!=(const Stack& rhs) const;
 
 private:
-	void swap(stack &s1, stack &s2);
+	void swap(Stack& s1, Stack& s2);
 
-	node<T> *head;
+	node<T>* head;
 	size_t sz;
 };
 
@@ -117,8 +117,8 @@ private:
 	@summary: Default constructor, initializes size to 0.
 */
 template<typename T>
-inline stack<T>::stack()
-	: sz(0), head(nullptr)
+inline Stack<T>::Stack() :
+	sz(0), head(nullptr)
 {
 
 }
@@ -126,11 +126,11 @@ inline stack<T>::stack()
 /*
 	@summary: Copy constructor.
 
-	@param <const stack &other>: stack object to copy.
+	@param <const Stack &other>: Stack object to copy.
 */
 template<typename T>
-inline stack<T>::stack(const stack &other)
-	: sz(other.sz), head(CopyList(other.head))
+inline Stack<T>::Stack(const Stack& other) :
+	sz(other.sz), head(CopyList(other.head))
 {
 
 }
@@ -138,12 +138,12 @@ inline stack<T>::stack(const stack &other)
 /*
 	@summary: Copy assignment operator.
 
-	@param <const stack &rhs>: stack object to copy.
+	@param <const Stack &rhs>: Stack object to copy.
 */
 template<typename T>
-inline stack<T> &stack<T>::operator=(const stack &rhs)
+inline Stack<T>& Stack<T>::operator=(const Stack& rhs)
 {
-	stack temp(rhs);
+	Stack temp(rhs);
 	swap(temp);
 
 	return *this;
@@ -153,113 +153,109 @@ inline stack<T> &stack<T>::operator=(const stack &rhs)
 	@summary: Destructor.
 */
 template<typename T>
-inline stack<T>::~stack()
+inline Stack<T>::~Stack()
 {
 	ClearList(head);
 }
 
 /*
-	@summary: Adds an item to the front of the stack and increments size.
+	@summary: Adds an item to the front of the Stack and increments size.
 
-	@param <const value_type &item>: Item to add to the stack.
+	@param <const value_type &item>: Item to add to the Stack.
 */
 template<typename T>
-inline void stack<T>::push(const T &item)
+inline void Stack<T>::push(const T& item)
 {
 	InsertHead(head, item);
 	++sz;
 }
 
 /*
-	@summary: Removes an item from the top of the stack and decrements size.
+	@summary: Removes an item from the top of the Stack and decrements size.
 */
 template<typename T>
-inline T stack<T>::pop()
+inline T Stack<T>::pop()
 {
 	if (empty())
-	{
-		throw std::out_of_range("Stack is empty.");
-	}
+		throw std::out_of_range("Pop called on empty Stack.");
 
-	T item = DeleteNode(head, head);
+	T item = head->_item;
+
+	DeleteNode(head, head);
 	--sz;
 
 	return item;
 }
 
 template<typename T>
-inline typename stack<T>::Iterator stack<T>::begin() const
+inline typename Stack<T>::Iterator Stack<T>::begin() const
 {
 	return Iterator(head);
 }
 
 template<typename T>
-inline typename stack<T>::Iterator stack<T>::end() const
+inline typename Stack<T>::Iterator Stack<T>::end() const
 {
 	return Iterator(nullptr);
 }
 
 /*
-	@summary: Returns the item at the top of the stack.
+	@summary: Returns the item at the top of the Stack.
 
-	@return <const reference>: Reference to the item at the top of the stack.
+	@return <const reference>: Reference to the item at the top of the Stack.
 */
 template<typename T>
-inline const T &stack<T>::top() const
+inline const T& Stack<T>::top() const
 {
 	if (empty())
-	{
-		throw std::out_of_range("Top called on empty stack.");
-	}
+		throw std::out_of_range("Top called on empty Stack.");
 
 	return head->_item;
 }
 
 /*
-	@summary: Returns the item at the top of the stack.
+	@summary: Returns the item at the top of the Stack.
 
-	@return <const reference>: Reference to the item at the top of the stack.
+	@return <const reference>: Reference to the item at the top of the Stack.
 */
 template<typename T>
-inline T &stack<T>::top()
+inline T& Stack<T>::top()
 {
 	if (empty())
-	{
-		throw std::out_of_range("Top called on empty stack.");
-	}
+		throw std::out_of_range("Top called on empty Stack.");
 
 	return head->_item;
 }
 
 /*
-	@summary: Returns the size of the stack.
+	@summary: Returns the size of the Stack.
 
-	@return <size_type>: The size of the stack.
+	@return <size_type>: The size of the Stack.
 */
 template<typename T>
-inline size_t stack<T>::size() const
+inline size_t Stack<T>::size() const
 {
 	return sz;
 }
 
 /*
-	@summary: Returns whether stack is empty.
+	@summary: Returns whether Stack is empty.
 
-	@return <bool>: If stack empty return true, else false.
+	@return <bool>: If Stack empty return true, else false.
 */
 template<typename T>
-inline bool stack<T>::empty() const
+inline bool Stack<T>::empty() const
 {
 	return sz == 0 || head == nullptr;
 }
 
 /*
-	@summary: Swaps contents of this stack with another stack.
+	@summary: Swaps contents of this Stack with another Stack.
 
-	@param <stack &other>: stack to swap with.
+	@param <Stack &other>: Stack to swap with.
 */
 template<typename T>
-inline void stack<T>::swap(stack &other) noexcept
+inline void Stack<T>::swap(Stack& other) noexcept
 {
 	std::swap(sz, other.sz);
 	std::swap(head, other.head);
@@ -269,17 +265,15 @@ inline void stack<T>::swap(stack &other) noexcept
 	@summary: Equality to check if two stacks are equal.
 		Checks if size is equal, then if contents are equal.
 
-	@param <const stack &rhs>: stack to compare to.
+	@param <const Stack &rhs>: Stack to compare to.
 
 	@return <bool>: True if equal, else false.
 */
 template<typename T>
-inline bool stack<T>::operator==(const stack &rhs) const
+inline bool Stack<T>::operator==(const Stack& rhs) const
 {
 	if (sz == rhs.sz)
-	{
 		return head == rhs.head;
-	}
 
 	return false;
 }
@@ -288,17 +282,15 @@ inline bool stack<T>::operator==(const stack &rhs) const
 	@summary: Inequality to check if two stacks are not equal.
 		Checks if size is not equal, then if contents are not equal.
 
-	@param <const stack &rhs>: stack to compare to.
+	@param <const Stack &rhs>: Stack to compare to.
 
 	@return <bool>: True if not equal, else false.
 */
 template<typename T>
-inline bool stack<T>::operator!=(const stack &rhs) const
+inline bool Stack<T>::operator!=(const Stack& rhs) const
 {
 	if (sz != rhs.sz)
-	{
 		return true;
-	}
 
 	return head != rhs.head;
 }
@@ -306,31 +298,29 @@ inline bool stack<T>::operator!=(const stack &rhs) const
 /*
 	@summary: Swaps contents of two stacks.
 
-	@param <stack &s1>: first stack to swap.
-	@param <stack &s2>: second stack to swap.
+	@param <Stack &s1>: first Stack to swap.
+	@param <Stack &s2>: second Stack to swap.
 */
 template<typename T>
-inline void stack<T>::swap(stack &s1, stack &s2)
+inline void Stack<T>::swap(Stack& s1, Stack& s2)
 {
 	std::swap(s1.sz, s2.sz);
 	std::swap(s1.head, s2.head);
 }
 
 /*
-	@summary: Overloaded stream insertion operator to print contents of stack.
+	@summary: Overloaded stream insertion operator to print contents of Stack.
 
 	@param <std::ostream &os>: The ostream object.
-	@param <const stack<U> &s>: stack to print contents of.
+	@param <const Stack<U> &s>: Stack to print contents of.
 
 	@return <std::ostream &>: Reference to the ostream object.
 */
 template<typename U>
-inline std::ostream &operator<<(std::ostream &os, const stack<U> &s)
+inline std::ostream& operator<<(std::ostream& os, const Stack<U>& s)
 {
 	for (auto i : s)
-	{
 		os << i << " ";
-	}
 
 	os << "|||";
 

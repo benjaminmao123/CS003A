@@ -107,9 +107,7 @@ void test_add(const Poly &p, const Poly &q)
     oss2 << p;
 
     if (temp == oss2.str())
-    {
         cout << "VERIFIED" << endl;
-    }
     else
     {
         cout << endl << "   ***VERIFICATION FAILED" << endl;
@@ -134,9 +132,7 @@ void test_sub(const Poly &p, const Poly &q)
     oss2 << q;
 
     if (temp == oss2.str())
-    {
         cout << "VERIFIED" << endl;
-    }
     else
     {
         cout << endl << "   ***VERIFICATION FAILED" << endl;
@@ -161,9 +157,7 @@ void test_mult(const Poly &p, const Poly &q)
     oss2 << p;
 
     if (temp == oss2.str())
-    {
         cout << "VERIFIED" << endl;
-    }
     else
     {
         cout << endl << "   ***VERIFICATION FAILED" << endl;
@@ -189,9 +183,7 @@ void test_div(const Poly &p, const Poly &q)
     oss2 << p;
 
     if (temp == oss2.str())
-    {
         cout << "VERIFIED" << endl;
-    }
     else
     {
         cout << endl << "   ***VERIFICATION FAILED" << endl;

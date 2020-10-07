@@ -10,15 +10,15 @@
 #include "Subtraction.h"
 
  /*
-     @summary: Default constructor. Takes default arguments.
-         Initializes precedence and tokenString.
+	 @summary: Default constructor. Takes default arguments.
+		 Initializes precedence and tokenString.
  */
-Subtraction::Subtraction(const Operand &lhs, const Operand &rhs)
-    : Operator(lhs, rhs)
+Subtraction::Subtraction(const Operand& lhs, const Operand& rhs)
+	: Operator(lhs, rhs)
 {
 	Precedence(1);
 	TokenString("-");
-    SetTokenType(TokenType::Sub);
+	SetTokenType(TokenType::Sub);
 }
 
 /*

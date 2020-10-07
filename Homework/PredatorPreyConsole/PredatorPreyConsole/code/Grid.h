@@ -11,7 +11,7 @@ class Creature;
 class Grid
 {
 public:
-	Grid(const Settings &settings);
+	Grid(const Settings& settings);
 	~Grid();
 
 	void FillGrid();
@@ -20,17 +20,17 @@ public:
 	void Breed();
 	void Kill();
 
-	const Creature *GetGrid(const Location &loc) const;
-	bool IsOccupied(const Location &loc) const;
-	void SetGrid(Creature *creature, const Location &loc);
+	const Creature* GetGrid(const Location& loc) const;
+	bool IsOccupied(const Location& loc) const;
+	void SetGrid(Creature* creature, const Location& loc);
 
-	friend std::ostream &operator<<(std::ostream &os, const Grid &g);
+	friend std::ostream& operator<<(std::ostream& os, const Grid& g);
 
 private:
 	int preyCount;
 	int predCount;
-	Creature ***grid;
-	vector<Creature *> deadCreatures;
-	const Settings &settings;
+	Creature*** grid;
+	Vector<Creature*> deadCreatures;
+	const Settings& settings;
 	int currentStep;
 };

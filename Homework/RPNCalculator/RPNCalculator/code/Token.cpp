@@ -9,20 +9,20 @@
 
 #include "Token.h"
 
-/*
-    @summary: Getter for tokenString.
-*/
-const std::string &Token::TokenString() const
+ /*
+	 @summary: Getter for tokenString.
+ */
+const std::string& Token::TokenString() const
 {
 	return tokenString;
 }
 
 /*
-    @summary: Getter for tokenType.
+	@summary: Getter for tokenType.
 */
 TokenType Token::GetTokenType() const
 {
-    return tokenType;
+	return tokenType;
 }
 
 /*
@@ -30,30 +30,30 @@ TokenType Token::GetTokenType() const
 
 	@param <const std::string &str>: String to set tokenString.
 */
-void Token::TokenString(const std::string &str)
+void Token::TokenString(const std::string& str)
 {
 	tokenString = str;
 }
 
 /*
-    @summary: Setter for tokenType.
+	@summary: Setter for tokenType.
 
-    @param <TokenType type>: TokenType to set tokenType.
+	@param <TokenType type>: TokenType to set tokenType.
 */
 void Token::SetTokenType(TokenType type)
 {
-    tokenType = type;
+	tokenType = type;
 }
 
 /*
-    @summary: Overloaded stream insertion operator.
+	@summary: Overloaded stream insertion operator.
 
-    @param <std::ostream &os>: The ostream object.
-    @param <const Token &rhs>: The token to print.
+	@param <std::ostream &os>: The ostream object.
+	@param <const Token &rhs>: The token to print.
 */
-std::ostream &operator<<(std::ostream &os, const Token &rhs)
+std::ostream& operator<<(std::ostream& os, const Token& rhs)
 {
-    os << rhs.TokenString();
+	os << rhs.TokenString();
 
-    return os;
+	return os;
 }

@@ -107,9 +107,7 @@ void test_add(const Poly &p, const Poly &q)
     cout << "      = " << r << "  ";
 
     if (r - q == p)
-    {
         cout << "VERIFIED" << endl;
-    }
     else
     {
         cout << endl << "   ***VERIFICATION FAILED" << endl;
@@ -125,9 +123,7 @@ void test_sub(const Poly &p, const Poly &q)
     cout << "      = " << r << "  ";
 
     if (p - r == q)
-    {
         cout << "VERIFIED" << endl;
-    }
     else
     {
         cout << endl << "   ***VERIFICATION FAILED" << endl;
@@ -143,9 +139,7 @@ void test_mult(const Poly &p, const Poly &q)
     cout << "      = " << r << "  ";
 
     if (r / q == p)
-    {
         cout << "VERIFIED" << endl;
-    }
     else
     {
         cout << endl << "   ***VERIFICATION FAILED" << endl;
@@ -162,9 +156,7 @@ void test_div(const Poly &p, const Poly &q)
     cout << "  rem = " << p % q << "  ";
 
     if (r * q + p % q == p)
-    {
         cout << "VERIFIED" << endl;
-    }
     else
     {
         cout << endl << "   ***VERIFICATION FAILED" << endl;

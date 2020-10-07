@@ -18,8 +18,8 @@
 		Initializes creature settings and location.
 */
 Creature::Creature(const Settings &settings, const Location &location,
-	sf::Shape *icon, const sf::Color &color)
-	: currPos(location), type(Type::None), hasMoved(false), 
+	sf::Shape *icon, const sf::Color &color) :
+	currPos(location), type(Type::None), hasMoved(false), 
 	breedStep(0), settings(settings), icon(icon)
 {
 	icon->setFillColor(color);
@@ -144,9 +144,9 @@ void Creature::MoveTo(Grid &grid, const Location &dest)
 
 	@param <const Grid &grid>: The grid object.
 */
-vector<Location> Creature::FindBlank(const Grid &grid)
+Vector<Location> Creature::FindBlank(const Grid &grid)
 {
-	vector<Location> location;
+	Vector<Location> location;
 
 	for (int row = 0; row < settings.maxRows; ++row)
 	{
@@ -168,9 +168,9 @@ vector<Location> Creature::FindBlank(const Grid &grid)
 
 	@param <const Grid &grid>: The grid object.
 */
-vector<Location> Creature::FindBlankAdjacent(const Grid &grid)
+Vector<Location> Creature::FindBlankAdjacent(const Grid &grid)
 {
-	vector<Location> location;
+	Vector<Location> location;
 
 	for (int row = -1; row <= 1; ++row)
 	{
@@ -192,9 +192,9 @@ vector<Location> Creature::FindBlankAdjacent(const Grid &grid)
 
 	@param <const Grid &grid>: The grid object.
 */
-vector<Location> Creature::FindCreatureAdjacent(const Grid &grid, Type type)
+Vector<Location> Creature::FindCreatureAdjacent(const Grid &grid, Type type)
 {
-	vector<Location> location;
+	Vector<Location> location;
 
 	for (int row = -1; row <= 1; ++row)
 	{

@@ -15,8 +15,8 @@
 		Initializes creature settings and location.
 */
 Predator::Predator(const Settings &settings, const Location &location,
-	sf::Shape *icon, const sf::Color &color)
-	: Creature(settings, location, icon), eatStep(0)
+	sf::Shape *icon, const sf::Color &color) :
+	Creature(settings, location, icon), eatStep(0)
 {
 	SetType(Type::Predator);
 	icon->setFillColor(color);
@@ -41,7 +41,7 @@ Predator::Predator(const Settings &settings, const Location &location,
 */
 void Predator::Move(Grid &grid)
 {
-	vector<Location> prey = FindCreatureAdjacent(grid, Type::Prey);
+	Vector<Location> prey = FindCreatureAdjacent(grid, Type::Prey);
 	int index = 0;
 
 	if (!prey.empty())
@@ -55,7 +55,7 @@ void Predator::Move(Grid &grid)
 	}
 	else
 	{
-		vector<Location> blank = FindBlankAdjacent(grid);
+		Vector<Location> blank = FindBlankAdjacent(grid);
 
 		if (!blank.empty())
 		{
@@ -87,7 +87,7 @@ void Predator::Breed(Grid &grid)
 		}
 		else
 		{
-			vector<Location> blank = FindBlankAdjacent(grid);
+			Vector<Location> blank = FindBlankAdjacent(grid);
 			int index = 0;
 
 			if (!blank.empty())

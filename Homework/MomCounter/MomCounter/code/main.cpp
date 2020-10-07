@@ -79,11 +79,7 @@ void test_MCounter()
 void display_count(const MCounter &mCounter)
 {
 	if (mCounter.Is_Error())
-	{
 		cout << "\nERROR" << endl;
-	}
 	else
-	{
 		cout << "| " << mCounter.Count() << " |" << endl;
-	}
 }

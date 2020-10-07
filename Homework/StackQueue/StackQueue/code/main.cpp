@@ -1,7 +1,7 @@
 /*
  * Author: Benjamin Mao
  * Project: Queue
- * Purpose: Entry point for queue class.
+ * Purpose: Entry point for Queue class.
  *
  * Notes: None.
  */

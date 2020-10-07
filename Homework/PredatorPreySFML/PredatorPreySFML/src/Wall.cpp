@@ -14,8 +14,8 @@
 		Initializes creature settings and location.
 */
 Wall::Wall(const Settings &settings, const Location &location,
-	sf::Shape *icon, const sf::Color &color)
-	: Creature(settings, location, icon)
+	sf::Shape *icon, const sf::Color &color) :
+    Creature(settings, location, icon)
 {
 	SetType(Type::Wall);
     icon->setFillColor(color);

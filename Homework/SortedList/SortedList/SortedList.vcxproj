@@ -18,6 +18,19 @@
       <Platform>x64</Platform>
     </ProjectConfiguration>
   </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="code\Application.cpp" />
+    <ClCompile Include="code\main.cpp" />
+    <ClCompile Include="code\SortedListTest.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="code\Application.h" />
+    <ClInclude Include="code\LinkedListLibrary.h" />
+    <ClInclude Include="code\SortedList.h" />
+    <ClInclude Include="code\SortedListTest.h" />
+    <ClInclude Include="code\z_output.h" />
+    <ClInclude Include="code\z_work_report.h" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
     <ProjectGuid>{5BC03413-A4BF-477A-BE8A-58ED3046FC5A}</ProjectGuid>
@@ -137,20 +150,6 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
   </ItemDefinitionGroup>
-  <ItemGroup>
-    <ClInclude Include="Application.h" />
-    <ClInclude Include="LinkedListLibrary.h" />
-    <ClInclude Include="Node.h" />
-    <ClInclude Include="SortedList.h" />
-    <ClInclude Include="SortedListTest.h" />
-    <ClInclude Include="z_output.h" />
-    <ClInclude Include="z_work_report.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="Application.cpp" />
-    <ClCompile Include="main.cpp" />
-    <ClCompile Include="SortedListTest.cpp" />
-  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

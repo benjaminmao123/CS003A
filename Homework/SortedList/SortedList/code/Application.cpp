@@ -15,13 +15,11 @@
 
 using namespace std;
 
-Application::Application(const int numElements, const int min, const int max)
+Application::Application(int numElements, int min, int max)
 	: min(min), max(max), input('\0'), status(true), rng(rd())
 {
 	for (int i = 0; i < numElements; ++i)
-	{
 		list.Insert(RandomNumber(min, max));
-	}
 
 	currIt = list.begin();
 }
@@ -69,9 +67,7 @@ void Application::Update()
 		auto sIt = list.Search(item);
 
 		if (sIt)
-		{
 			currIt = sIt;
-		}
 		break;
 	}
 	case 'p':
@@ -79,9 +75,7 @@ void Application::Update()
 		auto prev = list.Prev(currIt);
 
 		if (prev)
-		{
 			currIt = list.Prev(currIt);
-		}
 		break;
 	}
 	case 'n':
@@ -90,9 +84,7 @@ void Application::Update()
 		++next;
 
 		if (next)
-		{
 			++currIt;
-		}
 		break;
 	}
 	case 'h':
@@ -123,13 +115,9 @@ void Application::Output() const
 		}
 
 		if (cursor == currIt)
-		{
 			cout << "{" << *cursor << "}->";
-		}
 		else
-		{
 			cout << "[" << *cursor << "]->";
-		}
 
 		++cursor;
 	}
@@ -137,7 +125,7 @@ void Application::Output() const
 	cout << "[R]andom [I]nsert [D]elete [S]earch [P]revious [N]ext [H]ome [E]nd E[x]it ";
 }
 
-int Application::RandomNumber(const int min, const int max)
+int Application::RandomNumber(int min, int max)
 {
 	return uniform_int_distribution<int>{min, max}(rd);
 }

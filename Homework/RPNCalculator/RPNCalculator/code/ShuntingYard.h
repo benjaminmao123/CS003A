@@ -15,10 +15,10 @@ public:
 	ShuntingYard();
 	~ShuntingYard();
 
-	void SetInput(const std::string &infix);
+	void SetInput(const std::string& infix);
 	bool ParseExpression();
 
-	friend std::ostream &operator<<(std::ostream &os, const ShuntingYard &rhs);
+	friend std::ostream& operator<<(std::ostream& os, const ShuntingYard& rhs);
 
 private:
 	bool FormatInput();
@@ -26,10 +26,10 @@ private:
 	void Evaluate();
 	void Clear();
 
-	stack<Token *> result;
-	queue<Token *> postfix;
-	vector<char> validOpsChar;
-	vector<std::string> validOpsString;
+	Stack<Token*> result;
+	Queue<Token*> postfix;
+	Vector<char> validOpsChar;
+	Vector<std::string> validOpsString;
 	std::string input;
 	std::string output;
 };

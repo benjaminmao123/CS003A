@@ -10,35 +10,35 @@
 #include "Predator.h"
 #include "Utility.h"
 
-/*
-	@summary: Default constructor.
-		Initializes creature settings and location.
-*/
-Predator::Predator(const Settings &settings, const Location &location,
-	char icon)
-	: Creature(settings, location, icon), eatStep(0)
+ /*
+	 @summary: Default constructor.
+		 Initializes creature settings and location.
+ */
+Predator::Predator(const Settings& settings, const Location& location,
+				   char icon) :
+	Creature(settings, location, icon), eatStep(0)
 {
 	SetType(Type::Predator);
 }
 
 /*
 	@summary: Moves the predator to a given location on
-		the grid. 
-		
-		The predator moves to a random location adjacent to 
+		the grid.
+
+		The predator moves to a random location adjacent to
 		it where a prey is at.
 		If there is no prey, then it simply moves to a
 		random, adjacent unoccupied spot.
 
 		Energy is used every time this function
 		is called. If predator's energy level reaches 0,
-		the predator dies. 
+		the predator dies.
 
 	@param <Grid &grid>: Grid object to manipulate.
 */
-void Predator::Move(Grid &grid)
+void Predator::Move(Grid& grid)
 {
-	vector<Location> prey = FindCreatureAdjacent(grid, Type::Prey);
+	Vector<Location> prey = FindCreatureAdjacent(grid, Type::Prey);
 	int index = 0;
 
 	if (!prey.empty())
@@ -52,7 +52,7 @@ void Predator::Move(Grid &grid)
 	}
 	else
 	{
-		vector<Location> blank = FindBlankAdjacent(grid);
+		Vector<Location> blank = FindBlankAdjacent(grid);
 
 		if (!blank.empty())
 		{
@@ -73,7 +73,7 @@ void Predator::Move(Grid &grid)
 
 	@param <Grid &grid>: The Grid object.
 */
-void Predator::Breed(Grid &grid)
+void Predator::Breed(Grid& grid)
 {
 	if (GetBreedStep() >= settings.predBreedRate)
 	{
@@ -84,7 +84,7 @@ void Predator::Breed(Grid &grid)
 		}
 		else
 		{
-			vector<Location> blank = FindBlankAdjacent(grid);
+			Vector<Location> blank = FindBlankAdjacent(grid);
 			int index = 0;
 
 			if (!blank.empty())
@@ -98,12 +98,12 @@ void Predator::Breed(Grid &grid)
 }
 
 /*
-	@summary: Kills the current creature if 
+	@summary: Kills the current creature if
 		currEnergy < startEnergy.
 
 	@param <Grid &grid>: Grid to manipulate.
 */
-bool Predator::Kill(Grid &grid)
+bool Predator::Kill(Grid& grid)
 {
 	if (eatStep >= settings.maxEatStep)
 	{

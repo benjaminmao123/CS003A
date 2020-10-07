@@ -159,7 +159,7 @@ private:
 /*
     @summary: Overloaded constructor that takes in a size.
 
-    @param <int size>: Size to set vector to.
+    @param <int size>: Size to set Vector to.
 */
 template<typename T>
 inline Vector<T>::Vector(int size)
@@ -177,7 +177,7 @@ inline Vector<T>::Vector(int size)
 /*
     @summary: Copy-constructor.
 
-    @param <const Vector &other>: Other vector to copy.
+    @param <const Vector &other>: Other Vector to copy.
 */
 template<typename T>
 inline Vector<T>::Vector(const Vector &other)
@@ -318,7 +318,7 @@ inline T &Vector<T>::back()
 /*
     @summary: Iterator to the beginning of the list.
 
-    @return <vector<T>::Iterator>: The iterator.
+    @return <Vector<T>::Iterator>: The iterator.
 */
 template<typename T>
 inline typename Vector<T>::Iterator Vector<T>::begin()
@@ -329,7 +329,7 @@ inline typename Vector<T>::Iterator Vector<T>::begin()
 /*
     @summary: Iterator to the beginning of the list.
 
-    @return <vector<T>::Iterator>: The iterator.
+    @return <Vector<T>::Iterator>: The iterator.
 */
 template<typename T>
 inline typename Vector<T>::Iterator Vector<T>::cbegin() const
@@ -340,7 +340,7 @@ inline typename Vector<T>::Iterator Vector<T>::cbegin() const
 /*
     @summary: Iterator to the end of the list.
 
-    @return <vector<T>::Iterator>: The iterator.
+    @return <Vector<T>::Iterator>: The iterator.
 */
 template<typename T>
 inline typename Vector<T>::Iterator Vector<T>::end()
@@ -351,7 +351,7 @@ inline typename Vector<T>::Iterator Vector<T>::end()
 /*
     @summary: Iterator to the end of the list.
 
-    @return <vector<T>::Iterator>: The iterator.
+    @return <Vector<T>::Iterator>: The iterator.
 */
 template<typename T>
 inline typename Vector<T>::Iterator Vector<T>::cend() const
@@ -419,7 +419,7 @@ inline void Vector<T>::insert(int pos, const T &item)
 }
 
 /*
-    @summary: Erases the item at given index. If index >= size of vector,
+    @summary: Erases the item at given index. If index >= size of Vector,
         pop_back is used.
 
     @param <int erase_index>: Index of item to erase.
@@ -587,7 +587,7 @@ inline void Vector<T>::swap(Vector &v)
 }
 
 /*
-    @summary: Clears the entire vector.
+    @summary: Clears the entire Vector.
 */
 template<typename T>
 inline void Vector<T>::clear()

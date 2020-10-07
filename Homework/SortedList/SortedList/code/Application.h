@@ -8,7 +8,7 @@
 class Application
 {
 public:
-	Application(const int numElements, const int min, const int max);
+	Application(int numElements, int min, int max);
 
 	void Run();
 
@@ -17,7 +17,7 @@ private:
 	void Update();
 	void Output() const;
 
-	int RandomNumber(const int min, const int max);
+	int RandomNumber(int min, int max);
 
 	char input;
 	List<int> list;
