@@ -1,3 +1,0 @@
-cos(x)
-tan(x)
-sin(x)
